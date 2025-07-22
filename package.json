@@ -13,6 +13,6 @@
   },
   "type": "module",
   "workspaces": [
-    "src/CargoTrace_frontend"
+    "src/cargo_trace_frontend"
   ]
 }

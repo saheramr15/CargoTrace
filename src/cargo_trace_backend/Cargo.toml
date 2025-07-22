@@ -1,5 +1,5 @@
 [package]
-name = "CargoTrace_backend"
+name = "cargo_trace_backend"
 version = "0.1.0"
 edition = "2021"
 

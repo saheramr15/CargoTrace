@@ -1,5 +1,5 @@
 [workspace]
 members = [
-    "src/CargoTrace_backend"
+    "src/cargo_trace_backend"
 ]
 resolver = "2"
