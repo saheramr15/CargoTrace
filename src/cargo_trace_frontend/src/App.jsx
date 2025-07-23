@@ -1,30 +1,50 @@
-import { useState } from 'react';
-import { CargoTrace_backend } from 'declarations/CargoTrace_backend';
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import DocumentVerification from './pages/DocumentVerification';
 
-function App() {
-  const [greeting, setGreeting] = useState('');
+// Scroll to top on route change
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const name = event.target.elements.name.value;
-    CargoTrace_backend.greet(name).then((greeting) => {
-      setGreeting(greeting);
-    });
-    return false;
-  }
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
+const AppContent = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   return (
-    <main>
-      <img src="/logo2.svg" alt="DFINITY logo" />
-      <br />
-      <br />
-      <form action="#" onSubmit={handleSubmit}>
-        <label htmlFor="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting">{greeting}</section>
-    </main>
+    <div className="app">
+      <Navbar />
+      
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/verification" element={<DocumentVerification />} />
+      </Routes>
+      
+      <Footer />
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <ScrollToTop />
+      <AppContent />
+    </Router>
   );
 }
 

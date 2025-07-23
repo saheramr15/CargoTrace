@@ -14,5 +14,8 @@
   "type": "module",
   "workspaces": [
     "src/cargo_trace_frontend"
-  ]
+  ],
+  "dependencies": {
+    "react-router-dom": "^7.7.0"
+  }
 }
