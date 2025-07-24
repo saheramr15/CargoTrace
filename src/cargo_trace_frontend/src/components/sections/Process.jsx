@@ -19,7 +19,7 @@ const Process = () => {
 
   return (
     <section id="process" className="process">
-      <h2 className="section-title gradient-text fade-in animate">How It Works</h2>
+      <h2 className="section-title fade-in animate">How It Works</h2>
       <p className="section-subtitle fade-in animate">
         A seamless three-step process that transforms traditional trade finance
       </p>

@@ -2,7 +2,7 @@ const CTA = () => {
   return (
     <section id="contact" className="cta">
       <div className="cta-card fade-in animate">
-        <h2 className="cta-title gradient-text">Ready to Transform Trade Finance?</h2>
+        <h2 className="cta-title">Ready to Transform Trade Finance?</h2>
         <p className="cta-description">
           Join the future of decentralized trade finance. Get instant access to working capital 
           through our blockchain-powered document verification system. Start your journey today.

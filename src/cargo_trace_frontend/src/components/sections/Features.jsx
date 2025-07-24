@@ -34,7 +34,7 @@ const Features = () => {
 
   return (
     <section id="features" className="features">
-      <h2 className="section-title gradient-text fade-in animate">Core Features</h2>
+      <h2 className="section-title fade-in animate">Core Features</h2>
       <p className="section-subtitle fade-in animate">
         Advanced blockchain technology meets traditional trade finance to create a seamless, 
         secure, and efficient ecosystem for global trade

@@ -8,7 +8,7 @@ const Stats = () => {
 
   return (
     <section id="stats" className="stats">
-      <h2 className="section-title gradient-text fade-in animate">Platform Statistics</h2>
+      <h2 className="section-title fade-in animate">Platform Statistics</h2>
       <p className="section-subtitle fade-in animate">
         Real-time metrics showcasing our impact on global trade finance
       </p>
