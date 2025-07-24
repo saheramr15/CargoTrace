@@ -93,7 +93,6 @@ const Navbar = () => {
             { id: 'stats', label: 'Stats' },
             { id: 'about', label: 'About' },
             { id: 'dashboard', label: 'Dashboard', directLink: true },
-            { id: 'verification', label: 'Verification', directLink: true }
           ].map((item, index) => (
             <li key={index}>
               <Link 
