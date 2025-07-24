@@ -195,7 +195,7 @@ body {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(30px);
   border-bottom: 1px solid var(--border-color);
-  padding: 1rem 2rem;
+  padding: 0.75rem 2rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
 }
@@ -235,13 +235,13 @@ body {
 .nav-links a {
   color: var(--text-primary);
   text-decoration: none;
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: 500;
+  font-size: 0.95rem;
   transition: all 0.3s ease;
   position: relative;
-  padding: 8px 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  padding: 6px 0;
+  text-transform: none;
+  letter-spacing: normal;
   font-family: 'Space Grotesk', sans-serif;
 }
 
@@ -266,14 +266,14 @@ body {
 
 .nav-cta {
   background: var(--button-gradient);
-  padding: 12px 24px;
-  border-radius: 8px;
+  padding: 8px 20px;
+  border-radius: 6px;
   color: white;
-  font-weight: 600;
+  font-weight: 500;
   text-decoration: none;
   transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  text-transform: none;
+  letter-spacing: normal;
   box-shadow: var(--shadow-light);
   font-family: 'Space Grotesk', sans-serif;
   font-size: 0.9rem;
@@ -1118,7 +1118,7 @@ body {
 
 @media (max-width: 768px) {
   .navbar {
-    padding: 1rem;
+    padding: 0.75rem 1rem;
   }
   
   .nav-links {
@@ -1151,8 +1151,10 @@ body {
 
   .nav-links a {
     display: block;
-    padding: 1rem 0;
-    font-size: 1.1rem;
+    padding: 0.75rem 0;
+    font-size: 1rem;
+    text-transform: none;
+    letter-spacing: normal;
   }
 
   .nav-cta {
