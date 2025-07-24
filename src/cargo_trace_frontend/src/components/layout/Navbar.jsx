@@ -87,8 +87,8 @@ const Navbar = () => {
               { id: 'home', label: 'Home' },
               { id: 'features', label: 'Features' },
               { id: 'partners', label: 'Partners' },
-              { id: 'process', label: 'How It Works' },
               { id: 'stats', label: 'Stats' },
+              { id: 'process', label: 'How It Works' },
               { id: 'about', label: 'About' },
             ].map((item, index) => (
               <li key={index}>
