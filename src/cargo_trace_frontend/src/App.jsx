@@ -19,6 +19,8 @@ const ScrollToTop = () => {
 
 const AppContent = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const location = useLocation();
+  const isDashboard = location.pathname === '/dashboard';
 
   useEffect(() => {
     setIsVisible(true);
@@ -26,7 +28,7 @@ const AppContent = () => {
 
   return (
     <div className="app">
-      <Navbar />
+      {!isDashboard && <Navbar />}
       
       <Routes>
         <Route path="/" element={<Home />} />
@@ -34,7 +36,7 @@ const AppContent = () => {
         <Route path="/verification" element={<DocumentVerification />} />
       </Routes>
       
-      <Footer />
+      {!isDashboard && <Footer />}
     </div>
   );
 };
