@@ -45,6 +45,7 @@ const Navbar = () => {
           <li><Link to="/" onClick={() => scrollToSection('about')}>About</Link></li>
           <li><Link to="/dashboard">Dashboard</Link></li>
           <li><Link to="/verification">Verification</Link></li>
+          <li><Link to="/login">Login</Link></li>
         </ul>
         <Link to="/" className="nav-cta" onClick={() => scrollToSection('contact')}>Get Started</Link>
         <div className={`mobile-menu-btn ${isMobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}>

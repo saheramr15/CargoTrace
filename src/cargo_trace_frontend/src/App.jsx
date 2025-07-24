@@ -5,6 +5,8 @@ import Footer from './components/layout/Footer';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import DocumentVerification from './pages/DocumentVerification';
+import Login from './pages/Login';
+
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -32,6 +34,8 @@ const AppContent = () => {
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/verification" element={<DocumentVerification />} />
+        <Route path="/login" element={<Login />} /> 
+
       </Routes>
       
       <Footer />
