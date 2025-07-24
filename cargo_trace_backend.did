@@ -1,1 +1,6 @@
-service : { hello : (text) -> (text) query; world : (text) -> (text) }
+service : {
+  add_id : (nat) -> (bool);
+  get_all_ids : () -> (vec nat) query;
+  has_id : (nat) -> (bool) query;
+  remove_id : (nat) -> (bool);
+}
