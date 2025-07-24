@@ -9,17 +9,20 @@ export async function initAuth() {
   return authClient;
 }
 
-export async function login() {
+export async function login(onSuccessCallback) {
   const client = await initAuth();
 
   await client.login({
     identityProvider: "https://identity.ic0.app",
     onSuccess: () => {
       console.log("✅ Logged in!");
-      window.location.reload(); // reload to trigger session check in App
+      if (typeof onSuccessCallback === 'function') {
+        onSuccessCallback(); 
+      }
     },
   });
 }
+
 
 export async function logout() {
   const client = await initAuth();
