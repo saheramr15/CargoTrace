@@ -22,7 +22,10 @@ const ScrollToTop = () => {
 const AppContent = () => {
   const [isVisible, setIsVisible] = useState(false);
   const location = useLocation();
-  const isDashboard = location.pathname === '/dashboard';
+  
+  // Pages that should NOT show navbar and footer
+  const excludedPages = ['/dashboard', '/login'];
+  const shouldShowLayout = !excludedPages.includes(location.pathname);
 
   useEffect(() => {
     setIsVisible(true);
@@ -30,17 +33,16 @@ const AppContent = () => {
 
   return (
     <div className="app">
-      {!isDashboard && <Navbar />}
+      {shouldShowLayout && <Navbar />}
       
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/verification" element={<DocumentVerification />} />
         <Route path="/login" element={<Login />} /> 
-
       </Routes>
       
-      {!isDashboard && <Footer />}
+      {shouldShowLayout && <Footer />}
     </div>
   );
 };
