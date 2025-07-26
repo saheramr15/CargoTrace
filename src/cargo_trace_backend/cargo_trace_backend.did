@@ -1,6 +1,10 @@
+type Result = variant { Ok; Err : text };
 service : {
   add_id : (nat) -> (bool);
   get_all_ids : () -> (vec nat) query;
+  get_balance : () -> (nat64) query;
   has_id : (nat) -> (bool) query;
+  mint : (nat64) -> ();
   remove_id : (nat) -> (bool);
+  transfer : (principal, nat64) -> (Result);
 }
