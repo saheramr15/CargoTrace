@@ -7,7 +7,6 @@ import Dashboard from './pages/Dashboard';
 import DocumentVerification from './pages/DocumentVerification';
 import Login from './pages/Login';
 
-
 // Scroll to top on route change
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -39,7 +38,7 @@ const AppContent = () => {
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/verification" element={<DocumentVerification />} />
-        <Route path="/login" element={<Login />} /> 
+        <Route path="/login" element={<Login />} />
       </Routes>
       
       {shouldShowLayout && <Footer />}

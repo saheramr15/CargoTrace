@@ -1,10 +1,62 @@
 type Result = variant { Ok; Err : text };
+
+type DocumentStatus = variant { Pending; Verified; Rejected; NftMinted };
+type LoanStatus = variant { Pending; Approved; Active; Repaid; Defaulted };
+
+type Document = record {
+  id : text;
+  acid_number : text;
+  ethereum_tx_hash : text;
+  value_usd : nat64;
+  status : DocumentStatus;
+  created_at : nat64;
+  owner : principal;
+};
+
+type Loan = record {
+  id : text;
+  document_id : text;
+  amount : nat64;
+  interest_rate : float64;
+  status : LoanStatus;
+  created_at : nat64;
+  borrower : principal;
+  repayment_date : nat64;
+};
+
+type AcidValidation = record {
+  acid_number : text;
+  is_valid : bool;
+  customs_data : opt text;
+  validation_date : nat64;
+};
+
 service : {
+  // ACID Validation
+  validate_acid : (text) -> (Result);
+  get_acid_validation : (text) -> (opt AcidValidation) query;
+  
+  // Document Management
+  submit_document : (text, text, nat64) -> (Result);
+  get_document : (text) -> (opt Document) query;
+  get_my_documents : () -> (vec Document) query;
+  approve_document : (text) -> (Result);
+  
+  // Loan Management
+  request_loan : (text, nat64, nat64) -> (Result);
+  approve_loan : (text) -> (Result);
+  get_loan : (text) -> (opt Loan) query;
+  get_my_loans : () -> (vec Loan) query;
+  repay_loan : (text, nat64) -> (Result);
+  
+  // Token Management
+  get_balance : () -> (nat64) query;
+  mint : (nat64) -> ();
+  transfer : (principal, nat64) -> (Result);
+  
+  // Legacy functions (for compatibility)
   add_id : (nat) -> (bool);
   get_all_ids : () -> (vec nat) query;
-  get_balance : () -> (nat64) query;
   has_id : (nat) -> (bool) query;
-  mint : (nat64) -> ();
   remove_id : (nat) -> (bool);
-  transfer : (principal, nat64) -> (Result);
-}
+};
