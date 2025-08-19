@@ -18,7 +18,11 @@ import {
   Target,
   Award,
   Calendar,
-  ArrowUpRight
+  ArrowUpRight,
+  FileCheck,
+  Timer,
+  Users,
+  Building
 } from 'lucide-react';
 
 const DashboardLoans = () => {
@@ -27,19 +31,18 @@ const DashboardLoans = () => {
   const [loanAmount, setLoanAmount] = useState('');
   const [collateralDocument, setCollateralDocument] = useState('');
 
-  // Focused loan data
-  const mockLoans = [
+  // Focused loan application data
+  const mockLoanApplications = [
     {
-      id: 'LOAN-2024-001',
+      id: 'LOAN-APP-2024-001',
       documentId: 'CX-2024-001',
       amount: '$100,000',
       collateral: 'Electronics NFT',
       apr: '8.5%',
-      status: 'active',
-      dueDate: '2024-04-15',
-      progress: 65,
-      repaid: '$65,000',
-      remaining: '$35,000',
+      status: 'approved',
+      applicationDate: '2024-01-10',
+      approvalDate: '2024-01-12',
+      disbursementDate: '2024-01-15',
       origin: 'China',
       destination: 'Egypt',
       cargoType: 'Electronics',
@@ -47,19 +50,21 @@ const DashboardLoans = () => {
       consignee: 'TechTrade Egypt',
       loanType: 'ICRC-1 Stable Token',
       blockchain: 'Internet Computer',
-      nftId: 'NFT-ICP-001'
+      nftId: 'NFT-ICP-001',
+      creditScore: 85,
+      riskLevel: 'Low',
+      processingTime: '2 days'
     },
     {
-      id: 'LOAN-2024-002',
+      id: 'LOAN-APP-2024-002',
       documentId: 'CX-2024-003',
       amount: '$50,000',
       collateral: 'Agricultural NFT',
       apr: '7.2%',
-      status: 'active',
-      dueDate: '2024-03-20',
-      progress: 45,
-      repaid: '$22,500',
-      remaining: '$27,500',
+      status: 'pending',
+      applicationDate: '2024-01-15',
+      approvalDate: null,
+      disbursementDate: null,
       origin: 'Kenya',
       destination: 'Egypt',
       cargoType: 'Agricultural',
@@ -67,19 +72,21 @@ const DashboardLoans = () => {
       consignee: 'Cairo Coffee Roasters',
       loanType: 'ICRC-1 Stable Token',
       blockchain: 'Internet Computer',
-      nftId: 'NFT-ICP-002'
+      nftId: 'NFT-ICP-002',
+      creditScore: 72,
+      riskLevel: 'Medium',
+      processingTime: 'In Progress'
     },
     {
-      id: 'LOAN-2024-003',
+      id: 'LOAN-APP-2024-003',
       documentId: 'CX-2024-005',
       amount: '$75,000',
       collateral: 'Pharmaceutical NFT',
       apr: '6.8%',
-      status: 'pending',
-      dueDate: '2024-05-10',
-      progress: 0,
-      repaid: '$0',
-      remaining: '$75,000',
+      status: 'under_review',
+      applicationDate: '2024-01-18',
+      approvalDate: null,
+      disbursementDate: null,
       origin: 'Switzerland',
       destination: 'Egypt',
       cargoType: 'Pharmaceuticals',
@@ -87,163 +94,154 @@ const DashboardLoans = () => {
       consignee: 'Egyptian Healthcare Ltd.',
       loanType: 'ICRC-1 Stable Token',
       blockchain: 'Internet Computer',
-      nftId: 'NFT-ICP-003'
+      nftId: 'NFT-ICP-003',
+      creditScore: 90,
+      riskLevel: 'Low',
+      processingTime: 'Under Review'
     },
     {
-      id: 'LOAN-2024-004',
+      id: 'LOAN-APP-2024-004',
       documentId: 'CX-2024-002',
       amount: '$120,000',
       collateral: 'Textile NFT',
       apr: '9.1%',
-      status: 'completed',
-      dueDate: '2024-02-28',
-      progress: 100,
-      repaid: '$120,000',
-      remaining: '$0',
-      origin: 'Turkey',
+      status: 'rejected',
+      applicationDate: '2024-01-05',
+      approvalDate: null,
+      disbursementDate: null,
+      origin: 'India',
       destination: 'Egypt',
       cargoType: 'Textiles',
-      shipper: 'Turkish Textiles Ltd.',
-      consignee: 'Egyptian Garments Co.',
+      shipper: 'Indian Textile Corp.',
+      consignee: 'Egyptian Fashion Ltd.',
       loanType: 'ICRC-1 Stable Token',
       blockchain: 'Internet Computer',
-      nftId: 'NFT-ICP-004'
+      nftId: 'NFT-ICP-004',
+      creditScore: 45,
+      riskLevel: 'High',
+      processingTime: 'Rejected'
     }
   ];
 
   const loanStats = {
-    total: mockLoans.length,
-    active: mockLoans.filter(loan => loan.status === 'active').length,
-    pending: mockLoans.filter(loan => loan.status === 'pending').length,
-    completed: mockLoans.filter(loan => loan.status === 'completed').length,
-    totalAmount: mockLoans.reduce((sum, loan) => sum + parseFloat(loan.amount.replace('$', '').replace(',', '')), 0),
-    totalRepaid: mockLoans.reduce((sum, loan) => sum + parseFloat(loan.repaid.replace('$', '').replace(',', '')), 0),
-    avgApr: (mockLoans.reduce((sum, loan) => sum + parseFloat(loan.apr.replace('%', '')), 0) / mockLoans.length).toFixed(1)
+    total: mockLoanApplications.length,
+    approved: mockLoanApplications.filter(loan => loan.status === 'approved').length,
+    pending: mockLoanApplications.filter(loan => loan.status === 'pending').length,
+    underReview: mockLoanApplications.filter(loan => loan.status === 'under_review').length,
+    rejected: mockLoanApplications.filter(loan => loan.status === 'rejected').length,
+    totalValue: mockLoanApplications.reduce((sum, loan) => sum + parseFloat(loan.amount.replace('$', '').replace(',', '')), 0),
+    avgProcessingTime: '2.3 days',
+    approvalRate: ((mockLoanApplications.filter(loan => loan.status === 'approved').length / mockLoanApplications.length) * 100).toFixed(1)
   };
-
-  const loanTypes = [
-    'ICRC-1 Stable Token',
-    'ICP Native Token',
-    'Cross-Chain Bridge Loan',
-    'Document-Backed Loan',
-    'Trade Finance Loan'
-  ];
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'active': return 'success';
-      case 'pending': return 'pending';
-      case 'completed': return 'completed';
-      case 'defaulted': return 'rejected';
+      case 'approved': return 'success';
+      case 'pending': return 'warning';
+      case 'under_review': return 'info';
+      case 'rejected': return 'danger';
       default: return 'pending';
     }
   };
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case 'active': return CheckCircle;
-      case 'pending': return Clock;
-      case 'completed': return Award;
-      case 'defaulted': return AlertCircle;
-      default: return Clock;
+      case 'approved': return <CheckCircle size={16} />;
+      case 'pending': return <Clock size={16} />;
+      case 'under_review': return <FileCheck size={16} />;
+      case 'rejected': return <AlertCircle size={16} />;
+      default: return <Clock size={16} />;
     }
   };
 
-  const filteredLoans = mockLoans.filter(loan => {
-    const matchesSearch = loan.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         loan.documentId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         loan.cargoType.toLowerCase().includes(searchTerm.toLowerCase());
+  const handleNewLoanApplication = (e) => {
+    e.preventDefault();
+    console.log('Processing new loan application:', { loanAmount, collateralDocument });
+  };
+
+  const filteredLoans = mockLoanApplications.filter(loan => {
+    const matchesSearch = searchTerm === '' ||
+      loan.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      loan.cargoType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      loan.shipper.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'all' || loan.status === filterStatus;
     return matchesSearch && matchesStatus;
   });
 
-  const handleRequestLoan = (e) => {
-    e.preventDefault();
-    console.log('Requesting loan:', { loanAmount, collateralDocument });
-  };
-
   return (
     <div className="dashboard-loans-container">
-      {/* Loan Statistics */}
+      {/* Loan Application Statistics */}
       <div className="dashboard-section">
         <div className="dashboard-section-header">
           <h2 className="dashboard-section-title">
             <BarChart3 className="dashboard-section-icon" />
-            Loan Portfolio Overview
+            Loan Application Overview
           </h2>
         </div>
         <div className="dashboard-stats-grid">
           <div className="dashboard-stat-card">
-            <div className="dashboard-stat-header">
-              <div className="dashboard-stat-icon loans">
-                <DollarSign size={24} color="white" />
-              </div>
-              <div className="dashboard-stat-trend">
-                <TrendingUp size={16} />
-                <span className="dashboard-stat-percentage">+18.3%</span>
-              </div>
+            <div className="dashboard-stat-icon documents">
+              <FileCheck size={24} color="white" />
             </div>
-            <div className="dashboard-stat-value">${(loanStats.totalAmount / 1000000).toFixed(1)}M</div>
-            <div className="dashboard-stat-label">Total Loan Portfolio</div>
-            <div className="dashboard-stat-description">ICRC-1 stable tokens issued</div>
+            <div className="dashboard-stat-trend">
+              <TrendingUp size={16} />
+              <span className="dashboard-stat-percentage">+12.5%</span>
+            </div>
+            <div className="dashboard-stat-value">{loanStats.total}</div>
+            <div className="dashboard-stat-label">Total Applications</div>
+            <div className="dashboard-stat-description">All loan requests</div>
           </div>
 
           <div className="dashboard-stat-card">
-            <div className="dashboard-stat-header">
-              <div className="dashboard-stat-icon documents">
-                <Shield size={24} color="white" />
-              </div>
-              <div className="dashboard-stat-trend">
-                <TrendingUp size={16} />
-                <span className="dashboard-stat-percentage">+12.7%</span>
-              </div>
+            <div className="dashboard-stat-icon loans">
+              <CheckCircle size={24} color="white" />
             </div>
-            <div className="dashboard-stat-value">{loanStats.active}</div>
-            <div className="dashboard-stat-label">Active Loans</div>
-            <div className="dashboard-stat-description">Currently active financing</div>
+            <div className="dashboard-stat-trend">
+              <TrendingUp size={16} />
+              <span className="dashboard-stat-percentage">+8.3%</span>
+            </div>
+            <div className="dashboard-stat-value">{loanStats.approved}</div>
+            <div className="dashboard-stat-label">Approved Loans</div>
+            <div className="dashboard-stat-description">Successfully processed</div>
           </div>
 
           <div className="dashboard-stat-card">
-            <div className="dashboard-stat-header">
-              <div className="dashboard-stat-icon nfts">
-                <Percent size={24} color="white" />
-              </div>
-              <div className="dashboard-stat-trend">
-                <TrendingUp size={16} />
-                <span className="dashboard-stat-percentage">+2.1%</span>
-              </div>
+            <div className="dashboard-stat-icon nfts">
+              <Percent size={24} color="white" />
             </div>
-            <div className="dashboard-stat-value">{loanStats.avgApr}%</div>
-            <div className="dashboard-stat-label">Average APR</div>
-            <div className="dashboard-stat-description">Weighted average interest rate</div>
+            <div className="dashboard-stat-trend">
+              <TrendingUp size={16} />
+              <span className="dashboard-stat-percentage">+5.7%</span>
+            </div>
+            <div className="dashboard-stat-value">{loanStats.approvalRate}%</div>
+            <div className="dashboard-stat-label">Approval Rate</div>
+            <div className="dashboard-stat-description">Success rate</div>
           </div>
 
           <div className="dashboard-stat-card">
-            <div className="dashboard-stat-header">
-              <div className="dashboard-stat-icon fusion">
-                <Target size={24} color="white" />
-              </div>
-              <div className="dashboard-stat-trend">
-                <TrendingUp size={16} />
-                <span className="dashboard-stat-percentage">+25.4%</span>
-              </div>
+            <div className="dashboard-stat-icon fusion">
+              <Timer size={24} color="white" />
             </div>
-            <div className="dashboard-stat-value">${(loanStats.totalRepaid / 1000000).toFixed(1)}M</div>
-            <div className="dashboard-stat-label">Total Repaid</div>
-            <div className="dashboard-stat-description">Successfully repaid loans</div>
+            <div className="dashboard-stat-trend">
+              <TrendingUp size={16} />
+              <span className="dashboard-stat-percentage">-15.2%</span>
+            </div>
+            <div className="dashboard-stat-value">{loanStats.avgProcessingTime}</div>
+            <div className="dashboard-stat-label">Avg Processing Time</div>
+            <div className="dashboard-stat-description">Faster approvals</div>
           </div>
         </div>
       </div>
 
-      {/* Loan Request Form */}
+      {/* New Loan Application Form */}
       <div className="dashboard-section">
         <div className="dashboard-section-header">
           <h2 className="dashboard-section-title">
             <Plus className="dashboard-section-icon" />
-            Request New Loan
+            New Loan Application
           </h2>
         </div>
-        <form onSubmit={handleRequestLoan} className="dashboard-form-grid">
+        <form onSubmit={handleNewLoanApplication} className="dashboard-form-grid">
           <div className="dashboard-form-field">
             <label className="dashboard-form-label">Loan Amount (USD)</label>
             <input
@@ -251,267 +249,198 @@ const DashboardLoans = () => {
               value={loanAmount}
               onChange={(e) => setLoanAmount(e.target.value)}
               className="dashboard-form-input"
-              placeholder="100000"
+              placeholder="50000"
               required
             />
           </div>
-          
+
           <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Collateral Document ID</label>
-            <input
-              type="text"
-              value={collateralDocument}
+            <label className="dashboard-form-label">Collateral Document</label>
+            <select 
+              value={collateralDocument} 
               onChange={(e) => setCollateralDocument(e.target.value)}
-              className="dashboard-form-input monospace"
-              placeholder="CX-2024-XXX"
+              className="dashboard-form-input"
               required
-            />
+            >
+              <option value="">Select a document...</option>
+              <option value="CX-2024-006">CX-2024-006 - Electronics Shipment</option>
+              <option value="CX-2024-007">CX-2024-007 - Agricultural Products</option>
+              <option value="CX-2024-008">CX-2024-008 - Textile Imports</option>
+            </select>
           </div>
-          
+
           <div className="dashboard-form-field">
             <label className="dashboard-form-label">Loan Type</label>
             <select className="dashboard-form-input" required>
               <option value="">Select loan type</option>
-              {loanTypes.map(type => (
-                <option key={type} value={type}>{type}</option>
-              ))}
+              <option value="icrc1">ICRC-1 Stable Token</option>
+              <option value="icp">ICP Native Token</option>
+              <option value="bridge">Cross-Chain Bridge</option>
             </select>
           </div>
-          
+
           <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Cargo Type</label>
-            <input
-              type="text"
-              className="dashboard-form-input"
-              placeholder="Electronics, Textiles, etc."
-              required
-            />
-          </div>
-          
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Origin Country</label>
-            <input
-              type="text"
-              className="dashboard-form-input"
-              placeholder="China"
-              required
-            />
-          </div>
-          
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Destination</label>
-            <input
-              type="text"
-              className="dashboard-form-input"
-              placeholder="Egypt"
-              required
-            />
-          </div>
-          
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Shipper</label>
-            <input
-              type="text"
-              className="dashboard-form-input"
-              placeholder="Company name"
-              required
-            />
-          </div>
-          
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Consignee</label>
-            <input
-              type="text"
-              className="dashboard-form-input"
-              placeholder="Company name"
-              required
-            />
+            <label className="dashboard-form-label">Collateral Type</label>
+            <select className="dashboard-form-input" required>
+              <option value="">Select collateral type</option>
+              <option value="electronics">Electronics NFT</option>
+              <option value="agricultural">Agricultural NFT</option>
+              <option value="pharmaceutical">Pharmaceutical NFT</option>
+              <option value="textile">Textile NFT</option>
+            </select>
           </div>
         </form>
         <button type="submit" className="dashboard-submit-button">
-          <Plus size={16} />
-          Request ICRC-1 Loan
+          <DollarSign size={16} />
+          Submit Application
         </button>
       </div>
 
-      {/* Loan Management */}
+      {/* Loan Applications Management */}
       <div className="dashboard-section">
         <div className="dashboard-section-header">
           <h2 className="dashboard-section-title">
-            <DollarSign className="dashboard-section-icon" />
-            Loan Portfolio Management
+            <FileCheck className="dashboard-section-icon" />
+            Loan Applications
           </h2>
           <div className="dashboard-section-actions">
-            <span className="dashboard-section-count">{filteredLoans.length} loans</span>
-            <button className="dashboard-section-action">
-              <ArrowUpRight size={16} />
-              Export Data
-            </button>
+            <span className="dashboard-section-count">{filteredLoans.length} applications</span>
+            <div className="dashboard-search-filter">
+              <div className="dashboard-search-box">
+                <Search size={16} className="dashboard-search-icon" />
+                <input
+                  type="text"
+                  placeholder="Search applications..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="dashboard-search-input"
+                />
+              </div>
+              <select
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value)}
+                className="dashboard-filter-select"
+              >
+                <option value="all">All Statuses</option>
+                <option value="approved">Approved</option>
+                <option value="pending">Pending</option>
+                <option value="under_review">Under Review</option>
+                <option value="rejected">Rejected</option>
+              </select>
+            </div>
           </div>
         </div>
-
-        {/* Search and Filter */}
-        <div className="dashboard-action-bar">
-          <div className="dashboard-search-container">
-            <Search className="dashboard-search-icon" />
-            <input
-              type="text"
-              placeholder="Search by loan ID, document ID, or cargo type..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="dashboard-search-input"
-            />
-          </div>
-          <div className="dashboard-action-buttons">
-            <select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="dashboard-action-button secondary"
-            >
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="pending">Pending</option>
-              <option value="completed">Completed</option>
-              <option value="defaulted">Defaulted</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Loans Table */}
         <div className="dashboard-table-container">
           <table className="dashboard-table">
             <thead>
               <tr>
-                <th>Loan Information</th>
-                <th>Document</th>
+                <th>Application ID</th>
+                <th>Document ID</th>
                 <th>Amount</th>
-                <th>APR</th>
-                <th>Progress</th>
                 <th>Status</th>
-                <th>Due Date</th>
+                <th>Application Date</th>
+                <th>Processing Time</th>
+                <th>Credit Score</th>
+                <th>Risk Level</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {filteredLoans.map((loan) => {
-                const StatusIcon = getStatusIcon(loan.status);
-                return (
-                  <tr key={loan.id} className="dashboard-table-row">
-                    <td>
-                      <div className="dashboard-document-info">
-                        <div className="dashboard-document-icon">
-                          <DollarSign size={16} color="white" />
-                        </div>
-                        <div>
-                          <div className="dashboard-document-id">{loan.id}</div>
-                          <div className="dashboard-document-description">{loan.cargoType} - {loan.origin} to {loan.destination}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="dashboard-table-cell monospace">{loan.documentId}</td>
-                    <td className="dashboard-table-cell value">{loan.amount}</td>
-                    <td className="dashboard-table-cell">{loan.apr}</td>
-                    <td>
-                      <div className="dashboard-loan-progress-mini">
-                        <div className="dashboard-loan-progress-bar">
-                          <div 
-                            className="dashboard-loan-progress-fill" 
-                            style={{ width: `${loan.progress}%` }}
-                          ></div>
-                        </div>
-                        <span className="dashboard-loan-progress-text">{loan.progress}%</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="dashboard-status-container">
-                        <StatusIcon size={16} />
-                        <span className={`dashboard-status ${getStatusColor(loan.status)}`}>
-                          {loan.status}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="dashboard-table-cell">{loan.dueDate}</td>
-                    <td className="dashboard-table-actions">
-                      <button className="dashboard-action-link">
-                        <Eye size={14} />
-                        View
-                      </button>
-                      {loan.status === 'active' && (
-                        <button className="dashboard-action-link approve">
-                          <CreditCard size={14} />
-                          Repay
-                        </button>
-                      )}
-                      {loan.status === 'pending' && (
-                        <button className="dashboard-action-link approve">
-                          <CheckCircle size={14} />
-                          Approve
-                        </button>
-                      )}
-                      <button className="dashboard-action-link">
-                        <Edit size={14} />
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
+              {filteredLoans.map((loan) => (
+                <tr key={loan.id}>
+                  <td>{loan.id}</td>
+                  <td>{loan.documentId}</td>
+                  <td>{loan.amount}</td>
+                  <td>
+                    <span className={`dashboard-status ${getStatusColor(loan.status)}`}>
+                      {getStatusIcon(loan.status)}
+                      {loan.status.replace('_', ' ')}
+                    </span>
+                  </td>
+                  <td>{loan.applicationDate}</td>
+                  <td>{loan.processingTime}</td>
+                  <td>
+                    <span className={`dashboard-credit-score ${loan.creditScore >= 80 ? 'excellent' : loan.creditScore >= 70 ? 'good' : 'poor'}`}>
+                      {loan.creditScore}
+                    </span>
+                  </td>
+                  <td>
+                    <span className={`dashboard-risk-level ${loan.riskLevel.toLowerCase()}`}>
+                      {loan.riskLevel}
+                    </span>
+                  </td>
+                  <td className="dashboard-table-actions">
+                    <button className="dashboard-action-button view">
+                      <Eye size={16} />
+                    </button>
+                    <button className="dashboard-action-button edit">
+                      <Edit size={16} />
+                    </button>
+                    <button className="dashboard-action-button download">
+                      <FileText size={16} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </div>
 
-      {/* Loan Performance Metrics */}
+      {/* Loan Processing Pipeline */}
       <div className="dashboard-section">
         <div className="dashboard-section-header">
           <h2 className="dashboard-section-title">
             <Target className="dashboard-section-icon" />
-            Performance Metrics
+            Loan Processing Pipeline
           </h2>
         </div>
-        <div className="dashboard-metrics-grid">
-          <div className="dashboard-metric-card">
-            <div className="dashboard-metric-header">
-              <h4 className="dashboard-metric-title">Repayment Rate</h4>
-              <span className="dashboard-metric-value">94.2%</span>
+        <div className="dashboard-pipeline">
+          <div className="dashboard-pipeline-step">
+            <div className="dashboard-pipeline-icon">
+              <FileCheck size={24} color="white" />
             </div>
-            <div className="dashboard-metric-bar">
-              <div className="dashboard-metric-progress" style={{ width: '94.2%' }}></div>
+            <div className="dashboard-pipeline-content">
+              <h4>Document Verification</h4>
+              <p>CargoX & ACID validation</p>
+              <div className="dashboard-pipeline-count">{loanStats.total} Documents</div>
             </div>
-            <p className="dashboard-metric-description">Successful loan repayment rate</p>
           </div>
+          <div className="dashboard-pipeline-arrow">→</div>
           
-          <div className="dashboard-metric-card">
-            <div className="dashboard-metric-header">
-              <h4 className="dashboard-metric-title">Average Processing Time</h4>
-              <span className="dashboard-metric-value">2.3s</span>
+          <div className="dashboard-pipeline-step">
+            <div className="dashboard-pipeline-icon">
+              <Shield size={24} color="white" />
             </div>
-            <div className="dashboard-metric-bar">
-              <div className="dashboard-metric-progress" style={{ width: '95%' }}></div>
+            <div className="dashboard-pipeline-content">
+              <h4>NFT Minting</h4>
+              <p>ICP blockchain collateral</p>
+              <div className="dashboard-pipeline-count">100% Secure</div>
             </div>
-            <p className="dashboard-metric-description">Time from request to funding</p>
           </div>
+          <div className="dashboard-pipeline-arrow">→</div>
           
-          <div className="dashboard-metric-card">
-            <div className="dashboard-metric-header">
-              <h4 className="dashboard-metric-title">Portfolio Growth</h4>
-              <span className="dashboard-metric-value">+18.3%</span>
+          <div className="dashboard-pipeline-step">
+            <div className="dashboard-pipeline-icon">
+              <CheckCircle size={24} color="white" />
             </div>
-            <div className="dashboard-metric-bar">
-              <div className="dashboard-metric-progress" style={{ width: '85%' }}></div>
+            <div className="dashboard-pipeline-content">
+              <h4>Smart Contract</h4>
+              <p>Automated loan issuance</p>
+              <div className="dashboard-pipeline-count">{loanStats.approved} Approved</div>
             </div>
-            <p className="dashboard-metric-description">Monthly portfolio growth rate</p>
           </div>
+          <div className="dashboard-pipeline-arrow">→</div>
           
-          <div className="dashboard-metric-card">
-            <div className="dashboard-metric-header">
-              <h4 className="dashboard-metric-title">Default Rate</h4>
-              <span className="dashboard-metric-value">0.8%</span>
+          <div className="dashboard-pipeline-step">
+            <div className="dashboard-pipeline-icon">
+              <Wallet size={24} color="white" />
             </div>
-            <div className="dashboard-metric-bar">
-              <div className="dashboard-metric-progress" style={{ width: '92%' }}></div>
+            <div className="dashboard-pipeline-content">
+              <h4>ICRC-1 Disbursement</h4>
+              <p>Instant stable token transfer</p>
+              <div className="dashboard-pipeline-count">24/7 Available</div>
             </div>
-            <p className="dashboard-metric-description">Loan default rate</p>
           </div>
         </div>
       </div>

@@ -226,6 +226,45 @@ const DashboardRepayment = () => {
         </div>
       </div>
 
+      {/* Upcoming Payments */}
+      <div className="dashboard-section">
+        <div className="dashboard-section-header">
+          <h2 className="dashboard-section-title">
+            <Calendar className="dashboard-section-icon" />
+            Upcoming Payments
+          </h2>
+        </div>
+        <div className="dashboard-upcoming-payments">
+          <div className="dashboard-upcoming-payment">
+            <div className="dashboard-upcoming-payment-info">
+              <div className="dashboard-upcoming-payment-header">
+                <span className="dashboard-upcoming-payment-loan">LOAN-2024-001</span>
+                <span className="dashboard-upcoming-payment-days">Due in 5 days</span>
+              </div>
+              <div className="dashboard-upcoming-payment-details">
+                <span className="dashboard-upcoming-payment-amount">$25,000</span>
+                <span className="dashboard-upcoming-payment-date">Jan 20, 2024</span>
+              </div>
+            </div>
+            <button className="dashboard-upcoming-payment-action">Pay Now</button>
+          </div>
+          
+          <div className="dashboard-upcoming-payment">
+            <div className="dashboard-upcoming-payment-info">
+              <div className="dashboard-upcoming-payment-header">
+                <span className="dashboard-upcoming-payment-loan">LOAN-2024-002</span>
+                <span className="dashboard-upcoming-payment-days">Due in 12 days</span>
+              </div>
+              <div className="dashboard-upcoming-payment-details">
+                <span className="dashboard-upcoming-payment-amount">$18,500</span>
+                <span className="dashboard-upcoming-payment-date">Jan 27, 2024</span>
+              </div>
+            </div>
+            <button className="dashboard-upcoming-payment-action">Schedule</button>
+          </div>
+        </div>
+      </div>
+
       {/* Quick Payment Form */}
       <div className="dashboard-section">
         <div className="dashboard-section-header">
