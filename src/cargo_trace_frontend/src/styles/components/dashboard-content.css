@@ -155,6 +155,8 @@
   cursor: pointer;
   border: none;
   text-align: left;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .dashboard-quick-action-card:hover {
@@ -176,6 +178,29 @@
   font-weight: 600;
   color: #1f2937;
   font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.dashboard-quick-action-description {
+  font-size: 0.75rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+.dashboard-quick-action-icon.blue {
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+}
+
+.dashboard-quick-action-icon.green {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+}
+
+.dashboard-quick-action-icon.purple {
+  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+}
+
+.dashboard-quick-action-icon.orange {
+  background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
 }
 
 /* Stats Cards */
@@ -197,6 +222,9 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .dashboard-stat-card::before {
@@ -252,6 +280,14 @@
   background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
 }
 
+.dashboard-stat-icon.nfts {
+  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+}
+
+.dashboard-stat-icon.fusion {
+  background: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%);
+}
+
 .dashboard-stat-trend {
   display: flex;
   align-items: center;
@@ -301,6 +337,19 @@
 
 .dashboard-stat-change.negative {
   color: #ef4444;
+}
+
+.dashboard-stat-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.dashboard-stat-description {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  line-height: 1.4;
 }
 
 /* Main Grid Layout */
@@ -730,6 +779,25 @@
   width: 2rem;
   height: 2rem;
   color: #7C3AED;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+}
+
+.dashboard-insight-icon.blue {
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  color: white;
+}
+
+.dashboard-insight-icon.green {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: white;
+}
+
+.dashboard-insight-icon.purple {
+  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  color: white;
 }
 
 .dashboard-insight-title {
@@ -1006,6 +1074,7 @@
   align-items: center;
   gap: 0.75rem;
   flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .dashboard-action-button {
@@ -1066,6 +1135,7 @@
 .dashboard-form-field {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .dashboard-form-label {
@@ -1485,6 +1555,20 @@
   height: 100%;
   border-radius: 9999px;
   transition: width 0.5s ease;
+}
+
+.dashboard-loan-progress-mini {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dashboard-loan-progress-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #7C3AED;
+  min-width: 2rem;
+  text-align: right;
 }
 
 .dashboard-loan-footer {
