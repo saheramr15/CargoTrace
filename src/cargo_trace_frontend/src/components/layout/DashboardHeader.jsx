@@ -1,64 +1,107 @@
 import React from 'react';
-import { Search, Bell, Users, Menu } from 'lucide-react';
+import { 
+  Search, 
+  Bell, 
+  User, 
+  Menu,
+  Settings,
+  LogOut
+} from 'lucide-react';
 
 const DashboardHeader = ({ activeTab, onMenuToggle }) => {
-  const getTabInfo = () => {
+  const getTabTitle = () => {
     switch (activeTab) {
       case 'dashboard':
-        return {
-          title: 'Dashboard',
-          description: 'Monitor your trade finance portfolio and activities'
-        };
+        return 'Dashboard';
       case 'documents':
-        return {
-          title: 'Documents',
-          description: 'Manage document transfers and submissions'
-        };
+        return 'Documents';
       case 'loans':
-        return {
-          title: 'Loan Requests',
-          description: 'Request and manage trade finance loans'
-        };
+        return 'Loan Requests';
       case 'repayment':
-        return {
-          title: 'Repayments',
-          description: 'Track and manage loan repayments'
-        };
+        return 'Repayment';
       default:
-        return {
-          title: 'Dashboard',
-          description: 'Monitor your trade finance portfolio and activities'
-        };
+        return 'Dashboard';
     }
   };
 
-  const tabInfo = getTabInfo();
+  const getTabDescription = () => {
+    switch (activeTab) {
+      case 'dashboard':
+        return 'Monitor your trade finance portfolio and activities';
+      case 'documents':
+        return 'Manage CargoX documents and ACID verification';
+      case 'loans':
+        return 'Request and manage ICRC-1 financing';
+      case 'repayment':
+        return 'Track loan repayments and payments';
+      default:
+        return 'Monitor your trade finance portfolio and activities';
+    }
+  };
+
+  const handleLogout = () => {
+    // Handle logout logic
+    console.log('Logging out...');
+  };
 
   return (
     <header className="dashboard-header">
       <div className="dashboard-header-content">
         <div className="dashboard-header-info">
+          {/* Mobile Menu Toggle */}
           <button 
             className="dashboard-mobile-menu-toggle"
             onClick={onMenuToggle}
-            aria-label="Toggle mobile menu"
           >
-            <Menu style={{ width: '1.25rem', height: '1.25rem' }} />
+            <Menu className="w-5 h-5" />
           </button>
+
+          {/* Page Title and Description */}
           <div>
-            <h2>{tabInfo.title}</h2>
-            <p>{tabInfo.description}</p>
+            <h2>{getTabTitle()}</h2>
+            <p>{getTabDescription()}</p>
           </div>
         </div>
+
+        {/* Header Actions */}
         <div className="dashboard-header-actions">
+          {/* Search */}
           <button className="dashboard-header-button">
-            <Search style={{ width: '1.25rem', height: '1.25rem' }} />
+            <Search className="w-5 h-5" />
           </button>
+
+          {/* Notifications */}
           <button className="dashboard-header-button notification">
-            <Bell style={{ width: '1.25rem', height: '1.25rem' }} />
+            <Bell className="w-5 h-5" />
           </button>
-          <div className="dashboard-header-avatar">
-            <Users style={{ width: '1.25rem', height: '1.25rem', color: '#ffffff' }} />
+
+          {/* Settings */}
+          <button className="dashboard-header-button">
+            <Settings className="w-5 h-5" />
+          </button>
+
+          {/* User Menu */}
+          <div className="dashboard-header-user-menu">
+            <button className="dashboard-header-avatar">
+              <User className="w-5 h-5 text-white" />
+            </button>
+            
+            {/* User Dropdown Menu */}
+            <div className="dashboard-header-dropdown">
+              <div className="dashboard-header-dropdown-item">
+                <User className="w-4 h-4" />
+                <span>Profile</span>
+              </div>
+              <div className="dashboard-header-dropdown-item">
+                <Settings className="w-4 h-4" />
+                <span>Settings</span>
+              </div>
+              <div className="dashboard-header-dropdown-divider"></div>
+              <div className="dashboard-header-dropdown-item" onClick={handleLogout}>
+                <LogOut className="w-4 h-4" />
+                <span>Logout</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

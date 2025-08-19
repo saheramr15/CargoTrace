@@ -1,63 +1,108 @@
 import React from 'react';
-import { Home, FileText, DollarSign, CreditCard, Ship, Wallet } from 'lucide-react';
+import {
+  Home,
+  FileText,
+  DollarSign,
+  CreditCard,
+  Wallet,
+  Menu
+} from 'lucide-react';
 
 const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
   const sidebarItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: Home },
-    { id: 'documents', label: 'Documents', icon: FileText },
-    { id: 'loans', label: 'Loan Requests', icon: DollarSign },
-    { id: 'repayment', label: 'Repayments', icon: CreditCard },
+    {
+      id: 'dashboard',
+      label: 'Dashboard',
+      icon: Home,
+      description: 'Overview & Analytics'
+    },
+    {
+      id: 'documents',
+      label: 'Documents',
+      icon: FileText,
+      description: 'CargoX & ACID Management'
+    },
+    {
+      id: 'loans',
+      label: 'Loan Requests',
+      icon: DollarSign,
+      description: 'ICRC-1 Financing'
+    },
+    {
+      id: 'repayment',
+      label: 'Repayment',
+      icon: CreditCard,
+      description: 'Loan Management'
+    }
   ];
 
   return (
-    <div className={`dashboard-sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
+    <aside className={`dashboard-sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
       {/* Logo Section */}
       <div className="sidebar-logo-section">
         <div className="sidebar-logo-container">
           <div className="sidebar-logo-icon">
-            <Ship style={{ width: '1.75rem', height: '1.75rem', color: '#ffffff' }} />
+            <Shield className="w-6 h-6 text-white" />
           </div>
           <div className="sidebar-logo-text">
             <h1>CargoTrace</h1>
             <p>Trade Finance</p>
           </div>
         </div>
+
+        {/* Live Status Indicator */}
+        <div className="sidebar-status-indicator">
+          <div className="sidebar-status-dot"></div>
+          <span className="sidebar-status-text">LIVE</span>
+        </div>
       </div>
-      
+
       {/* Navigation */}
       <nav className="sidebar-nav">
-        <div className="sidebar-nav-list">
-          {sidebarItems.map((item) => (
+        {sidebarItems.map((item) => {
+          const Icon = item.icon;
+          return (
             <button
               key={item.id}
-              onClick={() => setActiveTab(item.id)}
               className={`sidebar-nav-item ${activeTab === item.id ? 'active' : ''}`}
+              onClick={() => setActiveTab(item.id)}
             >
-              <item.icon className="sidebar-nav-icon" />
-              <span>{item.label}</span>
+              <Icon className="sidebar-nav-icon" />
+              <span className="sidebar-nav-label">{item.label}</span>
             </button>
-          ))}
-        </div>
+          );
+        })}
       </nav>
-      
+
       {/* Wallet Section */}
       <div className="sidebar-wallet-section">
         <div className="sidebar-wallet-card">
           <div className="sidebar-wallet-header">
             <div className="sidebar-wallet-icon">
-              <Wallet style={{ width: '1.25rem', height: '1.25rem', color: '#ffffff' }} />
+              <Wallet className="w-4 h-4 text-white" />
             </div>
             <span className="sidebar-wallet-title">ICP Wallet</span>
           </div>
-          <p className="sidebar-wallet-amount">10.248 ICP</p>
+
+          <div className="sidebar-wallet-amount">10.248 ICP</div>
+
           <div className="sidebar-wallet-status">
             <div className="sidebar-wallet-indicator"></div>
             <span className="sidebar-wallet-status-text">Connected</span>
           </div>
+
+          <div className="sidebar-wallet-value">= $45,234 USD</div>
         </div>
       </div>
-    </div>
+    </aside>
   );
 };
+
+// Shield icon component since it's not in lucide-react
+const Shield = ({ className }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+  </svg>
+);
 
 export default DashboardSidebar; 
