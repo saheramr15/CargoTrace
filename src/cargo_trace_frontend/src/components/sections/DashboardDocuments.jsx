@@ -3,7 +3,6 @@ import {
   FileText, 
   Upload, 
   Search, 
-  Filter,
   Download, 
   CheckCircle, 
   Clock, 
@@ -11,19 +10,14 @@ import {
   BarChart3, 
   TrendingUp, 
   Shield, 
-  DollarSign,
   Eye,
   Edit,
   Trash2,
   Plus,
-  Database,
-  Link,
-  Network,
+  Filter,
+  Calendar,
   Building2,
-  Ship,
-  Package,
-  Globe,
-  Activity
+  Globe
 } from 'lucide-react';
 
 const DashboardDocuments = () => {
@@ -32,7 +26,7 @@ const DashboardDocuments = () => {
   const [documentType, setDocumentType] = useState('');
   const [description, setDescription] = useState('');
 
-  // Enhanced mock data for CargoTrace Finance
+  // Focused document data
   const mockDocuments = [
     {
       id: 'CX-2024-001',
@@ -161,7 +155,6 @@ const DashboardDocuments = () => {
 
   const handleSubmitDocument = (e) => {
     e.preventDefault();
-    // Handle document submission logic
     console.log('Submitting document:', { documentType, description });
   };
 
@@ -172,7 +165,7 @@ const DashboardDocuments = () => {
         <div className="dashboard-section-header">
           <h2 className="dashboard-section-title">
             <BarChart3 className="dashboard-section-icon" />
-            Document Statistics
+            Document Overview
           </h2>
         </div>
         <div className="dashboard-stats-grid">
@@ -192,14 +185,12 @@ const DashboardDocuments = () => {
           </div>
 
           <div className="dashboard-stat-card">
-            <div className="dashboard-stat-header">
-              <div className="dashboard-stat-icon nfts">
-                <Shield size={24} color="white" />
-              </div>
-              <div className="dashboard-stat-trend">
-                <TrendingUp size={16} />
-                <span className="dashboard-stat-percentage">+22.1%</span>
-              </div>
+            <div className="dashboard-stat-icon nfts">
+              <Shield size={24} color="white" />
+            </div>
+            <div className="dashboard-stat-trend">
+              <TrendingUp size={16} />
+              <span className="dashboard-stat-percentage">+22.1%</span>
             </div>
             <div className="dashboard-stat-value">{documentStats.nftMinted}</div>
             <div className="dashboard-stat-label">NFTs Minted</div>
@@ -209,7 +200,7 @@ const DashboardDocuments = () => {
           <div className="dashboard-stat-card">
             <div className="dashboard-stat-header">
               <div className="dashboard-stat-icon loans">
-                <DollarSign size={24} color="white" />
+                <Building2 size={24} color="white" />
               </div>
               <div className="dashboard-stat-trend">
                 <TrendingUp size={16} />
@@ -224,7 +215,7 @@ const DashboardDocuments = () => {
           <div className="dashboard-stat-card">
             <div className="dashboard-stat-header">
               <div className="dashboard-stat-icon fusion">
-                <Network size={24} color="white" />
+                <Globe size={24} color="white" />
               </div>
               <div className="dashboard-stat-trend">
                 <TrendingUp size={16} />
@@ -234,64 +225,6 @@ const DashboardDocuments = () => {
             <div className="dashboard-stat-value">{documentStats.verified}</div>
             <div className="dashboard-stat-label">Verified</div>
             <div className="dashboard-stat-description">NAFEZA verified documents</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Document Processing Pipeline */}
-      <div className="dashboard-section">
-        <div className="dashboard-section-header">
-          <h2 className="dashboard-section-title">
-            <Database className="dashboard-section-icon" />
-            Document Processing Pipeline
-          </h2>
-        </div>
-        <div className="dashboard-pipeline">
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <Globe size={24} color="white" />
-            </div>
-            <div className="dashboard-pipeline-content">
-              <h4>CargoX Detection</h4>
-              <p>Monitor Ethereum blockchain for new documents</p>
-              <div className="dashboard-pipeline-count">{documentStats.total} Documents</div>
-            </div>
-          </div>
-          <div className="dashboard-pipeline-arrow">→</div>
-          
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <Building2 size={24} color="white" />
-            </div>
-            <div className="dashboard-pipeline-content">
-              <h4>NAFEZA Verification</h4>
-              <p>Validate ACID numbers with Egyptian customs</p>
-              <div className="dashboard-pipeline-count">{documentStats.verified} Verified</div>
-            </div>
-          </div>
-          <div className="dashboard-pipeline-arrow">→</div>
-          
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <Shield size={24} color="white" />
-            </div>
-            <div className="dashboard-pipeline-content">
-              <h4>ICP NFT Minting</h4>
-              <p>Create immutable NFTs on Internet Computer</p>
-              <div className="dashboard-pipeline-count">{documentStats.nftMinted} NFTs</div>
-            </div>
-          </div>
-          <div className="dashboard-pipeline-arrow">→</div>
-          
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <DollarSign size={24} color="white" />
-            </div>
-            <div className="dashboard-pipeline-content">
-              <h4>DeFi Lending</h4>
-              <p>Automated ICRC-1 token issuance</p>
-              <div className="dashboard-pipeline-count">$2.4M Loans</div>
-            </div>
           </div>
         </div>
       </div>
@@ -403,7 +336,7 @@ const DashboardDocuments = () => {
         <div className="dashboard-section-header">
           <h2 className="dashboard-section-title">
             <FileText className="dashboard-section-icon" />
-            CargoX Document Management
+            Document Management
           </h2>
           <div className="dashboard-section-actions">
             <span className="dashboard-section-count">{filteredDocuments.length} documents</span>

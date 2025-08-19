@@ -10,10 +10,6 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const handleMenuToggle = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     setIsMobileMenuOpen(false); // Close mobile menu when tab changes
@@ -48,7 +44,8 @@ const Dashboard = () => {
         {/* Header */}
         <DashboardHeader 
           activeTab={activeTab} 
-          onMenuToggle={handleMenuToggle}
+          isMobileMenuOpen={isMobileMenuOpen}
+          setIsMobileMenuOpen={setIsMobileMenuOpen}
         />
 
         {/* Content */}

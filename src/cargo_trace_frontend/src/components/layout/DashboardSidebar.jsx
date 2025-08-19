@@ -5,7 +5,15 @@ import {
   DollarSign,
   CreditCard,
   Wallet,
-  Menu
+  Menu,
+  Activity,
+  Shield,
+  Network,
+  Globe,
+  BarChart3,
+  Settings,
+  HelpCircle,
+  ExternalLink
 } from 'lucide-react';
 
 const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
@@ -14,27 +22,62 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
       id: 'dashboard',
       label: 'Dashboard',
       icon: Home,
-      description: 'Overview & Analytics'
+      description: 'Overview & Analytics',
+      badge: null
     },
     {
       id: 'documents',
       label: 'Documents',
       icon: FileText,
-      description: 'CargoX & ACID Management'
+      description: 'CargoX & ACID Management',
+      badge: '12'
     },
     {
       id: 'loans',
       label: 'Loan Requests',
       icon: DollarSign,
-      description: 'ICRC-1 Financing'
+      description: 'ICRC-1 Financing',
+      badge: '3'
     },
     {
       id: 'repayment',
       label: 'Repayment',
       icon: CreditCard,
-      description: 'Loan Management'
+      description: 'Loan Management',
+      badge: null
     }
   ];
+
+  const systemStatus = [
+    {
+      name: 'CargoX Integration',
+      status: 'online',
+      description: 'Ethereum blockchain documents'
+    },
+    {
+      name: 'NAFEZA System',
+      status: 'online',
+      description: 'Egyptian customs verification'
+    },
+    {
+      name: 'ICP Blockchain',
+      status: 'online',
+      description: 'NFT minting & smart contracts'
+    },
+    {
+      name: 'Chain Fusion',
+      status: 'online',
+      description: 'Ethereum ↔ ICP bridge'
+    }
+  ];
+
+  const getStatusColor = (status) => {
+    return status === 'online' ? '#10b981' : '#ef4444';
+  };
+
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+  };
 
   return (
     <aside className={`dashboard-sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
@@ -65,14 +108,41 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
             <button
               key={item.id}
               className={`sidebar-nav-item ${activeTab === item.id ? 'active' : ''}`}
-              onClick={() => setActiveTab(item.id)}
+              onClick={() => handleTabChange(item.id)}
             >
               <Icon className="sidebar-nav-icon" />
               <span className="sidebar-nav-label">{item.label}</span>
+              {item.badge && (
+                <span className="sidebar-nav-badge">{item.badge}</span>
+              )}
             </button>
           );
         })}
       </nav>
+
+      {/* System Status */}
+      <div className="sidebar-system-status">
+        <h3 className="sidebar-section-title">
+          <Activity size={16} />
+          System Status
+        </h3>
+        <div className="sidebar-status-list">
+          {systemStatus.map((system, index) => (
+            <div key={index} className="sidebar-status-item">
+              <div className="sidebar-status-info">
+                <div className="sidebar-status-header">
+                  <span className="sidebar-status-name">{system.name}</span>
+                  <div
+                    className="sidebar-system-status-indicator"
+                    style={{ backgroundColor: getStatusColor(system.status) }}
+                  ></div>
+                </div>
+                <p className="sidebar-status-description">{system.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Wallet Section */}
       <div className="sidebar-wallet-section">
@@ -94,15 +164,60 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
           <div className="sidebar-wallet-value">= $45,234 USD</div>
         </div>
       </div>
+
+      {/* Quick Actions */}
+      <div className="sidebar-quick-actions">
+        <h3 className="sidebar-section-title">
+          <BarChart3 size={16} />
+          Quick Actions
+        </h3>
+        <div className="sidebar-actions">
+          <button className="sidebar-action">
+            <FileText size={16} />
+            <span>Upload Document</span>
+          </button>
+          <button className="sidebar-action">
+            <DollarSign size={16} />
+            <span>Request Loan</span>
+          </button>
+          <button className="sidebar-action">
+            <CreditCard size={16} />
+            <span>Make Payment</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="sidebar-footer">
+        <div className="sidebar-footer-actions">
+          <button className="sidebar-footer-action">
+            <Settings size={16} />
+            <span>Settings</span>
+          </button>
+          <button className="sidebar-footer-action">
+            <HelpCircle size={16} />
+            <span>Help</span>
+          </button>
+        </div>
+
+        <div className="sidebar-footer-info">
+          <div className="sidebar-footer-version">
+            <span>v2.1.0</span>
+          </div>
+          <div className="sidebar-footer-links">
+            <a href="#" className="sidebar-footer-link">
+              <ExternalLink size={12} />
+              <span>Documentation</span>
+            </a>
+            <a href="#" className="sidebar-footer-link">
+              <ExternalLink size={12} />
+              <span>Support</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </aside>
   );
 };
-
-// Shield icon component since it's not in lucide-react
-const Shield = ({ className }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
-  </svg>
-);
 
 export default DashboardSidebar; 

@@ -23,6 +23,51 @@
   margin-bottom: 1rem;
 }
 
+/* Welcome Header - Simplified */
+.dashboard-welcome-header {
+  background: linear-gradient(135deg, #A78BFA 0%, #7C3AED 100%);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(167, 139, 250, 0.3);
+  transition: transform 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.dashboard-welcome-header:hover {
+  transform: scale(1.02);
+}
+
+.dashboard-welcome-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.dashboard-welcome-content {
+  position: relative;
+  z-index: 10;
+}
+
+.dashboard-welcome-content h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.dashboard-welcome-content p {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
 .dashboard-welcome:hover {
   transform: scale(1.02);
 }
@@ -645,6 +690,135 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+/* System Health */
+.dashboard-system-health {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dashboard-system-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(167, 139, 250, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dashboard-system-item:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(167, 139, 250, 0.2);
+  transform: translateY(-2px);
+}
+
+.dashboard-system-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.dashboard-system-name {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.dashboard-system-uptime {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.dashboard-system-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dashboard-system-indicator {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dashboard-system-status-text {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* Activity List */
+.dashboard-activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dashboard-activity-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(167, 139, 250, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dashboard-activity-item:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(167, 139, 250, 0.2);
+  transform: translateY(-2px);
+}
+
+.dashboard-activity-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: linear-gradient(135deg, #A78BFA 0%, #7C3AED 100%);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dashboard-activity-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.dashboard-activity-title {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.dashboard-activity-description {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.dashboard-activity-time {
+  font-size: 0.625rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.dashboard-activity-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
 }
 
 .dashboard-system-item {
@@ -1774,6 +1948,100 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.dashboard-upcoming-payment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(167, 139, 250, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dashboard-upcoming-payment:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(167, 139, 250, 0.2);
+  transform: translateY(-2px);
+}
+
+.dashboard-upcoming-payment-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dashboard-upcoming-payment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-upcoming-payment-loan {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.dashboard-upcoming-payment-days {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+}
+
+.dashboard-upcoming-payment-days.success {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.dashboard-upcoming-payment-days.pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.dashboard-upcoming-payment-days.rejected {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.dashboard-upcoming-payment-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-upcoming-payment-amount {
+  font-weight: 600;
+  color: #7C3AED;
+  font-size: 0.875rem;
+}
+
+.dashboard-upcoming-payment-date {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.dashboard-upcoming-payment-action {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #A78BFA 0%, #7C3AED 100%);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dashboard-upcoming-payment-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(167, 139, 250, 0.3);
 }
 
 .dashboard-upcoming-payment {

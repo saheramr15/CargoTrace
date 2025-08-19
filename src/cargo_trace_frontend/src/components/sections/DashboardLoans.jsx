@@ -3,7 +3,6 @@ import {
   DollarSign, 
   Plus, 
   Search, 
-  Filter,
   Clock, 
   CheckCircle, 
   AlertCircle, 
@@ -13,19 +12,13 @@ import {
   FileText,
   Eye,
   Edit,
-  Trash2,
   CreditCard,
   Wallet,
-  Building2,
-  Ship,
-  Package,
-  Globe,
-  Activity,
-  ArrowUpRight,
-  Calendar,
   Percent,
   Target,
-  Award
+  Award,
+  Calendar,
+  ArrowUpRight
 } from 'lucide-react';
 
 const DashboardLoans = () => {
@@ -34,7 +27,7 @@ const DashboardLoans = () => {
   const [loanAmount, setLoanAmount] = useState('');
   const [collateralDocument, setCollateralDocument] = useState('');
 
-  // Enhanced mock data for CargoTrace Finance
+  // Focused loan data
   const mockLoans = [
     {
       id: 'LOAN-2024-001',
@@ -166,7 +159,6 @@ const DashboardLoans = () => {
 
   const handleRequestLoan = (e) => {
     e.preventDefault();
-    // Handle loan request logic
     console.log('Requesting loan:', { loanAmount, collateralDocument });
   };
 
@@ -239,64 +231,6 @@ const DashboardLoans = () => {
             <div className="dashboard-stat-value">${(loanStats.totalRepaid / 1000000).toFixed(1)}M</div>
             <div className="dashboard-stat-label">Total Repaid</div>
             <div className="dashboard-stat-description">Successfully repaid loans</div>
-          </div>
-        </div>
-      </div>
-
-      {/* DeFi Lending Network */}
-      <div className="dashboard-section">
-        <div className="dashboard-section-header">
-          <h2 className="dashboard-section-title">
-            <CreditCard className="dashboard-section-icon" />
-            DeFi Lending Network
-          </h2>
-        </div>
-        <div className="dashboard-pipeline">
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <FileText size={24} color="white" />
-            </div>
-            <div className="dashboard-pipeline-content">
-              <h4>Document Verification</h4>
-              <p>CargoX documents verified with NAFEZA</p>
-              <div className="dashboard-pipeline-count">{loanStats.total} Documents</div>
-            </div>
-          </div>
-          <div className="dashboard-pipeline-arrow">→</div>
-          
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <Shield size={24} color="white" />
-            </div>
-            <div className="dashboard-pipeline-content">
-              <h4>NFT Collateral</h4>
-              <p>Immutable NFTs minted on ICP blockchain</p>
-              <div className="dashboard-pipeline-count">{loanStats.total} NFTs</div>
-            </div>
-          </div>
-          <div className="dashboard-pipeline-arrow">→</div>
-          
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <DollarSign size={24} color="white" />
-            </div>
-            <div className="dashboard-pipeline-content">
-              <h4>Smart Contract</h4>
-              <p>Automated ICRC-1 token issuance</p>
-              <div className="dashboard-pipeline-count">{loanStats.active} Active</div>
-            </div>
-          </div>
-          <div className="dashboard-pipeline-arrow">→</div>
-          
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <Wallet size={24} color="white" />
-            </div>
-            <div className="dashboard-pipeline-content">
-              <h4>Instant Funding</h4>
-              <p>Working capital delivered instantly</p>
-              <div className="dashboard-pipeline-count">24/7 Available</div>
-            </div>
           </div>
         </div>
       </div>

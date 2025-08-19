@@ -15,12 +15,6 @@ import {
   Download,
   Plus,
   Wallet,
-  Building2,
-  Ship,
-  Package,
-  Globe,
-  Activity,
-  ArrowUpRight,
   Percent,
   Target,
   Award,
@@ -36,7 +30,7 @@ const DashboardRepayment = () => {
   const [paymentAmount, setPaymentAmount] = useState('');
   const [selectedLoan, setSelectedLoan] = useState('');
 
-  // Enhanced mock data for CargoTrace Finance
+  // Focused repayment data
   const mockRepayments = [
     {
       id: 'REPAY-2024-001',
@@ -156,7 +150,6 @@ const DashboardRepayment = () => {
 
   const handleMakePayment = (e) => {
     e.preventDefault();
-    // Handle payment logic
     console.log('Making payment:', { selectedLoan, paymentAmount });
   };
 
@@ -229,64 +222,6 @@ const DashboardRepayment = () => {
             <div className="dashboard-stat-value">{repaymentStats.overdue}</div>
             <div className="dashboard-stat-label">Overdue Loans</div>
             <div className="dashboard-stat-description">Past due payments</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Repayment Pipeline */}
-      <div className="dashboard-section">
-        <div className="dashboard-section-header">
-          <h2 className="dashboard-section-title">
-            <CreditCard className="dashboard-section-icon" />
-            Repayment Pipeline
-          </h2>
-        </div>
-        <div className="dashboard-pipeline">
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <Calendar size={24} color="white" />
-            </div>
-            <div className="dashboard-pipeline-content">
-              <h4>Payment Schedule</h4>
-              <p>Automated payment reminders and scheduling</p>
-              <div className="dashboard-pipeline-count">{repaymentStats.active} Active</div>
-            </div>
-          </div>
-          <div className="dashboard-pipeline-arrow">→</div>
-          
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <Wallet size={24} color="white" />
-            </div>
-            <div className="dashboard-pipeline-content">
-              <h4>ICRC-1 Payments</h4>
-              <p>Stable token payments via smart contracts</p>
-              <div className="dashboard-pipeline-count">24/7 Available</div>
-            </div>
-          </div>
-          <div className="dashboard-pipeline-arrow">→</div>
-          
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <Shield size={24} color="white" />
-            </div>
-            <div className="dashboard-pipeline-content">
-              <h4>NFT Release</h4>
-              <p>Automatic NFT collateral release upon completion</p>
-              <div className="dashboard-pipeline-count">{repaymentStats.completed} Completed</div>
-            </div>
-          </div>
-          <div className="dashboard-pipeline-arrow">→</div>
-          
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <Receipt size={24} color="white" />
-            </div>
-            <div className="dashboard-pipeline-content">
-              <h4>Transaction Records</h4>
-              <p>Immutable blockchain transaction history</p>
-              <div className="dashboard-pipeline-count">100% Transparent</div>
-            </div>
           </div>
         </div>
       </div>
