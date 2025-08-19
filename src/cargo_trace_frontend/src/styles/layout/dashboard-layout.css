@@ -1,0 +1,26 @@
+/* Dashboard Layout Styles */
+.dashboard-container {
+  min-height: 100vh;
+  background-color: #1f2937;
+  display: flex;
+  font-family: 'Inter', sans-serif;
+}
+
+.dashboard-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 4.5rem;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* Dashboard Animation */
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}

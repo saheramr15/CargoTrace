@@ -25,28 +25,20 @@ const Dashboard = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#1f2937', display: 'flex', fontFamily: '"Inter", sans-serif' }}>
+    <div className="dashboard-container">
       {/* Sidebar */}
       <DashboardSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Main Content */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', paddingTop: '4.5rem' }}>
+      <div className="dashboard-main-content">
         {/* Header */}
         <DashboardHeader activeTab={activeTab} />
 
         {/* Content */}
-        <main style={{ flex: 1, padding: '2rem' }}>
+        <main className="dashboard-content">
           {renderContent()}
         </main>
       </div>
-
-      <style jsx>{`
-        @keyframes pulse {
-          0% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.2); opacity: 0.7; }
-          100% { transform: scale(1); opacity: 1; }
-        }
-      `}</style>
     </div>
   );
 };
