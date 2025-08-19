@@ -33,6 +33,8 @@
   margin-left: 260px;
   width: calc(100vw - 260px);
   min-width: 0; /* Prevent flex item from overflowing */
+  max-width: none; /* Ensure no max-width restrictions */
+  box-sizing: border-box;
 }
 
 .dashboard-content {
@@ -40,8 +42,9 @@
   padding: 2rem;
   background: transparent;
   width: 100%;
-  max-width: 100%;
+  max-width: none;
   box-sizing: border-box;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 /* Dashboard Sidebar Styles */
@@ -467,10 +470,12 @@
   .dashboard-main-content {
     margin-left: 240px;
     width: calc(100vw - 240px);
+    max-width: none;
   }
   
   .dashboard-content {
     padding: 1.5rem;
+    max-width: none;
   }
 }
 
@@ -490,6 +495,7 @@
   .dashboard-main-content {
     margin-left: 0;
     width: 100vw;
+    max-width: none;
   }
   
   .dashboard-header {
@@ -502,6 +508,7 @@
   
   .dashboard-content {
     padding: 1rem;
+    max-width: none;
   }
   
   .sidebar-logo-section {
