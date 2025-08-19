@@ -1,7 +1,7 @@
 import React from 'react';
 import { Home, FileText, DollarSign, CreditCard, Ship, Wallet } from 'lucide-react';
 
-const DashboardSidebar = ({ activeTab, setActiveTab }) => {
+const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
   const sidebarItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Home },
     { id: 'documents', label: 'Documents', icon: FileText },
@@ -10,7 +10,7 @@ const DashboardSidebar = ({ activeTab, setActiveTab }) => {
   ];
 
   return (
-    <div className="dashboard-sidebar">
+    <div className={`dashboard-sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
       {/* Logo Section */}
       <div className="sidebar-logo-section">
         <div className="sidebar-logo-container">

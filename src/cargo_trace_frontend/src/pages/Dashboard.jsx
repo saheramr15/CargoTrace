@@ -8,6 +8,16 @@ import DashboardRepayment from '../components/sections/DashboardRepayment';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleMenuToggle = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setIsMobileMenuOpen(false); // Close mobile menu when tab changes
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -27,12 +37,19 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
-      <DashboardSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <DashboardSidebar 
+        activeTab={activeTab} 
+        setActiveTab={handleTabChange}
+        isMobileMenuOpen={isMobileMenuOpen}
+      />
 
       {/* Main Content */}
       <div className="dashboard-main-content">
         {/* Header */}
-        <DashboardHeader activeTab={activeTab} />
+        <DashboardHeader 
+          activeTab={activeTab} 
+          onMenuToggle={handleMenuToggle}
+        />
 
         {/* Content */}
         <main className="dashboard-content">

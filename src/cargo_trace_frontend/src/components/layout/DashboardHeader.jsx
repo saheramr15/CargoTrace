@@ -1,7 +1,7 @@
 import React from 'react';
-import { Search, Bell, Users } from 'lucide-react';
+import { Search, Bell, Users, Menu } from 'lucide-react';
 
-const DashboardHeader = ({ activeTab }) => {
+const DashboardHeader = ({ activeTab, onMenuToggle }) => {
   const getTabInfo = () => {
     switch (activeTab) {
       case 'dashboard':
@@ -38,8 +38,17 @@ const DashboardHeader = ({ activeTab }) => {
     <header className="dashboard-header">
       <div className="dashboard-header-content">
         <div className="dashboard-header-info">
-          <h2>{tabInfo.title}</h2>
-          <p>{tabInfo.description}</p>
+          <button 
+            className="dashboard-mobile-menu-toggle"
+            onClick={onMenuToggle}
+            aria-label="Toggle mobile menu"
+          >
+            <Menu style={{ width: '1.25rem', height: '1.25rem' }} />
+          </button>
+          <div>
+            <h2>{tabInfo.title}</h2>
+            <p>{tabInfo.description}</p>
+          </div>
         </div>
         <div className="dashboard-header-actions">
           <button className="dashboard-header-button">
