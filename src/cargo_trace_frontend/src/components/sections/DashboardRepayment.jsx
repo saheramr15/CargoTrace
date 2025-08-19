@@ -163,7 +163,7 @@ const DashboardRepayment = () => {
             Repayment Overview
           </h2>
         </div>
-        <div className="dashboard-stats-grid">
+      <div className="dashboard-stats-grid">
           <div className="dashboard-stat-card">
             <div className="dashboard-stat-header">
               <div className="dashboard-stat-icon loans">
@@ -222,8 +222,8 @@ const DashboardRepayment = () => {
             <div className="dashboard-stat-value">{repaymentStats.overdue}</div>
             <div className="dashboard-stat-label">Overdue Loans</div>
             <div className="dashboard-stat-description">Past due payments</div>
+            </div>
           </div>
-        </div>
       </div>
 
       {/* Upcoming Payments */}
@@ -240,15 +240,15 @@ const DashboardRepayment = () => {
               <div className="dashboard-upcoming-payment-header">
                 <span className="dashboard-upcoming-payment-loan">LOAN-2024-001</span>
                 <span className="dashboard-upcoming-payment-days">Due in 5 days</span>
-              </div>
+                  </div>
               <div className="dashboard-upcoming-payment-details">
                 <span className="dashboard-upcoming-payment-amount">$25,000</span>
                 <span className="dashboard-upcoming-payment-date">Jan 20, 2024</span>
-              </div>
-            </div>
+                  </div>
+                </div>
             <button className="dashboard-upcoming-payment-action">Pay Now</button>
-          </div>
-          
+              </div>
+              
           <div className="dashboard-upcoming-payment">
             <div className="dashboard-upcoming-payment-info">
               <div className="dashboard-upcoming-payment-header">
@@ -258,13 +258,13 @@ const DashboardRepayment = () => {
               <div className="dashboard-upcoming-payment-details">
                 <span className="dashboard-upcoming-payment-amount">$18,500</span>
                 <span className="dashboard-upcoming-payment-date">Jan 27, 2024</span>
-              </div>
-            </div>
+                </div>
+                </div>
             <button className="dashboard-upcoming-payment-action">Schedule</button>
-          </div>
-        </div>
-      </div>
-
+                </div>
+                </div>
+              </div>
+              
       {/* Quick Payment Form */}
       <div className="dashboard-section">
         <div className="dashboard-section-header">
@@ -327,7 +327,7 @@ const DashboardRepayment = () => {
           <CreditCard size={16} />
           Process Payment
         </button>
-      </div>
+                </div>
 
       {/* Repayment Management */}
       <div className="dashboard-section">
@@ -342,21 +342,21 @@ const DashboardRepayment = () => {
               <Download size={16} />
               Export Data
             </button>
-          </div>
-        </div>
-
+                </div>
+              </div>
+              
         {/* Search and Filter */}
         <div className="dashboard-action-bar">
           <div className="dashboard-search-container">
             <Search className="dashboard-search-icon" />
-            <input
-              type="text"
+                  <input
+                    type="text"
               placeholder="Search by loan ID, document ID, or cargo type..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="dashboard-search-input"
-            />
-          </div>
+                  />
+                </div>
           <div className="dashboard-action-buttons">
             <select
               value={filterStatus}
@@ -457,7 +457,7 @@ const DashboardRepayment = () => {
                       <button className="dashboard-action-link">
                         <Edit size={14} />
                         Edit
-                      </button>
+                </button>
                     </td>
                   </tr>
                 );
@@ -492,14 +492,14 @@ const DashboardRepayment = () => {
                   <div className="dashboard-upcoming-payment-details">
                     <div className="dashboard-upcoming-payment-amount">{repayment.nextPayment}</div>
                     <div className="dashboard-upcoming-payment-date">{repayment.nextDueDate}</div>
-                  </div>
+              </div>
                 </div>
                 <button className="dashboard-upcoming-payment-action">
                   <CreditCard size={16} />
                   Pay Now
                 </button>
-              </div>
-            ))}
+            </div>
+          ))}
         </div>
       </div>
 

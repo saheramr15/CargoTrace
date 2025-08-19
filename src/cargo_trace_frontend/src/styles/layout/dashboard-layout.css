@@ -28,6 +28,7 @@
   display: flex;
   flex-direction: column;
   padding-top: 80px; /* Account for fixed header */
+  padding-bottom: 2rem; /* Add bottom padding */
   position: relative;
   z-index: 1;
   margin-left: 260px;
@@ -39,7 +40,7 @@
 
 .dashboard-content {
   flex: 1;
-  padding: 2rem;
+  padding: 1.5rem 2rem 3rem 2rem;
   background: transparent;
   width: 100%;
   max-width: none;
@@ -580,19 +581,10 @@
 
 .dashboard-header-button.notification {
   position: relative;
+  overflow: visible;
 }
 
-.dashboard-header-button.notification::after {
-  content: '';
-  position: absolute;
-  top: -0.25rem;
-  right: -0.25rem;
-  width: 0.75rem;
-  height: 0.75rem;
-  background: #ef4444;
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-}
+/* Removed conflicting ::after pseudo-element */
 
 .dashboard-header-avatar {
   width: 2.5rem;
@@ -781,23 +773,37 @@
 
 .dashboard-header-notification-badge {
   position: absolute;
-  top: -0.25rem;
-  right: -0.25rem;
-  background: #ef4444;
+  top: -0.5rem;
+  right: -0.5rem;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: white;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 0.25rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0.2rem 0.4rem;
   border-radius: 9999px;
-  min-width: 1.5rem;
-  height: 1.5rem;
+  min-width: 1.25rem;
+  height: 1.25rem;
   text-align: center;
-  line-height: 1rem;
+  line-height: 0.85rem;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px solid #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  z-index: 10;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.6);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  }
 }
 
 .dashboard-header-notifications-dropdown {
@@ -1250,7 +1256,7 @@
   }
   
   .dashboard-content {
-    padding: 1.5rem;
+    padding: 1.5rem 1.5rem 2.5rem 1.5rem;
     max-width: none;
   }
   
@@ -1260,6 +1266,15 @@
   
   .dashboard-header-search-input {
     width: 250px;
+  }
+  
+  .dashboard-header-notification-badge {
+    top: -0.35rem;
+    right: -0.35rem;
+    min-width: 1.1rem;
+    height: 1.1rem;
+    font-size: 0.68rem;
+    padding: 0.18rem 0.35rem;
   }
 }
 
@@ -1297,7 +1312,7 @@
   }
   
   .dashboard-content {
-    padding: 1rem;
+    padding: 1rem 1rem 2rem 1rem;
     max-width: none;
   }
   
@@ -1327,5 +1342,14 @@
   
   .dashboard-header-search {
     display: none;
+  }
+  
+  .dashboard-header-notification-badge {
+    top: -0.25rem;
+    right: -0.25rem;
+    min-width: 1rem;
+    height: 1rem;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.3rem;
   }
 }

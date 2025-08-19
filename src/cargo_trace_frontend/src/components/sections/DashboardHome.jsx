@@ -253,7 +253,7 @@ const DashboardHome = () => {
         </div>
         <div className="dashboard-quick-actions-grid">
           <button className="dashboard-quick-action-card">
-            <div className="dashboard-quick-action-icon documents">
+            <div className="dashboard-quick-action-icon blue">
               <FileText size={24} color="white" />
             </div>
             <div>
@@ -263,7 +263,7 @@ const DashboardHome = () => {
           </button>
           
           <button className="dashboard-quick-action-card">
-            <div className="dashboard-quick-action-icon loans">
+            <div className="dashboard-quick-action-icon green">
               <DollarSign size={24} color="white" />
             </div>
             <div>
@@ -273,7 +273,7 @@ const DashboardHome = () => {
           </button>
           
           <button className="dashboard-quick-action-card">
-            <div className="dashboard-quick-action-icon nfts">
+            <div className="dashboard-quick-action-icon purple">
               <Shield size={24} color="white" />
             </div>
             <div>
@@ -283,7 +283,7 @@ const DashboardHome = () => {
           </button>
           
           <button className="dashboard-quick-action-card">
-            <div className="dashboard-quick-action-icon fusion">
+            <div className="dashboard-quick-action-icon orange">
               <Network size={24} color="white" />
             </div>
             <div>
