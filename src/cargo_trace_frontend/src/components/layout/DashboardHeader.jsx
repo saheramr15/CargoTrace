@@ -1,120 +1,223 @@
-import React from 'react';
-import { Search, Bell, Users } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  Bell, 
+  Search, 
+  Settings, 
+  LogOut, 
+  User, 
+  ChevronDown,
+  Activity,
+  Shield,
+  Network,
+  Globe,
+  Menu
+} from 'lucide-react';
 
-const DashboardHeader = ({ activeTab }) => {
-  const getTabInfo = () => {
-    switch (activeTab) {
+const DashboardHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [notifications] = useState([
+    { id: 1, message: 'New CargoX document verified', time: '2 min ago', type: 'success' },
+    { id: 2, message: 'ICRC-1 loan approved', time: '5 min ago', type: 'success' },
+    { id: 3, message: 'Chain Fusion bridge active', time: '10 min ago', type: 'info' }
+  ]);
+
+  const notificationsRef = useRef(null);
+  const userMenuRef = useRef(null);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (notificationsRef.current && !notificationsRef.current.contains(event.target)) {
+        setIsNotificationsOpen(false);
+      }
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const getTabInfo = (tab) => {
+    switch (tab) {
       case 'dashboard':
         return {
           title: 'Dashboard',
-          description: 'Monitor your trade finance portfolio and activities'
+          description: 'Overview of your CargoTrace Finance portfolio'
         };
       case 'documents':
         return {
           title: 'Documents',
-          description: 'Manage document transfers and submissions'
+          description: 'Manage CargoX documents and ACID verification'
         };
       case 'loans':
         return {
           title: 'Loan Requests',
-          description: 'Request and manage trade finance loans'
+          description: 'ICRC-1 stable token loan management'
         };
       case 'repayment':
         return {
-          title: 'Repayments',
+          title: 'Repayment',
           description: 'Track and manage loan repayments'
         };
       default:
         return {
           title: 'Dashboard',
-          description: 'Monitor your trade finance portfolio and activities'
+          description: 'Overview of your CargoTrace Finance portfolio'
         };
     }
   };
 
-  const tabInfo = getTabInfo();
+  const tabInfo = getTabInfo(activeTab);
+
+  const handleLogout = () => {
+    // Handle logout logic
+    console.log('Logging out...');
+  };
 
   return (
-    <header style={{ 
-      backgroundColor: 'rgba(31, 41, 55, 0.95)', 
-      backdropFilter: 'blur(12px)', 
-      boxShadow: '0 2px 4px rgba(0,0,0,0.3)', 
-      borderBottom: '1px solid #4b5563', 
-      padding: '1.5rem 2rem', 
-      position: 'sticky', 
-      top: 0, 
-      zIndex: 10 
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div>
-          <h2 style={{ fontSize: '1.875rem', fontWeight: '700', color: '#ffffff', letterSpacing: '-0.025em', textTransform: 'capitalize' }}>
-            {tabInfo.title}
-          </h2>
-          <p style={{ color: '#d1d5db', marginTop: '0.25rem', fontSize: '0.875rem' }}>
-            {tabInfo.description}
-          </p>
+    <div className="dashboard-header">
+      <div className="dashboard-header-content">
+        {/* Left Section - Mobile Menu & Tab Info */}
+        <div className="dashboard-header-info">
+          <button 
+            className="dashboard-mobile-menu-toggle"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            <Menu size={20} />
+          </button>
+          
+          <div className="dashboard-header-tab-info">
+            <h2 className="dashboard-header-title">{tabInfo.title}</h2>
+            <p className="dashboard-header-description">{tabInfo.description}</p>
+          </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <button style={{ 
-            padding: '0.75rem', 
-            color: '#d1d5db', 
-            backgroundColor: '#374151', 
-            borderRadius: '0.75rem', 
-            border: '1px solid #4b5563',
-            transition: 'all 0.3s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.color = '#ffffff';
-            e.target.style.backgroundColor = '#4b5563';
-            e.target.style.transform = 'translateY(-2px)';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.color = '#d1d5db';
-            e.target.style.backgroundColor = '#374151';
-            e.target.style.transform = 'translateY(0)';
-          }}>
-            <Search style={{ width: '1.25rem', height: '1.25rem' }} />
-          </button>
-          <button style={{ 
-            padding: '0.75rem', 
-            color: '#d1d5db', 
-            backgroundColor: '#374151', 
-            borderRadius: '0.75rem', 
-            border: '1px solid #4b5563',
-            position: 'relative', 
-            transition: 'all 0.3s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.color = '#ffffff';
-            e.target.style.backgroundColor = '#4b5563';
-            e.target.style.transform = 'translateY(-2px)';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.color = '#d1d5db';
-            e.target.style.backgroundColor = '#374151';
-            e.target.style.transform = 'translateY(0)';
-          }}>
-            <Bell style={{ width: '1.25rem', height: '1.25rem' }} />
-            <div style={{ position: 'absolute', top: '-0.25rem', right: '-0.25rem', width: '0.75rem', height: '0.75rem', backgroundColor: '#ef4444', borderRadius: '50%' }}></div>
-          </button>
-          <div style={{ 
-            width: '2.5rem', 
-            height: '2.5rem', 
-            background: 'linear-gradient(135deg, #7c3aed, #5b21b6)', 
-            borderRadius: '0.75rem', 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
-            boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-            transition: 'all 0.3s ease'
-          }}
-          onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}>
-            <Users style={{ width: '1.25rem', height: '1.25rem', color: '#ffffff' }} />
+
+        {/* Right Section - Actions & User Menu */}
+        <div className="dashboard-header-actions">
+          {/* System Status Indicators */}
+          <div className="dashboard-header-status-indicators">
+            <div className="dashboard-header-status-item">
+              <div className="dashboard-header-status-dot online"></div>
+              <span className="dashboard-header-status-label">CargoX</span>
+            </div>
+            <div className="dashboard-header-status-item">
+              <div className="dashboard-header-status-dot online"></div>
+              <span className="dashboard-header-status-label">NAFEZA</span>
+            </div>
+            <div className="dashboard-header-status-item">
+              <div className="dashboard-header-status-dot online"></div>
+              <span className="dashboard-header-status-label">ICP</span>
+            </div>
+            <div className="dashboard-header-status-item">
+              <div className="dashboard-header-status-dot online"></div>
+              <span className="dashboard-header-status-label">Bridge</span>
+            </div>
+          </div>
+
+          {/* Search */}
+          <div className="dashboard-header-search">
+            <Search size={16} className="dashboard-header-search-icon" />
+            <input
+              type="text"
+              placeholder="Search documents, loans, or transactions..."
+              className="dashboard-header-search-input"
+            />
+          </div>
+
+          {/* Notifications */}
+          <div className="dashboard-header-notifications" ref={notificationsRef}>
+            <button 
+              className="dashboard-header-button notification"
+              onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+            >
+              <Bell size={18} />
+              {notifications.length > 0 && (
+                <span className="dashboard-header-notification-badge">
+                  {notifications.length}
+                </span>
+              )}
+            </button>
+            
+            {/* Notifications Dropdown */}
+            {isNotificationsOpen && (
+              <div className="dashboard-header-notifications-dropdown">
+                <div className="dashboard-header-notifications-header">
+                  <h4>Notifications</h4>
+                  <button className="dashboard-header-notifications-clear">Clear all</button>
+                </div>
+                <div className="dashboard-header-notifications-list">
+                  {notifications.map(notification => (
+                    <div key={notification.id} className="dashboard-header-notification-item">
+                      <div className={`dashboard-header-notification-dot ${notification.type}`}></div>
+                      <div className="dashboard-header-notification-content">
+                        <p className="dashboard-header-notification-message">{notification.message}</p>
+                        <span className="dashboard-header-notification-time">{notification.time}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* User Menu */}
+          <div className="dashboard-header-user-menu" ref={userMenuRef}>
+            <button 
+              className="dashboard-header-avatar"
+              onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+            >
+              <User size={20} color="white" />
+              <ChevronDown size={14} color="white" />
+            </button>
+            
+            {isUserMenuOpen && (
+              <div className="dashboard-header-dropdown">
+                <div className="dashboard-header-dropdown-header">
+                  <div className="dashboard-header-user-info">
+                    <div className="dashboard-header-user-avatar">
+                      <User size={16} color="white" />
+                    </div>
+                    <div>
+                      <p className="dashboard-header-user-name">Trade Partner</p>
+                      <p className="dashboard-header-user-email">partner@cargotrace.com</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="dashboard-header-dropdown-divider"></div>
+                
+                <div className="dashboard-header-dropdown-item">
+                  <User size={16} />
+                  <span>Profile</span>
+                </div>
+                
+                <div className="dashboard-header-dropdown-item">
+                  <Settings size={16} />
+                  <span>Settings</span>
+                </div>
+                
+                <div className="dashboard-header-dropdown-item">
+                  <Activity size={16} />
+                  <span>Activity Log</span>
+                </div>
+                
+                <div className="dashboard-header-dropdown-divider"></div>
+                
+                <div className="dashboard-header-dropdown-item" onClick={handleLogout}>
+                  <LogOut size={16} />
+                  <span>Logout</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </header>
+    </div>
   );
 };
 

@@ -1,433 +1,448 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Filter, Upload, FileText, Eye } from 'lucide-react';
-import backendService from '../../services/backendService';
+import React, { useState } from 'react';
+import { 
+  FileText, 
+  Upload, 
+  Search, 
+  Download, 
+  CheckCircle, 
+  Clock, 
+  AlertCircle, 
+  BarChart3, 
+  TrendingUp, 
+  Shield, 
+  Eye,
+  Edit,
+  Trash2,
+  Plus,
+  Filter,
+  Calendar,
+  Building2,
+  Globe
+} from 'lucide-react';
 
 const DashboardDocuments = () => {
-  const [isHovered, setIsHovered] = useState(null);
-  const [documents, setDocuments] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    acidNumber: '',
-    ethereumTxHash: '',
-    valueUsd: ''
-  });
-  const [message, setMessage] = useState({ type: '', text: '' });
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [documentType, setDocumentType] = useState('');
+  const [description, setDescription] = useState('');
 
-  // Load documents on component mount
-  useEffect(() => {
-    loadDocuments();
-  }, []);
-
-  const loadDocuments = async () => {
-    try {
-      setLoading(true);
-      const docs = await backendService.getMyDocuments();
-      setDocuments(docs);
-    } catch (error) {
-      console.error('Failed to load documents:', error);
-      setMessage({ type: 'error', text: 'Failed to load documents' });
-    } finally {
-      setLoading(false);
+  // Focused document data
+  const mockDocuments = [
+    {
+      id: 'CX-2024-001',
+      acid: 'ACID-EG-2024-789456',
+      type: 'Bill of Lading',
+      description: 'Electronics shipment from China - Samsung Electronics',
+      value: '$125,000',
+      status: 'verified',
+      date: '2024-01-15',
+      nftId: 'NFT-ICP-001',
+      cargoDetails: 'Electronics, 500 units',
+      origin: 'China',
+      destination: 'Egypt',
+      shipper: 'Samsung Electronics Co.',
+      consignee: 'TechTrade Egypt'
+    },
+    {
+      id: 'CX-2024-002',
+      acid: 'ACID-EG-2024-789457',
+      type: 'Commercial Invoice',
+      description: 'Textile imports from Turkey - Cotton fabrics',
+      value: '$89,500',
+      status: 'pending',
+      date: '2024-01-14',
+      nftId: null,
+      cargoDetails: 'Cotton fabrics, 2000 kg',
+      origin: 'Turkey',
+      destination: 'Egypt',
+      shipper: 'Turkish Textiles Ltd.',
+      consignee: 'Egyptian Garments Co.'
+    },
+    {
+      id: 'CX-2024-003',
+      acid: 'ACID-EG-2024-789458',
+      type: 'Certificate of Origin',
+      description: 'Agricultural products from Kenya - Coffee beans',
+      value: '$67,200',
+      status: 'nft-minted',
+      date: '2024-01-13',
+      nftId: 'NFT-ICP-002',
+      cargoDetails: 'Coffee beans, 1500 kg',
+      origin: 'Kenya',
+      destination: 'Egypt',
+      shipper: 'Kenya Coffee Exporters',
+      consignee: 'Cairo Coffee Roasters'
+    },
+    {
+      id: 'CX-2024-004',
+      acid: 'ACID-EG-2024-789459',
+      type: 'Packing List',
+      description: 'Machinery parts from Germany - Industrial equipment',
+      value: '$234,000',
+      status: 'rejected',
+      date: '2024-01-12',
+      nftId: null,
+      cargoDetails: 'Industrial machinery parts',
+      origin: 'Germany',
+      destination: 'Egypt',
+      shipper: 'German Industrial GmbH',
+      consignee: 'Egyptian Manufacturing Co.'
+    },
+    {
+      id: 'CX-2024-005',
+      acid: 'ACID-EG-2024-789460',
+      type: 'Bill of Lading',
+      description: 'Pharmaceuticals from Switzerland - Medical supplies',
+      value: '$156,800',
+      status: 'verified',
+      date: '2024-01-11',
+      nftId: 'NFT-ICP-003',
+      cargoDetails: 'Pharmaceuticals, temperature controlled',
+      origin: 'Switzerland',
+      destination: 'Egypt',
+      shipper: 'Swiss Pharma AG',
+      consignee: 'Egyptian Healthcare Ltd.'
     }
+  ];
+
+  const documentStats = {
+    total: mockDocuments.length,
+    pending: mockDocuments.filter(doc => doc.status === 'pending').length,
+    verified: mockDocuments.filter(doc => doc.status === 'verified').length,
+    nftMinted: mockDocuments.filter(doc => doc.status === 'nft-minted').length,
+    rejected: mockDocuments.filter(doc => doc.status === 'rejected').length,
+    totalValue: mockDocuments.reduce((sum, doc) => sum + parseFloat(doc.value.replace('$', '').replace(',', '')), 0)
   };
 
-  const handleInputChange = (field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-
-  const handleSubmitDocument = async () => {
-    try {
-      setLoading(true);
-      setMessage({ type: '', text: '' });
-
-      // Validate inputs
-      if (!formData.acidNumber || !formData.ethereumTxHash || !formData.valueUsd) {
-        setMessage({ type: 'error', text: 'Please fill in all fields' });
-        return;
-      }
-
-      const valueUsd = parseInt(formData.valueUsd);
-      if (isNaN(valueUsd) || valueUsd <= 0) {
-        setMessage({ type: 'error', text: 'Please enter a valid value' });
-        return;
-      }
-
-      // Submit document
-      const result = await backendService.submitDocument(
-        formData.acidNumber,
-        formData.ethereumTxHash,
-        valueUsd
-      );
-
-      if (result.Ok) {
-        setMessage({ type: 'success', text: `Document submitted successfully! ID: ${result.Ok}` });
-        setFormData({ acidNumber: '', ethereumTxHash: '', valueUsd: '' });
-        loadDocuments(); // Reload documents
-      } else {
-        setMessage({ type: 'error', text: result.Err || 'Failed to submit document' });
-      }
-    } catch (error) {
-      console.error('Failed to submit document:', error);
-      setMessage({ type: 'error', text: 'Failed to submit document' });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleApproveDocument = async (documentId) => {
-    try {
-      setLoading(true);
-      const result = await backendService.approveDocument(documentId);
-      
-      if (result.Ok !== undefined) {
-        setMessage({ type: 'success', text: 'Document approved and NFT minted!' });
-        loadDocuments(); // Reload documents
-      } else {
-        setMessage({ type: 'error', text: result.Err || 'Failed to approve document' });
-      }
-    } catch (error) {
-      console.error('Failed to approve document:', error);
-      setMessage({ type: 'error', text: 'Failed to approve document' });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getStatusDisplay = (status) => {
-    if (status.Pending) return 'Pending';
-    if (status.Verified) return 'Verified';
-    if (status.Rejected) return 'Rejected';
-    if (status.NftMinted) return 'NFT Minted';
-    return 'Unknown';
-  };
+  const documentTypes = [
+    'Bill of Lading',
+    'Commercial Invoice',
+    'Certificate of Origin',
+    'Packing List',
+    'Customs Declaration',
+    'Insurance Certificate',
+    'Phytosanitary Certificate',
+    'Fumigation Certificate'
+  ];
 
   const getStatusColor = (status) => {
-    if (status.NftMinted) return '#064e3b';
-    if (status.Verified) return '#065f46';
-    if (status.Pending) return '#713f12';
-    if (status.Rejected) return '#7f1d1d';
-    return '#4b5563';
+    switch (status) {
+      case 'verified': return 'success';
+      case 'pending': return 'pending';
+      case 'nft-minted': return 'nft-minted';
+      case 'rejected': return 'rejected';
+      default: return 'pending';
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'verified': return CheckCircle;
+      case 'pending': return Clock;
+      case 'nft-minted': return Shield;
+      case 'rejected': return AlertCircle;
+      default: return Clock;
+    }
+  };
+
+  const filteredDocuments = mockDocuments.filter(document => {
+    const matchesSearch = document.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         document.acid.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         document.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = filterStatus === 'all' || document.status === filterStatus;
+    return matchesSearch && matchesStatus;
+  });
+
+  const handleSubmitDocument = (e) => {
+    e.preventDefault();
+    console.log('Submitting document:', { documentType, description });
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', fontFamily: '"Inter", sans-serif', backgroundColor: '#1f2937', padding: '2rem' }}>
-      {/* Message Display */}
-      {message.text && (
-        <div style={{
-          padding: '1rem',
-          borderRadius: '0.75rem',
-          backgroundColor: message.type === 'success' ? '#064e3b' : '#7f1d1d',
-          color: '#ffffff',
-          border: '1px solid',
-          borderColor: message.type === 'success' ? '#10b981' : '#ef4444'
-        }}>
-          {message.text}
+    <div className="dashboard-documents-container">
+      {/* Document Statistics */}
+      <div className="dashboard-section">
+        <div className="dashboard-section-header">
+          <h2 className="dashboard-section-title">
+            <BarChart3 className="dashboard-section-icon" />
+            Document Overview
+          </h2>
         </div>
-      )}
+        <div className="dashboard-stats-grid">
+          <div className="dashboard-stat-card">
+            <div className="dashboard-stat-header">
+              <div className="dashboard-stat-icon documents">
+                <FileText size={24} color="white" />
+              </div>
+              <div className="dashboard-stat-trend">
+                <TrendingUp size={16} />
+                <span className="dashboard-stat-percentage">+15.2%</span>
+              </div>
+            </div>
+            <div className="dashboard-stat-value">{documentStats.total}</div>
+            <div className="dashboard-stat-label">Total Documents</div>
+            <div className="dashboard-stat-description">CargoX documents processed</div>
+          </div>
 
-      {/* Action Bar */}
-      <div style={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        gap: '1rem', 
-        '@media (min-width: 768px)': { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' } 
-      }}>
-        <div style={{ position: 'relative', width: '100%', maxWidth: '20rem' }}>
-          <Search style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: '#d1d5db', width: '1rem', height: '1rem' }} />
-          <input
-            type="text"
-            placeholder="Search documents..."
-            style={{ 
-              width: '100%', 
-              padding: '0.75rem 1rem 0.75rem 2.5rem', 
-              border: '1px solid #4b5563', 
-              borderRadius: '0.75rem', 
-              backgroundColor: '#374151', 
-              fontSize: '0.875rem',
-              color: '#d1d5db',
-              transition: 'all 0.3s ease'
-            }}
-            onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #7c3aed'}
-            onBlur={(e) => e.target.style.boxShadow = 'none'}
-          />
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <button style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '0.5rem', 
-            padding: '0.75rem 1rem', 
-            color: '#d1d5db', 
-            backgroundColor: '#374151', 
-            border: '1px solid #4b5563', 
-            borderRadius: '0.75rem', 
-            fontWeight: '500',
-            transition: 'all 0.3s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.transform = 'translateY(-2px)';
-            e.target.style.backgroundColor = '#4b5563';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.transform = 'translateY(0)';
-            e.target.style.backgroundColor = '#374151';
-          }}>
-            <Filter style={{ width: '1rem', height: '1rem' }} />
-            Filter
-          </button>
-          <button 
-            onClick={loadDocuments}
-            disabled={loading}
-            style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '0.5rem', 
-              padding: '0.75rem 1.5rem', 
-              backgroundColor: '#7c3aed', 
-              color: '#ffffff', 
-              borderRadius: '0.75rem', 
-              fontWeight: '500',
-              transition: 'all 0.3s ease',
-              opacity: loading ? 0.6 : 1,
-              cursor: loading ? 'not-allowed' : 'pointer'
-            }}
-            onMouseEnter={(e) => {
-              if (!loading) {
-                e.target.style.backgroundColor = '#6d28d9';
-                e.target.style.transform = 'translateY(-2px)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (!loading) {
-                e.target.style.backgroundColor = '#7c3aed';
-                e.target.style.transform = 'translateY(0)';
-              }
-            }}>
-            <Upload style={{ width: '1rem', height: '1rem' }} />
-            {loading ? 'Loading...' : 'Refresh'}
-          </button>
+          <div className="dashboard-stat-card">
+            <div className="dashboard-stat-icon nfts">
+              <Shield size={24} color="white" />
+            </div>
+            <div className="dashboard-stat-trend">
+              <TrendingUp size={16} />
+              <span className="dashboard-stat-percentage">+22.1%</span>
+            </div>
+            <div className="dashboard-stat-value">{documentStats.nftMinted}</div>
+            <div className="dashboard-stat-label">NFTs Minted</div>
+            <div className="dashboard-stat-description">ICP blockchain NFTs</div>
+          </div>
+
+          <div className="dashboard-stat-card">
+            <div className="dashboard-stat-header">
+              <div className="dashboard-stat-icon loans">
+                <Building2 size={24} color="white" />
+              </div>
+              <div className="dashboard-stat-trend">
+                <TrendingUp size={16} />
+                <span className="dashboard-stat-percentage">+8.7%</span>
+              </div>
+            </div>
+            <div className="dashboard-stat-value">${(documentStats.totalValue / 1000000).toFixed(1)}M</div>
+            <div className="dashboard-stat-label">Total Value</div>
+            <div className="dashboard-stat-description">Document cargo value</div>
+          </div>
+
+          <div className="dashboard-stat-card">
+            <div className="dashboard-stat-header">
+              <div className="dashboard-stat-icon fusion">
+                <Globe size={24} color="white" />
+              </div>
+              <div className="dashboard-stat-trend">
+                <TrendingUp size={16} />
+                <span className="dashboard-stat-percentage">99.9%</span>
+              </div>
+            </div>
+            <div className="dashboard-stat-value">{documentStats.verified}</div>
+            <div className="dashboard-stat-label">Verified</div>
+            <div className="dashboard-stat-description">NAFEZA verified documents</div>
+          </div>
         </div>
       </div>
 
-      {/* Upload Section */}
-      <div style={{ backgroundColor: '#374151', borderRadius: '1rem', boxShadow: '0 4px 12px rgba(0,0,0,0.3)', border: '1px solid #4b5563', padding: '2rem' }}>
-        <div style={{ maxWidth: '48rem' }}>
-          <h3 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#ffffff', marginBottom: '0.5rem', letterSpacing: '-0.025em' }}>Submit New Document</h3>
-          <p style={{ color: '#d1d5db', marginBottom: '1.5rem', fontSize: '0.875rem' }}>Submit trade documents to initiate verification and NFT minting</p>
-          
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: '#d1d5db', marginBottom: '0.5rem' }}>ACID Number *</label>
-              <input
-                type="text"
-                placeholder="Enter ACID number (9 digits)"
-                value={formData.acidNumber}
-                onChange={(e) => handleInputChange('acidNumber', e.target.value)}
-                style={{ 
-                  width: '100%', 
-                  padding: '0.75rem 1rem', 
-                  border: '1px solid #4b5563', 
-                  borderRadius: '0.75rem', 
-                  backgroundColor: '#4b5563', 
-                  fontSize: '0.875rem',
-                  color: '#ffffff',
-                  transition: 'all 0.3s ease'
-                }}
-                onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #7c3aed'}
-                onBlur={(e) => e.target.style.boxShadow = 'none'}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: '#d1d5db', marginBottom: '0.5rem' }}>Ethereum TX Hash *</label>
-              <input
-                type="text"
-                placeholder="0x..."
-                value={formData.ethereumTxHash}
-                onChange={(e) => handleInputChange('ethereumTxHash', e.target.value)}
-                style={{ 
-                  width: '100%', 
-                  padding: '0.75rem 1rem', 
-                  border: '1px solid #4b5563', 
-                  borderRadius: '0.75rem', 
-                  backgroundColor: '#4b5563', 
-                  fontSize: '0.875rem',
-                  fontFamily: 'monospace',
-                  color: '#ffffff',
-                  transition: 'all 0.3s ease'
-                }}
-                onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #7c3aed'}
-                onBlur={(e) => e.target.style.boxShadow = 'none'}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: '#d1d5db', marginBottom: '0.5rem' }}>Value (USD) *</label>
-              <input
-                type="number"
-                placeholder="50000"
-                value={formData.valueUsd}
-                onChange={(e) => handleInputChange('valueUsd', e.target.value)}
-                style={{ 
-                  width: '100%', 
-                  padding: '0.75rem 1rem', 
-                  border: '1px solid #4b5563', 
-                  borderRadius: '0.75rem', 
-                  backgroundColor: '#4b5563', 
-                  fontSize: '0.875rem',
-                  color: '#ffffff',
-                  transition: 'all 0.3s ease'
-                }}
-                onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #7c3aed'}
-                onBlur={(e) => e.target.style.boxShadow = 'none'}
-              />
-            </div>
+      {/* Document Submission Form */}
+      <div className="dashboard-section">
+        <div className="dashboard-section-header">
+          <h2 className="dashboard-section-title">
+            <Upload className="dashboard-section-icon" />
+            Submit New Document
+          </h2>
+        </div>
+        <form onSubmit={handleSubmitDocument} className="dashboard-form-grid">
+          <div className="dashboard-form-field">
+            <label className="dashboard-form-label">Document Type</label>
+            <select 
+              value={documentType} 
+              onChange={(e) => setDocumentType(e.target.value)}
+              className="dashboard-form-input"
+              required
+            >
+              <option value="">Select document type</option>
+              {documentTypes.map(type => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
           </div>
           
-          <button 
-            onClick={handleSubmitDocument}
-            disabled={loading}
-            style={{ 
-              backgroundColor: '#7c3aed', 
-              color: '#ffffff', 
-              padding: '1rem 2rem', 
-              borderRadius: '0.75rem', 
-              fontWeight: '600', 
-              fontSize: '0.875rem',
-              transition: 'all 0.3s ease',
-              opacity: loading ? 0.6 : 1,
-              cursor: loading ? 'not-allowed' : 'pointer'
-            }}
-            onMouseEnter={(e) => {
-              if (!loading) {
-                e.target.style.backgroundColor = '#6d28d9';
-                e.target.style.transform = 'translateY(-2px)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (!loading) {
-                e.target.style.backgroundColor = '#7c3aed';
-                e.target.style.transform = 'translateY(0)';
-              }
-            }}>
-            {loading ? 'Submitting...' : 'Submit Document'}
-          </button>
-        </div>
+          <div className="dashboard-form-field">
+            <label className="dashboard-form-label">Cargo Description</label>
+            <input
+              type="text"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="dashboard-form-input"
+              placeholder="Describe the cargo contents..."
+              required
+            />
+          </div>
+          
+          <div className="dashboard-form-field">
+            <label className="dashboard-form-label">CargoX Document ID</label>
+            <input
+              type="text"
+              className="dashboard-form-input monospace"
+              placeholder="0x1234...abcd"
+              required
+            />
+          </div>
+          
+          <div className="dashboard-form-field">
+            <label className="dashboard-form-label">ACID Number</label>
+            <input
+              type="text"
+              className="dashboard-form-input monospace"
+              placeholder="ACID-EG-2024-XXXXXX"
+              required
+            />
+          </div>
+          
+          <div className="dashboard-form-field">
+            <label className="dashboard-form-label">Cargo Value (USD)</label>
+            <input
+              type="number"
+              className="dashboard-form-input"
+              placeholder="125000"
+              required
+            />
+          </div>
+          
+          <div className="dashboard-form-field">
+            <label className="dashboard-form-label">Origin Country</label>
+            <input
+              type="text"
+              className="dashboard-form-input"
+              placeholder="China"
+              required
+            />
+          </div>
+          
+          <div className="dashboard-form-field">
+            <label className="dashboard-form-label">Destination</label>
+            <input
+              type="text"
+              className="dashboard-form-input"
+              placeholder="Egypt"
+              required
+            />
+          </div>
+          
+          <div className="dashboard-form-field">
+            <label className="dashboard-form-label">Shipper</label>
+            <input
+              type="text"
+              className="dashboard-form-input"
+              placeholder="Company name"
+              required
+            />
+          </div>
+        </form>
+        <button type="submit" className="dashboard-submit-button">
+          <Upload size={16} />
+          Submit Document for Verification
+        </button>
       </div>
 
-      {/* Documents Table */}
-      <div style={{ backgroundColor: '#374151', borderRadius: '1rem', boxShadow: '0 4px 12px rgba(0,0,0,0.3)', border: '1px solid #4b5563', overflow: 'hidden' }}>
-        <div style={{ padding: '2rem', borderBottom: '1px solid #4b5563' }}>
-          <h3 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#ffffff', letterSpacing: '-0.025em' }}>Document Transfer Status</h3>
+      {/* Document Management */}
+      <div className="dashboard-section">
+        <div className="dashboard-section-header">
+          <h2 className="dashboard-section-title">
+            <FileText className="dashboard-section-icon" />
+            Document Management
+          </h2>
+          <div className="dashboard-section-actions">
+            <span className="dashboard-section-count">{filteredDocuments.length} documents</span>
+            <button className="dashboard-section-action">
+              <Download size={16} />
+              Export Data
+            </button>
+          </div>
         </div>
-        <div style={{ overflowX: 'auto' }}>
-          {loading ? (
-            <div style={{ padding: '2rem', textAlign: 'center', color: '#d1d5db' }}>
-              Loading documents...
-            </div>
-          ) : documents.length === 0 ? (
-            <div style={{ padding: '2rem', textAlign: 'center', color: '#d1d5db' }}>
-              No documents found. Submit your first document above.
-            </div>
-          ) : (
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead style={{ backgroundColor: '#4b5563' }}>
-                <tr>
-                  {['Document ID', 'ACID Number', 'Value', 'Status', 'Date', 'Actions'].map((header, index) => (
-                    <th key={index} style={{ textAlign: 'left', padding: '1rem 1.5rem', fontWeight: '600', color: '#d1d5db', fontSize: '0.875rem' }}>{header}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody style={{ borderTop: '1px solid #4b5563' }}>
-                {documents.map((document, index) => (
-                  <tr 
-                    key={index} 
-                    style={{ cursor: 'pointer' }}
-                    onMouseEnter={() => setIsHovered(`table-${index}`)}
-                    onMouseLeave={() => setIsHovered(null)}>
-                    <td style={{ padding: '1rem 1.5rem', backgroundColor: isHovered === `table-${index}` ? '#4b5563' : '#374151' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        <div style={{ 
-                          width: '2rem', 
-                          height: '2rem', 
-                          background: 'linear-gradient(135deg, #7c3aed, #5b21b6)', 
-                          borderRadius: '0.5rem', 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          justifyContent: 'center' 
-                        }}>
-                          <FileText style={{ width: '1rem', height: '1rem', color: '#ffffff' }} />
+
+        {/* Search and Filter */}
+        <div className="dashboard-action-bar">
+          <div className="dashboard-search-container">
+            <Search className="dashboard-search-icon" />
+            <input
+              type="text"
+              placeholder="Search by ID, ACID, or description..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="dashboard-search-input"
+            />
+          </div>
+          <div className="dashboard-action-buttons">
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="dashboard-action-button secondary"
+            >
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="verified">Verified</option>
+              <option value="nft-minted">NFT Minted</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Documents Table */}
+        <div className="dashboard-table-container">
+          <table className="dashboard-table">
+            <thead>
+              <tr>
+                <th>Document Info</th>
+                <th>Type</th>
+                <th>ACID Number</th>
+                <th>Value</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredDocuments.map((document) => {
+                const StatusIcon = getStatusIcon(document.status);
+                return (
+                  <tr key={document.id} className="dashboard-table-row">
+                    <td>
+                      <div className="dashboard-document-info">
+                        <div className="dashboard-document-icon">
+                          <FileText size={16} color="white" />
                         </div>
-                        <span style={{ fontWeight: '500', color: '#ffffff', fontSize: '0.875rem' }}>{document.id}</span>
+                        <div>
+                          <div className="dashboard-document-id">{document.id}</div>
+                          <div className="dashboard-document-description">{document.description}</div>
+                        </div>
                       </div>
                     </td>
-                    <td style={{ padding: '1rem 1.5rem', color: '#d1d5db', fontFamily: 'monospace', fontSize: '0.875rem', backgroundColor: isHovered === `table-${index}` ? '#4b5563' : '#374151' }}>{document.acid_number}</td>
-                    <td style={{ padding: '1rem 1.5rem', fontWeight: '600', color: '#ffffff', fontSize: '0.875rem', backgroundColor: isHovered === `table-${index}` ? '#4b5563' : '#374151' }}>${document.value_usd.toLocaleString()}</td>
-                    <td style={{ padding: '1rem 1.5rem', backgroundColor: isHovered === `table-${index}` ? '#4b5563' : '#374151' }}>
-                      <span style={{ 
-                        display: 'inline-flex', 
-                        alignItems: 'center', 
-                        padding: '0.25rem 0.75rem', 
-                        borderRadius: '9999px', 
-                        fontSize: '0.75rem', 
-                        fontWeight: '500', 
-                        backgroundColor: getStatusColor(document.status), 
-                        color: '#ffffff',
-                        transition: 'transform 0.3s'
-                      }}>
-                        {getStatusDisplay(document.status)}
-                      </span>
+                    <td className="dashboard-table-cell">{document.type}</td>
+                    <td className="dashboard-table-cell monospace">{document.acid}</td>
+                    <td className="dashboard-table-cell value">{document.value}</td>
+                    <td>
+                      <div className="dashboard-status-container">
+                        <StatusIcon size={16} />
+                        <span className={`dashboard-status ${getStatusColor(document.status)}`}>
+                          {document.status.replace('-', ' ')}
+                        </span>
+                      </div>
                     </td>
-                    <td style={{ padding: '1rem 1.5rem', color: '#d1d5db', fontSize: '0.875rem', backgroundColor: isHovered === `table-${index}` ? '#4b5563' : '#374151' }}>
-                      {new Date(document.created_at).toLocaleDateString()}
-                    </td>
-                    <td style={{ padding: '1rem 1.5rem', textAlign: 'right', backgroundColor: isHovered === `table-${index}` ? '#4b5563' : '#374151' }}>
-                      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-                        <button style={{ 
-                          color: '#7c3aed', 
-                          fontWeight: '500', 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          gap: '0.25rem', 
-                          fontSize: '0.875rem',
-                          transition: 'color 0.3s'
-                        }}
-                        onMouseOver={(e) => e.target.style.color = '#6d28d9'}
-                        onMouseOut={(e) => e.target.style.color = '#7c3aed'}>
-                          <Eye style={{ width: '1rem', height: '1rem' }} />
-                          View
+                    <td className="dashboard-table-cell">{document.date}</td>
+                    <td className="dashboard-table-actions">
+                      <button className="dashboard-action-link">
+                        <Eye size={14} />
+                        View
+                      </button>
+                      {document.status === 'pending' && (
+                        <button className="dashboard-action-link approve">
+                          <CheckCircle size={14} />
+                          Approve
                         </button>
-                        {document.status.Pending && (
-                          <button 
-                            onClick={() => handleApproveDocument(document.id)}
-                            disabled={loading}
-                            style={{ 
-                              color: '#10b981', 
-                              fontWeight: '500', 
-                              display: 'flex', 
-                              alignItems: 'center', 
-                              gap: '0.25rem', 
-                              fontSize: '0.875rem',
-                              transition: 'color 0.3s',
-                              opacity: loading ? 0.6 : 1
-                            }}
-                            onMouseOver={(e) => {
-                              if (!loading) e.target.style.color = '#059669';
-                            }}
-                            onMouseOut={(e) => {
-                              if (!loading) e.target.style.color = '#10b981';
-                            }}>
-                            Approve
-                          </button>
-                        )}
-                      </div>
+                      )}
+                      {document.status === 'nft-minted' && (
+                        <button className="dashboard-action-link">
+                          <Download size={14} />
+                          Download NFT
+                        </button>
+                      )}
+                      <button className="dashboard-action-link">
+                        <Edit size={14} />
+                        Edit
+                      </button>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

@@ -1,229 +1,296 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
-  FileText, 
-  DollarSign, 
-  TrendingUp, 
-  Wallet, 
-  ArrowUpRight 
+  Activity, 
+  Shield, 
+  Globe, 
+  Clock, 
+  CheckCircle, 
+  BarChart3, 
+  TrendingUp,
+  DollarSign,
+  FileText,
+  Network,
+  Target,
+  ArrowUpRight
 } from 'lucide-react';
 
 const DashboardHome = () => {
-  const [isHovered, setIsHovered] = useState(null);
-
-  const documentTransfers = [
-    { id: '0x1234...abcd', acid: '123456789', status: 'Transferred', date: '2024-08-01', value: '$45,000' },
-    { id: '0xabcd...5678', acid: '987654321', status: 'In Progress', date: '2024-08-02', value: '$32,500' },
-    { id: '0x5678...efgh', acid: '456766123', status: 'Transferred', date: '2024-08-03', value: '$58,750' }
+  // Simplified and focused data for overview
+  const keyMetrics = [
+    {
+      id: 1,
+      title: 'Total Documents',
+      value: '1,247',
+      change: '+12.5%',
+      icon: FileText,
+      color: 'documents',
+      description: 'CargoX documents processed'
+    },
+    {
+      id: 2,
+      title: 'Active Loans',
+      value: '$2.4M',
+      change: '+8.3%',
+      icon: DollarSign,
+      color: 'loans',
+      description: 'ICRC-1 stable tokens issued'
+    },
+    {
+      id: 3,
+      title: 'NFTs Minted',
+      value: '892',
+      change: '+15.2%',
+      icon: Shield,
+      color: 'nfts',
+      description: 'ICP blockchain NFTs'
+    },
+    {
+      id: 4,
+      title: 'System Uptime',
+      value: '99.9%',
+      change: '+0.1%',
+      icon: Network,
+      color: 'fusion',
+      description: 'Chain Fusion bridge status'
+    }
   ];
 
-  const pendingLoans = [
-    { docId: 'ABCD...1234', amount: '$50,000', date: '2024-08-01', status: 'Pending', apr: '4.5%' },
-    { docId: 'EFGH...5678', amount: '$75,000', date: '2024-08-02', status: 'Approved', apr: '3.8%' }
+  const recentActivity = [
+    {
+      id: 1,
+      type: 'document',
+      title: 'New CargoX document verified',
+      description: 'Electronics shipment from China',
+      time: '2 min ago',
+      status: 'success'
+    },
+    {
+      id: 2,
+      type: 'loan',
+      title: 'ICRC-1 loan approved',
+      description: '$100,000 for agricultural imports',
+      time: '5 min ago',
+      status: 'success'
+    },
+    {
+      id: 3,
+      type: 'nft',
+      title: 'NFT minted successfully',
+      description: 'Document NFT-ICP-001 created',
+      time: '10 min ago',
+      status: 'success'
+    },
+    {
+      id: 4,
+      type: 'payment',
+      title: 'Repayment received',
+      description: '$25,000 payment processed',
+      time: '15 min ago',
+      status: 'success'
+    }
   ];
 
-  const statsCards = [
-    { title: 'ICP Balance', value: '10.248 ICP', change: '+2.4% from last week', icon: Wallet, gradient: 'linear-gradient(135deg, #7c3aed, #5b21b6)', changeColor: '#10b981', hoverColor: '#6d28d9' },
-    { title: 'Active Documents', value: '12', change: '3 processed today', icon: FileText, gradient: 'linear-gradient(135deg, #10b981, #047857)', changeColor: '#10b981', hoverColor: '#059669' },
-    { title: 'Total Loans', value: '$185,000', change: '$45k repaid', icon: DollarSign, gradient: 'linear-gradient(135deg, #f97316, #ea580c)', changeColor: '#f97316', hoverColor: '#ea580c' },
-    { title: 'Credit Score', value: '850', change: 'Excellent rating', icon: TrendingUp, gradient: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', changeColor: '#8b5cf6', hoverColor: '#7c3aed' }
+  const systemHealth = [
+    {
+      name: 'CargoX Integration',
+      status: 'online',
+      uptime: '99.98%'
+    },
+    {
+      name: 'NAFEZA System',
+      status: 'online',
+      uptime: '99.95%'
+    },
+    {
+      name: 'ICP Blockchain',
+      status: 'online',
+      uptime: '99.99%'
+    },
+    {
+      name: 'Chain Fusion Bridge',
+      status: 'online',
+      uptime: '99.97%'
+    }
   ];
+
+  const getStatusColor = (status) => {
+    return status === 'online' ? '#10b981' : '#ef4444';
+  };
+
+  const getActivityIcon = (type) => {
+    switch (type) {
+      case 'document': return FileText;
+      case 'loan': return DollarSign;
+      case 'nft': return Shield;
+      case 'payment': return CheckCircle;
+      default: return Activity;
+    }
+  };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', fontFamily: '"Inter", sans-serif', backgroundColor: '#1f2937', padding: '2rem' }}>
-      {/* Welcome Section */}
-      <div style={{ 
-        background: 'linear-gradient(135deg, #4c1d95, #6b21a8)', 
-        borderRadius: '1rem', 
-        padding: '2.5rem', 
-        color: '#ffffff', 
-        position: 'relative', 
-        overflow: 'hidden',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-        transition: 'transform 0.3s ease'
-      }}
-      onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
-      onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at top right, rgba(255, 255, 255, 0.05), transparent)' }}></div>
-        <div style={{ position: 'relative', zIndex: 10 }}>
-          <h1 style={{ fontSize: '2rem', fontWeight: '700', marginBottom: '0.75rem', letterSpacing: '-0.025em' }}>Welcome back, User</h1>
-          <p style={{ fontSize: '1.125rem', color: '#d1d5db', opacity: 0.9, marginBottom: '1.5rem' }}>Your trade finance portfolio is thriving</p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <div style={{ width: '0.75rem', height: '0.75rem', backgroundColor: '#10b981', borderRadius: '50%', animation: 'pulse 2s infinite' }}></div>
-              <span style={{ fontSize: '0.875rem', color: '#d1d5db' }}>All systems operational</span>
+    <div className="dashboard-home-container">
+      {/* Welcome Header */}
+      <div className="dashboard-welcome-header">
+        <div className="dashboard-welcome-content">
+          <h1>Welcome to CargoTrace Finance</h1>
+          <p>Your DeFi + TradeTech platform for seamless trade finance in Egypt and MENA</p>
+          <div className="dashboard-welcome-badges">
+            <div className="dashboard-welcome-badge">
+              <Activity size={16} />
+              <span>Chain Fusion Active</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <TrendingUp style={{ width: '1.25rem', height: '1.25rem', color: '#10b981' }} />
-              <span style={{ fontSize: '0.875rem', color: '#d1d5db' }}>+12.5% this month</span>
+            <div className="dashboard-welcome-badge">
+              <TrendingUp size={16} />
+              <span>Portfolio +12.5%</span>
+            </div>
+            <div className="dashboard-welcome-badge">
+              <Shield size={16} />
+              <span>NAFEZA Connected</span>
             </div>
           </div>
         </div>
-        <div style={{ position: 'absolute', right: '0', top: '0', width: '12rem', height: '12rem', background: 'radial-gradient(circle, rgba(255, 255, 255, 0.05), transparent)', borderRadius: '50%', transform: 'translate(50%, -50%)' }}></div>
       </div>
 
-      {/* Stats Cards */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-        gap: '1.5rem' 
-      }}>
-        {statsCards.map((card, index) => (
-          <div 
-            key={index}
-            style={{ 
-              backgroundColor: '#374151', 
-              borderRadius: '1rem', 
-              boxShadow: '0 4px 12px rgba(0,0,0,0.3)', 
-              border: '1px solid #4b5563', 
-              padding: '1.5rem', 
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-6px)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-              <div style={{ 
-                width: '3.5rem', 
-                height: '3.5rem', 
-                background: card.gradient, 
-                borderRadius: '0.75rem', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
-              }}>
-                <card.icon style={{ width: '1.75rem', height: '1.75rem', color: '#ffffff' }} />
-              </div>
-              <ArrowUpRight style={{ width: '1.25rem', height: '1.25rem', color: '#d1d5db', cursor: 'pointer', transition: 'color 0.3s' }} 
-                onMouseOver={(e) => e.target.style.color = card.hoverColor}
-                onMouseOut={(e) => e.target.style.color = '#d1d5db'} />
-            </div>
-            <div>
-              <p style={{ fontSize: '0.875rem', fontWeight: '600', color: '#d1d5db', marginBottom: '0.25rem' }}>{card.title}</p>
-              <p style={{ fontSize: '1.75rem', fontWeight: '700', color: '#ffffff', letterSpacing: '-0.025em' }}>{card.value}</p>
-              <p style={{ fontSize: '0.875rem', color: card.changeColor, fontWeight: '500', marginTop: '0.25rem' }}>{card.change}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Recent Activity */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem', '@media (max-width: 1024px)': { gridTemplateColumns: '1fr' } }}>
-        <div style={{ backgroundColor: '#374151', borderRadius: '1rem', boxShadow: '0 4px 12px rgba(0,0,0,0.3)', border: '1px solid #4b5563', padding: '2rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#ffffff', letterSpacing: '-0.025em' }}>Recent Document Transfers</h3>
-            <button style={{ 
-              color: '#7c3aed', 
-              fontWeight: '500', 
-              fontSize: '0.875rem', 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '0.25rem', 
-              transition: 'color 0.3s'
-            }}
-            onMouseOver={(e) => e.target.style.color = '#6d28d9'}
-            onMouseOut={(e) => e.target.style.color = '#7c3aed'}>
-              View all
-              <ArrowUpRight style={{ width: '1rem', height: '1rem' }} />
-            </button>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {documentTransfers.map((transfer, index) => (
-              <div 
-                key={index} 
-                style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'space-between', 
-                  padding: '1rem', 
-                  backgroundColor: isHovered === index ? '#4b5563' : '#374151', 
-                  borderRadius: '0.75rem', 
-                  border: '1px solid #4b5563',
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer'
-                }}
-                onMouseEnter={() => setIsHovered(index)}
-                onMouseLeave={() => setIsHovered(null)}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  <div style={{ 
-                    width: '2.5rem', 
-                    height: '2.5rem', 
-                    background: 'linear-gradient(135deg, #7c3aed, #5b21b6)', 
-                    borderRadius: '0.5rem', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center' 
-                  }}>
-                    <FileText style={{ width: '1.25rem', height: '1.25rem', color: '#ffffff' }} />
+      {/* Key Metrics */}
+      <div className="dashboard-section">
+        <div className="dashboard-section-header">
+          <h2 className="dashboard-section-title">
+            <BarChart3 className="dashboard-section-icon" />
+            Platform Overview
+          </h2>
+        </div>
+        <div className="dashboard-stats-grid">
+          {keyMetrics.map((metric) => {
+            const IconComponent = metric.icon;
+            return (
+              <div key={metric.id} className="dashboard-stat-card">
+                <div className="dashboard-stat-header">
+                  <div className={`dashboard-stat-icon ${metric.color}`}>
+                    <IconComponent size={24} color="white" />
                   </div>
-                  <div>
-                    <p style={{ fontWeight: '600', color: '#ffffff', fontSize: '0.875rem' }}>{transfer.id}</p>
-                    <p style={{ fontSize: '0.75rem', color: '#d1d5db', fontFamily: 'monospace' }}>ACID: {transfer.acid}</p>
+                  <div className="dashboard-stat-trend">
+                    <TrendingUp size={16} />
+                    <span className="dashboard-stat-percentage">{metric.change}</span>
                   </div>
                 </div>
-                <div style={{ textAlign: 'right' }}>
-                  <p style={{ fontWeight: '600', color: '#ffffff', marginBottom: '0.25rem' }}>{transfer.value}</p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <span style={{ 
-                      display: 'inline-flex', 
-                      alignItems: 'center', 
-                      padding: '0.25rem 0.75rem', 
-                      borderRadius: '9999px', 
-                      fontSize: '0.75rem', 
-                      fontWeight: '500', 
-                      backgroundColor: transfer.status === 'Transferred' ? '#064e3b' : '#713f12', 
-                      color: '#ffffff',
-                      transition: 'transform 0.3s'
-                    }}>
-                      {transfer.status}
-                    </span>
+                <div className="dashboard-stat-value">{metric.value}</div>
+                <div className="dashboard-stat-label">{metric.title}</div>
+                <div className="dashboard-stat-description">{metric.description}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Main Content Grid */}
+      <div className="dashboard-main-grid">
+        {/* Recent Activity */}
+        <div className="dashboard-section dashboard-section-large">
+          <div className="dashboard-section-header">
+            <h2 className="dashboard-section-title">
+              <Activity className="dashboard-section-icon" />
+              Recent Activity
+            </h2>
+            <button className="dashboard-section-action">View All</button>
+          </div>
+          <div className="dashboard-activity-list">
+            {recentActivity.map((activity) => {
+              const ActivityIcon = getActivityIcon(activity.type);
+              return (
+                <div key={activity.id} className="dashboard-activity-item">
+                  <div className="dashboard-activity-icon">
+                    <ActivityIcon size={20} color="white" />
                   </div>
+                  <div className="dashboard-activity-content">
+                    <div className="dashboard-activity-title">{activity.title}</div>
+                    <div className="dashboard-activity-description">{activity.description}</div>
+                    <div className="dashboard-activity-time">{activity.time}</div>
+                  </div>
+                  <div className="dashboard-activity-status">
+                    <CheckCircle size={16} color="#10b981" />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* System Health */}
+        <div className="dashboard-section">
+          <div className="dashboard-section-header">
+            <h2 className="dashboard-section-title">
+              <Target className="dashboard-section-icon" />
+              System Health
+            </h2>
+          </div>
+          <div className="dashboard-system-health">
+            {systemHealth.map((system, index) => (
+              <div key={index} className="dashboard-system-item">
+                <div className="dashboard-system-info">
+                  <div className="dashboard-system-name">{system.name}</div>
+                  <div className="dashboard-system-uptime">{system.uptime}</div>
+                </div>
+                <div className="dashboard-system-status">
+                  <div
+                    className="dashboard-system-indicator"
+                    style={{ backgroundColor: getStatusColor(system.status) }}
+                  ></div>
+                  <span className="dashboard-system-status-text">{system.status}</span>
                 </div>
               </div>
             ))}
           </div>
         </div>
+      </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div style={{ backgroundColor: '#374151', borderRadius: '1rem', boxShadow: '0 4px 12px rgba(0,0,0,0.3)', border: '1px solid #4b5563', padding: '2rem' }}>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: '600', color: '#ffffff', marginBottom: '1.5rem', letterSpacing: '-0.025em' }}>Loan Overview</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {pendingLoans.slice(0, 2).map((loan, index) => (
-                <div 
-                  key={index} 
-                  style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'space-between', 
-                    padding: '0.75rem', 
-                    backgroundColor: isHovered === `loan-${index}` ? '#4b5563' : '#374151', 
-                    borderRadius: '0.75rem',
-                    border: '1px solid #4b5563',
-                    transition: 'all 0.3s ease',
-                    cursor: 'pointer'
-                  }}
-                  onMouseEnter={() => setIsHovered(`loan-${index}`)}
-                  onMouseLeave={() => setIsHovered(null)}>
-                  <div>
-                    <p style={{ fontWeight: '600', color: '#ffffff', fontSize: '0.875rem' }}>{loan.docId}</p>
-                    <p style={{ fontSize: '0.75rem', color: '#d1d5db' }}>{loan.amount} at {loan.apr}</p>
-                  </div>
-                  <span style={{ 
-                    display: 'inline-flex', 
-                    alignItems: 'center', 
-                    padding: '0.25rem 0.75rem', 
-                    borderRadius: '9999px', 
-                    fontSize: '0.75rem', 
-                    fontWeight: '500', 
-                    backgroundColor: loan.status === 'Approved' ? '#064e3b' : '#4c1d95', 
-                    color: '#ffffff',
-                    transition: 'transform 0.3s'
-                  }}>
-                    {loan.status}
-                  </span>
-                </div>
-              ))}
+      {/* Quick Actions */}
+      <div className="dashboard-section">
+        <div className="dashboard-section-header">
+          <h2 className="dashboard-section-title">
+            <ArrowUpRight className="dashboard-section-icon" />
+            Quick Actions
+          </h2>
+        </div>
+        <div className="dashboard-quick-actions-grid">
+          <button className="dashboard-quick-action-card">
+            <div className="dashboard-quick-action-icon blue">
+              <FileText size={24} color="white" />
             </div>
-          </div>
+            <div>
+              <div className="dashboard-quick-action-title">Upload Document</div>
+              <div className="dashboard-quick-action-description">Submit CargoX document for verification</div>
+            </div>
+          </button>
+          
+          <button className="dashboard-quick-action-card">
+            <div className="dashboard-quick-action-icon green">
+              <DollarSign size={24} color="white" />
+            </div>
+            <div>
+              <div className="dashboard-quick-action-title">Request Loan</div>
+              <div className="dashboard-quick-action-description">Apply for ICRC-1 stable token loan</div>
+            </div>
+          </button>
+          
+          <button className="dashboard-quick-action-card">
+            <div className="dashboard-quick-action-icon purple">
+              <Shield size={24} color="white" />
+            </div>
+            <div>
+              <div className="dashboard-quick-action-title">View NFTs</div>
+              <div className="dashboard-quick-action-description">Browse minted document NFTs</div>
+            </div>
+          </button>
+          
+          <button className="dashboard-quick-action-card">
+            <div className="dashboard-quick-action-icon orange">
+              <Network size={24} color="white" />
+            </div>
+            <div>
+              <div className="dashboard-quick-action-title">Monitor Bridge</div>
+              <div className="dashboard-quick-action-description">Check Chain Fusion status</div>
+            </div>
+          </button>
         </div>
       </div>
     </div>

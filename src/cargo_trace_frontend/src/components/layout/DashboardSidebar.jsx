@@ -1,113 +1,131 @@
 import React from 'react';
-import { Home, FileText, DollarSign, CreditCard, Ship, Wallet } from 'lucide-react';
+import {
+  Home,
+  FileText,
+  DollarSign,
+  CreditCard,
+  Wallet,
+  Menu,
+  Activity,
+  Shield,
+  Settings,
+  HelpCircle
+} from 'lucide-react';
 
-const DashboardSidebar = ({ activeTab, setActiveTab }) => {
+const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
   const sidebarItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: Home },
-    { id: 'documents', label: 'Documents', icon: FileText },
-    { id: 'loans', label: 'Loan Requests', icon: DollarSign },
-    { id: 'repayment', label: 'Repayments', icon: CreditCard },
+    {
+      id: 'dashboard',
+      label: 'Dashboard',
+      icon: Home,
+      badge: null
+    },
+    {
+      id: 'documents',
+      label: 'Documents',
+      icon: FileText,
+      badge: '12'
+    },
+    {
+      id: 'loans',
+      label: 'Loan Requests',
+      icon: DollarSign,
+      badge: '3'
+    },
+    {
+      id: 'repayment',
+      label: 'Repayment',
+      icon: CreditCard,
+      badge: null
+    }
   ];
 
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+  };
+
   return (
-    <div style={{ 
-      width: '18rem', 
-      backgroundColor: '#1f2937', 
-      display: 'flex', 
-      flexDirection: 'column', 
-      height: '100vh', 
-      position: 'sticky', 
-      top: 0 
-    }}>
+    <aside className={`dashboard-sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
       {/* Logo Section */}
-      <div style={{ padding: '2rem', borderBottom: '1px solid #4b5563' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <div style={{ 
-            width: '3rem', 
-            height: '3rem', 
-            background: 'linear-gradient(135deg, #7c3aed, #5b21b6)', 
-            borderRadius: '1rem', 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
-            boxShadow: '0 2px 8px rgba(0,0,0,0.3)' 
-          }}>
-            <Ship style={{ width: '1.75rem', height: '1.75rem', color: '#ffffff' }} />
+      <div className="sidebar-logo-section">
+        <div className="sidebar-logo-container">
+          <div className="sidebar-logo-icon">
+            <Shield className="w-6 h-6 text-white" />
           </div>
-          <div>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#ffffff', letterSpacing: '-0.025em' }}>CargoTrace</h1>
-            <p style={{ fontSize: '0.875rem', color: '#d1d5db', fontWeight: '500' }}>Trade Finance</p>
+          <div className="sidebar-logo-text">
+            <h1>CargoTrace</h1>
+            <p>Trade Finance</p>
           </div>
         </div>
+
+        {/* Live Status Indicator */}
+        <div className="sidebar-status-indicator">
+          <div className="sidebar-status-dot"></div>
+          <span className="sidebar-status-text">LIVE</span>
+        </div>
       </div>
-      
+
       {/* Navigation */}
-      <nav style={{ flex: 1, padding: '1.5rem' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          {sidebarItems.map((item) => (
+      <nav className="sidebar-nav">
+        {sidebarItems.map((item) => {
+          const Icon = item.icon;
+          return (
             <button
               key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              style={{ 
-                width: '100%', 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '1rem', 
-                padding: '1rem', 
-                borderRadius: '0.75rem', 
-                textAlign: 'left', 
-                transition: 'all 0.3s ease', 
-                backgroundColor: activeTab === item.id ? '#7c3aed' : 'transparent', 
-                color: activeTab === item.id ? '#ffffff' : '#d1d5db'
-              }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = activeTab === item.id ? '#6d28d9' : '#374151'}
-              onMouseLeave={(e) => e.target.style.backgroundColor = activeTab === item.id ? '#7c3aed' : 'transparent'}>
-              <item.icon style={{ 
-                width: '1.25rem', 
-                height: '1.25rem', 
-                transform: activeTab === item.id ? 'scale(1.1)' : 'none', 
-                transition: 'transform 0.3s', 
-                color: activeTab === item.id ? '#ffffff' : '#d1d5db' 
-              }} />
-              <span style={{ fontWeight: '500', fontSize: '0.875rem' }}>{item.label}</span>
+              className={`sidebar-nav-item ${activeTab === item.id ? 'active' : ''}`}
+              onClick={() => handleTabChange(item.id)}
+            >
+              <Icon className="sidebar-nav-icon" />
+              <span className="sidebar-nav-label">{item.label}</span>
+              {item.badge && (
+                <span className="sidebar-nav-badge">{item.badge}</span>
+              )}
             </button>
-          ))}
-        </div>
+          );
+        })}
       </nav>
-      
+
       {/* Wallet Section */}
-      <div style={{ padding: '1.5rem' }}>
-        <div style={{ 
-          background: 'linear-gradient(135deg, #4c1d95, #6b21a8)', 
-          border: '1px solid #6b21a8', 
-          borderRadius: '1rem', 
-          padding: '1.5rem',
-          transition: 'all 0.3s ease'
-        }}
-        onMouseEnter={(e) => e.target.style.transform = 'translateY(-4px)'}
-        onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-            <div style={{ 
-              width: '2.5rem', 
-              height: '2.5rem', 
-              backgroundColor: '#4c1d95', 
-              borderRadius: '0.75rem', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center' 
-            }}>
-              <Wallet style={{ width: '1.25rem', height: '1.25rem', color: '#e9d5ff' }} />
+      <div className="sidebar-wallet-section">
+        <div className="sidebar-wallet-card">
+          <div className="sidebar-wallet-header">
+            <div className="sidebar-wallet-icon">
+              <Wallet className="w-4 h-4 text-white" />
             </div>
-            <span style={{ fontWeight: '600', color: '#e9d5ff', fontSize: '0.875rem' }}>ICP Wallet</span>
+            <span className="sidebar-wallet-title">ICP Wallet</span>
           </div>
-          <p style={{ fontSize: '1.875rem', fontWeight: '700', color: '#ffffff', marginBottom: '0.25rem', letterSpacing: '-0.025em' }}>10.248 ICP</p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div style={{ width: '0.5rem', height: '0.5rem', backgroundColor: '#10b981', borderRadius: '50%', animation: 'pulse 2s infinite' }}></div>
-            <span style={{ fontSize: '0.875rem', color: '#e9d5ff', fontWeight: '500' }}>Connected</span>
+
+          <div className="sidebar-wallet-amount">10.248 ICP</div>
+
+          <div className="sidebar-wallet-status">
+            <div className="sidebar-wallet-indicator"></div>
+            <span className="sidebar-wallet-status-text">Connected</span>
+          </div>
+
+          <div className="sidebar-wallet-value">= $45,234 USD</div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="sidebar-footer">
+        <div className="sidebar-footer-actions">
+          <button className="sidebar-footer-action">
+            <Settings size={16} />
+            <span>Settings</span>
+          </button>
+          <button className="sidebar-footer-action">
+            <HelpCircle size={16} />
+            <span>Help</span>
+          </button>
+        </div>
+
+        <div className="sidebar-footer-info">
+          <div className="sidebar-footer-version">
+            <span>v2.1.0</span>
           </div>
         </div>
       </div>
-    </div>
+    </aside>
   );
 };
 
