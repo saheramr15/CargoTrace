@@ -4,6 +4,7 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
+import Admin from './pages/Admin';
 import DocumentVerification from './pages/DocumentVerification';
 import Login from './pages/Login';
 
@@ -23,7 +24,7 @@ const AppContent = () => {
   const location = useLocation();
   
   // Pages that should NOT show navbar and footer
-  const excludedPages = ['/dashboard', '/login'];
+  const excludedPages = ['/dashboard', '/admin', '/login'];
   const shouldShowLayout = !excludedPages.includes(location.pathname);
 
   useEffect(() => {
@@ -37,6 +38,7 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/verification" element={<DocumentVerification />} />
         <Route path="/login" element={<Login />} />
       </Routes>
