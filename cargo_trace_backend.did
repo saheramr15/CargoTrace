@@ -1,0 +1,62 @@
+type AcidValidation = record {
+  validation_date : nat64;
+  acid_number : text;
+  is_valid : bool;
+  customs_data : opt text;
+};
+type Document = record {
+  id : text;
+  status : DocumentStatus;
+  acid_number : text;
+  owner : principal;
+  created_at : nat64;
+  ethereum_tx_hash : text;
+  value_usd : nat64;
+};
+type DocumentStatus = variant { NftMinted; Rejected; Verified; Pending };
+type Loan = record {
+  id : text;
+  status : LoanStatus;
+  document_id : text;
+  repayment_date : nat64;
+  created_at : nat64;
+  borrower : principal;
+  interest_rate : float64;
+  amount : nat64;
+};
+type LoanStatus = variant { Repaid; Active; Approved; Defaulted; Pending };
+type Result = variant { Ok; Err : text };
+type Result_1 = variant { Ok : text; Err : text };
+type Result_2 = variant { Ok : bool; Err : text };
+type TransferPayload = record {
+  to : text;
+  token_id : text;
+  contract : text;
+  log_index : nat64;
+  from : text;
+  network : text;
+  block_number : nat64;
+  tx_hash : text;
+};
+service : {
+  add_id : (nat64) -> (bool);
+  approve_document : (text) -> (Result);
+  approve_loan : (text) -> (Result);
+  get_acid_validation : (text) -> (opt AcidValidation) query;
+  get_all_ids : () -> (vec nat64) query;
+  get_balance : () -> (nat64) query;
+  get_document : (text) -> (opt Document) query;
+  get_loan : (text) -> (opt Loan) query;
+  get_my_documents : () -> (vec Document) query;
+  get_my_loans : () -> (vec Loan) query;
+  get_transfers : () -> (vec TransferPayload) query;
+  has_id : (nat64) -> (bool) query;
+  ingest_transfer : (TransferPayload) -> ();
+  mint : (nat64) -> ();
+  remove_id : (nat64) -> (bool);
+  repay_loan : (text, nat64) -> (Result);
+  request_loan : (text, nat64, nat64) -> (Result_1);
+  submit_document : (text, text, nat64) -> (Result_1);
+  transfer : (principal, nat64) -> (Result);
+  validate_acid : (text) -> (Result_2);
+}
