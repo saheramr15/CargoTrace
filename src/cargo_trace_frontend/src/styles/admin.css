@@ -137,20 +137,14 @@ body {
   .admin-documents-actions,
   .admin-loans-actions,
   .admin-repayments-actions,
-  .admin-users-actions,
-  .admin-blockchain-actions,
-  .admin-acid-actions,
-  .admin-nfts-actions,
-  .admin-audit-actions,
-  .admin-reports-actions,
-  .admin-settings-actions {
+  .admin-users-actions {
     display: none !important;
   }
-  
+
   .admin-main-content {
     margin-left: 0 !important;
   }
-  
+
   .admin-content {
     padding: 0 !important;
   }

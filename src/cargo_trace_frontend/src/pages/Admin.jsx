@@ -6,12 +6,6 @@ import AdminDocuments from '../components/admin/sections/AdminDocuments';
 import AdminLoans from '../components/admin/sections/AdminLoans';
 import AdminRepayments from '../components/admin/sections/AdminRepayments';
 import AdminUsers from '../components/admin/sections/AdminUsers';
-import AdminBlockchain from '../components/admin/sections/AdminBlockchain';
-import AdminAcid from '../components/admin/sections/AdminAcid';
-import AdminNfts from '../components/admin/sections/AdminNfts';
-import AdminAudit from '../components/admin/sections/AdminAudit';
-import AdminReports from '../components/admin/sections/AdminReports';
-import AdminSettings from '../components/admin/sections/AdminSettings';
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -34,18 +28,6 @@ const Admin = () => {
         return <AdminRepayments />;
       case 'users':
         return <AdminUsers />;
-      case 'blockchain':
-        return <AdminBlockchain />;
-      case 'acid':
-        return <AdminAcid />;
-      case 'nfts':
-        return <AdminNfts />;
-      case 'audit':
-        return <AdminAudit />;
-      case 'reports':
-        return <AdminReports />;
-      case 'settings':
-        return <AdminSettings />;
       default:
         return <AdminDashboard />;
     }
