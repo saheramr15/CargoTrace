@@ -92,17 +92,21 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
             <div className="sidebar-wallet-icon">
               <Wallet className="w-4 h-4 text-white" />
             </div>
-            <span className="sidebar-wallet-title">ICP Wallet</span>
+            <span className="sidebar-wallet-title">CargoTrace Wallet</span>
           </div>
+            <div className="sidebar-wallet-title">Active Loan</div>
+              <div className="sidebar-wallet-amount">0.00 USD</div>
+          
 
-          <div className="sidebar-wallet-amount">10.248 ICP</div>
+             <div className="sidebar-wallet-title">Repayment Due</div>
+           <div className="sidebar-wallet-amount">0.00 USD</div>
 
           <div className="sidebar-wallet-status">
             <div className="sidebar-wallet-indicator"></div>
             <span className="sidebar-wallet-status-text">Connected</span>
           </div>
 
-          <div className="sidebar-wallet-value">= $45,234 USD</div>
+          {/* <div className="sidebar-wallet-value">= $45,234 USD</div> */}
         </div>
       </div>
 
