@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   DollarSign, 
   Plus, 
@@ -22,116 +22,111 @@ import {
   FileCheck,
   Timer,
   Users,
-  Building
+  Building,
+  Loader2
 } from 'lucide-react';
+import { backendService } from '../../services/backendService';
 
 const DashboardLoans = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [loanAmount, setLoanAmount] = useState('');
   const [collateralDocument, setCollateralDocument] = useState('');
+  const [repaymentDate, setRepaymentDate] = useState('');
+  const [loans, setLoans] = useState([]);
+  const [documents, setDocuments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
 
-  // Focused loan application data
-  const mockLoanApplications = [
-    {
-      id: 'LOAN-APP-2024-001',
-      documentId: 'CX-2024-001',
-      amount: '$100,000',
-      collateral: 'Electronics NFT',
-      apr: '8.5%',
-      status: 'approved',
-      applicationDate: '2024-01-10',
-      approvalDate: '2024-01-12',
-      disbursementDate: '2024-01-15',
-      origin: 'China',
-      destination: 'Egypt',
-      cargoType: 'Electronics',
-      shipper: 'Samsung Electronics Co.',
-      consignee: 'TechTrade Egypt',
-      loanType: 'ICRC-1 Stable Token',
-      blockchain: 'Internet Computer',
-      nftId: 'NFT-ICP-001',
-      creditScore: 85,
-      riskLevel: 'Low',
-      processingTime: '2 days'
-    },
-    {
-      id: 'LOAN-APP-2024-002',
-      documentId: 'CX-2024-003',
-      amount: '$50,000',
-      collateral: 'Agricultural NFT',
-      apr: '7.2%',
-      status: 'pending',
-      applicationDate: '2024-01-15',
-      approvalDate: null,
-      disbursementDate: null,
-      origin: 'Kenya',
-      destination: 'Egypt',
-      cargoType: 'Agricultural',
-      shipper: 'Kenya Coffee Exporters',
-      consignee: 'Cairo Coffee Roasters',
-      loanType: 'ICRC-1 Stable Token',
-      blockchain: 'Internet Computer',
-      nftId: 'NFT-ICP-002',
-      creditScore: 72,
-      riskLevel: 'Medium',
-      processingTime: 'In Progress'
-    },
-    {
-      id: 'LOAN-APP-2024-003',
-      documentId: 'CX-2024-005',
-      amount: '$75,000',
-      collateral: 'Pharmaceutical NFT',
-      apr: '6.8%',
-      status: 'under_review',
-      applicationDate: '2024-01-18',
-      approvalDate: null,
-      disbursementDate: null,
-      origin: 'Switzerland',
-      destination: 'Egypt',
-      cargoType: 'Pharmaceuticals',
-      shipper: 'Swiss Pharma AG',
-      consignee: 'Egyptian Healthcare Ltd.',
-      loanType: 'ICRC-1 Stable Token',
-      blockchain: 'Internet Computer',
-      nftId: 'NFT-ICP-003',
-      creditScore: 90,
-      riskLevel: 'Low',
-      processingTime: 'Under Review'
-    },
-    {
-      id: 'LOAN-APP-2024-004',
-      documentId: 'CX-2024-002',
-      amount: '$120,000',
-      collateral: 'Textile NFT',
-      apr: '9.1%',
-      status: 'rejected',
-      applicationDate: '2024-01-05',
-      approvalDate: null,
-      disbursementDate: null,
-      origin: 'India',
-      destination: 'Egypt',
-      cargoType: 'Textiles',
-      shipper: 'Indian Textile Corp.',
-      consignee: 'Egyptian Fashion Ltd.',
-      loanType: 'ICRC-1 Stable Token',
-      blockchain: 'Internet Computer',
-      nftId: 'NFT-ICP-004',
-      creditScore: 45,
-      riskLevel: 'High',
-      processingTime: 'Rejected'
+  // Load loans and documents on component mount
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      if (!backendService.isReady()) {
+        throw new Error('Backend service not initialized');
+      }
+
+      // Load both loans and documents
+      const [backendLoans, backendDocs] = await Promise.all([
+        backendService.getMyLoans(),
+        backendService.getMyDocuments()
+      ]);
+      
+      // Transform backend loans to frontend format
+      const transformedLoans = backendLoans.map(loan => ({
+        id: loan.id,
+        documentId: loan.document_id,
+        amount: `$${loan.amount.toLocaleString()}`,
+        collateral: 'Document NFT',
+        apr: `${loan.interest_rate}%`,
+        status: getLoanStatus(loan.status),
+        applicationDate: new Date(loan.created_at).toLocaleDateString(),
+        approvalDate: loan.status.Approved !== undefined ? new Date(loan.created_at).toLocaleDateString() : null,
+        disbursementDate: loan.status.Approved !== undefined ? new Date(loan.created_at).toLocaleDateString() : null,
+        origin: 'Origin Country',
+        destination: 'Destination Country',
+        cargoType: 'Cargo Type',
+        shipper: 'Shipper Company',
+        consignee: 'Consignee Company',
+        loanType: 'ICRC-1 Stable Token',
+        blockchain: 'Internet Computer',
+        nftId: `NFT-ICP-${loan.id}`,
+        creditScore: 85,
+        riskLevel: 'Low',
+        processingTime: loan.status.Approved !== undefined ? '2 days' : 'In Progress',
+        rawAmount: loan.amount,
+        repaymentDate: new Date(loan.repayment_date).toLocaleDateString()
+      }));
+
+      // Transform documents to show only approved ones
+      const approvedDocuments = backendDocs
+        .filter(doc => doc.status.NftMinted !== undefined)
+        .map(doc => ({
+          id: doc.id,
+          acid: doc.acid_number,
+          value: `$${doc.value_usd.toLocaleString()}`,
+          description: `Document for ACID: ${doc.acid_number}`,
+          date: new Date(doc.created_at).toLocaleDateString(),
+          ethereumTxHash: doc.ethereum_tx_hash,
+          rawValue: doc.value_usd
+        }));
+
+      setLoans(transformedLoans);
+      setDocuments(approvedDocuments);
+    } catch (err) {
+      console.error('Failed to load data:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  const getLoanStatus = (status) => {
+    if (status.Pending !== undefined) return 'pending';
+    if (status.Approved !== undefined) return 'approved';
+    if (status.Active !== undefined) return 'active';
+    if (status.Repaid !== undefined) return 'repaid';
+    if (status.Defaulted !== undefined) return 'defaulted';
+    return 'pending';
+  };
 
   const loanStats = {
-    total: mockLoanApplications.length,
-    approved: mockLoanApplications.filter(loan => loan.status === 'approved').length,
-    pending: mockLoanApplications.filter(loan => loan.status === 'pending').length,
-    underReview: mockLoanApplications.filter(loan => loan.status === 'under_review').length,
-    rejected: mockLoanApplications.filter(loan => loan.status === 'rejected').length,
-    totalValue: mockLoanApplications.reduce((sum, loan) => sum + parseFloat(loan.amount.replace('$', '').replace(',', '')), 0),
+    total: loans.length,
+    approved: loans.filter(loan => loan.status === 'approved').length,
+    pending: loans.filter(loan => loan.status === 'pending').length,
+    underReview: loans.filter(loan => loan.status === 'under_review').length,
+    rejected: loans.filter(loan => loan.status === 'rejected').length,
+    totalValue: loans.reduce((sum, loan) => sum + (loan.rawAmount || 0), 0),
     avgProcessingTime: '2.3 days',
-    approvalRate: ((mockLoanApplications.filter(loan => loan.status === 'approved').length / mockLoanApplications.length) * 100).toFixed(1)
+    approvalRate: loans.length > 0 ? ((loans.filter(loan => loan.status === 'approved').length / loans.length) * 100).toFixed(1) : '0'
   };
 
   const getStatusColor = (status) => {
@@ -154,19 +149,90 @@ const DashboardLoans = () => {
     }
   };
 
-  const handleNewLoanApplication = (e) => {
+  const handleNewLoanApplication = async (e) => {
     e.preventDefault();
-    console.log('Processing new loan application:', { loanAmount, collateralDocument });
+    
+    try {
+      setSubmitting(true);
+      setError(null);
+      setSuccessMessage('');
+      
+      if (!backendService.isReady()) {
+        throw new Error('Backend service not initialized');
+      }
+
+      // Validate required fields
+      if (!loanAmount || !collateralDocument || !repaymentDate) {
+        throw new Error('Please fill in all required fields');
+      }
+
+      // Validate loan amount
+      const amount = parseInt(loanAmount);
+      if (isNaN(amount) || amount <= 0) {
+        throw new Error('Please enter a valid loan amount');
+      }
+
+      // Find the selected document
+      const selectedDoc = documents.find(doc => doc.id === collateralDocument);
+      if (!selectedDoc) {
+        throw new Error('Please select a valid document');
+      }
+
+      // Validate loan amount doesn't exceed 80% of document value
+      if (amount > selectedDoc.rawValue * 80 / 100) {
+        throw new Error('Loan amount cannot exceed 80% of document value');
+      }
+
+      // Convert repayment date to timestamp
+      const repaymentTimestamp = new Date(repaymentDate).getTime();
+
+      // Submit loan request to backend
+      const result = await backendService.requestLoan(collateralDocument, amount, repaymentTimestamp);
+      
+      if (result.Err) {
+        throw new Error(result.Err);
+      }
+
+      // Clear form
+      setLoanAmount('');
+      setCollateralDocument('');
+      setRepaymentDate('');
+
+      // Show success message
+      setSuccessMessage(`Loan request submitted successfully! Loan ID: ${result.Ok}`);
+      
+      // Reload data
+      await loadData();
+      
+      console.log('✅ Loan request submitted successfully:', result.Ok);
+    } catch (err) {
+      console.error('Failed to submit loan request:', err);
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  const filteredLoans = mockLoanApplications.filter(loan => {
+  const filteredLoans = loans.filter(loan => {
     const matchesSearch = searchTerm === '' ||
       loan.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       loan.cargoType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      loan.shipper.toLowerCase().includes(searchTerm.toLowerCase());
+      loan.shipper.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      loan.documentId.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'all' || loan.status === filterStatus;
     return matchesSearch && matchesStatus;
   });
+
+  if (loading) {
+    return (
+      <div className="dashboard-loans-container">
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+          <span className="ml-2 text-gray-600">Loading loans and documents...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard-loans-container">
@@ -241,21 +307,41 @@ const DashboardLoans = () => {
             New Loan Application
           </h2>
         </div>
+        
+        {error && (
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div className="flex items-center">
+              <AlertCircle className="w-5 h-5 text-red-500 mr-2" />
+              <span className="text-red-700">{error}</span>
+            </div>
+          </div>
+        )}
+
+        {successMessage && (
+          <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center">
+              <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+              <span className="text-green-700">{successMessage}</span>
+            </div>
+          </div>
+        )}
+
         <form onSubmit={handleNewLoanApplication} className="dashboard-form-grid">
           <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Loan Amount (USD)</label>
+            <label className="dashboard-form-label">Loan Amount (USD) *</label>
             <input
               type="number"
               value={loanAmount}
               onChange={(e) => setLoanAmount(e.target.value)}
               className="dashboard-form-input"
               placeholder="50000"
+              min="1"
               required
             />
           </div>
 
           <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Collateral Document</label>
+            <label className="dashboard-form-label">Collateral Document *</label>
             <select 
               value={collateralDocument} 
               onChange={(e) => setCollateralDocument(e.target.value)}
@@ -263,10 +349,29 @@ const DashboardLoans = () => {
               required
             >
               <option value="">Select a document...</option>
-              <option value="CX-2024-006">CX-2024-006 - Electronics Shipment</option>
-              <option value="CX-2024-007">CX-2024-007 - Agricultural Products</option>
-              <option value="CX-2024-008">CX-2024-008 - Textile Imports</option>
+              {documents.map(doc => (
+                <option key={doc.id} value={doc.id}>
+                  {doc.id} - {doc.description} (Value: {doc.value})
+                </option>
+              ))}
             </select>
+            {documents.length === 0 && (
+              <p className="text-sm text-gray-500 mt-1">
+                No approved documents available. Please submit and get a document approved first.
+              </p>
+            )}
+          </div>
+
+          <div className="dashboard-form-field">
+            <label className="dashboard-form-label">Repayment Date *</label>
+            <input
+              type="date"
+              value={repaymentDate}
+              onChange={(e) => setRepaymentDate(e.target.value)}
+              className="dashboard-form-input"
+              min={new Date().toISOString().split('T')[0]}
+              required
+            />
           </div>
 
           <div className="dashboard-form-field">
@@ -278,21 +383,24 @@ const DashboardLoans = () => {
               <option value="bridge">Cross-Chain Bridge</option>
             </select>
           </div>
-
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Collateral Type</label>
-            <select className="dashboard-form-input" required>
-              <option value="">Select collateral type</option>
-              <option value="electronics">Electronics NFT</option>
-              <option value="agricultural">Agricultural NFT</option>
-              <option value="pharmaceutical">Pharmaceutical NFT</option>
-              <option value="textile">Textile NFT</option>
-            </select>
-          </div>
         </form>
-        <button type="submit" className="dashboard-submit-button">
-          <DollarSign size={16} />
-          Submit Application
+        <button 
+          type="submit" 
+          onClick={handleNewLoanApplication}
+          disabled={submitting || documents.length === 0}
+          className="dashboard-submit-button"
+        >
+          {submitting ? (
+            <>
+              <Loader2 size={16} className="animate-spin" />
+              Submitting...
+            </>
+          ) : (
+            <>
+              <DollarSign size={16} />
+              Submit Application
+            </>
+          )}
         </button>
       </div>
 
@@ -331,59 +439,61 @@ const DashboardLoans = () => {
           </div>
         </div>
         <div className="dashboard-table-container">
-          <table className="dashboard-table">
-            <thead>
-              <tr>
-                <th>Application ID</th>
-                <th>Document ID</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Application Date</th>
-                <th>Processing Time</th>
-                <th>Credit Score</th>
-                <th>Risk Level</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredLoans.map((loan) => (
-                <tr key={loan.id}>
-                  <td>{loan.id}</td>
-                  <td>{loan.documentId}</td>
-                  <td>{loan.amount}</td>
-                  <td>
-                    <span className={`dashboard-status ${getStatusColor(loan.status)}`}>
-                      {getStatusIcon(loan.status)}
-                      {loan.status.replace('_', ' ')}
-                    </span>
-                  </td>
-                  <td>{loan.applicationDate}</td>
-                  <td>{loan.processingTime}</td>
-                  <td>
-                    <span className={`dashboard-credit-score ${loan.creditScore >= 80 ? 'excellent' : loan.creditScore >= 70 ? 'good' : 'poor'}`}>
-                      {loan.creditScore}
-                    </span>
-                  </td>
-                  <td>
-                    <span className={`dashboard-risk-level ${loan.riskLevel.toLowerCase()}`}>
-                      {loan.riskLevel}
-                    </span>
-                  </td>
-                  <td className="dashboard-table-actions">
-                    <button className="dashboard-action-button view">
-                      <Eye size={16} />
-                    </button>
-                    <button className="dashboard-action-button edit">
-                      <Edit size={16} />
-                    </button>
-                    <button className="dashboard-action-button download">
-                      <FileText size={16} />
-                    </button>
-                  </td>
+          {filteredLoans.length === 0 ? (
+            <div className="text-center py-12">
+              <DollarSign className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">No loans found</h3>
+              <p className="text-gray-600">
+                {loans.length === 0 
+                  ? "No loans have been requested yet. Submit your first loan application above." 
+                  : "No loans match your search criteria."}
+              </p>
+            </div>
+          ) : (
+            <table className="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Application ID</th>
+                  <th>Document ID</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Application Date</th>
+                  <th>Repayment Date</th>
+                  <th>Interest Rate</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredLoans.map((loan) => (
+                  <tr key={loan.id}>
+                    <td>{loan.id}</td>
+                    <td className="font-mono text-sm">{loan.documentId}</td>
+                    <td>{loan.amount}</td>
+                    <td>
+                      <span className={`dashboard-status ${getStatusColor(loan.status)}`}>
+                        {getStatusIcon(loan.status)}
+                        {loan.status.replace('_', ' ')}
+                      </span>
+                    </td>
+                    <td>{loan.applicationDate}</td>
+                    <td>{loan.repaymentDate}</td>
+                    <td>{loan.apr}</td>
+                    <td className="dashboard-table-actions">
+                      <button className="dashboard-action-button view">
+                        <Eye size={16} />
+                      </button>
+                      <button className="dashboard-action-button edit">
+                        <Edit size={16} />
+                      </button>
+                      <button className="dashboard-action-button download">
+                        <FileText size={16} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
 
@@ -403,7 +513,7 @@ const DashboardLoans = () => {
             <div className="dashboard-pipeline-content">
               <h4>Document Verification</h4>
               <p>CargoX & ACID validation</p>
-              <div className="dashboard-pipeline-count">{loanStats.total} Documents</div>
+              <div className="dashboard-pipeline-count">{documents.length} Documents</div>
             </div>
           </div>
           <div className="dashboard-pipeline-arrow">→</div>

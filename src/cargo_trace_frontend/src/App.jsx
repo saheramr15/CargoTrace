@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import BottomToggle from './components/layout/BottomToggle';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
@@ -44,6 +45,9 @@ const AppContent = () => {
       </Routes>
       
       {shouldShowLayout && <Footer />}
+      
+      {/* Bottom Toggle Buttons - Always visible except on login/home */}
+      <BottomToggle />
     </div>
   );
 };
