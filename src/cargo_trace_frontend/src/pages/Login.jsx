@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login, logout, checkAuth, getPrincipal } from '../auth';
+import { backendService } from '../services/backendService';
 
 const Login = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [principal, setPrincipal] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [backendStatus, setBackendStatus] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,6 +17,18 @@ const Login = () => {
       if (authenticated) {
         const userPrincipal = await getPrincipal();
         setPrincipal(userPrincipal);
+        
+        // Initialize backend service
+        try {
+          setBackendStatus('Initializing backend...');
+          const authClient = await import('@dfinity/auth-client').then(m => m.AuthClient.create());
+          const identity = authClient.getIdentity();
+          await backendService.initialize(identity);
+          setBackendStatus('Backend connected successfully');
+        } catch (error) {
+          console.error('Failed to initialize backend:', error);
+          setBackendStatus('Backend connection failed');
+        }
       }
     };
     init();
@@ -22,10 +36,26 @@ const Login = () => {
 
   const handleLogin = async () => {
     setIsLoading(true);
+    setBackendStatus('');
+    
     await login(async () => {
       const authenticated = await checkAuth();
       if (authenticated) {
-        navigate('/dashboard');
+        try {
+          setBackendStatus('Initializing backend...');
+          const authClient = await import('@dfinity/auth-client').then(m => m.AuthClient.create());
+          const identity = authClient.getIdentity();
+          await backendService.initialize(identity);
+          setBackendStatus('Backend connected successfully');
+          
+          // Navigate to dashboard after successful backend initialization
+          setTimeout(() => {
+            navigate('/dashboard');
+          }, 1000);
+        } catch (error) {
+          console.error('Failed to initialize backend:', error);
+          setBackendStatus('Backend connection failed - please try again');
+        }
       }
       setIsLoading(false);
     });
@@ -36,6 +66,7 @@ const Login = () => {
     await logout();
     setLoggedIn(false);
     setPrincipal('');
+    setBackendStatus('');
     setIsLoading(false);
   };
 
@@ -88,6 +119,14 @@ const Login = () => {
                 {principal}
               </code>
             </div>
+
+            {backendStatus && (
+              <div className="login-backend-status">
+                <div className={`login-backend-status-text ${backendStatus.includes('successfully') ? 'success' : backendStatus.includes('failed') ? 'error' : 'info'}`}>
+                  {backendStatus}
+                </div>
+              </div>
+            )}
             
             <button
               onClick={handleLogout}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   FileText, 
   Upload, 
@@ -17,101 +17,87 @@ import {
   Filter,
   Calendar,
   Building2,
-  Globe
+  Globe,
+  Loader2
 } from 'lucide-react';
+import { backendService } from '../../services/backendService';
 
 const DashboardDocuments = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [documentType, setDocumentType] = useState('');
   const [description, setDescription] = useState('');
+  const [acidNumber, setAcidNumber] = useState('');
+  const [ethereumTxHash, setEthereumTxHash] = useState('');
+  const [valueUsd, setValueUsd] = useState('');
+  const [origin, setOrigin] = useState('');
+  const [destination, setDestination] = useState('');
+  const [shipper, setShipper] = useState('');
+  const [documents, setDocuments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
 
-  // Focused document data
-  const mockDocuments = [
-    {
-      id: 'CX-2024-001',
-      acid: 'ACID-EG-2024-789456',
-      type: 'Bill of Lading',
-      description: 'Electronics shipment from China - Samsung Electronics',
-      value: '$125,000',
-      status: 'verified',
-      date: '2024-01-15',
-      nftId: 'NFT-ICP-001',
-      cargoDetails: 'Electronics, 500 units',
-      origin: 'China',
-      destination: 'Egypt',
-      shipper: 'Samsung Electronics Co.',
-      consignee: 'TechTrade Egypt'
-    },
-    {
-      id: 'CX-2024-002',
-      acid: 'ACID-EG-2024-789457',
-      type: 'Commercial Invoice',
-      description: 'Textile imports from Turkey - Cotton fabrics',
-      value: '$89,500',
-      status: 'pending',
-      date: '2024-01-14',
-      nftId: null,
-      cargoDetails: 'Cotton fabrics, 2000 kg',
-      origin: 'Turkey',
-      destination: 'Egypt',
-      shipper: 'Turkish Textiles Ltd.',
-      consignee: 'Egyptian Garments Co.'
-    },
-    {
-      id: 'CX-2024-003',
-      acid: 'ACID-EG-2024-789458',
-      type: 'Certificate of Origin',
-      description: 'Agricultural products from Kenya - Coffee beans',
-      value: '$67,200',
-      status: 'nft-minted',
-      date: '2024-01-13',
-      nftId: 'NFT-ICP-002',
-      cargoDetails: 'Coffee beans, 1500 kg',
-      origin: 'Kenya',
-      destination: 'Egypt',
-      shipper: 'Kenya Coffee Exporters',
-      consignee: 'Cairo Coffee Roasters'
-    },
-    {
-      id: 'CX-2024-004',
-      acid: 'ACID-EG-2024-789459',
-      type: 'Packing List',
-      description: 'Machinery parts from Germany - Industrial equipment',
-      value: '$234,000',
-      status: 'rejected',
-      date: '2024-01-12',
-      nftId: null,
-      cargoDetails: 'Industrial machinery parts',
-      origin: 'Germany',
-      destination: 'Egypt',
-      shipper: 'German Industrial GmbH',
-      consignee: 'Egyptian Manufacturing Co.'
-    },
-    {
-      id: 'CX-2024-005',
-      acid: 'ACID-EG-2024-789460',
-      type: 'Bill of Lading',
-      description: 'Pharmaceuticals from Switzerland - Medical supplies',
-      value: '$156,800',
-      status: 'verified',
-      date: '2024-01-11',
-      nftId: 'NFT-ICP-003',
-      cargoDetails: 'Pharmaceuticals, temperature controlled',
-      origin: 'Switzerland',
-      destination: 'Egypt',
-      shipper: 'Swiss Pharma AG',
-      consignee: 'Egyptian Healthcare Ltd.'
+  // Load documents on component mount
+  useEffect(() => {
+    loadDocuments();
+  }, []);
+
+  const loadDocuments = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      if (!backendService.isReady()) {
+        throw new Error('Backend service not initialized');
+      }
+
+      const backendDocs = await backendService.getMyDocuments();
+      
+      // Transform backend documents to frontend format
+      const transformedDocs = backendDocs.map(doc => ({
+        id: doc.id,
+        acid: doc.acid_number,
+        type: 'Bill of Lading', // Default type
+        description: `Document for ACID: ${doc.acid_number}`,
+        value: `$${doc.value_usd.toLocaleString()}`,
+        status: getDocumentStatus(doc.status),
+        date: new Date(doc.created_at).toLocaleDateString(),
+        nftId: doc.status.NftMinted !== undefined ? `NFT-ICP-${doc.id}` : null,
+        cargoDetails: 'Cargo details',
+        origin: 'Origin Country',
+        destination: 'Destination Country',
+        shipper: 'Shipper Company',
+        consignee: 'Consignee Company',
+        ethereumTxHash: doc.ethereum_tx_hash,
+        rawValue: doc.value_usd
+      }));
+
+      setDocuments(transformedDocs);
+    } catch (err) {
+      console.error('Failed to load documents:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  const getDocumentStatus = (status) => {
+    if (status.Pending !== undefined) return 'pending';
+    if (status.Verified !== undefined) return 'verified';
+    if (status.Rejected !== undefined) return 'rejected';
+    if (status.NftMinted !== undefined) return 'nft-minted';
+    return 'pending';
+  };
 
   const documentStats = {
-    total: mockDocuments.length,
-    pending: mockDocuments.filter(doc => doc.status === 'pending').length,
-    verified: mockDocuments.filter(doc => doc.status === 'verified').length,
-    nftMinted: mockDocuments.filter(doc => doc.status === 'nft-minted').length,
-    rejected: mockDocuments.filter(doc => doc.status === 'rejected').length,
-    totalValue: mockDocuments.reduce((sum, doc) => sum + parseFloat(doc.value.replace('$', '').replace(',', '')), 0)
+    total: documents.length,
+    pending: documents.filter(doc => doc.status === 'pending').length,
+    verified: documents.filter(doc => doc.status === 'verified').length,
+    nftMinted: documents.filter(doc => doc.status === 'nft-minted').length,
+    rejected: documents.filter(doc => doc.status === 'rejected').length,
+    totalValue: documents.reduce((sum, doc) => sum + (doc.rawValue || 0), 0)
   };
 
   const documentTypes = [
@@ -145,7 +131,7 @@ const DashboardDocuments = () => {
     }
   };
 
-  const filteredDocuments = mockDocuments.filter(document => {
+  const filteredDocuments = documents.filter(document => {
     const matchesSearch = document.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          document.acid.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          document.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -153,10 +139,81 @@ const DashboardDocuments = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const handleSubmitDocument = (e) => {
+  const handleSubmitDocument = async (e) => {
     e.preventDefault();
-    console.log('Submitting document:', { documentType, description });
+    
+    try {
+      setSubmitting(true);
+      setError(null);
+      setSuccessMessage('');
+      
+      if (!backendService.isReady()) {
+        throw new Error('Backend service not initialized');
+      }
+
+      // Validate required fields
+      if (!acidNumber || !ethereumTxHash || !valueUsd) {
+        throw new Error('Please fill in all required fields');
+      }
+
+      // Validate ACID number format
+      if (acidNumber.length !== 9 || !/^\d+$/.test(acidNumber)) {
+        throw new Error('ACID number must be exactly 9 digits');
+      }
+
+      // Validate value
+      const value = parseInt(valueUsd);
+      if (isNaN(value) || value <= 0) {
+        throw new Error('Please enter a valid value');
+      }
+
+      // Submit document to backend
+      const result = await backendService.submitDocument(acidNumber, ethereumTxHash, value);
+      
+      if (result.Err) {
+        throw new Error(result.Err);
+      }
+
+      // Clear form
+      setDocumentType('');
+      setDescription('');
+      setAcidNumber('');
+      setEthereumTxHash('');
+      setValueUsd('');
+      setOrigin('');
+      setDestination('');
+      setShipper('');
+
+      // Show success message
+      setSuccessMessage(`Document submitted successfully! Document ID: ${result.Ok}`);
+      
+      // Reload documents
+      await loadDocuments();
+      
+      console.log('✅ Document submitted successfully:', result.Ok);
+    } catch (err) {
+      console.error('Failed to submit document:', err);
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
   };
+
+  const handleViewDocument = (document) => {
+    console.log('Viewing document:', document);
+    alert(`Document Details:\nID: ${document.id}\nACID: ${document.acid}\nStatus: ${document.status}\nValue: ${document.value}\nEthereum TX: ${document.ethereumTxHash}`);
+  };
+
+  if (loading) {
+    return (
+      <div className="dashboard-documents-container">
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+          <span className="ml-2 text-gray-600">Loading documents...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard-documents-container">
@@ -237,6 +294,25 @@ const DashboardDocuments = () => {
             Submit New Document
           </h2>
         </div>
+        
+        {error && (
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div className="flex items-center">
+              <AlertCircle className="w-5 h-5 text-red-500 mr-2" />
+              <span className="text-red-700">{error}</span>
+            </div>
+          </div>
+        )}
+
+        {successMessage && (
+          <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center">
+              <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
+              <span className="text-green-700">{successMessage}</span>
+            </div>
+          </div>
+        )}
+
         <form onSubmit={handleSubmitDocument} className="dashboard-form-grid">
           <div className="dashboard-form-field">
             <label className="dashboard-form-label">Document Type</label>
@@ -244,7 +320,6 @@ const DashboardDocuments = () => {
               value={documentType} 
               onChange={(e) => setDocumentType(e.target.value)}
               className="dashboard-form-input"
-              required
             >
               <option value="">Select document type</option>
               {documentTypes.map(type => (
@@ -261,14 +336,15 @@ const DashboardDocuments = () => {
               onChange={(e) => setDescription(e.target.value)}
               className="dashboard-form-input"
               placeholder="Describe the cargo contents..."
-              required
             />
           </div>
           
           <div className="dashboard-form-field">
-            <label className="dashboard-form-label">CargoX Document ID</label>
+            <label className="dashboard-form-label">CargoX Document ID *</label>
             <input
               type="text"
+              value={ethereumTxHash}
+              onChange={(e) => setEthereumTxHash(e.target.value)}
               className="dashboard-form-input monospace"
               placeholder="0x1234...abcd"
               required
@@ -276,21 +352,27 @@ const DashboardDocuments = () => {
           </div>
           
           <div className="dashboard-form-field">
-            <label className="dashboard-form-label">ACID Number</label>
+            <label className="dashboard-form-label">ACID Number *</label>
             <input
               type="text"
+              value={acidNumber}
+              onChange={(e) => setAcidNumber(e.target.value)}
               className="dashboard-form-input monospace"
-              placeholder="ACID-EG-2024-XXXXXX"
+              placeholder="123456789"
+              maxLength="9"
               required
             />
           </div>
           
           <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Cargo Value (USD)</label>
+            <label className="dashboard-form-label">Cargo Value (USD) *</label>
             <input
               type="number"
+              value={valueUsd}
+              onChange={(e) => setValueUsd(e.target.value)}
               className="dashboard-form-input"
               placeholder="125000"
+              min="1"
               required
             />
           </div>
@@ -299,9 +381,10 @@ const DashboardDocuments = () => {
             <label className="dashboard-form-label">Origin Country</label>
             <input
               type="text"
+              value={origin}
+              onChange={(e) => setOrigin(e.target.value)}
               className="dashboard-form-input"
               placeholder="China"
-              required
             />
           </div>
           
@@ -309,9 +392,10 @@ const DashboardDocuments = () => {
             <label className="dashboard-form-label">Destination</label>
             <input
               type="text"
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
               className="dashboard-form-input"
               placeholder="Egypt"
-              required
             />
           </div>
           
@@ -319,15 +403,30 @@ const DashboardDocuments = () => {
             <label className="dashboard-form-label">Shipper</label>
             <input
               type="text"
+              value={shipper}
+              onChange={(e) => setShipper(e.target.value)}
               className="dashboard-form-input"
               placeholder="Company name"
-              required
             />
           </div>
         </form>
-        <button type="submit" className="dashboard-submit-button">
-          <Upload size={16} />
-          Submit Document for Verification
+        <button 
+          type="submit" 
+          onClick={handleSubmitDocument}
+          disabled={submitting}
+          className="dashboard-submit-button"
+        >
+          {submitting ? (
+            <>
+              <Loader2 size={16} className="animate-spin" />
+              Submitting...
+            </>
+          ) : (
+            <>
+              <Upload size={16} />
+              Submit Document for Verification
+            </>
+          )}
         </button>
       </div>
 
@@ -376,73 +475,82 @@ const DashboardDocuments = () => {
 
         {/* Documents Table */}
         <div className="dashboard-table-container">
-          <table className="dashboard-table">
-            <thead>
-              <tr>
-                <th>Document Info</th>
-                <th>Type</th>
-                <th>ACID Number</th>
-                <th>Value</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredDocuments.map((document) => {
-                const StatusIcon = getStatusIcon(document.status);
-                return (
-                  <tr key={document.id} className="dashboard-table-row">
-                    <td>
-                      <div className="dashboard-document-info">
-                        <div className="dashboard-document-icon">
-                          <FileText size={16} color="white" />
+          {filteredDocuments.length === 0 ? (
+            <div className="text-center py-12">
+              <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">No documents found</h3>
+              <p className="text-gray-600">
+                {documents.length === 0 
+                  ? "No documents have been submitted yet. Submit your first document above." 
+                  : "No documents match your search criteria."}
+              </p>
+            </div>
+          ) : (
+            <table className="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Document Info</th>
+                  <th>Type</th>
+                  <th>ACID Number</th>
+                  <th>Value</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredDocuments.map((document) => {
+                  const StatusIcon = getStatusIcon(document.status);
+                  return (
+                    <tr key={document.id} className="dashboard-table-row">
+                      <td>
+                        <div className="dashboard-document-info">
+                          <div className="dashboard-document-icon">
+                            <FileText size={16} color="white" />
+                          </div>
+                          <div>
+                            <div className="dashboard-document-id">{document.id}</div>
+                            <div className="dashboard-document-description">{document.description}</div>
+                          </div>
                         </div>
-                        <div>
-                          <div className="dashboard-document-id">{document.id}</div>
-                          <div className="dashboard-document-description">{document.description}</div>
+                      </td>
+                      <td className="dashboard-table-cell">{document.type}</td>
+                      <td className="dashboard-table-cell monospace">{document.acid}</td>
+                      <td className="dashboard-table-cell value">{document.value}</td>
+                      <td>
+                        <div className="dashboard-status-container">
+                          <StatusIcon size={16} />
+                          <span className={`dashboard-status ${getStatusColor(document.status)}`}>
+                            {document.status.replace('-', ' ')}
+                          </span>
                         </div>
-                      </div>
-                    </td>
-                    <td className="dashboard-table-cell">{document.type}</td>
-                    <td className="dashboard-table-cell monospace">{document.acid}</td>
-                    <td className="dashboard-table-cell value">{document.value}</td>
-                    <td>
-                      <div className="dashboard-status-container">
-                        <StatusIcon size={16} />
-                        <span className={`dashboard-status ${getStatusColor(document.status)}`}>
-                          {document.status.replace('-', ' ')}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="dashboard-table-cell">{document.date}</td>
-                    <td className="dashboard-table-actions">
-                      <button className="dashboard-action-link">
-                        <Eye size={14} />
-                        View
-                      </button>
-                      {document.status === 'pending' && (
-                        <button className="dashboard-action-link approve">
-                          <CheckCircle size={14} />
-                          Approve
+                      </td>
+                      <td className="dashboard-table-cell">{document.date}</td>
+                      <td className="dashboard-table-actions">
+                        <button 
+                          onClick={() => handleViewDocument(document)}
+                          className="dashboard-action-link"
+                        >
+                          <Eye size={14} />
+                          View
                         </button>
-                      )}
-                      {document.status === 'nft-minted' && (
+                        {document.status === 'nft-minted' && (
+                          <button className="dashboard-action-link">
+                            <Download size={14} />
+                            Download NFT
+                          </button>
+                        )}
                         <button className="dashboard-action-link">
-                          <Download size={14} />
-                          Download NFT
+                          <Edit size={14} />
+                          Edit
                         </button>
-                      )}
-                      <button className="dashboard-action-link">
-                        <Edit size={14} />
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>

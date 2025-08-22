@@ -15,13 +15,16 @@ import {
   ChevronDown,
   ExternalLink,
   Shield,
-  Activity
+  Activity,
+  User as UserIcon
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const AdminHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const navigate = useNavigate();
 
   const notifications = [
     {
@@ -78,6 +81,10 @@ const AdminHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   const handleLogout = () => {
     console.log('Admin logout');
+  };
+
+  const handleSwitchToUser = () => {
+    navigate('/dashboard');
   };
 
   const getPageTitle = () => {
@@ -177,6 +184,16 @@ const AdminHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
       {/* Header Actions */}
       <div className="admin-header-actions">
+        {/* User Toggle Button */}
+        <button 
+          className="admin-header-user-toggle"
+          onClick={handleSwitchToUser}
+          title="Switch to User Dashboard"
+        >
+          <UserIcon size={16} />
+          <span>User</span>
+        </button>
+
         {/* Quick Actions */}
         <div className="admin-header-quick-actions">
           <button className="admin-header-action-btn" title="Refresh Data">

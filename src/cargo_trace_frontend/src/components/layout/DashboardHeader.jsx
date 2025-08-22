@@ -10,8 +10,10 @@ import {
   Shield,
   Network,
   Globe,
-  Menu
+  Menu,
+  Shield as AdminIcon
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const DashboardHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -24,6 +26,7 @@ const DashboardHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) =
 
   const notificationsRef = useRef(null);
   const userMenuRef = useRef(null);
+  const navigate = useNavigate();
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -79,6 +82,10 @@ const DashboardHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) =
     console.log('Logging out...');
   };
 
+  const handleSwitchToAdmin = () => {
+    navigate('/admin');
+  };
+
   return (
     <div className="dashboard-header">
       <div className="dashboard-header-content">
@@ -99,6 +106,16 @@ const DashboardHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) =
 
         {/* Right Section - Actions & User Menu */}
         <div className="dashboard-header-actions">
+          {/* Admin Toggle Button */}
+          <button 
+            className="dashboard-header-admin-toggle"
+            onClick={handleSwitchToAdmin}
+            title="Switch to Admin Panel"
+          >
+            <AdminIcon size={16} />
+            <span>Admin</span>
+          </button>
+
           {/* System Status Indicators */}
           <div className="dashboard-header-status-indicators">
             <div className="dashboard-header-status-item">
