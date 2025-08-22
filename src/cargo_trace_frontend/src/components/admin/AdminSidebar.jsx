@@ -1,224 +1,235 @@
 import React from 'react';
-import {
-  Home,
-  FileText,
-  DollarSign,
+import { 
+  LayoutDashboard, 
+  FileText, 
+  DollarSign, 
+  CreditCard,
   Users,
   Settings,
-  Activity,
+  LogOut,
+  User,
   Shield,
   Database,
-  Search,
-  Layers,
-  BarChart3,
-  FileCheck,
-  Wallet,
-  AlertTriangle,
-  TrendingUp,
   Globe,
+  Search,
+  BarChart3,
+  Activity,
+  Zap,
   Lock,
-  Bell,
-  LogOut
+  Eye,
+  TrendingUp,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
+  RefreshCw,
+  ExternalLink,
+  BarChart,
+  FileCheck,
+  Building,
+  Truck,
+  Anchor
 } from 'lucide-react';
 
 const AdminSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
-  const sidebarItems = [
+  const navigationItems = [
     {
       id: 'dashboard',
-      label: 'Admin Dashboard',
-      icon: Home,
-      badge: null,
-      description: 'Overview & Analytics'
+      label: 'Dashboard',
+      icon: LayoutDashboard,
+      description: 'System overview',
+      badge: null
     },
     {
       id: 'documents',
-      label: 'Document Management',
+      label: 'Documents',
       icon: FileText,
-      badge: '24',
-      description: 'Trade Documents & Verification'
+      description: 'CargoX verification',
+      badge: '12'
     },
     {
       id: 'loans',
-      label: 'Loan Management',
+      label: 'Loans',
       icon: DollarSign,
-      badge: '8',
-      description: 'Loan Requests & Approvals'
+      description: 'Lending operations',
+      badge: '8'
+    },
+    {
+      id: 'repayments',
+      label: 'Repayments',
+      icon: CreditCard,
+      description: 'Payment tracking',
+      badge: '15'
     },
     {
       id: 'users',
-      label: 'User Management',
+      label: 'Users',
       icon: Users,
-      badge: '156',
-      description: 'Importers & Exporters'
+      description: 'User management',
+      badge: null
     },
     {
       id: 'blockchain',
-      label: 'Blockchain Monitor',
-      icon: Activity,
-      badge: 'LIVE',
-      description: 'Ethereum & ICP Transactions'
+      label: 'Blockchain',
+      icon: Database,
+      description: 'Chain fusion monitor',
+      badge: null
     },
     {
       id: 'acid',
       label: 'ACID Verification',
-      icon: Search,
-      badge: '12',
-      description: 'NAFEZA System Integration'
+      icon: FileCheck,
+      description: 'NAFEZA integration',
+      badge: '5'
     },
     {
       id: 'nfts',
-      label: 'NFT Management',
-      icon: Layers,
-      badge: '45',
-      description: 'Minted Document NFTs'
+      label: 'NFTs',
+      icon: Zap,
+      description: 'Token management',
+      badge: null
     },
     {
       id: 'audit',
       label: 'Audit Logs',
-      icon: FileCheck,
-      badge: '1.2K',
-      description: 'System Activity Tracking'
+      icon: Eye,
+      description: 'Security trail',
+      badge: null
     },
     {
       id: 'reports',
-      label: 'Reports & Analytics',
+      label: 'Reports',
       icon: BarChart3,
-      badge: null,
-      description: 'Financial & Operational Reports'
+      description: 'Analytics dashboard',
+      badge: null
     },
     {
       id: 'settings',
-      label: 'System Settings',
+      label: 'Settings',
       icon: Settings,
-      badge: null,
-      description: 'Platform Configuration'
+      description: 'System configuration',
+      badge: null
     }
   ];
 
-  const handleTabChange = (tabId) => {
-    setActiveTab(tabId);
-  };
+  const systemStats = [
+    {
+      label: 'Active Users',
+      value: '1,247',
+      urgent: false
+    },
+    {
+      label: 'Pending Loans',
+      value: '23',
+      urgent: true
+    },
+    {
+      label: 'Documents Today',
+      value: '156',
+      urgent: false
+    },
+    {
+      label: 'System Health',
+      value: '99.8%',
+      urgent: false
+    }
+  ];
+
+  const serviceStatus = [
+    { name: 'Ethereum', status: 'online' },
+    { name: 'ICP', status: 'online' },
+    { name: 'CargoX', status: 'online' },
+    { name: 'NAFEZA', status: 'online' }
+  ];
 
   const handleLogout = () => {
-    // Handle admin logout
     console.log('Admin logout');
   };
 
   return (
-    <aside className={`admin-sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
-      {/* Logo Section */}
-      <div className="admin-sidebar-logo-section">
-        <div className="admin-sidebar-logo-container">
-          <div className="admin-sidebar-logo-icon">
-            <Shield className="w-8 h-8 text-white" />
-          </div>
-          <div className="admin-sidebar-logo-text">
-            <h1>CargoTrace</h1>
-            <p>Admin Panel</p>
-          </div>
+    <aside className={`admin-sidebar ${isMobileMenuOpen ? 'admin-sidebar-open' : ''}`}>
+      {/* Logo Section - Fixed */}
+      <div className="admin-sidebar-logo">
+        <div className="admin-sidebar-logo-icon">
+          <Anchor className="w-6 h-6" />
         </div>
-
-        {/* System Status */}
-        <div className="admin-sidebar-status">
-          <div className="admin-sidebar-status-indicator">
-            <div className="admin-sidebar-status-dot"></div>
-            <span className="admin-sidebar-status-text">SYSTEM ONLINE</span>
-          </div>
+        <div className="admin-sidebar-logo-text">
+          <h2>CargoTrace</h2>
+          <span>Admin Panel</span>
         </div>
       </div>
 
-      {/* Navigation */}
+      {/* System Status - Fixed */}
+      <div className="admin-sidebar-status">
+        <div className="admin-sidebar-status-indicator"></div>
+        <span>System Online</span>
+        
+        <div className="admin-sidebar-status-details">
+          {serviceStatus.map((service, index) => (
+            <div key={index} className="admin-sidebar-service-status">
+              <div className={`admin-sidebar-service-indicator ${service.status}`}></div>
+              <span className="admin-sidebar-service-name">{service.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Navigation - No Scroll */}
       <nav className="admin-sidebar-nav">
-        {sidebarItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <button
-              key={item.id}
-              className={`admin-sidebar-nav-item ${activeTab === item.id ? 'active' : ''}`}
-              onClick={() => handleTabChange(item.id)}
-              title={item.description}
-            >
-              <div className="admin-sidebar-nav-icon">
-                <Icon className="w-5 h-5" />
-              </div>
-              <div className="admin-sidebar-nav-content">
-                <span className="admin-sidebar-nav-label">{item.label}</span>
-                <span className="admin-sidebar-nav-description">{item.description}</span>
-              </div>
-              {item.badge && (
-                <span className={`admin-sidebar-nav-badge ${item.badge === 'LIVE' ? 'live' : ''}`}>
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          );
-        })}
+        <ul className="admin-sidebar-nav-list">
+          {navigationItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <li key={item.id}>
+                <button
+                  className={`admin-sidebar-nav-item ${activeTab === item.id ? 'admin-sidebar-nav-item-active' : ''}`}
+                  onClick={() => setActiveTab(item.id)}
+                >
+                  <Icon className="admin-sidebar-nav-icon" />
+                  <div className="admin-sidebar-nav-content">
+                    <div className="admin-sidebar-nav-header">
+                      <span className="admin-sidebar-nav-label">{item.label}</span>
+                      {item.badge && (
+                        <span className="admin-sidebar-nav-badge">{item.badge}</span>
+                      )}
+                    </div>
+                    <span className="admin-sidebar-nav-description">{item.description}</span>
+                  </div>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
       </nav>
 
-      {/* Quick Stats */}
+      {/* Quick Stats - Fixed */}
       <div className="admin-sidebar-stats">
-        <div className="admin-sidebar-stats-header">
-          <TrendingUp className="w-4 h-4" />
-          <span>Quick Stats</span>
-        </div>
-        <div className="admin-sidebar-stats-grid">
-          <div className="admin-sidebar-stat-item">
-            <div className="admin-sidebar-stat-value">$2.4M</div>
-            <div className="admin-sidebar-stat-label">Total Loans</div>
+        <h3 className="admin-sidebar-stats-title">Quick Stats</h3>
+        {systemStats.map((stat, index) => (
+          <div key={index} className="admin-sidebar-stat">
+            <span className="admin-sidebar-stat-label">{stat.label}</span>
+            <span className={`admin-sidebar-stat-value ${stat.urgent ? 'urgent' : ''}`}>
+              {stat.value}
+            </span>
           </div>
-          <div className="admin-sidebar-stat-item">
-            <div className="admin-sidebar-stat-value">156</div>
-            <div className="admin-sidebar-stat-label">Active Users</div>
-          </div>
-          <div className="admin-sidebar-stat-item">
-            <div className="admin-sidebar-stat-value">45</div>
-            <div className="admin-sidebar-stat-label">NFTs Minted</div>
-          </div>
-          <div className="admin-sidebar-stat-item">
-            <div className="admin-sidebar-stat-value">98.5%</div>
-            <div className="admin-sidebar-stat-label">Uptime</div>
-          </div>
-        </div>
+        ))}
       </div>
 
-      {/* Footer */}
+      {/* Footer - Fixed */}
       <div className="admin-sidebar-footer">
-        <div className="admin-sidebar-footer-actions">
-          <button className="admin-sidebar-footer-action">
-            <Bell size={16} />
-            <span>Notifications</span>
-          </button>
-          <button className="admin-sidebar-footer-action">
-            <Globe size={16} />
-            <span>Network Status</span>
-          </button>
-        </div>
-
-        <div className="admin-sidebar-footer-user">
+        <div className="admin-sidebar-user">
+          <div className="admin-sidebar-user-avatar">
+            <User className="w-6 h-6" />
+          </div>
           <div className="admin-sidebar-user-info">
-            <div className="admin-sidebar-user-avatar">
-              <Shield className="w-6 h-6" />
-            </div>
-            <div className="admin-sidebar-user-details">
-              <span className="admin-sidebar-user-name">Admin User</span>
-              <span className="admin-sidebar-user-role">Super Admin</span>
-            </div>
-          </div>
-          <button 
-            className="admin-sidebar-logout-btn"
-            onClick={handleLogout}
-          >
-            <LogOut size={16} />
-          </button>
-        </div>
-
-        <div className="admin-sidebar-footer-info">
-          <div className="admin-sidebar-version">
-            <span>v2.1.0</span>
-            <span>•</span>
-            <span>Production</span>
+            <span className="admin-sidebar-user-name">Admin User</span>
+            <span className="admin-sidebar-user-role">Super Administrator</span>
           </div>
         </div>
+        
+        <button className="admin-sidebar-logout" onClick={handleLogout}>
+          <LogOut className="w-4 h-4" />
+          Logout
+        </button>
       </div>
     </aside>
   );

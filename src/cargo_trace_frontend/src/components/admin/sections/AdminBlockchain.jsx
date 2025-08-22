@@ -1,129 +1,131 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
-  Activity,
-  Globe,
   Database,
-  RefreshCw,
-  AlertTriangle,
+  Globe,
+  Activity,
   CheckCircle,
+  XCircle,
   Clock,
+  AlertTriangle,
+  RefreshCw,
   ExternalLink,
-  Copy,
   TrendingUp,
   TrendingDown,
+  Zap,
+  Shield,
   BarChart3,
   Settings,
-  Wifi,
-  WifiOff,
-  Shield,
-  Zap
+  Eye
 } from 'lucide-react';
 
 const AdminBlockchain = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [lastRefresh, setLastRefresh] = useState(new Date());
+  const [selectedChain, setSelectedChain] = useState('all');
+  const [timeRange, setTimeRange] = useState('24h');
 
   // Mock data - in real app, this would come from API
-  const blockchainStatus = {
+  const blockchainData = {
     ethereum: {
+      name: 'Ethereum',
       status: 'online',
       lastBlock: '18,456,789',
-      syncTime: '2s ago',
+      blockTime: '12.5s',
+      transactions: 156,
       gasPrice: '25 Gwei',
-             pendingTransactions: 1234,
-      networkLoad: 'Medium',
-      uptime: '99.9%',
-      lastSync: new Date(Date.now() - 2000)
+      pendingTxs: 12,
+      lastSync: '2 minutes ago',
+      uptime: '99.8%',
+      chainId: 1,
+      rpcEndpoint: 'https://mainnet.infura.io/v3/...',
+      explorer: 'https://etherscan.io'
     },
     icp: {
+      name: 'Internet Computer',
       status: 'online',
       lastBlock: '1,234,567',
-      syncTime: '1s ago',
-      canisterCount: 45,
-             activeNodes: 1234,
-      networkLoad: 'Low',
-      uptime: '99.8%',
-      lastSync: new Date(Date.now() - 1000)
+      blockTime: '2s',
+      transactions: 892,
+      cycles: '1.2M',
+      pendingTxs: 5,
+      lastSync: '1 minute ago',
+      uptime: '99.9%',
+      chainId: 'ic',
+      rpcEndpoint: 'https://ic0.app',
+      explorer: 'https://dashboard.internetcomputer.org'
+    },
+    cargoX: {
+      name: 'CargoX',
+      status: 'online',
+      documents: 1247,
+      verified: 1189,
+      pending: 45,
+      rejected: 13,
+      lastSync: '30 seconds ago',
+      uptime: '99.5%',
+      apiEndpoint: 'https://api.cargox.io',
+      webhookStatus: 'active'
     },
     nafeza: {
+      name: 'NAFEZA',
       status: 'online',
-      lastSyncTime: '5 minutes ago',
-      apiResponseTime: '45ms',
-      uptime: '99.5%',
-      lastSync: new Date(Date.now() - 300000)
+      acidNumbers: 892,
+      validated: 856,
+      pending: 23,
+      failed: 13,
+      lastSync: '5 minutes ago',
+      uptime: '99.2%',
+      apiEndpoint: 'https://api.nafeza.gov.eg',
+      webhookStatus: 'active'
     }
   };
 
-  const recentTransactions = [
+  const chainFusionStats = {
+    totalTransfers: 156,
+    successfulTransfers: 152,
+    failedTransfers: 4,
+    averageTransferTime: '45s',
+    totalVolume: '$2.4M',
+    activeBridges: 2,
+    lastTransfer: '5 minutes ago'
+  };
+
+  const recentTransfers = [
     {
-      id: 'tx-001',
-      network: 'ethereum',
-      type: 'document_verification',
-      hash: '0x1234...5678',
-      status: 'confirmed',
-      blockNumber: '18,456,789',
-      timestamp: new Date(Date.now() - 30000),
-      gasUsed: '45,000',
-      gasPrice: '25 Gwei'
+      id: 'TF-001',
+      from: 'Ethereum',
+      to: 'ICP',
+      amount: '$45,000',
+      status: 'completed',
+      time: '2 minutes ago',
+      txHash: '0x1234...5678'
     },
     {
-      id: 'tx-002',
-      network: 'icp',
-      type: 'nft_mint',
-      hash: 'NFT-001',
-      status: 'confirmed',
-      blockNumber: '1,234,567',
-      timestamp: new Date(Date.now() - 60000),
-      canisterId: 'abc123'
-    },
-    {
-      id: 'tx-003',
-      network: 'ethereum',
-      type: 'loan_disbursement',
-      hash: '0x5678...9012',
+      id: 'TF-002',
+      from: 'ICP',
+      to: 'Ethereum',
+      amount: '$32,500',
       status: 'pending',
-      blockNumber: '18,456,788',
-      timestamp: new Date(Date.now() - 90000),
-      gasUsed: '120,000',
-      gasPrice: '30 Gwei'
+      time: '5 minutes ago',
+      txHash: '0x5678...9012'
     },
     {
-      id: 'tx-004',
-      network: 'icp',
-      type: 'smart_contract_execution',
-      hash: 'SC-001',
-      status: 'confirmed',
-      blockNumber: '1,234,566',
-      timestamp: new Date(Date.now() - 120000),
-      canisterId: 'def456'
+      id: 'TF-003',
+      from: 'Ethereum',
+      to: 'ICP',
+      amount: '$28,750',
+      status: 'failed',
+      time: '8 minutes ago',
+      txHash: '0x9012...3456'
     }
   ];
-
-  const networkMetrics = {
-    ethereum: {
-      totalTransactions: '1,234,567',
-      averageGasPrice: '25 Gwei',
-      networkUtilization: '65%',
-      pendingTransactions: '1,234',
-      blockTime: '12s'
-    },
-    icp: {
-      totalTransactions: '567,890',
-      averageBlockTime: '1s',
-      networkUtilization: '45%',
-      activeCanisters: '45',
-      nodeCount: '1,234'
-    }
-  };
 
   const getStatusIcon = (status) => {
     switch (status) {
       case 'online':
         return <CheckCircle className="w-4 h-4 text-green-500" />;
       case 'offline':
-        return <WifiOff className="w-4 h-4 text-red-500" />;
+        return <XCircle className="w-4 h-4 text-red-500" />;
       case 'syncing':
-        return <RefreshCw className="w-4 h-4 text-yellow-500 animate-spin" />;
+        return <Clock className="w-4 h-4 text-yellow-500" />;
       default:
         return <AlertTriangle className="w-4 h-4 text-gray-500" />;
     }
@@ -138,25 +140,13 @@ const AdminBlockchain = () => {
     return `px-2 py-1 rounded-full text-xs font-medium ${statusClasses[status] || 'bg-gray-100 text-gray-800'}`;
   };
 
-  const getTransactionStatusBadge = (status) => {
+  const getTransferStatusBadge = (status) => {
     const statusClasses = {
-      confirmed: 'bg-green-100 text-green-800',
+      completed: 'bg-green-100 text-green-800',
       pending: 'bg-yellow-100 text-yellow-800',
       failed: 'bg-red-100 text-red-800'
     };
     return `px-2 py-1 rounded-full text-xs font-medium ${statusClasses[status] || 'bg-gray-100 text-gray-800'}`;
-  };
-
-  const handleRefresh = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setLastRefresh(new Date());
-      setIsLoading(false);
-    }, 1000);
-  };
-
-  const handleViewTransaction = (tx) => {
-    console.log('Viewing transaction:', tx);
   };
 
   return (
@@ -165,220 +155,182 @@ const AdminBlockchain = () => {
       <div className="admin-blockchain-header">
         <div className="admin-blockchain-title">
           <h2>Blockchain Monitor</h2>
-          <p>Real-time monitoring of Ethereum and ICP blockchain networks</p>
+          <p>Monitor blockchain integrations, chain fusion, and cross-chain operations</p>
         </div>
         <div className="admin-blockchain-actions">
-          <button 
-            className="admin-blockchain-action-btn"
-            onClick={handleRefresh}
-            disabled={isLoading}
-          >
-            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
-            Refresh
+          <button className="admin-blockchain-action-btn">
+            <RefreshCw className="w-4 h-4" />
+            Refresh All
           </button>
-          <span className="admin-blockchain-last-refresh">
-            Last updated: {lastRefresh.toLocaleTimeString()}
-          </span>
+          <button className="admin-blockchain-action-btn">
+            <Settings className="w-4 h-4" />
+            Configure
+          </button>
         </div>
       </div>
 
-      {/* Network Status Cards */}
-      <div className="admin-blockchain-networks">
-        {Object.entries(blockchainStatus).map(([network, status]) => (
-          <div key={network} className="admin-blockchain-network-card">
-            <div className="admin-blockchain-network-header">
-              <div className="admin-blockchain-network-icon">
-                {network === 'ethereum' && <Globe className="w-6 h-6" />}
-                {network === 'icp' && <Database className="w-6 h-6" />}
-                {network === 'nafeza' && <Shield className="w-6 h-6" />}
-              </div>
-              <div className="admin-blockchain-network-info">
-                <h3 className="admin-blockchain-network-name">
-                  {network.toUpperCase()}
-                </h3>
-                <div className="admin-blockchain-network-status">
-                  {getStatusIcon(status.status)}
-                  <span className={getStatusBadge(status.status)}>
-                    {status.status}
-                  </span>
+      {/* Chain Status Overview */}
+      <div className="admin-blockchain-overview">
+        <h3>Chain Status Overview</h3>
+        <div className="admin-blockchain-chains">
+          {Object.entries(blockchainData).map(([key, chain]) => (
+            <div key={key} className="admin-blockchain-chain-card">
+              <div className="admin-blockchain-chain-header">
+                <div className="admin-blockchain-chain-info">
+                  <h4>{chain.name}</h4>
+                  <div className="admin-blockchain-chain-status">
+                    {getStatusIcon(chain.status)}
+                    <span className={getStatusBadge(chain.status)}>{chain.status}</span>
+                  </div>
+                </div>
+                <div className="admin-blockchain-chain-uptime">
+                  <span className="admin-blockchain-uptime-label">Uptime</span>
+                  <span className="admin-blockchain-uptime-value">{chain.uptime}</span>
                 </div>
               </div>
-            </div>
-            
-            <div className="admin-blockchain-network-metrics">
-              {network === 'ethereum' && (
-                <>
-                  <div className="admin-blockchain-metric">
-                    <span className="admin-blockchain-metric-label">Last Block</span>
-                    <span className="admin-blockchain-metric-value">{status.lastBlock}</span>
-                  </div>
-                  <div className="admin-blockchain-metric">
-                    <span className="admin-blockchain-metric-label">Gas Price</span>
-                    <span className="admin-blockchain-metric-value">{status.gasPrice}</span>
-                  </div>
-                  <div className="admin-blockchain-metric">
-                    <span className="admin-blockchain-metric-label">Pending TX</span>
-                    <span className="admin-blockchain-metric-value">{status.pendingTransactions.toLocaleString()}</span>
-                  </div>
-                </>
-              )}
               
-              {network === 'icp' && (
-                <>
-                  <div className="admin-blockchain-metric">
-                    <span className="admin-blockchain-metric-label">Last Block</span>
-                    <span className="admin-blockchain-metric-value">{status.lastBlock}</span>
+              <div className="admin-blockchain-chain-details">
+                {chain.lastBlock && (
+                  <div className="admin-blockchain-detail">
+                    <span className="admin-blockchain-detail-label">Last Block</span>
+                    <span className="admin-blockchain-detail-value">{chain.lastBlock}</span>
                   </div>
-                  <div className="admin-blockchain-metric">
-                    <span className="admin-blockchain-metric-label">Canisters</span>
-                    <span className="admin-blockchain-metric-value">{status.canisterCount}</span>
+                )}
+                {chain.blockTime && (
+                  <div className="admin-blockchain-detail">
+                    <span className="admin-blockchain-detail-label">Block Time</span>
+                    <span className="admin-blockchain-detail-value">{chain.blockTime}</span>
                   </div>
-                  <div className="admin-blockchain-metric">
-                    <span className="admin-blockchain-metric-label">Active Nodes</span>
-                    <span className="admin-blockchain-metric-value">{status.activeNodes.toLocaleString()}</span>
+                )}
+                {chain.transactions && (
+                  <div className="admin-blockchain-detail">
+                    <span className="admin-blockchain-detail-label">Transactions</span>
+                    <span className="admin-blockchain-detail-value">{chain.transactions}</span>
                   </div>
-                </>
-              )}
-              
-              {network === 'nafeza' && (
-                <>
-                  <div className="admin-blockchain-metric">
-                    <span className="admin-blockchain-metric-label">API Response</span>
-                    <span className="admin-blockchain-metric-value">{status.apiResponseTime}</span>
+                )}
+                {chain.documents && (
+                  <div className="admin-blockchain-detail">
+                    <span className="admin-blockchain-detail-label">Documents</span>
+                    <span className="admin-blockchain-detail-value">{chain.documents}</span>
                   </div>
-                                     <div className="admin-blockchain-metric">
-                     <span className="admin-blockchain-metric-label">Last Sync</span>
-                     <span className="admin-blockchain-metric-value">{status.lastSyncTime}</span>
-                   </div>
-                </>
-              )}
-              
-              <div className="admin-blockchain-metric">
-                <span className="admin-blockchain-metric-label">Uptime</span>
-                <span className="admin-blockchain-metric-value">{status.uptime}</span>
+                )}
+                {chain.acidNumbers && (
+                  <div className="admin-blockchain-detail">
+                    <span className="admin-blockchain-detail-label">ACID Numbers</span>
+                    <span className="admin-blockchain-detail-value">{chain.acidNumbers}</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="admin-blockchain-chain-footer">
+                <span className="admin-blockchain-last-sync">Last sync: {chain.lastSync}</span>
+                <button className="admin-blockchain-explorer-btn">
+                  <ExternalLink className="w-3 h-3" />
+                  Explorer
+                </button>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
-      {/* Network Metrics */}
-      <div className="admin-blockchain-metrics">
-        <div className="admin-blockchain-metrics-card">
-          <div className="admin-blockchain-metrics-header">
-            <h3>Ethereum Network Metrics</h3>
-            <Globe className="w-5 h-5" />
-          </div>
-          <div className="admin-blockchain-metrics-content">
-            <div className="admin-blockchain-metrics-grid">
-              <div className="admin-blockchain-metric-item">
-                <span className="admin-blockchain-metric-label">Total Transactions</span>
-                <span className="admin-blockchain-metric-value">{networkMetrics.ethereum.totalTransactions}</span>
-              </div>
-              <div className="admin-blockchain-metric-item">
-                <span className="admin-blockchain-metric-label">Avg Gas Price</span>
-                <span className="admin-blockchain-metric-value">{networkMetrics.ethereum.averageGasPrice}</span>
-              </div>
-              <div className="admin-blockchain-metric-item">
-                <span className="admin-blockchain-metric-label">Network Utilization</span>
-                <span className="admin-blockchain-metric-value">{networkMetrics.ethereum.networkUtilization}</span>
-              </div>
-              <div className="admin-blockchain-metric-item">
-                <span className="admin-blockchain-metric-label">Block Time</span>
-                <span className="admin-blockchain-metric-value">{networkMetrics.ethereum.blockTime}</span>
-              </div>
+      {/* Chain Fusion Stats */}
+      <div className="admin-blockchain-fusion">
+        <h3>Chain Fusion Statistics</h3>
+        <div className="admin-blockchain-fusion-stats">
+          <div className="admin-blockchain-fusion-stat">
+            <div className="admin-blockchain-fusion-stat-icon">
+              <Zap className="w-6 h-6" />
+            </div>
+            <div className="admin-blockchain-fusion-stat-content">
+              <div className="admin-blockchain-fusion-stat-value">{chainFusionStats.totalTransfers}</div>
+              <div className="admin-blockchain-fusion-stat-label">Total Transfers</div>
             </div>
           </div>
-        </div>
-
-        <div className="admin-blockchain-metrics-card">
-          <div className="admin-blockchain-metrics-header">
-            <h3>ICP Network Metrics</h3>
-            <Database className="w-5 h-5" />
+          <div className="admin-blockchain-fusion-stat">
+            <div className="admin-blockchain-fusion-stat-icon success">
+              <CheckCircle className="w-6 h-6" />
+            </div>
+            <div className="admin-blockchain-fusion-stat-content">
+              <div className="admin-blockchain-fusion-stat-value">{chainFusionStats.successfulTransfers}</div>
+              <div className="admin-blockchain-fusion-stat-label">Successful</div>
+            </div>
           </div>
-          <div className="admin-blockchain-metrics-content">
-            <div className="admin-blockchain-metrics-grid">
-              <div className="admin-blockchain-metric-item">
-                <span className="admin-blockchain-metric-label">Total Transactions</span>
-                <span className="admin-blockchain-metric-value">{networkMetrics.icp.totalTransactions}</span>
-              </div>
-              <div className="admin-blockchain-metric-item">
-                <span className="admin-blockchain-metric-label">Avg Block Time</span>
-                <span className="admin-blockchain-metric-value">{networkMetrics.icp.averageBlockTime}</span>
-              </div>
-              <div className="admin-blockchain-metric-item">
-                <span className="admin-blockchain-metric-label">Network Utilization</span>
-                <span className="admin-blockchain-metric-value">{networkMetrics.icp.networkUtilization}</span>
-              </div>
-              <div className="admin-blockchain-metric-item">
-                <span className="admin-blockchain-metric-label">Active Canisters</span>
-                <span className="admin-blockchain-metric-value">{networkMetrics.icp.activeCanisters}</span>
-              </div>
+          <div className="admin-blockchain-fusion-stat">
+            <div className="admin-blockchain-fusion-stat-icon">
+              <TrendingUp className="w-6 h-6" />
+            </div>
+            <div className="admin-blockchain-fusion-stat-content">
+              <div className="admin-blockchain-fusion-stat-value">{chainFusionStats.totalVolume}</div>
+              <div className="admin-blockchain-fusion-stat-label">Total Volume</div>
+            </div>
+          </div>
+          <div className="admin-blockchain-fusion-stat">
+            <div className="admin-blockchain-fusion-stat-icon">
+              <Clock className="w-6 h-6" />
+            </div>
+            <div className="admin-blockchain-fusion-stat-content">
+              <div className="admin-blockchain-fusion-stat-value">{chainFusionStats.averageTransferTime}</div>
+              <div className="admin-blockchain-fusion-stat-label">Avg Transfer Time</div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Recent Transactions */}
-      <div className="admin-blockchain-transactions">
-        <div className="admin-blockchain-transactions-header">
-          <h3>Recent Transactions</h3>
-          <Activity className="w-5 h-5" />
+      {/* Recent Transfers */}
+      <div className="admin-blockchain-transfers">
+        <div className="admin-blockchain-transfers-header">
+          <h3>Recent Cross-Chain Transfers</h3>
+          <button className="admin-blockchain-view-all-btn">View All</button>
         </div>
-        <div className="admin-blockchain-transactions-table">
-          <table className="admin-blockchain-table">
+        <div className="admin-blockchain-transfers-table">
+          <table>
             <thead>
               <tr>
-                <th>Transaction ID</th>
-                <th>Network</th>
-                <th>Type</th>
+                <th>Transfer ID</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Amount</th>
                 <th>Status</th>
-                <th>Block</th>
-                <th>Timestamp</th>
+                <th>Time</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {recentTransactions.map((tx) => (
-                <tr key={tx.id} className="admin-blockchain-table-row">
+              {recentTransfers.map((transfer) => (
+                <tr key={transfer.id} className="admin-blockchain-transfer-row">
                   <td>
-                    <div className="admin-blockchain-tx-id">
-                      <span className="admin-blockchain-tx-hash">{tx.hash}</span>
-                      <button className="admin-blockchain-copy-btn">
-                        <Copy className="w-3 h-3" />
+                    <span className="admin-blockchain-transfer-id">{transfer.id}</span>
+                  </td>
+                  <td>
+                    <div className="admin-blockchain-chain-badge">
+                      <Globe className="w-3 h-3" />
+                      {transfer.from}
+                    </div>
+                  </td>
+                  <td>
+                    <div className="admin-blockchain-chain-badge">
+                      <Database className="w-3 h-3" />
+                      {transfer.to}
+                    </div>
+                  </td>
+                  <td>
+                    <span className="admin-blockchain-transfer-amount">{transfer.amount}</span>
+                  </td>
+                  <td>
+                    <span className={getTransferStatusBadge(transfer.status)}>
+                      {transfer.status}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="admin-blockchain-transfer-time">{transfer.time}</span>
+                  </td>
+                  <td>
+                    <div className="admin-blockchain-transfer-actions">
+                      <button className="admin-blockchain-action-btn small">
+                        <Eye className="w-4 h-4" />
                       </button>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="admin-blockchain-network-badge">
-                      {tx.network === 'ethereum' && <Globe className="w-3 h-3" />}
-                      {tx.network === 'icp' && <Database className="w-3 h-3" />}
-                      <span>{tx.network.toUpperCase()}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <span className="admin-blockchain-tx-type">{tx.type.replace('_', ' ')}</span>
-                  </td>
-                  <td>
-                    <span className={getTransactionStatusBadge(tx.status)}>
-                      {tx.status}
-                    </span>
-                  </td>
-                  <td>
-                    <span className="admin-blockchain-block-number">{tx.blockNumber}</span>
-                  </td>
-                  <td>
-                    <span className="admin-blockchain-timestamp">
-                      {tx.timestamp.toLocaleTimeString()}
-                    </span>
-                  </td>
-                  <td>
-                    <div className="admin-blockchain-actions">
-                      <button
-                        className="admin-blockchain-action-btn small"
-                        onClick={() => handleViewTransaction(tx)}
-                        title="View Transaction"
-                      >
+                      <button className="admin-blockchain-action-btn small">
                         <ExternalLink className="w-4 h-4" />
                       </button>
                     </div>
@@ -392,41 +344,36 @@ const AdminBlockchain = () => {
 
       {/* System Health */}
       <div className="admin-blockchain-health">
-        <div className="admin-blockchain-health-card">
-          <div className="admin-blockchain-health-header">
-            <h3>System Health</h3>
-            <Zap className="w-5 h-5" />
+        <h3>System Health</h3>
+        <div className="admin-blockchain-health-grid">
+          <div className="admin-blockchain-health-card">
+            <div className="admin-blockchain-health-header">
+              <Shield className="w-5 h-5" />
+              <span>Security Status</span>
+            </div>
+            <div className="admin-blockchain-health-status">
+              <CheckCircle className="w-4 h-4 text-green-500" />
+              <span>All systems secure</span>
+            </div>
           </div>
-          <div className="admin-blockchain-health-content">
-            <div className="admin-blockchain-health-metrics">
-              <div className="admin-blockchain-health-item">
-                <span className="admin-blockchain-health-label">Chain Fusion Status</span>
-                <div className="admin-blockchain-health-status">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="admin-blockchain-health-value">Operational</span>
-                </div>
-              </div>
-              <div className="admin-blockchain-health-item">
-                <span className="admin-blockchain-health-label">Smart Contract Status</span>
-                <div className="admin-blockchain-health-status">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="admin-blockchain-health-value">Deployed & Active</span>
-                </div>
-              </div>
-              <div className="admin-blockchain-health-item">
-                <span className="admin-blockchain-health-label">NFT Minting Service</span>
-                <div className="admin-blockchain-health-status">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="admin-blockchain-health-value">Online</span>
-                </div>
-              </div>
-              <div className="admin-blockchain-health-item">
-                <span className="admin-blockchain-health-label">Document Verification</span>
-                <div className="admin-blockchain-health-status">
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="admin-blockchain-health-value">Active</span>
-                </div>
-              </div>
+          <div className="admin-blockchain-health-card">
+            <div className="admin-blockchain-health-header">
+              <Activity className="w-5 h-5" />
+              <span>Performance</span>
+            </div>
+            <div className="admin-blockchain-health-status">
+              <TrendingUp className="w-4 h-4 text-green-500" />
+              <span>Optimal performance</span>
+            </div>
+          </div>
+          <div className="admin-blockchain-health-card">
+            <div className="admin-blockchain-health-header">
+              <BarChart3 className="w-5 h-5" />
+              <span>Analytics</span>
+            </div>
+            <div className="admin-blockchain-health-status">
+              <CheckCircle className="w-4 h-4 text-green-500" />
+              <span>Data collection active</span>
             </div>
           </div>
         </div>

@@ -4,13 +4,14 @@ import AdminHeader from '../components/admin/AdminHeader';
 import AdminDashboard from '../components/admin/sections/AdminDashboard';
 import AdminDocuments from '../components/admin/sections/AdminDocuments';
 import AdminLoans from '../components/admin/sections/AdminLoans';
+import AdminRepayments from '../components/admin/sections/AdminRepayments';
 import AdminUsers from '../components/admin/sections/AdminUsers';
-import AdminSettings from '../components/admin/sections/AdminSettings';
 import AdminBlockchain from '../components/admin/sections/AdminBlockchain';
-import AdminACID from '../components/admin/sections/AdminACID';
-import AdminNFTs from '../components/admin/sections/AdminNFTs';
+import AdminAcid from '../components/admin/sections/AdminAcid';
+import AdminNfts from '../components/admin/sections/AdminNfts';
 import AdminAudit from '../components/admin/sections/AdminAudit';
 import AdminReports from '../components/admin/sections/AdminReports';
+import AdminSettings from '../components/admin/sections/AdminSettings';
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -29,20 +30,22 @@ const Admin = () => {
         return <AdminDocuments />;
       case 'loans':
         return <AdminLoans />;
+      case 'repayments':
+        return <AdminRepayments />;
       case 'users':
         return <AdminUsers />;
-      case 'settings':
-        return <AdminSettings />;
       case 'blockchain':
         return <AdminBlockchain />;
       case 'acid':
-        return <AdminACID />;
+        return <AdminAcid />;
       case 'nfts':
-        return <AdminNFTs />;
+        return <AdminNfts />;
       case 'audit':
         return <AdminAudit />;
       case 'reports':
         return <AdminReports />;
+      case 'settings':
+        return <AdminSettings />;
       default:
         return <AdminDashboard />;
     }
@@ -50,23 +53,17 @@ const Admin = () => {
 
   return (
     <div className="admin-container">
-      {/* Admin Sidebar */}
       <AdminSidebar 
         activeTab={activeTab} 
         setActiveTab={handleTabChange}
         isMobileMenuOpen={isMobileMenuOpen}
       />
-
-      {/* Main Content */}
       <div className="admin-main-content">
-        {/* Header */}
         <AdminHeader 
           activeTab={activeTab} 
           isMobileMenuOpen={isMobileMenuOpen}
           setIsMobileMenuOpen={setIsMobileMenuOpen}
         />
-
-        {/* Content */}
         <main className="admin-content">
           {renderContent()}
         </main>

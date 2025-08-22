@@ -23,7 +23,7 @@ const AdminHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
       id: 1,
       type: 'success',
       title: 'New Document Verified',
-      message: 'Bill of Lading #BL-2024-001 has been verified and NFT minted',
+      message: 'Bill of Lading #BL-2024-001 has been verified and NFT minted successfully',
       time: '2 minutes ago',
       icon: CheckCircle
     },
@@ -31,7 +31,7 @@ const AdminHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
       id: 2,
       type: 'warning',
       title: 'Loan Request Pending',
-      message: 'Loan request #LR-2024-008 requires manual approval',
+      message: 'Loan request #LR-2024-008 requires manual approval from admin',
       time: '15 minutes ago',
       icon: AlertTriangle
     },
@@ -39,9 +39,17 @@ const AdminHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
       id: 3,
       type: 'info',
       title: 'System Update',
-      message: 'Blockchain monitoring system updated to v2.1.1',
+      message: 'Blockchain monitoring system updated to v2.1.1 with improved performance',
       time: '1 hour ago',
       icon: Clock
+    },
+    {
+      id: 4,
+      type: 'success',
+      title: 'ACID Validation Complete',
+      message: 'NAFEZA integration processed 45 new ACID numbers successfully',
+      time: '2 hours ago',
+      icon: CheckCircle
     }
   ];
 
@@ -59,6 +67,7 @@ const AdminHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
       dashboard: 'Admin Dashboard',
       documents: 'Document Management',
       loans: 'Loan Management',
+      repayments: 'Repayment Tracking',
       users: 'User Management',
       blockchain: 'Blockchain Monitor',
       acid: 'ACID Verification',
@@ -68,6 +77,23 @@ const AdminHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
       settings: 'System Settings'
     };
     return titles[activeTab] || 'Admin Panel';
+  };
+
+  const getPageDescription = () => {
+    const descriptions = {
+      dashboard: 'Monitor and control all CargoTrace operations',
+      documents: 'Manage trade documents, verification status, and blockchain integration',
+      loans: 'Process loan requests and manage lending operations',
+      repayments: 'Track payment schedules and manage repayment workflows',
+      users: 'Manage platform users, roles, and permissions',
+      blockchain: 'Monitor blockchain integrations and chain fusion operations',
+      acid: 'Manage Advanced Cargo Information Declaration verification',
+      nfts: 'Manage digital tokens and blockchain representations',
+      audit: 'System activity and security audit trail',
+      reports: 'Comprehensive analytics and reporting dashboard',
+      settings: 'Configure system parameters and integrations'
+    };
+    return descriptions[activeTab] || 'Manage and monitor the CargoTrace Finance platform';
   };
 
   return (
@@ -84,7 +110,7 @@ const AdminHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
       <div className="admin-header-title">
         <h1>{getPageTitle()}</h1>
         <p className="admin-header-subtitle">
-          Manage and monitor the CargoTrace Finance platform
+          {getPageDescription()}
         </p>
       </div>
 
@@ -95,7 +121,7 @@ const AdminHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
             <Search className="admin-search-icon" />
             <input
               type="text"
-              placeholder="Search documents, users, loans..."
+              placeholder="Search documents, users, loans, ACID numbers..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="admin-search-input"
@@ -117,7 +143,7 @@ const AdminHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
           <button className="admin-header-action-btn" title="Export Data">
             <Download className="w-5 h-5" />
           </button>
-          <button className="admin-header-action-btn" title="Filters">
+          <button className="admin-header-action-btn" title="Advanced Filters">
             <Filter className="w-5 h-5" />
           </button>
         </div>
@@ -129,7 +155,7 @@ const AdminHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
             onClick={() => setShowNotifications(!showNotifications)}
           >
             <Bell className="w-5 h-5" />
-            <span className="admin-header-notification-badge">3</span>
+            <span className="admin-header-notification-badge">{notifications.length}</span>
           </button>
 
           {showNotifications && (
@@ -167,7 +193,7 @@ const AdminHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
             </div>
             <div className="admin-header-profile-details">
               <span className="admin-header-profile-name">Admin User</span>
-              <span className="admin-header-profile-role">Super Admin</span>
+              <span className="admin-header-profile-role">Super Administrator</span>
             </div>
           </div>
           <div className="admin-header-profile-actions">
