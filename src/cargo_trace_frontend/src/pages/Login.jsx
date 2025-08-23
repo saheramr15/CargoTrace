@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login, logout, checkAuth, getPrincipal } from '../auth';
 import { backendService } from '../services/backendService';
+import { Principal } from "@dfinity/principal";
 
+import { cargo_trace_backend as backend } from '../../../declarations/cargo_trace_backend';
 const Login = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [principal, setPrincipal] = useState('');
@@ -15,8 +17,8 @@ const Login = () => {
       const authenticated = await checkAuth();
       setLoggedIn(authenticated);
       if (authenticated) {
-        const userPrincipal = await getPrincipal();
-        setPrincipal(userPrincipal);
+      const userPrincipalStr = await getPrincipal(); // string
+      setPrincipal(userPrincipalStr);
         
         // Initialize backend service
         try {
@@ -24,6 +26,10 @@ const Login = () => {
           const authClient = await import('@dfinity/auth-client').then(m => m.AuthClient.create());
           const identity = authClient.getIdentity();
           await backendService.initialize(identity);
+           const userPrincipal = Principal.fromText(userPrincipalStr); // ✅ convert
+
+           await backend.save_principal(userPrincipal);
+
           setBackendStatus('Backend connected successfully');
         } catch (error) {
           console.error('Failed to initialize backend:', error);
@@ -47,6 +53,8 @@ const Login = () => {
           const identity = authClient.getIdentity();
           await backendService.initialize(identity);
           setBackendStatus('Backend connected successfully');
+          
+
           
           // Navigate to dashboard after successful backend initialization
           setTimeout(() => {
