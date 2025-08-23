@@ -1,12 +1,7 @@
-// Backend Service for CargoTrace Frontend
-// This connects the React frontend to the ICP backend canister
 
 import { Actor, HttpAgent } from '@dfinity/agent';
 import { Principal } from '@dfinity/principal';
 
-// Import the generated candid interface
-// This will be generated when you run dfx generate
-// import { idlFactory } from '../../../declarations/cargo_trace_backend/cargo_trace_backend.did.js';
 
 class BackendService {
     constructor() {
