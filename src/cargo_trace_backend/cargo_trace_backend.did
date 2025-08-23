@@ -49,6 +49,7 @@ service : {
   get_loan : (text) -> (opt Loan) query;
   get_my_documents : () -> (vec Document) query;
   get_my_loans : () -> (vec Loan) query;
+  get_principals : () -> (vec principal) query;
   get_transfers : () -> (vec TransferPayload) query;
   has_id : (nat64) -> (bool) query;
   ingest_transfer : (TransferPayload) -> ();
@@ -56,6 +57,7 @@ service : {
   remove_id : (nat64) -> (bool);
   repay_loan : (text, nat64) -> (Result);
   request_loan : (text, nat64, nat64) -> (Result_1);
+  save_principal : (principal) -> ();
   submit_document : (text, text, nat64) -> (Result_1);
   transfer : (principal, nat64) -> (Result);
   validate_acid : (text) -> (Result_2);
