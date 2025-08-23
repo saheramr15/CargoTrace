@@ -6,7 +6,8 @@ use ic_stable_structures::{DefaultMemoryImpl, StableBTreeMap, Storable};
 use ic_stable_structures::storable::Bound;
 use std::cell::RefCell;
 use std::collections::HashMap;
-
+mod login;
+pub use login::*;
 
 // Define memory manager
 type Memory = VirtualMemory<DefaultMemoryImpl>;
@@ -16,7 +17,6 @@ thread_local! {
     static MEMORY_MANAGER: RefCell<MemoryManager<DefaultMemoryImpl>> = RefCell::new(
         MemoryManager::init(DefaultMemoryImpl::default())
     );
-
     static DOCUMENTS: RefCell<StableBTreeMap<String, Document, Memory>> = RefCell::new(
         StableBTreeMap::init(MEMORY_MANAGER.with(|mm| mm.borrow().get(MemoryId::new(1))))
     );
@@ -48,9 +48,16 @@ pub struct TransferPayload {
     to: String,
     log_index: u64,
 }
+
+
+
+
+
+
+
 #[update]
 fn ingest_transfer(payload: TransferPayload) {
-ic_cdk::println!("📦 Got transfer JSON: {:?}", payload);
+ic_cdk::println!("Got transfer JSON: {:?}", payload);
 }
 
 #[ic_cdk::query]
