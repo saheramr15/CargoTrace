@@ -9,6 +9,7 @@ thread_local! {
         std::cell::RefCell::new(BTreeSet::new());
 }
 
+
 #[pre_upgrade]
 fn pre_upgrade() {
     let principals = PRINCIPALS.with(|p| p.borrow().clone());
