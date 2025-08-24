@@ -14,8 +14,11 @@ import {
   Shield as AdminIcon
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from '../../context/AuthContext';
 const DashboardHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
+
+  const { globalPrincipal } = useAuth();
+  console.log("DashboardHeader Principal:", globalPrincipal);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [notifications] = useState([
@@ -201,7 +204,11 @@ const DashboardHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) =
                     </div>
                     <div>
                       <p className="dashboard-header-user-name">Trade Partner</p>
-                      <p className="dashboard-header-user-email">partner@cargotrace.com</p>
+
+                     
+                      <p className="dashboard-header-user-email">{globalPrincipal}</p>
+
+
                     </div>
                   </div>
                 </div>
