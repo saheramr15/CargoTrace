@@ -598,7 +598,6 @@ pub fn transfer(to: Principal, amount: u64) -> Result<(), String> {
 
         Ok(())
 }
-
 // Legacy functions
 #[update]
 pub fn add_id(_id: u64) -> bool {
