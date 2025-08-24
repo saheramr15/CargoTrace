@@ -5,6 +5,7 @@ import { backendService } from '../services/backendService';
 import { Principal } from "@dfinity/principal";
 import { cargo_trace_backend as backend } from '../../../declarations/cargo_trace_backend';
 import { useAuth } from '../context/AuthContext';
+
 const Login = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [principal, setPrincipal] = useState('');
@@ -42,36 +43,47 @@ const Login = () => {
     init();
   }, []);
 
-  const handleLogin = async () => {
-    setIsLoading(true);
-    setBackendStatus('');
+const handleLogin = async () => {
+  setIsLoading(true);
+  setBackendStatus('');
+
+  await login(async () => {
+    const authenticated = await checkAuth();
+    if (authenticated) {
+      try {
+        setBackendStatus('Initializing backend...');
+        const authClient = await import('@dfinity/auth-client').then(m => m.AuthClient.create());
+        const identity = authClient.getIdentity();
+        await backendService.initialize(identity);
+        setBackendStatus('Backend connected successfully');
+
+        
+        const userPrincipalStr = await getPrincipal();
+        setPrincipal(userPrincipalStr);
+
+
+        setGlobalPrincipal(userPrincipalStr);
+
+        
+        const userPrincipal = Principal.fromText(userPrincipalStr);
+        await backend.save_principal(userPrincipal);
+
     
-    await login(async () => {
-      const authenticated = await checkAuth();
-      if (authenticated) {
-        try {
-          setBackendStatus('Initializing backend...');
-          const authClient = await import('@dfinity/auth-client').then(m => m.AuthClient.create());
-          const identity = authClient.getIdentity();
-          await backendService.initialize(identity);
-          setBackendStatus('Backend connected successfully');
-          
+        setLoggedIn(true);
 
-          
-          // Navigate to dashboard after successful backend initialization
-          setTimeout(() => {
+         
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 1000);
 
-
-            navigate('/dashboard');
-          }, 1000);
-        } catch (error) {
-          console.error('Failed to initialize backend:', error);
-          setBackendStatus('Backend connection failed - please try again');
-        }
+      } catch (error) {
+        console.error('Failed to initialize backend:', error);
+        setBackendStatus('Backend connection failed - please try again');
       }
-      setIsLoading(false);
-    });
-  };
+    }
+    setIsLoading(false);
+  });
+};
 
   const handleLogout = async () => {
     setIsLoading(true);

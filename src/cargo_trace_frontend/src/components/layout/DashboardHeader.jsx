@@ -15,9 +15,10 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { logout } from '../../auth';
 const DashboardHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) => {
-
-  const { globalPrincipal } = useAuth();
+ 
+const { globalPrincipal, setGlobalPrincipal } = useAuth(); 
   console.log("DashboardHeader Principal:", globalPrincipal);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -80,9 +81,18 @@ const DashboardHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) =
 
   const tabInfo = getTabInfo(activeTab);
 
-  const handleLogout = () => {
-    // Handle logout logic
-    console.log('Logging out...');
+  
+  const handleLogout = async () => {
+    try {
+      await logout();                        // end Internet Identity session
+      setGlobalPrincipal(null);              // clear principal from context
+      
+      navigate('/', { replace: true });
+      window.location.reload(); 
+                      // redirect to login page
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
   };
 
   const handleSwitchToAdmin = () => {
@@ -204,10 +214,7 @@ const DashboardHeader = ({ activeTab, isMobileMenuOpen, setIsMobileMenuOpen }) =
                     </div>
                     <div>
                       <p className="dashboard-header-user-name">Trade Partner</p>
-
-                     
                       <p className="dashboard-header-user-email">{globalPrincipal}</p>
-
 
                     </div>
                   </div>
