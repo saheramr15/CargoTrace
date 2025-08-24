@@ -76,6 +76,7 @@ const Login = () => {
   const handleLogout = async () => {
     setIsLoading(true);
     await logout();
+    setGlobalPrincipal(null);
     setLoggedIn(false);
     setPrincipal('');
     setBackendStatus('');
