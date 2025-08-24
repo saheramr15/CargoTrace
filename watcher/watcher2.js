@@ -2,14 +2,15 @@
 import { ethers } from "ethers";
 import fetch from "node-fetch";
 import pkg from "@dfinity/agent";
-const { HttpAgent, Actor, IDL } = pkg;
+const { HttpAgent, Actor } = pkg;
+import { IDL } from "@dfinity/candid";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
 // ---- CONFIG ----
 const WS_RPC_URL = "wss://eth-mainnet.g.alchemy.com/v2/rx3izQBwsCvFk3McMgI3P"; 
-const CONTRACT_ADDRESS = "0xC36442b4a4522E871399CD717aBDD847Ab11FE88"; // replace with your contract
+const CONTRACT_ADDRESS = "0xC36442b4a4522E871399CD717aBDD847Ab11FE88"; 
 const ICP_BACKEND_URL = "http://127.0.0.1:4943"; 
 const CANISTER_ID = "uxrrr-q7777-77774-qaaaq-cai";
 
@@ -49,8 +50,11 @@ async function getBackendActor() {
 // ---- Send payload to ICP ----
 async function sendToICP(payload) {
   try {
-    payload.block_number = BigInt(payload.block_number);
-    payload.log_index = BigInt(payload.log_index);
+    // Guard for undefined values
+    payload.block_number = payload.block_number !== undefined ? BigInt(payload.block_number) : 0n;
+    payload.log_index = payload.log_index !== undefined ? BigInt(payload.log_index) : 0n;
+    payload.tx_hash = payload.tx_hash ?? "unknown_tx";
+
     const backend = await getBackendActor();
     await backend.ingest_transfer(payload);
     console.log("Sent to ICP canister:", payload.tx_hash);
@@ -61,7 +65,9 @@ async function sendToICP(payload) {
 
 // ---- Save & load last processed block ----
 function saveLastBlock(blockNumber) {
-  fs.writeFileSync(CHECKPOINT_FILE, blockNumber.toString(), "utf-8");
+  if (blockNumber !== undefined) {
+    fs.writeFileSync(CHECKPOINT_FILE, blockNumber.toString(), "utf-8");
+  }
 }
 
 function loadLastBlock() {
@@ -117,16 +123,21 @@ async function processEvent(event) {
 
   const { from, to, tokenId } = event.args;
 
-  //  REMOVE wallet filter: process all transfers
+  // Skip events without transaction hash
+  if (!event.transactionHash) {
+    console.warn("Skipping event with undefined transaction hash");
+    return;
+  }
+
   const payload = {
     network: "ethereum",
     contract: CONTRACT_ADDRESS,
     tx_hash: event.transactionHash,
-    block_number: event.blockNumber,
-    token_id: tokenId.toString(),
-    from,
-    to,
-    log_index: event.logIndex,
+    block_number: event.blockNumber ?? 0,
+    token_id: tokenId?.toString() ?? "0",
+    from: from ?? "unknown",
+    to: to ?? "unknown",
+    log_index: event.logIndex ?? 0,
   };
 
   console.log("Transfer detected:", payload.tx_hash, `from ${from} to ${to}`);
