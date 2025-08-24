@@ -3,14 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { login, logout, checkAuth, getPrincipal } from '../auth';
 import { backendService } from '../services/backendService';
 import { Principal } from "@dfinity/principal";
-
 import { cargo_trace_backend as backend } from '../../../declarations/cargo_trace_backend';
+import { useAuth } from '../context/AuthContext';
 const Login = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [principal, setPrincipal] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [backendStatus, setBackendStatus] = useState('');
   const navigate = useNavigate();
+    const { globalPrincipal, setGlobalPrincipal } = useAuth(); // use global context
+
 
   useEffect(() => {
     const init = async () => {
@@ -27,7 +29,7 @@ const Login = () => {
           const identity = authClient.getIdentity();
           await backendService.initialize(identity);
            const userPrincipal = Principal.fromText(userPrincipalStr); // ✅ convert
-
+          setGlobalPrincipal(userPrincipalStr); // set in global context
            await backend.save_principal(userPrincipal);
 
           setBackendStatus('Backend connected successfully');
@@ -58,6 +60,8 @@ const Login = () => {
           
           // Navigate to dashboard after successful backend initialization
           setTimeout(() => {
+
+
             navigate('/dashboard');
           }, 1000);
         } catch (error) {
