@@ -5,16 +5,16 @@ const provider = new ethers.WebSocketProvider(WS_RPC_URL);
 
 // Listen for errors
 provider.on("error", (err) => {
-  console.error("⚠️ Provider error:", err);
+  console.error("Provider error:", err);
 });
 
 // Listen for new blocks
 provider.on("block", (blockNumber) => {
-  console.log("🌐 New block:", blockNumber);
+  console.log("New block:", blockNumber);
 });
 
 // Simple connectivity test
 (async () => {
   const block = await provider.getBlockNumber();
-  console.log("✅ Connected! Current block:", block);
+  console.log("Connected! Current block:", block);
 })();
