@@ -9,7 +9,7 @@ import { fileURLToPath } from "url";
 
 // ---- CONFIG ----
 const WS_RPC_URL = "wss://eth-mainnet.g.alchemy.com/v2/rx3izQBwsCvFk3McMgI3P"; 
-const CONTRACT_ADDRESS = "0x8d6Fd650500f82c7D978a440348e5a9b886943bF"; // replace with your contract
+const CONTRACT_ADDRESS = "0xC36442b4a4522E871399CD717aBDD847Ab11FE88"; // replace with your contract
 const ICP_BACKEND_URL = "http://127.0.0.1:4943"; 
 const CANISTER_ID = "uxrrr-q7777-77774-qaaaq-cai";
 
@@ -129,7 +129,7 @@ async function processEvent(event) {
     log_index: event.logIndex,
   };
 
-  console.log("📦 Transfer detected:", payload.tx_hash, `from ${from} to ${to}`);
+  console.log("Transfer detected:", payload.tx_hash, `from ${from} to ${to}`);
   await sendToICP(payload);
   saveLastBlock(event.blockNumber);
 }
