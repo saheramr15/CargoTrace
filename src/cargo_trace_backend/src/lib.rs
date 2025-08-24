@@ -9,6 +9,9 @@ use std::collections::HashMap;
 mod login;
 pub use login::*;
 
+mod cargowatcher;
+pub use cargowatcher::*;
+
 // Define memory manager
 type Memory = VirtualMemory<DefaultMemoryImpl>;
 
@@ -32,39 +35,33 @@ thread_local! {
     static BALANCES: RefCell<StableBTreeMap<Principal, u64, Memory>> = RefCell::new(
         StableBTreeMap::init(MEMORY_MANAGER.with(|mm| mm.borrow().get(MemoryId::new(4))))
     );
-    static TRANSFERS: std::cell::RefCell<Vec<TransferPayload>> = std::cell::RefCell::new(Vec::new());
+    // static TRANSFERS: std::cell::RefCell<Vec<TransferPayload>> = std::cell::RefCell::new(Vec::new());
 
     static COUNTERS: RefCell<HashMap<String, u64>> = RefCell::new(HashMap::new());
 }
 
-#[derive(Clone, Debug, CandidType, Deserialize)]
-pub struct TransferPayload {
-    network: String,
-    contract: String,
-    tx_hash: String,
-    block_number: u64,
-    token_id: String,
-    from: String,
-    to: String,
-    log_index: u64,
-}
+// #[derive(Clone, Debug, CandidType, Deserialize)]
+// pub struct TransferPayload {
+//     network: String,
+//     contract: String,
+//     tx_hash: String,
+//     block_number: u64,
+//     token_id: String,
+//     from: String,
+//     to: String,
+//     log_index: u64,
+// }
 
+// #[update]
+// fn ingest_transfer(payload: TransferPayload) {
+// ic_cdk::println!("Got transfer JSON: {:?}", payload);
+// }
 
+// #[ic_cdk::query]
+// fn get_transfers() -> Vec<TransferPayload> {
+//     TRANSFERS.with(|t| t.borrow().clone())
 
-
-
-
-
-#[update]
-fn ingest_transfer(payload: TransferPayload) {
-ic_cdk::println!("Got transfer JSON: {:?}", payload);
-}
-
-#[ic_cdk::query]
-fn get_transfers() -> Vec<TransferPayload> {
-    TRANSFERS.with(|t| t.borrow().clone())
-
-}
+// }
 // Data structures
 #[derive(CandidType, Deserialize, Clone)]
 pub struct Document {
