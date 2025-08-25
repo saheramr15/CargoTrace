@@ -28,9 +28,25 @@ const AppContent = () => {
   const excludedPages = ['/dashboard', '/admin', '/login'];
   const shouldShowLayout = !excludedPages.includes(location.pathname);
 
+  // Force cache refresh on component mount
   useEffect(() => {
+    // Clear any cached data
+    if ('caches' in window) {
+      caches.keys().then(names => {
+        names.forEach(name => {
+          caches.delete(name);
+        });
+      });
+    }
     setIsVisible(true);
   }, []);
+
+  // Debug logging
+  useEffect(() => {
+    console.log('Current pathname:', location.pathname);
+    console.log('Should show layout:', shouldShowLayout);
+    console.log('Excluded pages:', excludedPages);
+  }, [location.pathname, shouldShowLayout]);
 
   return (
     <div className="app">
