@@ -34,7 +34,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className={`navbar ${isScrolled ? 'scrolled' : 'transparent'}`}>
+      <nav className="navbar scrolled">
         <div className="nav-container">
           {/* Logo */}
           <Link to="/" className="nav-logo">
