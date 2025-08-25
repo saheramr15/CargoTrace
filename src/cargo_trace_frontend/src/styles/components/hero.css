@@ -7,7 +7,7 @@
   background: linear-gradient(135deg, #111827 0%, #4C1D95 50%, #111827 100%);
   color: #FFFFFF;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .hero-background-overlay {

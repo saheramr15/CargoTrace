@@ -43,23 +43,7 @@ body {
   color: var(--text-primary);
 }
 
-/* Enhanced Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--accent-gradient);
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-gradient);
-}
+/* Scrollbar styles moved to index.css to avoid conflicts */
 
 /* Utility Classes */
 .gradient-text {

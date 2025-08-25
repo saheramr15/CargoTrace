@@ -11,7 +11,9 @@ import {
   Network,
   Globe,
   Menu,
-  Shield as AdminIcon
+  Shield as AdminIcon,
+  Copy,
+  Check
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -22,6 +24,8 @@ const { globalPrincipal, setGlobalPrincipal } = useAuth();
   console.log("DashboardHeader Principal:", globalPrincipal);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [showFullPrincipal, setShowFullPrincipal] = useState(false);
   const [notifications] = useState([
     { id: 1, message: 'New CargoX document verified', time: '2 min ago', type: 'success' },
     { id: 2, message: 'ICRC-1 loan approved', time: '5 min ago', type: 'success' },
@@ -97,6 +101,26 @@ const { globalPrincipal, setGlobalPrincipal } = useAuth();
 
   const handleSwitchToAdmin = () => {
     navigate('/admin');
+  };
+
+  // Function to truncate principal
+  const truncatePrincipal = (principal) => {
+    if (!principal) return '';
+    if (principal.length <= 20) return principal;
+    return `${principal.substring(0, 10)}...${principal.substring(principal.length - 10)}`;
+  };
+
+  // Function to copy principal to clipboard
+  const copyPrincipal = async () => {
+    if (globalPrincipal) {
+      try {
+        await navigator.clipboard.writeText(globalPrincipal);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error('Failed to copy principal:', err);
+      }
+    }
   };
 
   return (
@@ -212,10 +236,24 @@ const { globalPrincipal, setGlobalPrincipal } = useAuth();
                     <div className="dashboard-header-user-avatar">
                       <User size={16} color="white" />
                     </div>
-                    <div>
+                    <div className="dashboard-header-user-details">
                       <p className="dashboard-header-user-name">Trade Partner</p>
-                      <p className="dashboard-header-user-email">{globalPrincipal}</p>
-
+                      <div className="dashboard-header-principal-container">
+                        <p 
+                          className="dashboard-header-principal"
+                          onClick={() => setShowFullPrincipal(!showFullPrincipal)}
+                          title={showFullPrincipal ? "Click to collapse" : "Click to expand"}
+                        >
+                          {showFullPrincipal ? globalPrincipal : truncatePrincipal(globalPrincipal)}
+                        </p>
+                        <button 
+                          className="dashboard-header-copy-btn"
+                          onClick={copyPrincipal}
+                          title="Copy principal"
+                        >
+                          {copied ? <Check size={12} /> : <Copy size={12} />}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

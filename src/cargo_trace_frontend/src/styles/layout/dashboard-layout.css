@@ -950,10 +950,100 @@
   margin: 0;
 }
 
+.dashboard-header-user-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboard-header-principal-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.dashboard-header-principal {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  background: rgba(167, 139, 250, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  word-break: break-all;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.dashboard-header-principal:hover {
+  background: rgba(167, 139, 250, 0.2);
+  color: #7C3AED;
+}
+
+.dashboard-header-copy-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: rgba(167, 139, 250, 0.1);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  border-radius: 0.375rem;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.dashboard-header-copy-btn:hover {
+  background: rgba(167, 139, 250, 0.2);
+  color: #7C3AED;
+  border-color: rgba(167, 139, 250, 0.4);
+}
+
+.dashboard-header-copy-btn:active {
+  transform: scale(0.95);
+}
+
+/* Legacy class for backward compatibility */
 .dashboard-header-user-email {
   font-size: 0.75rem;
   color: #6b7280;
   margin: 0;
+}
+
+/* Responsive styles for principal display */
+@media (max-width: 768px) {
+  .dashboard-header-principal {
+    max-width: 150px;
+    font-size: 0.7rem;
+  }
+  
+  .dashboard-header-principal-container {
+    gap: 0.25rem;
+  }
+  
+  .dashboard-header-copy-btn {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header-principal {
+    max-width: 120px;
+    font-size: 0.65rem;
+  }
+  
+  .dashboard-header-user-details {
+    min-width: 0;
+    overflow: hidden;
+  }
 }
 
 /* Enhanced Sidebar Styles */
