@@ -29,6 +29,7 @@ const Login = () => {
           const authClient = await import('@dfinity/auth-client').then(m => m.AuthClient.create());
           const identity = authClient.getIdentity();
           await backendService.initialize(identity);
+          console.log(identity );
            const userPrincipal = Principal.fromText(userPrincipalStr); // ✅ convert
           setGlobalPrincipal(userPrincipalStr); // set in global context
            await backend.save_principal(userPrincipal);

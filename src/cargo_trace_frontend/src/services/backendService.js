@@ -46,6 +46,24 @@ class BackendService {
         }
     }
 
+
+       // 👉 ADD HERE: restore service state on refresh
+    async tryRestore() {
+        const initialized = localStorage.getItem("backend_initialized");
+        if (initialized === "true") {
+            this.actor = this.createMockActor();
+            this.isInitialized = true;
+            console.log("🔄 Backend service restored from localStorage");
+
+            // (Optional) restore mock documents if you add persistence
+            const savedDocs = localStorage.getItem("mock_documents");
+            if (savedDocs) {
+                this.actor._loadDocuments(JSON.parse(savedDocs));
+            }
+        }
+    }
+
+
     // Mock actor that simulates the real ICP backend behavior
     createMockActor() {
         // In-memory storage for mock data

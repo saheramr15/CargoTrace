@@ -8,7 +8,7 @@ import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
 import DocumentVerification from './pages/DocumentVerification';
 import Login from './pages/Login';
-
+import backendService from './services/backendService';
 // Scroll to top on route change
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -40,7 +40,9 @@ const AppContent = () => {
     }
     setIsVisible(true);
   }, []);
-
+useEffect(() => {
+  backendService.tryRestore(); // 🔄 restore after refresh
+}, []);
   // Debug logging
   useEffect(() => {
     console.log('Current pathname:', location.pathname);
