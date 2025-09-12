@@ -5,7 +5,7 @@ import DashboardHome from '../components/sections/DashboardHome';
 import DashboardDocuments from '../components/sections/DashboardDocuments';
 import DashboardLoans from '../components/sections/DashboardLoans';
 import DashboardRepayment from '../components/sections/DashboardRepayment';
-import CustomsIntegration from '../components/sections/CustomsIntegration';
+import CustomsIntegration from '../components/sections/CustomsIntegrationSafe';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');

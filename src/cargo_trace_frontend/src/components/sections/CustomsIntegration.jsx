@@ -63,29 +63,51 @@ const CustomsIntegration = () => {
 
   const loadData = async () => {
     try {
+      console.log('🔄 Loading data...');
       setLoading(true);
       setError(null);
       
       if (!backendService.isReady()) {
-        throw new Error('Backend service not initialized');
+        console.log('🔄 Backend not ready, initializing...');
+        backendService.actor = backendService.createMockActor();
+        backendService.isInitialized = true;
+        localStorage.setItem("backend_initialized", "true");
       }
 
+      console.log('📞 Calling backend services...');
       const [mappingsData, verificationsData, statsData, documentsData] = await Promise.all([
-        backendService.getAllCargoxMappings(),
+        backendService.getMyCargoxMappings(),
         backendService.getAllCustomsVerifications(),
         backendService.getVerificationStats(),
         backendService.getMyDocuments()
       ]);
 
-      setMappings(mappingsData);
-      setVerifications(verificationsData);
-      setRelatedDocuments(documentsData);
-      setStats({
-        pending: statsData[0],
-        verified: statsData[1],
-        rejected: statsData[2],
-        underReview: statsData[3]
+      console.log('📊 Raw backend results:', { 
+        mappingsData, 
+        verificationsData, 
+        statsData, 
+        documentsData 
       });
+
+      // Ensure we have arrays
+      const mappings = Array.isArray(mappingsData) ? mappingsData : [];
+      const verifications = Array.isArray(verificationsData) ? verificationsData : [];
+      const documents = Array.isArray(documentsData) ? documentsData : [];
+      const stats = Array.isArray(statsData) ? statsData : [0, 0, 0, 0];
+      
+      console.log('📊 Processed data:', { mappings, verifications, documents, stats });
+
+      setMappings(mappings);
+      setVerifications(verifications);
+      setRelatedDocuments(documents);
+      setStats({
+        pending: stats[0],
+        verified: stats[1],
+        rejected: stats[2],
+        underReview: stats[3]
+      });
+      
+      console.log('✅ Data loaded successfully - Mappings count:', mappings.length);
     } catch (err) {
       console.error('Failed to load data:', err);
       setError(err.message);
@@ -123,7 +145,7 @@ const CustomsIntegration = () => {
   };
 
   const handleLinkCargoxToAcid = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     
     try {
       console.log('🚀 Starting link process...', { nftHash, acidNumber });
@@ -131,9 +153,12 @@ const CustomsIntegration = () => {
       setError(null);
       setSuccessMessage('');
       
+      // Basic validation first
+      if (!nftHash || !acidNumber) {
+        throw new Error('Please fill in all required fields');
+      }
+
       console.log('Backend service ready:', backendService.isReady());
-      console.log('Backend service initialized:', backendService.isInitialized);
-      console.log('Backend service actor:', backendService.actor);
       
       // Ensure backend service is ready
       if (!backendService.isReady()) {
@@ -141,10 +166,6 @@ const CustomsIntegration = () => {
         backendService.actor = backendService.createMockActor();
         backendService.isInitialized = true;
         localStorage.setItem("backend_initialized", "true");
-      }
-
-      if (!nftHash || !acidNumber) {
-        throw new Error('Please fill in all required fields');
       }
 
       console.log('📞 Calling backend service...');
@@ -256,18 +277,17 @@ const CustomsIntegration = () => {
     );
   }
 
-  try {
-    return (
-      <div className="dashboard-content">
-        {/* Toast Notification */}
-        {showToast && (
-          <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg animate-bounce">
-            <div className="flex items-center">
-              <CheckCircle className="w-5 h-5 mr-2" />
-              <span className="font-semibold">Success! CargoX linked to ACID</span>
-            </div>
+  return (
+    <div className="dashboard-content">
+      {/* Toast Notification */}
+      {showToast && (
+        <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg animate-bounce">
+          <div className="flex items-center">
+            <CheckCircle className="w-5 h-5 mr-2" />
+            <span className="font-semibold">Success! CargoX linked to ACID</span>
           </div>
-        )}
+        </div>
+      )}
 
       {/* Statistics Overview */}
       <div className="dashboard-section">
@@ -400,10 +420,7 @@ const CustomsIntegration = () => {
           
           <button 
             type="button" 
-            onClick={(e) => {
-              console.log('🔘 Button clicked!', { nftHash, acidNumber, submitting });
-              handleLinkCargoxToAcid(e);
-            }}
+            onClick={handleLinkCargoxToAcid}
             disabled={submitting}
             className="dashboard-submit-button"
           >
@@ -423,21 +440,19 @@ const CustomsIntegration = () => {
           {/* Debug Test Button */}
           <button 
             type="button" 
-            onClick={() => {
+            onClick={async () => {
               console.log('🧪 Testing backend service...');
               console.log('Backend ready:', backendService.isReady());
               console.log('Backend initialized:', backendService.isInitialized);
               console.log('Backend actor:', backendService.actor);
               
-              // Test a simple call
-              if (backendService.isReady()) {
-                backendService.getVerificationStats().then(result => {
-                  console.log('✅ Backend test successful:', result);
-                }).catch(err => {
-                  console.error('❌ Backend test failed:', err);
-                });
-              } else {
-                console.log('❌ Backend not ready for testing');
+              try {
+                const mappings = await backendService.getMyCargoxMappings();
+                console.log('Current mappings:', mappings);
+                alert(`Found ${mappings.length} mappings`);
+              } catch (err) {
+                console.error('Error getting mappings:', err);
+                alert('Error: ' + err.message);
               }
             }}
             className="mt-2 px-4 py-2 bg-gray-500 text-white rounded text-sm"
@@ -625,24 +640,7 @@ const CustomsIntegration = () => {
         </div>
       </div>
     </div>
-    );
-  } catch (error) {
-    console.error('Error in CustomsIntegration component:', error);
-    return (
-      <div className="dashboard-content">
-        <div className="p-8 text-center">
-          <h2 className="text-xl font-semibold text-red-600 mb-4">Component Error</h2>
-          <p className="text-gray-600 mb-4">Something went wrong. Please refresh the page.</p>
-          <button 
-            onClick={() => window.location.reload()} 
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Refresh Page
-          </button>
-        </div>
-      </div>
-    );
-  }
+  );
 };
 
 export default CustomsIntegration;

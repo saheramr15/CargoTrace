@@ -77,6 +77,30 @@ class BackendService {
             counters: { document: 0, loan: 0, mapping: 0, verification: 0 }
         };
 
+        // Add some sample data for testing
+        const sampleMapping = {
+            id: 'MAP-000001',
+            nft_hash: '0x1234567890abcdef1234567890abcdef12345678',
+            acid_number: '123456789',
+            verified: false,
+            created_at: Date.now() - 86400000, // 1 day ago
+            owner: '2vxsx-fae',
+            customs_entry_id: null
+        };
+        mockData.cargoxMappings.set(sampleMapping.nft_hash, sampleMapping);
+
+        const sampleVerification = {
+            id: 'VER-000001',
+            nft_hash: '0x1234567890abcdef1234567890abcdef12345678',
+            acid_number: '123456789',
+            verification_status: { Pending: null },
+            verified_at: null,
+            customs_data: null,
+            created_at: Date.now() - 86400000,
+            verified_by: null
+        };
+        mockData.customsVerifications.set(sampleMapping.nft_hash, sampleVerification);
+
         return {
             // ACID Validation
             validate_acid: async (acidNumber) => {
