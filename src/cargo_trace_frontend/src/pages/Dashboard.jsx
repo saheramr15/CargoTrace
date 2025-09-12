@@ -5,6 +5,7 @@ import DashboardHome from '../components/sections/DashboardHome';
 import DashboardDocuments from '../components/sections/DashboardDocuments';
 import DashboardLoans from '../components/sections/DashboardLoans';
 import DashboardRepayment from '../components/sections/DashboardRepayment';
+import CustomsIntegration from '../components/sections/CustomsIntegrationSafe';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -25,6 +26,8 @@ const Dashboard = () => {
         return <DashboardLoans />;
       case 'repayment':
         return <DashboardRepayment />;
+      case 'customs':
+        return <CustomsIntegration />;
       default:
         return <DashboardHome />;
     }

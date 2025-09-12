@@ -9,7 +9,8 @@ import {
   Activity,
   Shield,
   Settings,
-  HelpCircle
+  HelpCircle,
+  Link
 } from 'lucide-react';
 
 const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
@@ -25,6 +26,12 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
       label: 'Documents',
       icon: FileText,
       badge: '12'
+    },
+    {
+      id: 'customs',
+      label: 'Customs Integration',
+      icon: Link,
+      badge: '5'
     },
     {
       id: 'loans',
