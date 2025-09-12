@@ -388,13 +388,14 @@ class BackendService {
                     mockData.customsVerifications.set(nftHash, verification);
                 }
 
-                // Find and update related document
-                const document = Array.from(mockData.documents.values())
-                    .find(doc => doc.ethereum_tx_hash === nftHash);
+                // Find and update related document by ACID number
+                const relatedDocument = Array.from(mockData.documents.values())
+                    .find(doc => doc.acid_number === acidNumber);
                 
-                if (document) {
-                    document.status = { Verified: null };
-                    mockData.documents.set(document.id, document);
+                if (relatedDocument) {
+                    relatedDocument.status = { Verified: null };
+                    mockData.documents.set(relatedDocument.id, relatedDocument);
+                    console.log('📄 Updated related document status to Verified:', relatedDocument.id);
                 }
 
                 return { Ok: null };
@@ -412,13 +413,14 @@ class BackendService {
                     mockData.customsVerifications.set(nftHash, verification);
                 }
 
-                // Find and update related document
-                const document = Array.from(mockData.documents.values())
-                    .find(doc => doc.ethereum_tx_hash === nftHash);
+                // Find and update related document by ACID number
+                const relatedDocument = Array.from(mockData.documents.values())
+                    .find(doc => doc.acid_number === acidNumber);
                 
-                if (document) {
-                    document.status = { Rejected: null };
-                    mockData.documents.set(document.id, document);
+                if (relatedDocument) {
+                    relatedDocument.status = { Rejected: null };
+                    mockData.documents.set(relatedDocument.id, relatedDocument);
+                    console.log('📄 Updated related document status to Rejected:', relatedDocument.id);
                 }
 
                 return { Ok: null };

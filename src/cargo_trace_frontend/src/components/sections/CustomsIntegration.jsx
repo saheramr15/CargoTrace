@@ -38,10 +38,27 @@ const CustomsIntegration = () => {
   const [stats, setStats] = useState({ pending: 0, verified: 0, rejected: 0, underReview: 0 });
   const [showToast, setShowToast] = useState(false);
   const [newlyCreatedMapping, setNewlyCreatedMapping] = useState(null);
+  const [relatedDocuments, setRelatedDocuments] = useState([]);
 
   // Load data on component mount
   useEffect(() => {
-    loadData();
+    // Ensure backend service is initialized
+    const initializeBackend = async () => {
+      if (!backendService.isReady()) {
+        console.log('🔄 Backend not ready, trying to restore...');
+        await backendService.tryRestore();
+        
+        if (!backendService.isReady()) {
+          console.log('🔄 Still not ready, creating mock actor...');
+          backendService.actor = backendService.createMockActor();
+          backendService.isInitialized = true;
+          localStorage.setItem("backend_initialized", "true");
+        }
+      }
+      loadData();
+    };
+    
+    initializeBackend();
   }, []);
 
   const loadData = async () => {
@@ -53,14 +70,16 @@ const CustomsIntegration = () => {
         throw new Error('Backend service not initialized');
       }
 
-      const [mappingsData, verificationsData, statsData] = await Promise.all([
+      const [mappingsData, verificationsData, statsData, documentsData] = await Promise.all([
         backendService.getAllCargoxMappings(),
         backendService.getAllCustomsVerifications(),
-        backendService.getVerificationStats()
+        backendService.getVerificationStats(),
+        backendService.getMyDocuments()
       ]);
 
       setMappings(mappingsData);
       setVerifications(verificationsData);
+      setRelatedDocuments(documentsData);
       setStats({
         pending: statsData[0],
         verified: statsData[1],
@@ -114,9 +133,14 @@ const CustomsIntegration = () => {
       
       console.log('Backend service ready:', backendService.isReady());
       console.log('Backend service initialized:', backendService.isInitialized);
+      console.log('Backend service actor:', backendService.actor);
       
+      // Ensure backend service is ready
       if (!backendService.isReady()) {
-        throw new Error('Backend service not initialized');
+        console.log('🔄 Backend not ready, initializing...');
+        backendService.actor = backendService.createMockActor();
+        backendService.isInitialized = true;
+        localStorage.setItem("backend_initialized", "true");
       }
 
       if (!nftHash || !acidNumber) {
@@ -154,6 +178,7 @@ const CustomsIntegration = () => {
     } catch (err) {
       console.error('Failed to link CargoX to ACID:', err);
       setError(err.message);
+      setSuccessMessage('');
     } finally {
       setSubmitting(false);
     }
@@ -231,17 +256,18 @@ const CustomsIntegration = () => {
     );
   }
 
-  return (
-    <div className="dashboard-content">
-      {/* Toast Notification */}
-      {showToast && (
-        <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg animate-bounce">
-          <div className="flex items-center">
-            <CheckCircle className="w-5 h-5 mr-2" />
-            <span className="font-semibold">Success! CargoX linked to ACID</span>
+  try {
+    return (
+      <div className="dashboard-content">
+        {/* Toast Notification */}
+        {showToast && (
+          <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg animate-bounce">
+            <div className="flex items-center">
+              <CheckCircle className="w-5 h-5 mr-2" />
+              <span className="font-semibold">Success! CargoX linked to ACID</span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* Statistics Overview */}
       <div className="dashboard-section">
@@ -313,6 +339,12 @@ const CustomsIntegration = () => {
             <Plus className="dashboard-section-icon" />
             Link CargoX NFT to ACID
           </h2>
+          <div className="dashboard-section-description">
+            <p className="text-sm text-gray-600">
+              Link your CargoX NFT hash to an ACID number to enable customs verification. 
+              This will connect your blockchain document with customs records.
+            </p>
+          </div>
         </div>
         
         {error && (
@@ -368,7 +400,10 @@ const CustomsIntegration = () => {
           
           <button 
             type="button" 
-            onClick={handleLinkCargoxToAcid}
+            onClick={(e) => {
+              console.log('🔘 Button clicked!', { nftHash, acidNumber, submitting });
+              handleLinkCargoxToAcid(e);
+            }}
             disabled={submitting}
             className="dashboard-submit-button"
           >
@@ -384,8 +419,76 @@ const CustomsIntegration = () => {
               </>
             )}
           </button>
+          
+          {/* Debug Test Button */}
+          <button 
+            type="button" 
+            onClick={() => {
+              console.log('🧪 Testing backend service...');
+              console.log('Backend ready:', backendService.isReady());
+              console.log('Backend initialized:', backendService.isInitialized);
+              console.log('Backend actor:', backendService.actor);
+              
+              // Test a simple call
+              if (backendService.isReady()) {
+                backendService.getVerificationStats().then(result => {
+                  console.log('✅ Backend test successful:', result);
+                }).catch(err => {
+                  console.error('❌ Backend test failed:', err);
+                });
+              } else {
+                console.log('❌ Backend not ready for testing');
+              }
+            }}
+            className="mt-2 px-4 py-2 bg-gray-500 text-white rounded text-sm"
+          >
+            Test Backend Connection
+          </button>
         </div>
       </div>
+
+      {/* Related Documents Section */}
+      {relatedDocuments.length > 0 && (
+        <div className="dashboard-section">
+          <div className="dashboard-section-header">
+            <h2 className="dashboard-section-title">
+              <FileText className="dashboard-section-icon" />
+              Your Documents
+            </h2>
+            <div className="dashboard-section-description">
+              <p className="text-sm text-gray-600">
+                Documents that can be linked to CargoX NFTs. Use the same ACID number to create mappings.
+              </p>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {relatedDocuments.map((doc) => (
+              <div key={doc.id} className="bg-white border border-gray-200 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-gray-900">{doc.id}</span>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    doc.status.Pending ? 'bg-yellow-100 text-yellow-800' :
+                    doc.status.Verified ? 'bg-green-100 text-green-800' :
+                    doc.status.NftMinted ? 'bg-blue-100 text-blue-800' :
+                    'bg-red-100 text-red-800'
+                  }`}>
+                    {doc.status.Pending ? 'Pending' :
+                     doc.status.Verified ? 'Verified' :
+                     doc.status.NftMinted ? 'Ready for Loan' :
+                     'Rejected'}
+                  </span>
+                </div>
+                <div className="text-sm text-gray-600">
+                  <p><strong>ACID:</strong> {doc.acid_number}</p>
+                  <p><strong>Value:</strong> ${doc.value_usd.toLocaleString()}</p>
+                  <p><strong>Created:</strong> {new Date(doc.created_at).toLocaleDateString()}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Mappings Management */}
       <div className="dashboard-section">
@@ -522,7 +625,24 @@ const CustomsIntegration = () => {
         </div>
       </div>
     </div>
-  );
+    );
+  } catch (error) {
+    console.error('Error in CustomsIntegration component:', error);
+    return (
+      <div className="dashboard-content">
+        <div className="p-8 text-center">
+          <h2 className="text-xl font-semibold text-red-600 mb-4">Component Error</h2>
+          <p className="text-gray-600 mb-4">Something went wrong. Please refresh the page.</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Refresh Page
+          </button>
+        </div>
+      </div>
+    );
+  }
 };
 
 export default CustomsIntegration;
