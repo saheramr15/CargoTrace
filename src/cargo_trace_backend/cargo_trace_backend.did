@@ -4,6 +4,26 @@ type AcidValidation = record {
   is_valid : bool;
   customs_data : opt text;
 };
+type CargoXMapping = record {
+  id : text;
+  verified : bool;
+  acid_number : text;
+  owner : principal;
+  created_at : nat64;
+  nft_hash : text;
+  customs_entry_id : opt text;
+};
+type CustomsStatus = variant { UnderReview; Rejected; Verified; Pending };
+type CustomsVerification = record {
+  id : text;
+  acid_number : text;
+  created_at : nat64;
+  verification_status : CustomsStatus;
+  nft_hash : text;
+  verified_at : opt nat64;
+  verified_by : opt principal;
+  customs_data : opt text;
+};
 type Document = record {
   id : text;
   status : DocumentStatus;
@@ -27,7 +47,8 @@ type Loan = record {
 type LoanStatus = variant { Repaid; Active; Approved; Defaulted; Pending };
 type Result = variant { Ok; Err : text };
 type Result_1 = variant { Ok : text; Err : text };
-type Result_2 = variant { Ok : bool; Err : text };
+type Result_2 = variant { Ok : vec text; Err : text };
+type Result_3 = variant { Ok : bool; Err : text };
 type TransferPayload = record {
   to : text;
   token_id : text;
@@ -38,61 +59,41 @@ type TransferPayload = record {
   block_number : nat64;
   tx_hash : text;
 };
-type CargoXMapping = record {
-  id : text;
-  nft_hash : text;
-  acid_number : text;
-  verified : bool;
-  created_at : nat64;
-  owner : principal;
-  customs_entry_id : opt text;
-};
-type CustomsVerification = record {
-  id : text;
-  nft_hash : text;
-  acid_number : text;
-  verification_status : CustomsStatus;
-  verified_at : opt nat64;
-  customs_data : opt text;
-  created_at : nat64;
-  verified_by : opt principal;
-};
-type CustomsStatus = variant { Pending; Verified; Rejected; UnderReview };
-service : {
+service : () -> {
   add_id : (nat64) -> (bool);
   approve_document : (text) -> (Result);
   approve_loan : (text) -> (Result);
+  approve_loan2 : (text) -> (Result_1);
+  batch_trigger_lending : (vec text) -> (Result_2);
   get_acid_validation : (text) -> (opt AcidValidation) query;
+  get_all_cargox_mappings : () -> (vec CargoXMapping) query;
+  get_all_customs_verifications : () -> (vec CustomsVerification) query;
   get_all_ids : () -> (vec nat64) query;
   get_balance : () -> (nat64) query;
+  get_cargox_mapping : (text) -> (opt CargoXMapping) query;
+  get_customs_verification : (text) -> (opt CustomsVerification) query;
   get_document : (text) -> (opt Document) query;
+  get_document_by_nft_hash : (text) -> (opt Document) query;
   get_loan : (text) -> (opt Loan) query;
+  get_my_cargox_mappings : () -> (vec CargoXMapping) query;
   get_my_documents : () -> (vec Document) query;
   get_my_loans : () -> (vec Loan) query;
+  get_pending_customs_verifications : () -> (vec CustomsVerification) query;
   get_principals : () -> (vec principal) query;
   get_transfers : () -> (vec TransferPayload) query;
+  get_verification_stats : () -> (nat64, nat64, nat64, nat64) query;
   has_id : (nat64) -> (bool) query;
   ingest_transfer : (TransferPayload) -> ();
+  link_cargox_to_acid : (text, text) -> (Result_1);
   mint : (nat64) -> ();
+  reject_customs_entry : (text, text) -> (Result);
   remove_id : (nat64) -> (bool);
   repay_loan : (text, nat64) -> (Result);
   request_loan : (text, nat64, nat64) -> (Result_1);
   save_principal : (principal) -> ();
   submit_document : (text, text, nat64) -> (Result_1);
   transfer : (principal, nat64) -> (Result);
-  validate_acid : (text) -> (Result_2);
-  // Customs Integration Functions
-  link_cargox_to_acid : (text, text) -> (Result_1);
-  get_cargox_mapping : (text) -> (opt CargoXMapping) query;
-  get_my_cargox_mappings : () -> (vec CargoXMapping) query;
-  get_all_cargox_mappings : () -> (vec CargoXMapping) query;
-  verify_customs_entry : (text) -> (Result);
-  reject_customs_entry : (text, text) -> (Result);
-  get_customs_verification : (text) -> (opt CustomsVerification) query;
-  get_all_customs_verifications : () -> (vec CustomsVerification) query;
-  get_pending_customs_verifications : () -> (vec CustomsVerification) query;
   trigger_lending : (text) -> (Result);
-  batch_trigger_lending : (vec text) -> (Result_1);
-  get_document_by_nft_hash : (text) -> (opt Document) query;
-  get_verification_stats : () -> (nat64, nat64, nat64, nat64) query;
+  validate_acid : (text) -> (Result_3);
+  verify_customs_entry : (text) -> (Result);
 }

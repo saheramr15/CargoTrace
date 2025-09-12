@@ -9,9 +9,9 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 // ---- CONFIG ----
-const WS_RPC_URL = "wss://eth-mainnet.g.alchemy.com/v2/rx3izQBwsCvFk3McMgI3P"; 
-const CONTRACT_ADDRESS = "0xC36442b4a4522E871399CD717aBDD847Ab11FE88"; 
-const ICP_BACKEND_URL = "http://127.0.0.1:4943"; 
+const WS_RPC_URL = "wss://eth-mainnet.g.alchemy.com/v2/rx3izQBwsCvFk3McMgI3P";
+const CONTRACT_ADDRESS = "0xd4190DD1dA460fC7Bc41a792e688604778820aC9";
+const ICP_BACKEND_URL = "http://127.0.0.1:4943";
 const CANISTER_ID = "uxrrr-q7777-77774-qaaaq-cai";
 
 // ---- ESM __dirname fix ----
@@ -42,7 +42,7 @@ async function getBackendActor() {
     });
 
   const agent = new HttpAgent({ host: ICP_BACKEND_URL });
-  await agent.fetchRootKey(); 
+  await agent.fetchRootKey();
 
   return Actor.createActor(idlFactory, { agent, canisterId: CANISTER_ID });
 }
@@ -50,9 +50,10 @@ async function getBackendActor() {
 // ---- Send payload to ICP ----
 async function sendToICP(payload) {
   try {
-    // Guard for undefined values
-    payload.block_number = payload.block_number !== undefined ? BigInt(payload.block_number) : 0n;
-    payload.log_index = payload.log_index !== undefined ? BigInt(payload.log_index) : 0n;
+    payload.block_number =
+      payload.block_number !== undefined ? BigInt(payload.block_number) : 0n;
+    payload.log_index =
+      payload.log_index !== undefined ? BigInt(payload.log_index) : 0n;
     payload.tx_hash = payload.tx_hash ?? "unknown_tx";
 
     const backend = await getBackendActor();
@@ -77,41 +78,66 @@ function loadLastBlock() {
   return null;
 }
 
-// ---- Watcher ----
+// ---- ABI ----
 const ERC721_ABI = [
-  "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)"
+  "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)",
 ];
 
 let provider;
 let contract;
 
+// ---- Catch up events in chunks ----
+async function catchUpEvents(fromBlock) {
+  const latestBlock = await provider.getBlockNumber();
+  const step = 500; // max allowed by RPC
+
+  for (let start = fromBlock; start <= latestBlock; start += step) {
+    const end = Math.min(start + step - 1, latestBlock);
+    console.log(`Querying events from block ${start} to ${end}...`);
+
+    try {
+      const events = await contract.queryFilter(
+        contract.filters.Transfer(),
+        start,
+        end
+      );
+
+      for (const event of events) {
+        await processEvent(event);
+      }
+
+      saveLastBlock(end);
+    } catch (err) {
+      console.error(`Error fetching logs from ${start} to ${end}:`, err);
+      break; // stop if RPC fails
+    }
+  }
+}
+
+// ---- Start watcher ----
 async function startWatcher() {
   console.log("Starting CargoX Watcher...");
 
   provider = new ethers.WebSocketProvider(WS_RPC_URL);
 
-  // Listen for provider errors
   provider.on("error", (err) => {
     console.error("Provider error:", err);
   });
 
+  provider._websocket?.on("close", () => {
+    console.warn("WebSocket closed. Reconnecting in 5s...");
+    setTimeout(startWatcher, 5000);
+  });
+
   contract = new ethers.Contract(CONTRACT_ADDRESS, ERC721_ABI, provider);
 
-  // Catch up from last block
   const lastBlock = loadLastBlock();
   const fromBlock = lastBlock ? lastBlock + 1 : await provider.getBlockNumber();
-  console.log("Querying past events from block:", fromBlock);
+  console.log("Catching up from block:", fromBlock);
 
-  try {
-    const pastEvents = await contract.queryFilter(contract.filters.Transfer(), fromBlock, "latest");
-    for (const event of pastEvents) {
-      await processEvent(event);
-    }
-  } catch (err) {
-    console.error("Error fetching past events:", err);
-  }
+  await catchUpEvents(fromBlock);
 
-  // Listen to new Transfer events
+  // ---- Listen to new events ----
   contract.on("Transfer", async (from, to, tokenId, event) => {
     await processEvent(event);
   });
@@ -123,7 +149,6 @@ async function processEvent(event) {
 
   const { from, to, tokenId } = event.args;
 
-  // Skip events without transaction hash
   if (!event.transactionHash) {
     console.warn("Skipping event with undefined transaction hash");
     return;
@@ -140,7 +165,11 @@ async function processEvent(event) {
     log_index: event.logIndex ?? 0,
   };
 
-  console.log("Transfer detected:", payload.tx_hash, `from ${from} to ${to}`);
+  console.log(
+    "Transfer detected:",
+    payload.tx_hash,
+    `from ${from} to ${to} (token ${payload.token_id})`
+  );
   await sendToICP(payload);
   saveLastBlock(event.blockNumber);
 }
