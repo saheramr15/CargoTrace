@@ -7,7 +7,6 @@ use serde::Serialize;
 use std::cell::RefCell;
 use std::collections::BTreeMap;
 
-/// our ledger canister principal
 const LEDGER_CANISTER_ID: Principal = Principal::from_text("ulvla-h7777-77774-qaacq-cai").unwrap();
 
 #[derive(CandidType, Deserialize, Clone, Debug, Serialize)]
@@ -17,21 +16,41 @@ pub enum LoanStatus {
     Active,
     Repaid,
     Defaulted,
-
-
-}#[derive(CandidType, Deserialize, Clone, Debug, Serialize)]
-pub struct Loan {
-    pub id: String,                     // Unique loan identifier
-    pub borrower: Principal,            // The borrower’s principal (from Internet Identity)
-    pub document_id: String,            // Link or ID for verification docs
-    pub amount_e8s: u64,                // Loan amount in e8s (1 TICP = 100_000_000 e8s)
-    pub interest_rate_bps: u32,         // Interest in basis points (e.g. 250 = 2.5%)
-    pub created_at: u64,                // Unix timestamp (seconds)
-    pub repayment_timestamp: Option<u64>, // Due date (seconds since epoch)
-    pub status: LoanStatus,             // Current loan status (enum)
-    pub repayments: Vec<Repayment>,     // History of repayments
+    Rejected,
 }
 
+#[derive(CandidType, Deserialize, Clone, Debug, Serialize)]
+pub enum DocumentStatus {
+    Pending,
+    Approved,
+    Rejected,
+}
+
+#[derive(CandidType, Deserialize, Clone, Debug, Serialize)]
+pub struct Document {
+    pub id: String,
+    pub owner: Principal,
+    pub filename: String,
+    pub content_type: String,
+    pub file_data: Vec<u8>, // Store PDF data
+    pub uploaded_at: u64,
+    pub status: DocumentStatus,
+    pub reviewed_at: Option<u64>,
+    pub reviewer_notes: Option<String>,
+}
+
+#[derive(CandidType, Deserialize, Clone, Debug, Serialize)]
+pub struct Loan {
+    pub id: String,
+    pub borrower: Principal,
+    pub document_id: String,
+    pub amount: u64,           // Changed from amount_e8s
+    pub interest_rate: f64,    // Changed from interest_rate_bps to percentage
+    pub created_at: u64,
+    pub repayment_date: u64,   // Changed from repayment_timestamp
+    pub status: LoanStatus,
+    pub repayments: Vec<Repayment>,
+}
 
 #[derive(CandidType, Deserialize, Clone, Debug, Serialize)]
 pub struct Repayment {
@@ -41,41 +60,200 @@ pub struct Repayment {
     pub note: Option<String>,
 }
 
-/// Simple in-memory (stable) storage for loans; in production use stable structures
+#[derive(CandidType, Deserialize, Clone, Debug, Serialize)]
+pub struct LoanApplication {
+    pub document_id: String,
+    pub amount: u64,
+    pub interest_rate: f64,
+    pub repayment_date: u64,
+}
+
 thread_local! {
     static LOANS: RefCell<BTreeMap<String, Loan>> = RefCell::new(BTreeMap::new());
+    static DOCUMENTS: RefCell<BTreeMap<String, Document>> = RefCell::new(BTreeMap::new());
+    static LOAN_COUNTER: RefCell<u64> = RefCell::new(0);
+    static DOC_COUNTER: RefCell<u64> = RefCell::new(0);
 }
 
 #[init]
 fn init() {
-    // Optionally initialize something
+    // Initialize counters
 }
 
-/// Utility: convert Principal to AccountIdentifier (ICRC account)
+fn generate_loan_id() -> String {
+    LOAN_COUNTER.with(|c| {
+        let mut counter = c.borrow_mut();
+        *counter += 1;
+        format!("LOAN_{:06}", *counter)
+    })
+}
+
+fn generate_doc_id() -> String {
+    DOC_COUNTER.with(|c| {
+        let mut counter = c.borrow_mut();
+        *counter += 1;
+        format!("DOC_{:06}", *counter)
+    })
+}
+
 fn account_identifier_of_principal(p: &Principal) -> AccountIdentifier {
-    // A canonical account uses principal + subaccount (here None / default)
     AccountIdentifier::new(*p, None)
+}
+
+// Document Management Functions
+#[update]
+fn upload_document(filename: String, content_type: String, file_data: Vec<u8>) -> Result<String, String> {
+    let caller = ic_cdk::caller();
+    let doc_id = generate_doc_id();
+    let now = ic_cdk::api::time();
+    
+    let document = Document {
+        id: doc_id.clone(),
+        owner: caller,
+        filename,
+        content_type,
+        file_data,
+        uploaded_at: now,
+        status: DocumentStatus::Pending,
+        reviewed_at: None,
+        reviewer_notes: None,
+    };
+    
+    DOCUMENTS.with(|d| {
+        d.borrow_mut().insert(doc_id.clone(), document);
+    });
+    
+    Ok(doc_id)
+}
+
+#[query]
+fn get_my_documents() -> Vec<Document> {
+    let caller = ic_cdk::caller();
+    DOCUMENTS.with(|d| {
+        d.borrow()
+            .values()
+            .filter(|doc| doc.owner == caller)
+            .cloned()
+            .collect()
+    })
+}
+
+#[query]
+fn get_approved_documents() -> Vec<Document> {
+    let caller = ic_cdk::caller();
+    DOCUMENTS.with(|d| {
+        d.borrow()
+            .values()
+            .filter(|doc| doc.owner == caller && matches!(doc.status, DocumentStatus::Approved))
+            .cloned()
+            .collect()
+    })
+}
+
+#[query]
+fn get_all_documents() -> Vec<Document> {
+    DOCUMENTS.with(|d| d.borrow().values().cloned().collect())
+}
+
+#[update]
+fn approve_document(doc_id: String, notes: Option<String>) -> Result<String, String> {
+    let now = ic_cdk::api::time();
+    
+    DOCUMENTS.with(|d| {
+        let mut docs = d.borrow_mut();
+        match docs.get_mut(&doc_id) {
+            Some(doc) => {
+                doc.status = DocumentStatus::Approved;
+                doc.reviewed_at = Some(now);
+                doc.reviewer_notes = notes;
+                Ok("Document approved".to_string())
+            }
+            None => Err("Document not found".to_string())
+        }
+    })
+}
+
+#[update]
+fn reject_document(doc_id: String, notes: Option<String>) -> Result<String, String> {
+    let now = ic_cdk::api::time();
+    
+    DOCUMENTS.with(|d| {
+        let mut docs = d.borrow_mut();
+        match docs.get_mut(&doc_id) {
+            Some(doc) => {
+                doc.status = DocumentStatus::Rejected;
+                doc.reviewed_at = Some(now);
+                doc.reviewer_notes = notes;
+                Ok("Document rejected".to_string())
+            }
+            None => Err("Document not found".to_string())
+        }
+    })
+}
+
+// Loan Management Functions
+#[update]
+fn submit_loan_application(application: LoanApplication) -> Result<String, String> {
+    let caller = ic_cdk::caller();
+    let loan_id = generate_loan_id();
+    let now = ic_cdk::api::time();
+    
+    // Verify document exists and is approved
+    let doc_approved = DOCUMENTS.with(|d| {
+        d.borrow()
+            .get(&application.document_id)
+            .map(|doc| doc.owner == caller && matches!(doc.status, DocumentStatus::Approved))
+            .unwrap_or(false)
+    });
+    
+    if !doc_approved {
+        return Err("Document not found or not approved".to_string());
+    }
+    
+    let loan = Loan {
+        id: loan_id.clone(),
+        borrower: caller,
+        document_id: application.document_id,
+        amount: application.amount,
+        interest_rate: application.interest_rate,
+        created_at: now,
+        repayment_date: application.repayment_date,
+        status: LoanStatus::Pending,
+        repayments: vec![],
+    };
+    
+    LOANS.with(|l| {
+        l.borrow_mut().insert(loan_id.clone(), loan);
+    });
+    
+    Ok(loan_id)
 }
 
 #[query]
 fn get_my_loans() -> Vec<Loan> {
-    LOANS.with(|m| m.borrow().values().cloned().collect())
+    let caller = ic_cdk::caller();
+    LOANS.with(|l| {
+        l.borrow()
+            .values()
+            .filter(|loan| loan.borrower == caller)
+            .cloned()
+            .collect()
+    })
+}
+
+#[query]
+fn get_all_loans() -> Vec<Loan> {
+    LOANS.with(|l| l.borrow().values().cloned().collect())
 }
 
 #[query]
 fn get_loan(loan_id: String) -> Option<Loan> {
-    LOANS.with(|m| m.borrow().get(&loan_id).cloned())
+    LOANS.with(|l| l.borrow().get(&loan_id).cloned())
 }
 
-/// Admin-only / operator-only in production: approve loan and transfer tokens to borrower.
-/// This function:
-/// 1) checks loan is Pending
-/// 2) set status to Approved -> Active
-/// 3) calls the ledger's `icrc1_transfer` via the ic_cdk inter-canister call helper (ic_ledger_types::transfer wrapper)
 #[update]
 async fn approve_loan(loan_id: String) -> Result<String, String> {
-    // 1 - fetch and validate loan
-    let maybe = LOANS.with(|m| m.borrow().get(&loan_id).cloned());
+    let maybe = LOANS.with(|l| l.borrow().get(&loan_id).cloned());
     let mut loan = match maybe {
         Some(l) => l,
         None => return Err("Loan not found".into()),
@@ -86,10 +264,10 @@ async fn approve_loan(loan_id: String) -> Result<String, String> {
         _ => return Err("Loan must be Pending to approve".into()),
     }
 
-    // 2 - prepare transfer args (transfer from this canister's account to borrower)
+    // Convert amount to e8s for ledger transfer
+    let amount_e8s = loan.amount * 100_000_000; // Assuming 1 token = 100M e8s
     let to_account = account_identifier_of_principal(&loan.borrower);
-    // amount in Tokens type (ic_ledger_types::Tokens)
-    let amt = Tokens::from_e8s(loan.amount_e8s); // adapt if your token decimals differ
+    let amt = Tokens::from_e8s(amount_e8s);
 
     let transfer_args = TransferArgs {
         to: to_account,
@@ -100,26 +278,15 @@ async fn approve_loan(loan_id: String) -> Result<String, String> {
         created_at_time: None,
     };
 
-    // 3 - call the ledger canister transfer method
-    // Use bounded wait (best-effort) pattern to avoid indefinite hanging; here we use a basic inter-canister call:
-    let ledger_canister = LEDGER_CANISTER_ID;
-    // The `transfer` helper (from ic_ledger_types) will do the inter-canister call for you:
-    // This returns a Result<BlockIndex, CallError> or similar. We'll use the low-level call instead for clarity.
-
-    // Build candid encoded args for icrc1_transfer
-    // Transfer method signature: icrc1_transfer : (record { to : account; amount : nat; ...}) -> (record { block_index: nat });
-    // We'll call it directly:
     let args = candid::Encode!(&transfer_args).map_err(|e| format!("encode error: {:?}", e))?;
-
-    let transfer_res = ic_cdk::api::call::call(ledger_canister, "icrc1_transfer", args).await;
+    let transfer_res = ic_cdk::api::call::call(LEDGER_CANISTER_ID, "icrc1_transfer", args).await;
+    
     match transfer_res {
         Ok((res,)) => {
-            // success: mark loan as active and store
-            loan.status = LoanStatus::Active;
-            LOANS.with(|m| {
-                m.borrow_mut().insert(loan_id.clone(), loan.clone());
+            loan.status = LoanStatus::Approved;
+            LOANS.with(|l| {
+                l.borrow_mut().insert(loan_id.clone(), loan.clone());
             });
-            // return success (you might encode/reserialize ledger response here)
             Ok(format!("Loan approved and transferred. Ledger returned: {:?}", res))
         }
         Err(e) => {
@@ -128,14 +295,30 @@ async fn approve_loan(loan_id: String) -> Result<String, String> {
     }
 }
 
-/// Record a repayment (this is a simple RPC endpoint that your frontend can call after transfer),
-/// or you can implement ledger-monitor-to-detect-incoming-transfers and call this internally.
-/// `amount_e8s` is the raw smallest unit like e8s.
+#[update]
+fn reject_loan(loan_id: String, reason: Option<String>) -> Result<String, String> {
+    LOANS.with(|l| {
+        let mut loans = l.borrow_mut();
+        match loans.get_mut(&loan_id) {
+            Some(loan) => {
+                match loan.status {
+                    LoanStatus::Pending => {
+                        loan.status = LoanStatus::Rejected;
+                        Ok("Loan rejected".to_string())
+                    }
+                    _ => Err("Loan must be Pending to reject".to_string())
+                }
+            }
+            None => Err("Loan not found".to_string())
+        }
+    })
+}
+
 #[update]
 fn record_repayment(loan_id: String, payer: Principal, amount_e8s: u128, note: Option<String>, ts: u64) -> Result<String, String> {
     let mut updated = false;
-    LOANS.with(|m| {
-        let mut map = m.borrow_mut();
+    LOANS.with(|l| {
+        let mut map = l.borrow_mut();
         if let Some(loan) = map.get_mut(&loan_id) {
             loan.repayments.push(Repayment {
                 payer,
@@ -143,9 +326,8 @@ fn record_repayment(loan_id: String, payer: Principal, amount_e8s: u128, note: O
                 ts,
                 note,
             });
-            // sum repayments and possibly mark as Repaid
             let total_paid: u128 = loan.repayments.iter().map(|r| r.amount_e8s).sum();
-            let amount_due = loan.amount_e8s; // ignoring interest calc for demo
+            let amount_due = (loan.amount as u128) * 100_000_000; // Convert to e8s
             if total_paid >= amount_due {
                 loan.status = LoanStatus::Repaid;
             }
@@ -157,22 +339,4 @@ fn record_repayment(loan_id: String, payer: Principal, amount_e8s: u128, note: O
     } else {
         Err("Loan not found".to_string())
     }
-}
-
-/// Admin helper to create a loan (for testing)
-#[update]
-fn create_loan(id: String, borrower: Principal, document_id: String, amount_e8s: u128, interest_bps: u32, created_at: u64, repayment_ts: Option<u64>) -> Result<String, String> {
-    let loan = Loan {
-        id: id.clone(),
-        borrower,
-        document_id,
-        amount_e8s,
-        interest_rate_bps: interest_bps,
-        created_at,
-        repayment_timestamp: repayment_ts,
-        status: LoanStatus::Pending,
-        repayments: vec![],
-    };
-    LOANS.with(|m| { m.borrow_mut().insert(id.clone(), loan); });
-    Ok("Loan created".into())
 }

@@ -8,6 +8,8 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 mod login;
 pub use login::*;
+mod loan;
+pub use loan::*;
 
 mod cargowatcher;
 pub use cargowatcher::*;
