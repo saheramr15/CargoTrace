@@ -5,6 +5,11 @@
       "package": "cargo_trace_backend",
       "type": "rust"
     },
+  "ledger": {
+    "type": "custom",
+    "candid": "https://github.com/dfinity/ic/releases/download/ledger-suite-icrc-2025-09-01/ledger.did",
+      "wasm": "https://github.com/dfinity/ic/releases/download/ledger-suite-icrc-2025-09-01/ic-icrc1-ledger.wasm.gz"
+      },
     "cargo_trace_frontend": {
       "dependencies": [
         "cargo_trace_backend"
