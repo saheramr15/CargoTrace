@@ -3,6 +3,7 @@ import AdminSidebar from '../components/admin/AdminSidebar';
 import AdminHeader from '../components/admin/AdminHeader';
 import AdminDashboard from '../components/admin/sections/AdminDashboard';
 import AdminDocuments from '../components/admin/sections/AdminDocuments';
+import AdminCustoms from '../components/admin/sections/AdminCustoms';
 import AdminLoans from '../components/admin/sections/AdminLoans';
 import AdminRepayments from '../components/admin/sections/AdminRepayments';
 import AdminUsers from '../components/admin/sections/AdminUsers';
@@ -22,6 +23,8 @@ const Admin = () => {
         return <AdminDashboard />;
       case 'documents':
         return <AdminDocuments />;
+      case 'customs':
+        return <AdminCustoms />;
       case 'loans':
         return <AdminLoans />;
       case 'repayments':

@@ -7,7 +7,8 @@ import {
   Users,
   Settings,
   LogOut,
-  Anchor
+  Anchor,
+  Link
 } from 'lucide-react';
 
 const AdminSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
@@ -23,6 +24,12 @@ const AdminSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
       label: 'Documents',
       icon: FileText,
       description: 'CargoX verification'
+    },
+    {
+      id: 'customs',
+      label: 'Customs Integration',
+      icon: Link,
+      description: 'ACID mapping & verification'
     },
     {
       id: 'loans',

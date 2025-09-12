@@ -35,7 +35,15 @@ thread_local! {
     static BALANCES: RefCell<StableBTreeMap<Principal, u64, Memory>> = RefCell::new(
         StableBTreeMap::init(MEMORY_MANAGER.with(|mm| mm.borrow().get(MemoryId::new(4))))
     );
-    // static TRANSFERS: std::cell::RefCell<Vec<TransferPayload>> = std::cell::RefCell::new(Vec::new());
+
+    // Customs Integration Storage
+    static CARGOX_MAPPINGS: RefCell<StableBTreeMap<String, CargoXMapping, Memory>> = RefCell::new(
+        StableBTreeMap::init(MEMORY_MANAGER.with(|mm| mm.borrow().get(MemoryId::new(5))))
+    );
+
+    static CUSTOMS_VERIFICATIONS: RefCell<StableBTreeMap<String, CustomsVerification, Memory>> = RefCell::new(
+        StableBTreeMap::init(MEMORY_MANAGER.with(|mm| mm.borrow().get(MemoryId::new(6))))
+    );
 
     static COUNTERS: RefCell<HashMap<String, u64>> = RefCell::new(HashMap::new());
 }
@@ -109,6 +117,38 @@ pub struct AcidValidation {
     pub is_valid: bool,
     pub customs_data: Option<String>,
     pub validation_date: u64,
+}
+
+// Customs Integration Data Structures
+#[derive(CandidType, Deserialize, Clone)]
+pub struct CargoXMapping {
+    pub id: String,
+    pub nft_hash: String,        // CargoX NFT hash
+    pub acid_number: String,     // ACID number
+    pub verified: bool,          // Customs verification status
+    pub created_at: u64,
+    pub owner: Principal,
+    pub customs_entry_id: Option<String>, // For future API integration
+}
+
+#[derive(CandidType, Deserialize, Clone)]
+pub struct CustomsVerification {
+    pub id: String,
+    pub nft_hash: String,
+    pub acid_number: String,
+    pub verification_status: CustomsStatus,
+    pub verified_at: Option<u64>,
+    pub customs_data: Option<String>,
+    pub created_at: u64,
+    pub verified_by: Option<Principal>,
+}
+
+#[derive(CandidType, Deserialize, Clone)]
+pub enum CustomsStatus {
+    Pending,
+    Verified,
+    Rejected,
+    UnderReview,
 }
 
 // Storable implementations
@@ -326,6 +366,205 @@ impl Storable for AcidValidation {
 
     const BOUND: Bound = Bound::Bounded {
         max_size: 512,
+        is_fixed_size: false,
+    };
+}
+
+impl Storable for CargoXMapping {
+    fn to_bytes(&self) -> std::borrow::Cow<[u8]> {
+        let mut bytes = Vec::new();
+        bytes.extend_from_slice(self.id.as_bytes());
+        bytes.push(0);
+        bytes.extend_from_slice(self.nft_hash.as_bytes());
+        bytes.push(0);
+        bytes.extend_from_slice(self.acid_number.as_bytes());
+        bytes.push(0);
+        bytes.push(if self.verified { 1 } else { 0 });
+        bytes.extend_from_slice(&self.created_at.to_le_bytes());
+        bytes.extend_from_slice(&self.owner.as_slice());
+        
+        if let Some(ref entry_id) = self.customs_entry_id {
+            bytes.extend_from_slice(entry_id.as_bytes());
+        }
+        bytes.push(0);
+        
+        std::borrow::Cow::Owned(bytes)
+    }
+
+    fn from_bytes(bytes: std::borrow::Cow<[u8]>) -> Self {
+        let bytes = bytes.as_ref();
+        let mut pos = 0;
+        
+        let id_end = bytes[pos..].iter().position(|&b| b == 0).unwrap();
+        let id = String::from_utf8(bytes[pos..pos+id_end].to_vec()).unwrap();
+        pos += id_end + 1;
+        
+        let nft_end = bytes[pos..].iter().position(|&b| b == 0).unwrap();
+        let nft_hash = String::from_utf8(bytes[pos..pos+nft_end].to_vec()).unwrap();
+        pos += nft_end + 1;
+        
+        let acid_end = bytes[pos..].iter().position(|&b| b == 0).unwrap();
+        let acid_number = String::from_utf8(bytes[pos..pos+acid_end].to_vec()).unwrap();
+        pos += acid_end + 1;
+        
+        let verified = bytes[pos] == 1;
+        pos += 1;
+        
+        let created_at = u64::from_le_bytes(bytes[pos..pos+8].try_into().unwrap());
+        pos += 8;
+        
+        let owner = Principal::from_slice(&bytes[pos..pos+29]);
+        pos += 29;
+        
+        let customs_entry_id = if pos < bytes.len() - 1 {
+            let entry_end = bytes[pos..].iter().position(|&b| b == 0).unwrap_or(bytes.len() - pos);
+            if entry_end > 0 {
+                Some(String::from_utf8(bytes[pos..pos+entry_end].to_vec()).unwrap())
+            } else {
+                None
+            }
+        } else {
+            None
+        };
+        
+        CargoXMapping {
+            id,
+            nft_hash,
+            acid_number,
+            verified,
+            created_at,
+            owner,
+            customs_entry_id,
+        }
+    }
+
+    fn into_bytes(self) -> Vec<u8> {
+        self.to_bytes().into_owned()
+    }
+
+    const BOUND: Bound = Bound::Bounded {
+        max_size: 1024,
+        is_fixed_size: false,
+    };
+}
+
+impl Storable for CustomsVerification {
+    fn to_bytes(&self) -> std::borrow::Cow<[u8]> {
+        let mut bytes = Vec::new();
+        bytes.extend_from_slice(self.id.as_bytes());
+        bytes.push(0);
+        bytes.extend_from_slice(self.nft_hash.as_bytes());
+        bytes.push(0);
+        bytes.extend_from_slice(self.acid_number.as_bytes());
+        bytes.push(0);
+        
+        match &self.verification_status {
+            CustomsStatus::Pending => bytes.push(0),
+            CustomsStatus::Verified => bytes.push(1),
+            CustomsStatus::Rejected => bytes.push(2),
+            CustomsStatus::UnderReview => bytes.push(3),
+        }
+        
+        if let Some(verified_at) = self.verified_at {
+            bytes.push(1);
+            bytes.extend_from_slice(&verified_at.to_le_bytes());
+        } else {
+            bytes.push(0);
+        }
+        
+        if let Some(ref data) = self.customs_data {
+            bytes.extend_from_slice(data.as_bytes());
+        }
+        bytes.push(0);
+        
+        bytes.extend_from_slice(&self.created_at.to_le_bytes());
+        
+        if let Some(verified_by) = self.verified_by {
+            bytes.push(1);
+            bytes.extend_from_slice(&verified_by.as_slice());
+        } else {
+            bytes.push(0);
+        }
+        
+        std::borrow::Cow::Owned(bytes)
+    }
+
+    fn from_bytes(bytes: std::borrow::Cow<[u8]>) -> Self {
+        let bytes = bytes.as_ref();
+        let mut pos = 0;
+        
+        let id_end = bytes[pos..].iter().position(|&b| b == 0).unwrap();
+        let id = String::from_utf8(bytes[pos..pos+id_end].to_vec()).unwrap();
+        pos += id_end + 1;
+        
+        let nft_end = bytes[pos..].iter().position(|&b| b == 0).unwrap();
+        let nft_hash = String::from_utf8(bytes[pos..pos+nft_end].to_vec()).unwrap();
+        pos += nft_end + 1;
+        
+        let acid_end = bytes[pos..].iter().position(|&b| b == 0).unwrap();
+        let acid_number = String::from_utf8(bytes[pos..pos+acid_end].to_vec()).unwrap();
+        pos += acid_end + 1;
+        
+        let verification_status = match bytes[pos] {
+            0 => CustomsStatus::Pending,
+            1 => CustomsStatus::Verified,
+            2 => CustomsStatus::Rejected,
+            3 => CustomsStatus::UnderReview,
+            _ => CustomsStatus::Pending,
+        };
+        pos += 1;
+        
+        let verified_at = if bytes[pos] == 1 {
+            pos += 1;
+            let verified_at = u64::from_le_bytes(bytes[pos..pos+8].try_into().unwrap());
+            pos += 8;
+            Some(verified_at)
+        } else {
+            pos += 1;
+            None
+        };
+        
+        let customs_data = if pos < bytes.len() - 1 {
+            let data_end = bytes[pos..].iter().position(|&b| b == 0).unwrap_or(bytes.len() - pos);
+            if data_end > 0 {
+                Some(String::from_utf8(bytes[pos..pos+data_end].to_vec()).unwrap())
+            } else {
+                None
+            }
+        } else {
+            None
+        };
+        pos += customs_data.as_ref().map(|_| customs_data.as_ref().unwrap().len() + 1).unwrap_or(1);
+        
+        let created_at = u64::from_le_bytes(bytes[pos..pos+8].try_into().unwrap());
+        pos += 8;
+        
+        let verified_by = if bytes[pos] == 1 {
+            pos += 1;
+            Some(Principal::from_slice(&bytes[pos..pos+29]))
+        } else {
+            pos += 1;
+            None
+        };
+        
+        CustomsVerification {
+            id,
+            nft_hash,
+            acid_number,
+            verification_status,
+            verified_at,
+            customs_data,
+            created_at,
+            verified_by,
+        }
+    }
+
+    fn into_bytes(self) -> Vec<u8> {
+        self.to_bytes().into_owned()
+    }
+
+    const BOUND: Bound = Bound::Bounded {
+        max_size: 1024,
         is_fixed_size: false,
     };
 }
@@ -614,6 +853,284 @@ pub fn has_id(id: u64) -> bool {
 #[update]
 pub fn remove_id(_id: u64) -> bool {
     true
+}
+
+// ============================================================================
+// CUSTOMS INTEGRATION FUNCTIONS
+// ============================================================================
+
+// Customs Matcher Module Functions
+#[update]
+pub fn link_cargox_to_acid(nft_hash: String, acid_number: String) -> Result<String, String> {
+    // Validate ACID first
+    let acid_validation = validate_acid(acid_number.clone())?;
+    if !acid_validation {
+        return Err("Invalid ACID number.".to_string());
+    }
+
+    // Check if mapping already exists
+    if CARGOX_MAPPINGS.with(|mappings| mappings.borrow().get(&nft_hash).is_some()) {
+        return Err("CargoX NFT hash already linked to an ACID number.".to_string());
+    }
+
+    // Create mapping
+    let mapping_id = format!("MAP-{:06}", get_next_id("mapping"));
+    let mapping = CargoXMapping {
+        id: mapping_id.clone(),
+        nft_hash: nft_hash.clone(),
+        acid_number: acid_number.clone(),
+        verified: false,
+        created_at: ic_cdk::api::time(),
+        owner: caller(),
+        customs_entry_id: None,
+    };
+
+    CARGOX_MAPPINGS.with(|mappings| {
+        mappings.borrow_mut().insert(nft_hash.clone(), mapping);
+    });
+
+    // Create customs verification record
+    let verification_id = format!("VER-{:06}", get_next_id("verification"));
+    let verification = CustomsVerification {
+        id: verification_id,
+        nft_hash: nft_hash.clone(),
+        acid_number: acid_number.clone(),
+        verification_status: CustomsStatus::Pending,
+        verified_at: None,
+        customs_data: None,
+        created_at: ic_cdk::api::time(),
+        verified_by: None,
+    };
+
+    CUSTOMS_VERIFICATIONS.with(|verifications| {
+        verifications.borrow_mut().insert(nft_hash, verification);
+    });
+
+    Ok(mapping_id)
+}
+
+#[query]
+pub fn get_cargox_mapping(nft_hash: String) -> Option<CargoXMapping> {
+    CARGOX_MAPPINGS.with(|mappings| {
+        mappings.borrow().get(&nft_hash)
+    })
+}
+
+#[query]
+pub fn get_my_cargox_mappings() -> Vec<CargoXMapping> {
+    let caller = caller();
+    CARGOX_MAPPINGS.with(|mappings| {
+        mappings.borrow()
+            .iter()
+            .filter(|entry| entry.value().owner == caller)
+            .map(|entry| entry.value().clone())
+            .collect()
+    })
+}
+
+#[query]
+pub fn get_all_cargox_mappings() -> Vec<CargoXMapping> {
+    CARGOX_MAPPINGS.with(|mappings| {
+        mappings.borrow()
+            .iter()
+            .map(|entry| entry.value().clone())
+            .collect()
+    })
+}
+
+// Verification Flow Functions
+#[update]
+pub fn verify_customs_entry(nft_hash: String) -> Result<(), String> {
+    // Find the mapping
+    let mapping = CARGOX_MAPPINGS.with(|mappings| {
+        mappings.borrow().get(&nft_hash)
+    }).ok_or("CargoX mapping not found")?;
+
+    // Update mapping as verified
+    CARGOX_MAPPINGS.with(|mappings| {
+        let mut mappings = mappings.borrow_mut();
+        if let Some(mut mapping) = mappings.get(&nft_hash) {
+            mapping.verified = true;
+            mappings.insert(nft_hash.clone(), mapping);
+        }
+    });
+
+    // Update customs verification status
+    CUSTOMS_VERIFICATIONS.with(|verifications| {
+        let mut verifications = verifications.borrow_mut();
+        if let Some(mut verification) = verifications.get(&nft_hash) {
+            verification.verification_status = CustomsStatus::Verified;
+            verification.verified_at = Some(ic_cdk::api::time());
+            verification.verified_by = Some(caller());
+            verification.customs_data = Some("Customs entry verified manually".to_string());
+            verifications.insert(nft_hash.clone(), verification);
+        }
+    });
+
+    // Find and update related document
+    let document = DOCUMENTS.with(|documents| {
+        documents.borrow()
+            .iter()
+            .find(|entry| entry.value().ethereum_tx_hash == nft_hash)
+            .map(|entry| entry.value().clone())
+    });
+
+    if let Some(mut doc) = document {
+        doc.status = DocumentStatus::Verified;
+        DOCUMENTS.with(|documents| {
+            documents.borrow_mut().insert(doc.id.clone(), doc);
+        });
+    }
+
+    Ok(())
+}
+
+#[update]
+pub fn reject_customs_entry(nft_hash: String, reason: String) -> Result<(), String> {
+    // Update customs verification status
+    CUSTOMS_VERIFICATIONS.with(|verifications| {
+        let mut verifications = verifications.borrow_mut();
+        if let Some(mut verification) = verifications.get(&nft_hash) {
+            verification.verification_status = CustomsStatus::Rejected;
+            verification.verified_at = Some(ic_cdk::api::time());
+            verification.verified_by = Some(caller());
+            verification.customs_data = Some(format!("Rejected: {}", reason));
+            verifications.insert(nft_hash.clone(), verification);
+        }
+    });
+
+    // Find and update related document
+    let document = DOCUMENTS.with(|documents| {
+        documents.borrow()
+            .iter()
+            .find(|entry| entry.value().ethereum_tx_hash == nft_hash)
+            .map(|entry| entry.value().clone())
+    });
+
+    if let Some(mut doc) = document {
+        doc.status = DocumentStatus::Rejected;
+        DOCUMENTS.with(|documents| {
+            documents.borrow_mut().insert(doc.id.clone(), doc);
+        });
+    }
+
+    Ok(())
+}
+
+#[query]
+pub fn get_customs_verification(nft_hash: String) -> Option<CustomsVerification> {
+    CUSTOMS_VERIFICATIONS.with(|verifications| {
+        verifications.borrow().get(&nft_hash)
+    })
+}
+
+#[query]
+pub fn get_all_customs_verifications() -> Vec<CustomsVerification> {
+    CUSTOMS_VERIFICATIONS.with(|verifications| {
+        verifications.borrow()
+            .iter()
+            .map(|entry| entry.value().clone())
+            .collect()
+    })
+}
+
+#[query]
+pub fn get_pending_customs_verifications() -> Vec<CustomsVerification> {
+    CUSTOMS_VERIFICATIONS.with(|verifications| {
+        verifications.borrow()
+            .iter()
+            .filter(|entry| matches!(entry.value().verification_status, CustomsStatus::Pending))
+            .map(|entry| entry.value().clone())
+            .collect()
+    })
+}
+
+// Lending Integration Functions
+#[update]
+pub fn trigger_lending(document_id: String) -> Result<(), String> {
+    let document = get_document(document_id.clone())
+        .ok_or("Document not found")?;
+
+    // Check if document is verified
+    match document.status {
+        DocumentStatus::Verified => {
+            // Mark document as ready for lending (NftMinted status)
+            DOCUMENTS.with(|documents| {
+                let mut documents = documents.borrow_mut();
+                if let Some(mut doc) = documents.get(&document_id) {
+                    doc.status = DocumentStatus::NftMinted;
+                    documents.insert(document_id.clone(), doc);
+                }
+            });
+            
+            // TODO: Call Teammate 3's lending canister here
+            // This is the integration point for the lending logic
+            ic_cdk::println!("Triggering lending for document: {}", document_id);
+            
+            // For now, we'll just log the trigger
+            // In production, this would call the lending canister
+            // Example: lending_canister.trigger_loan(document_id, document.value_usd, document.owner)
+            
+            Ok(())
+        },
+        DocumentStatus::NftMinted => {
+            Ok(()) // Already ready for lending
+        },
+        _ => Err("Document must be verified before triggering lending".to_string())
+    }
+}
+
+#[update]
+pub fn batch_trigger_lending(document_ids: Vec<String>) -> Result<Vec<String>, String> {
+    let mut successful = Vec::new();
+    let mut failed = Vec::new();
+
+    for document_id in document_ids {
+        match trigger_lending(document_id.clone()) {
+            Ok(_) => successful.push(document_id),
+            Err(e) => failed.push(format!("{}: {}", document_id, e)),
+        }
+    }
+
+    if failed.is_empty() {
+        Ok(successful)
+    } else {
+        Err(format!("Some documents failed: {:?}", failed))
+    }
+}
+
+// Utility Functions for Customs Integration
+#[query]
+pub fn get_document_by_nft_hash(nft_hash: String) -> Option<Document> {
+    DOCUMENTS.with(|documents| {
+        documents.borrow()
+            .iter()
+            .find(|entry| entry.value().ethereum_tx_hash == nft_hash)
+            .map(|entry| entry.value().clone())
+    })
+}
+
+#[query]
+pub fn get_verification_stats() -> (u64, u64, u64, u64) {
+    let (pending, verified, rejected, under_review) = CUSTOMS_VERIFICATIONS.with(|verifications| {
+        let mut pending = 0;
+        let mut verified = 0;
+        let mut rejected = 0;
+        let mut under_review = 0;
+
+        for entry in verifications.borrow().iter() {
+            match entry.value().verification_status {
+                CustomsStatus::Pending => pending += 1,
+                CustomsStatus::Verified => verified += 1,
+                CustomsStatus::Rejected => rejected += 1,
+                CustomsStatus::UnderReview => under_review += 1,
+            }
+        }
+
+        (pending, verified, rejected, under_review)
+    });
+
+    (pending, verified, rejected, under_review)
 }
 
 // Export Candid interface
