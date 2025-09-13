@@ -8,6 +8,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+
 // ---- CONFIG ----
 const WS_RPC_URL = "wss://eth-mainnet.g.alchemy.com/v2/rx3izQBwsCvFk3McMgI3P";
 const CONTRACT_ADDRESS = "0xd4190DD1dA460fC7Bc41a792e688604778820aC9";
