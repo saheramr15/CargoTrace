@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Home,
   FileText,
@@ -12,8 +12,52 @@ import {
   HelpCircle,
   Link
 } from 'lucide-react';
+import { cargo_trace_backend as backend } from '../../../../declarations/cargo_trace_backend';
 
 const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
+  const [walletBalance, setWalletBalance] = useState(0);
+  const [activeLoan, setActiveLoan] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchWalletData();
+  }, []);
+
+  const fetchWalletData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Fetch wallet balance
+      const balanceResult = await backend.get_wallet_balance_async();  // Now an update call
+      if (balanceResult.Err) {
+        throw new Error(balanceResult.Err);
+      }
+      // Convert e8s to USD (assuming 1 token = 1 USD for simplicity)
+      const balanceInUSD = (balanceResult.Ok / 100_000_000).toFixed(2);
+      setWalletBalance(balanceInUSD);
+
+      // Fetch active loan
+      const loanResult = await backend.get_active_loan();
+      if (loanResult) {
+        const repaymentAmount = (loanResult.amount * (1 + loanResult.interest_rate / 100)).toFixed(2);
+        setActiveLoan({
+          amount: (loanResult.amount / 100_000_000).toFixed(2),
+          repaymentAmount,
+          dueDate: new Date(loanResult.repayment_date).toLocaleDateString(),
+        });
+      } else {
+        setActiveLoan(null);
+      }
+    } catch (err) {
+      console.error('Failed to fetch wallet data:', err);
+      setError(err.message || 'Failed to load wallet data');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const sidebarItems = [
     {
       id: 'dashboard',
@@ -101,19 +145,23 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
             </div>
             <span className="sidebar-wallet-title">CargoTrace Wallet</span>
           </div>
-            <div className="sidebar-wallet-title">Active Loan</div>
-              <div className="sidebar-wallet-amount">0.00 USD</div>
-          
-
-             <div className="sidebar-wallet-title">Repayment Due</div>
-           <div className="sidebar-wallet-amount">0.00 USD</div>
-
+          <div className="sidebar-wallet-title">Wallet Balance</div>
+          <div className="sidebar-wallet-amount">
+            {loading ? 'Loading...' : error ? 'Error' : `${walletBalance} USD`}
+          </div>
+          <div className="sidebar-wallet-title">Active Loan</div>
+          <div className="sidebar-wallet-amount">
+            {loading ? 'Loading...' : error ? 'Error' : activeLoan ? `${activeLoan.amount} USD` : '0.00 USD'}
+          </div>
+          <div className="sidebar-wallet-title">Repayment Due</div>
+          <div className="sidebar-wallet-amount">
+            {loading ? 'Loading...' : error ? 'Error' : activeLoan ? `${activeLoan.repaymentAmount} USD` : '0.00 USD'}
+          </div>
           <div className="sidebar-wallet-status">
             <div className="sidebar-wallet-indicator"></div>
             <span className="sidebar-wallet-status-text">Connected</span>
+            {error && <button onClick={fetchWalletData} className="ml-2 text-xs text-blue-500 hover:underline">Retry</button>}
           </div>
-
-          {/* <div className="sidebar-wallet-value">= $45,234 USD</div> */}
         </div>
       </div>
 
@@ -140,4 +188,4 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
   );
 };
 
-export default DashboardSidebar; 
+export default DashboardSidebar;

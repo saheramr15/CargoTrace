@@ -25,7 +25,7 @@ import {
   Building,
   Loader2
 } from 'lucide-react';
-import { backendService } from '../../services/backendService';
+import { cargo_trace_backend as backend } from '../../../../declarations/cargo_trace_backend';
 
 const DashboardLoans = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -50,27 +50,23 @@ const DashboardLoans = () => {
       setLoading(true);
       setError(null);
       
-      if (!backendService.isReady()) {
-        throw new Error('Backend service not initialized');
-      }
-
       // Load both loans and documents
       const [backendLoans, backendDocs] = await Promise.all([
-        backendService.getMyLoans(),
-        backendService.getMyDocuments()
+        backend.get_my_loans(),
+        backend.get_my_documents()
       ]);
       
       // Transform backend loans to frontend format
       const transformedLoans = backendLoans.map(loan => ({
         id: loan.id,
         documentId: loan.document_id,
-        amount: `$${loan.amount.toLocaleString()}`,
+        amount: `$${loan.amount.toString().toLocaleString()}`,
         collateral: 'Document NFT',
         apr: `${loan.interest_rate}%`,
         status: getLoanStatus(loan.status),
-        applicationDate: new Date(loan.created_at).toLocaleDateString(),
-        approvalDate: loan.status.Approved !== undefined ? new Date(loan.created_at).toLocaleDateString() : null,
-        disbursementDate: loan.status.Approved !== undefined ? new Date(loan.created_at).toLocaleDateString() : null,
+        applicationDate: new Date(Number(loan.created_at) / 1000000).toLocaleDateString(),
+        approvalDate: 'Approved' in loan.status ? new Date(Number(loan.created_at) / 1000000).toLocaleDateString() : null,
+        disbursementDate: 'Approved' in loan.status ? new Date(Number(loan.created_at) / 1000000).toLocaleDateString() : null,
         origin: 'Origin Country',
         destination: 'Destination Country',
         cargoType: 'Cargo Type',
@@ -81,21 +77,21 @@ const DashboardLoans = () => {
         nftId: `NFT-ICP-${loan.id}`,
         creditScore: 85,
         riskLevel: 'Low',
-        processingTime: loan.status.Approved !== undefined ? '2 days' : 'In Progress',
+        processingTime: 'Approved' in loan.status ? '2 days' : 'In Progress',
         rawAmount: loan.amount,
-        repaymentDate: new Date(loan.repayment_date).toLocaleDateString()
+        repaymentDate: new Date(Number(loan.repayment_date) / 1000000).toLocaleDateString()
       }));
 
-      // Transform documents to show only approved ones
+      // Transform documents to show only NftMinted ones for the logged-in user
       const approvedDocuments = backendDocs
-        .filter(doc => doc.status.NftMinted !== undefined)
+        .filter(doc => 'NftMinted' in doc.status)
         .map(doc => ({
           id: doc.id,
           acid: doc.acid_number,
-          value: `$${doc.value_usd.toLocaleString()}`,
+          value: `$${doc.value_usd.toString().toLocaleString()}`,
           description: `Document for ACID: ${doc.acid_number}`,
-          date: new Date(doc.created_at).toLocaleDateString(),
-          ethereumTxHash: doc.ethereum_tx_hash,
+          date: new Date(Number(doc.created_at) / 1000000).toLocaleDateString(),
+          ethereumTxHash: doc.ethereum_tx_hash || null,
           rawValue: doc.value_usd
         }));
 
@@ -103,18 +99,19 @@ const DashboardLoans = () => {
       setDocuments(approvedDocuments);
     } catch (err) {
       console.error('Failed to load data:', err);
-      setError(err.message);
+      setError(err.message.includes('Panicked at') ? 'Backend storage error. Please contact support or redeploy the canister.' : err.message || 'Failed to load data');
     } finally {
       setLoading(false);
     }
   };
 
   const getLoanStatus = (status) => {
-    if (status.Pending !== undefined) return 'pending';
-    if (status.Approved !== undefined) return 'approved';
-    if (status.Active !== undefined) return 'active';
-    if (status.Repaid !== undefined) return 'repaid';
-    if (status.Defaulted !== undefined) return 'defaulted';
+    if ('Pending' in status) return 'pending';
+    if ('Approved' in status) return 'approved';
+    if ('Active' in status) return 'active';
+    if ('Repaid' in status) return 'repaid';
+    if ('Defaulted' in status) return 'defaulted';
+    if ('Rejected' in status) return 'rejected';
     return 'pending';
   };
 
@@ -124,7 +121,10 @@ const DashboardLoans = () => {
     pending: loans.filter(loan => loan.status === 'pending').length,
     underReview: loans.filter(loan => loan.status === 'under_review').length,
     rejected: loans.filter(loan => loan.status === 'rejected').length,
-    totalValue: loans.reduce((sum, loan) => sum + (loan.rawAmount || 0), 0),
+    totalValue: loans.reduce((sum, loan) => {
+      const val = typeof loan.rawAmount === 'bigint' ? loan.rawAmount : BigInt(loan.rawAmount || 0n);
+      return sum + val;
+    }, 0n).toString(),
     avgProcessingTime: '2.3 days',
     approvalRate: loans.length > 0 ? ((loans.filter(loan => loan.status === 'approved').length / loans.length) * 100).toFixed(1) : '0'
   };
@@ -157,10 +157,6 @@ const DashboardLoans = () => {
       setError(null);
       setSuccessMessage('');
       
-      if (!backendService.isReady()) {
-        throw new Error('Backend service not initialized');
-      }
-
       // Validate required fields
       if (!loanAmount || !collateralDocument || !repaymentDate) {
         throw new Error('Please fill in all required fields');
@@ -179,17 +175,18 @@ const DashboardLoans = () => {
       }
 
       // Validate loan amount doesn't exceed 80% of document value
-      if (amount > selectedDoc.rawValue * 80 / 100) {
+      const docValue = typeof selectedDoc.rawValue === 'bigint' ? selectedDoc.rawValue : BigInt(selectedDoc.rawValue || 0n);
+      if (BigInt(amount) > docValue * 80n / 100n) {
         throw new Error('Loan amount cannot exceed 80% of document value');
       }
 
-      // Convert repayment date to timestamp
-      const repaymentTimestamp = new Date(repaymentDate).getTime();
+      // Convert repayment date to timestamp (nanoseconds for IC)
+      const repaymentTimestamp = BigInt(new Date(repaymentDate).getTime()) * 1000000n;
 
       // Submit loan request to backend
-      const result = await backendService.requestLoan(collateralDocument, amount, repaymentTimestamp);
+      const result = await backend.request_loan(collateralDocument, BigInt(amount), repaymentTimestamp);
       
-      if (result.Err) {
+      if ('Err' in result) {
         throw new Error(result.Err);
       }
 
@@ -207,7 +204,7 @@ const DashboardLoans = () => {
       console.log('✅ Loan request submitted successfully:', result.Ok);
     } catch (err) {
       console.error('Failed to submit loan request:', err);
-      setError(err.message);
+      setError(err.message || 'Failed to submit loan request');
     } finally {
       setSubmitting(false);
     }
@@ -558,4 +555,4 @@ const DashboardLoans = () => {
   );
 };
 
-export default DashboardLoans; 
+export default DashboardLoans;

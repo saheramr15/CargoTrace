@@ -137,8 +137,9 @@ name = "cargo_trace_backend"
 version = "0.1.0"
 dependencies = [
  "candid 0.10.18",
- "ic-cdk 0.12.3",
- "ic-cdk-macros 0.8.4",
+ "getrandom",
+ "ic-cdk 0.13.6",
+ "ic-cdk-macros 0.13.2",
  "ic-cdk-timers",
  "ic-ledger-types",
  "ic-stable-structures",
@@ -333,6 +334,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "getrandom"
+version = "0.2.16"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "335ff9f135e4384c8150d6f27c6daed433577f86b4750418338c01a1a2528592"
+dependencies = [
+ "cfg-if",
+ "libc",
+ "wasi",
+]
+
+[[package]]
 name = "hashbrown"
 version = "0.15.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -360,14 +372,14 @@ dependencies = [
 
 [[package]]
 name = "ic-cdk"
-version = "0.12.3"
+version = "0.13.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "16c64e04d117461946f34785f8d327dc050a7e47abec6ffad93143dda5d755f1"
+checksum = "36c4f1eea1e5ca52801fbc8363cfb67c3218741afaa63fc001b80a0d283d60ca"
 dependencies = [
  "candid 0.10.18",
  "ic-cdk-executor",
- "ic-cdk-macros 0.8.4",
- "ic0 0.21.1",
+ "ic-cdk-macros 0.13.2",
+ "ic0 0.23.0",
  "serde",
  "serde_bytes",
 ]
@@ -408,9 +420,9 @@ dependencies = [
 
 [[package]]
 name = "ic-cdk-macros"
-version = "0.8.4"
+version = "0.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a5a618e4020cea88e933d8d2f8c7f86d570ec06213506a80d4f2c520a9bba512"
+checksum = "a45800053d80a6df839a71aaea5797e723188c0b992618208ca3b941350c7355"
 dependencies = [
  "candid 0.10.18",
  "proc-macro2",
@@ -477,12 +489,6 @@ name = "ic0"
 version = "0.18.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "576c539151d4769fb4d1a0c25c4108dd18facd04c5695b02cf2d226ab4e43aa5"
-
-[[package]]
-name = "ic0"
-version = "0.21.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a54b5297861c651551676e8c43df805dad175cc33bc97dbd992edbbb85dcbcdf"
 
 [[package]]
 name = "ic0"
@@ -859,6 +865,12 @@ name = "version_check"
 version = "0.9.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0b928f33d975fc6ad9f86c8f283853ad26bdd5b10b7f1542aa2fa15e2289105a"
+
+[[package]]
+name = "wasi"
+version = "0.11.1+wasi-snapshot-preview1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ccf3ec651a847eb01de73ccad15eb7d99f80485de043efb2f370cd654f4ea44b"
 
 [[package]]
 name = "winapi-util"

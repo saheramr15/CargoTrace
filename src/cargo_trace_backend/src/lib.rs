@@ -1,15 +1,15 @@
 use candid::{CandidType, Deserialize, Principal};
-use ic_cdk::{query, update, caller};
+use ic_cdk::{query, update, caller, pre_upgrade, post_upgrade};
 use ic_cdk::export_candid;
 use ic_stable_structures::memory_manager::{MemoryId, MemoryManager, VirtualMemory};
 use ic_stable_structures::{DefaultMemoryImpl, StableBTreeMap, Storable};
 use ic_stable_structures::storable::Bound;
 use std::cell::RefCell;
 use std::collections::HashMap;
+// Remove duplicate Principal import
+
 mod login;
 pub use login::*;
-mod loan;
-pub use loan::*;
 
 mod cargowatcher;
 pub use cargowatcher::*;
@@ -38,7 +38,6 @@ thread_local! {
         StableBTreeMap::init(MEMORY_MANAGER.with(|mm| mm.borrow().get(MemoryId::new(4))))
     );
 
-    // Customs Integration Storage
     static CARGOX_MAPPINGS: RefCell<StableBTreeMap<String, CargoXMapping, Memory>> = RefCell::new(
         StableBTreeMap::init(MEMORY_MANAGER.with(|mm| mm.borrow().get(MemoryId::new(5))))
     );
@@ -50,28 +49,6 @@ thread_local! {
     static COUNTERS: RefCell<HashMap<String, u64>> = RefCell::new(HashMap::new());
 }
 
-// #[derive(Clone, Debug, CandidType, Deserialize)]
-// pub struct TransferPayload {
-//     network: String,
-//     contract: String,
-//     tx_hash: String,
-//     block_number: u64,
-//     token_id: String,
-//     from: String,
-//     to: String,
-//     log_index: u64,
-// }
-
-// #[update]
-// fn ingest_transfer(payload: TransferPayload) {
-// ic_cdk::println!("Got transfer JSON: {:?}", payload);
-// }
-
-// #[ic_cdk::query]
-// fn get_transfers() -> Vec<TransferPayload> {
-//     TRANSFERS.with(|t| t.borrow().clone())
-
-// }
 // Data structures
 #[derive(CandidType, Deserialize, Clone)]
 pub struct Document {
@@ -84,7 +61,7 @@ pub struct Document {
     pub owner: Principal,
 }
 
-#[derive(CandidType, Deserialize, Clone)]
+#[derive(CandidType, Deserialize, PartialEq, Clone)]
 pub enum DocumentStatus {
     Pending,
     Verified,
@@ -104,13 +81,14 @@ pub struct Loan {
     pub repayment_date: u64,
 }
 
-#[derive(CandidType, Deserialize, Clone)]
+#[derive(CandidType, Deserialize, PartialEq, Clone)]
 pub enum LoanStatus {
     Pending,
     Approved,
     Active,
     Repaid,
     Defaulted,
+    Rejected,
 }
 
 #[derive(CandidType, Deserialize, Clone)]
@@ -121,16 +99,15 @@ pub struct AcidValidation {
     pub validation_date: u64,
 }
 
-// Customs Integration Data Structures
 #[derive(CandidType, Deserialize, Clone)]
 pub struct CargoXMapping {
     pub id: String,
-    pub nft_hash: String,        // CargoX NFT hash
-    pub acid_number: String,     // ACID number
-    pub verified: bool,          // Customs verification status
+    pub nft_hash: String,
+    pub acid_number: String,
+    pub verified: bool,
     pub created_at: u64,
     pub owner: Principal,
-    pub customs_entry_id: Option<String>, // For future API integration
+    pub customs_entry_id: Option<String>,
 }
 
 #[derive(CandidType, Deserialize, Clone)]
@@ -153,20 +130,31 @@ pub enum CustomsStatus {
     UnderReview,
 }
 
-// Storable implementations
+// Fixed Storable implementation for Document with proper bounds checking
 impl Storable for Document {
     fn to_bytes(&self) -> std::borrow::Cow<[u8]> {
         let mut bytes = Vec::new();
+        
+        // Store strings with null terminators
         bytes.extend_from_slice(self.id.as_bytes());
         bytes.push(0);
+        
         bytes.extend_from_slice(self.acid_number.as_bytes());
         bytes.push(0);
+        
         bytes.extend_from_slice(self.ethereum_tx_hash.as_bytes());
         bytes.push(0);
+        
+        // Store fixed-size integers
         bytes.extend_from_slice(&self.value_usd.to_le_bytes());
         bytes.extend_from_slice(&self.created_at.to_le_bytes());
-        bytes.extend_from_slice(&self.owner.as_slice());
         
+        // Store Principal with length prefix (CRITICAL FIX)
+        let owner_bytes = self.owner.as_slice();
+        bytes.push(owner_bytes.len() as u8); // Store length first
+        bytes.extend_from_slice(owner_bytes);
+        
+        // Store status as single byte
         match &self.status {
             DocumentStatus::Pending => bytes.push(0),
             DocumentStatus::Verified => bytes.push(1),
@@ -181,27 +169,78 @@ impl Storable for Document {
         let bytes = bytes.as_ref();
         let mut pos = 0;
         
-        let id_end = bytes[pos..].iter().position(|&b| b == 0).unwrap();
-        let id = String::from_utf8(bytes[pos..pos+id_end].to_vec()).unwrap();
-        pos += id_end + 1;
+        // Helper function for safe bounds checking
+        let check_bounds = |pos: usize, needed: usize, total: usize| -> Result<(), String> {
+            if pos + needed > total {
+                return Err(format!(
+                    "Buffer underrun: need {} bytes at position {}, but only {} bytes total", 
+                    needed, pos, total
+                ));
+            }
+            Ok(())
+        };
         
-        let acid_end = bytes[pos..].iter().position(|&b| b == 0).unwrap();
-        let acid_number = String::from_utf8(bytes[pos..pos+acid_end].to_vec()).unwrap();
-        pos += acid_end + 1;
+        // Read ID string
+        let id = match bytes[pos..].iter().position(|&b| b == 0) {
+            Some(id_end) => {
+                check_bounds(pos, id_end, bytes.len()).expect("ID bounds check failed");
+                let id = String::from_utf8(bytes[pos..pos+id_end].to_vec())
+                    .expect("Invalid UTF-8 in ID");
+                pos += id_end + 1;
+                id
+            }
+            None => panic!("No null terminator found for ID")
+        };
         
-        let tx_end = bytes[pos..].iter().position(|&b| b == 0).unwrap();
-        let ethereum_tx_hash = String::from_utf8(bytes[pos..pos+tx_end].to_vec()).unwrap();
-        pos += tx_end + 1;
+        // Read ACID number string
+        let acid_number = match bytes[pos..].iter().position(|&b| b == 0) {
+            Some(acid_end) => {
+                check_bounds(pos, acid_end, bytes.len()).expect("ACID bounds check failed");
+                let acid = String::from_utf8(bytes[pos..pos+acid_end].to_vec())
+                    .expect("Invalid UTF-8 in ACID number");
+                pos += acid_end + 1;
+                acid
+            }
+            None => panic!("No null terminator found for ACID number")
+        };
         
-        let value_usd = u64::from_le_bytes(bytes[pos..pos+8].try_into().unwrap());
+        // Read Ethereum TX hash string
+        let ethereum_tx_hash = match bytes[pos..].iter().position(|&b| b == 0) {
+            Some(tx_end) => {
+                check_bounds(pos, tx_end, bytes.len()).expect("TX hash bounds check failed");
+                let tx_hash = String::from_utf8(bytes[pos..pos+tx_end].to_vec())
+                    .expect("Invalid UTF-8 in TX hash");
+                pos += tx_end + 1;
+                tx_hash
+            }
+            None => panic!("No null terminator found for TX hash")
+        };
+        
+        // Read value_usd (8 bytes)
+        check_bounds(pos, 8, bytes.len()).expect("Value USD bounds check failed");
+        let value_usd = u64::from_le_bytes(
+            bytes[pos..pos+8].try_into().expect("Failed to parse value_usd")
+        );
         pos += 8;
         
-        let created_at = u64::from_le_bytes(bytes[pos..pos+8].try_into().unwrap());
+        // Read created_at (8 bytes)
+        check_bounds(pos, 8, bytes.len()).expect("Created at bounds check failed");
+        let created_at = u64::from_le_bytes(
+            bytes[pos..pos+8].try_into().expect("Failed to parse created_at")
+        );
         pos += 8;
         
-        let owner = Principal::from_slice(&bytes[pos..pos+29]);
-        pos += 29;
+        // Read Principal with dynamic length (CRITICAL FIX)
+        check_bounds(pos, 1, bytes.len()).expect("Principal length bounds check failed");
+        let principal_len = bytes[pos] as usize;
+        pos += 1;
         
+        check_bounds(pos, principal_len, bytes.len()).expect("Principal data bounds check failed");
+        let owner = Principal::from_slice(&bytes[pos..pos+principal_len]);
+        pos += principal_len;
+        
+        // Read status (1 byte)
+        check_bounds(pos, 1, bytes.len()).expect("Status bounds check failed");
         let status = match bytes[pos] {
             0 => DocumentStatus::Pending,
             1 => DocumentStatus::Verified,
@@ -226,11 +265,12 @@ impl Storable for Document {
     }
 
     const BOUND: Bound = Bound::Bounded {
-        max_size: 1024,
+        max_size: 2048,
         is_fixed_size: false,
     };
 }
 
+// Fixed Storable implementation for Loan (same Principal issue)
 impl Storable for Loan {
     fn to_bytes(&self) -> std::borrow::Cow<[u8]> {
         let mut bytes = Vec::new();
@@ -242,7 +282,11 @@ impl Storable for Loan {
         bytes.extend_from_slice(&self.interest_rate.to_le_bytes());
         bytes.extend_from_slice(&self.created_at.to_le_bytes());
         bytes.extend_from_slice(&self.repayment_date.to_le_bytes());
-        bytes.extend_from_slice(&self.borrower.as_slice());
+        
+        // Fixed: Store Principal with length prefix
+        let borrower_bytes = self.borrower.as_slice();
+        bytes.push(borrower_bytes.len() as u8);
+        bytes.extend_from_slice(borrower_bytes);
         
         match &self.status {
             LoanStatus::Pending => bytes.push(0),
@@ -250,6 +294,7 @@ impl Storable for Loan {
             LoanStatus::Active => bytes.push(2),
             LoanStatus::Repaid => bytes.push(3),
             LoanStatus::Defaulted => bytes.push(4),
+            LoanStatus::Rejected => bytes.push(5),
         }
         
         std::borrow::Cow::Owned(bytes)
@@ -279,8 +324,11 @@ impl Storable for Loan {
         let repayment_date = u64::from_le_bytes(bytes[pos..pos+8].try_into().unwrap());
         pos += 8;
         
-        let borrower = Principal::from_slice(&bytes[pos..pos+29]);
-        pos += 29;
+        // Fixed: Read Principal with dynamic length
+        let principal_len = bytes[pos] as usize;
+        pos += 1;
+        let borrower = Principal::from_slice(&bytes[pos..pos+principal_len]);
+        pos += principal_len;
         
         let status = match bytes[pos] {
             0 => LoanStatus::Pending,
@@ -288,6 +336,7 @@ impl Storable for Loan {
             2 => LoanStatus::Active,
             3 => LoanStatus::Repaid,
             4 => LoanStatus::Defaulted,
+            5 => LoanStatus::Rejected,
             _ => LoanStatus::Pending,
         };
         
@@ -313,6 +362,7 @@ impl Storable for Loan {
     };
 }
 
+// Keep other Storable implementations as they were (they don't use the broken Principal pattern)
 impl Storable for AcidValidation {
     fn to_bytes(&self) -> std::borrow::Cow<[u8]> {
         let mut bytes = Vec::new();
@@ -372,6 +422,7 @@ impl Storable for AcidValidation {
     };
 }
 
+// Fixed CargoXMapping and CustomsVerification (they also have the Principal issue)
 impl Storable for CargoXMapping {
     fn to_bytes(&self) -> std::borrow::Cow<[u8]> {
         let mut bytes = Vec::new();
@@ -383,7 +434,11 @@ impl Storable for CargoXMapping {
         bytes.push(0);
         bytes.push(if self.verified { 1 } else { 0 });
         bytes.extend_from_slice(&self.created_at.to_le_bytes());
-        bytes.extend_from_slice(&self.owner.as_slice());
+        
+        // Fixed: Store Principal with length prefix
+        let owner_bytes = self.owner.as_slice();
+        bytes.push(owner_bytes.len() as u8);
+        bytes.extend_from_slice(owner_bytes);
         
         if let Some(ref entry_id) = self.customs_entry_id {
             bytes.extend_from_slice(entry_id.as_bytes());
@@ -415,8 +470,11 @@ impl Storable for CargoXMapping {
         let created_at = u64::from_le_bytes(bytes[pos..pos+8].try_into().unwrap());
         pos += 8;
         
-        let owner = Principal::from_slice(&bytes[pos..pos+29]);
-        pos += 29;
+        // Fixed: Read Principal with dynamic length
+        let principal_len = bytes[pos] as usize;
+        pos += 1;
+        let owner = Principal::from_slice(&bytes[pos..pos+principal_len]);
+        pos += principal_len;
         
         let customs_entry_id = if pos < bytes.len() - 1 {
             let entry_end = bytes[pos..].iter().position(|&b| b == 0).unwrap_or(bytes.len() - pos);
@@ -483,7 +541,10 @@ impl Storable for CustomsVerification {
         
         if let Some(verified_by) = self.verified_by {
             bytes.push(1);
-            bytes.extend_from_slice(&verified_by.as_slice());
+            // Fixed: Store Principal with length prefix
+            let principal_bytes = verified_by.as_slice();
+            bytes.push(principal_bytes.len() as u8);
+            bytes.extend_from_slice(principal_bytes);
         } else {
             bytes.push(0);
         }
@@ -536,16 +597,18 @@ impl Storable for CustomsVerification {
         } else {
             None
         };
-        pos += customs_data.as_ref().map(|_| customs_data.as_ref().unwrap().len() + 1).unwrap_or(1);
+        pos += customs_data.as_ref().map(|d| d.len() + 1).unwrap_or(1);
         
         let created_at = u64::from_le_bytes(bytes[pos..pos+8].try_into().unwrap());
         pos += 8;
         
         let verified_by = if bytes[pos] == 1 {
             pos += 1;
-            Some(Principal::from_slice(&bytes[pos..pos+29]))
-        } else {
+            // Fixed: Read Principal with dynamic length
+            let principal_len = bytes[pos] as usize;
             pos += 1;
+            Some(Principal::from_slice(&bytes[pos..pos+principal_len]))
+        } else {
             None
         };
         
@@ -622,6 +685,36 @@ fn is_acid_in_static_dataset(acid_number: &str) -> bool {
     valid_acids.contains(&acid_number)
 }
 
+// Consolidated upgrade functions that handle all modules
+#[pre_upgrade]
+fn pre_upgrade() {
+    ic_cdk::println!("Preparing for upgrade...");
+    
+    // Save login module state using old stable storage
+    use ic_cdk::storage;
+    let principals = login::save_principals_state();
+    storage::stable_save((principals,)).unwrap();
+    
+    // StableBTreeMap data (DOCUMENTS, LOANS, etc.) persists automatically
+    ic_cdk::println!("Upgrade preparation complete");
+}
+
+#[post_upgrade]
+fn post_upgrade() {
+    ic_cdk::println!("Restoring state after upgrade...");
+    
+    // Restore login module state using old stable storage
+    use ic_cdk::storage;
+    use std::collections::BTreeSet;
+    use candid::Principal;
+    
+    let (saved_principals,): (BTreeSet<Principal>,) = storage::stable_restore().unwrap();
+    login::restore_principals_state(saved_principals);
+    
+    // StableBTreeMap data (DOCUMENTS, LOANS, etc.) automatically restored
+    ic_cdk::println!("State restoration complete");
+}
+
 // Document Management Functions
 #[update]
 pub fn submit_document(acid_number: String, ethereum_tx_hash: String, value_usd: u64) -> Result<String, String> {
@@ -669,15 +762,13 @@ pub fn get_my_documents() -> Vec<Document> {
 
 #[update]
 pub fn approve_document(document_id: String) -> Result<(), String> {
-    let caller = caller();
-    
+    // Remove owner check to allow admin approval
     DOCUMENTS.with(|documents| {
         let mut documents = documents.borrow_mut();
         if let Some(mut document) = documents.get(&document_id) {
-            if document.owner != caller {
-                return Err("Only document owner can approve.".to_string());
+            if document.status != DocumentStatus::Pending {
+                return Err("Can only approve pending documents.".to_string());
             }
-            
             document.status = DocumentStatus::NftMinted;
             documents.insert(document_id, document);
             Ok(())
@@ -686,6 +777,32 @@ pub fn approve_document(document_id: String) -> Result<(), String> {
         }
     })
 }
+
+
+
+#[update]
+pub fn reject_document(document_id: String) -> Result<(), String> {
+    let caller = caller();
+    
+    DOCUMENTS.with(|documents| {
+        let mut documents = documents.borrow_mut();
+        if let Some(mut document) = documents.get(&document_id) {
+            if document.owner != caller {
+                return Err("Only document owner can reject.".to_string());
+            }
+            if document.status != DocumentStatus::Pending {
+                return Err("Can only reject pending documents.".to_string());
+            }
+            
+            document.status = DocumentStatus::Rejected;
+          documents.insert(document_id, document);
+            Ok(())
+        } else {
+            Err("Document not found.".to_string())
+        }
+    })
+}
+            
 
 // Loan Management Functions
 #[update]
@@ -750,6 +867,8 @@ pub fn get_loan(loan_id: String) -> Option<Loan> {
     })
 }
 
+
+
 #[query]
 pub fn get_my_loans() -> Vec<Loan> {
     let caller = caller();
@@ -757,6 +876,16 @@ pub fn get_my_loans() -> Vec<Loan> {
         loans.borrow()
             .iter()
             .filter(|entry| entry.value().borrower == caller)
+            .map(|entry| entry.value().clone())
+            .collect()
+    })
+}
+
+#[query]
+pub fn get_all_loans() -> Vec<Loan> {
+    LOANS.with(|loans| {
+        loans.borrow()
+            .iter()
             .map(|entry| entry.value().clone())
             .collect()
     })
@@ -793,6 +922,32 @@ pub fn repay_loan(loan_id: String, amount: u64) -> Result<(), String> {
         } else {
             Err("Loan not found.".to_string())
         }
+    })
+}
+#[update]
+pub fn reject_loan(loan_id: String) -> Result<(), String> {
+    LOANS.with(|loans| {
+        let mut loans = loans.borrow_mut();
+        if let Some(mut loan) = loans.get(&loan_id) {
+            if loan.status != LoanStatus::Pending {
+                return Err("Can only reject pending loans.".to_string());
+            }
+            loan.status = LoanStatus::Rejected;
+            loans.insert(loan_id, loan.clone());
+            Ok(())
+        } else {
+            Err("Loan not found.".to_string())
+        }
+    })
+}
+
+#[query]
+pub fn get_all_loan_ids() -> Vec<String> {
+    LOANS.with(|loans| {
+        loans.borrow()
+            .iter()
+            .map(|entry| entry.key().clone())
+            .collect()
     })
 }
 

@@ -10,7 +10,7 @@ import {
   Loader2,
   AlertCircle
 } from 'lucide-react';
-import { backendService } from '../../../services/backendService';
+import { cargo_trace_backend as backend } from '../../../../../declarations/cargo_trace_backend';
 
 const AdminDocuments = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -30,11 +30,7 @@ const AdminDocuments = () => {
       setLoading(true);
       setError(null);
       
-      if (!backendService.isReady()) {
-        throw new Error('Backend service not initialized');
-      }
-
-      const docs = await backendService.getMyDocuments();
+      const docs = await backend.get_my_documents();
       
       // Transform backend documents to frontend format
       const transformedDocs = docs.map(doc => ({
@@ -42,34 +38,35 @@ const AdminDocuments = () => {
         type: 'Bill of Lading', // Default type
         status: getDocumentStatus(doc.status),
         company: 'Trade Company', // Default company
-        value: `$${doc.value_usd.toLocaleString()}`,
-        createdAt: new Date(doc.created_at).toISOString(),
+        value: `$${Number(doc.value_usd).toLocaleString()}`,
+        createdAt: new Date(Number(doc.created_at) / 1000000).toLocaleDateString(),
         description: `Document for ACID: ${doc.acid_number}`,
         acidNumber: doc.acid_number,
         ethereumTxHash: doc.ethereum_tx_hash,
-        owner: doc.owner
+        owner: doc.owner.toString()
       }));
 
       setDocuments(transformedDocs);
     } catch (err) {
       console.error('Failed to load documents:', err);
-      setError(err.message);
+      setError(err.message || 'Failed to load documents');
     } finally {
       setLoading(false);
     }
   };
 
   const getDocumentStatus = (status) => {
-    if (status.Pending !== undefined) return 'pending';
-    if (status.Verified !== undefined) return 'verified';
-    if (status.Rejected !== undefined) return 'rejected';
-    if (status.NftMinted !== undefined) return 'verified'; // Treat NFT minted as verified
+    if ('Pending' in status) return 'pending';
+    if ('Verified' in status) return 'verified';
+    if ('Rejected' in status) return 'rejected';
+    if ('NftMinted' in status) return 'nft-minted';
     return 'pending';
   };
 
   const getStatusIcon = (status) => {
     switch (status) {
       case 'verified':
+      case 'nft-minted':
         return <CheckCircle className="w-4 h-4 text-green-500" />;
       case 'pending':
         return <Clock className="w-4 h-4 text-yellow-500" />;
@@ -83,6 +80,7 @@ const AdminDocuments = () => {
   const getStatusBadge = (status) => {
     const statusClasses = {
       verified: 'bg-green-100 text-green-800',
+      'nft-minted': 'bg-green-100 text-green-800',
       pending: 'bg-yellow-100 text-yellow-800',
       rejected: 'bg-red-100 text-red-800'
     };
@@ -92,24 +90,21 @@ const AdminDocuments = () => {
   const handleVerifyDocument = async (documentId) => {
     try {
       setProcessingAction(documentId);
+      setError(null);
       
-      if (!backendService.isReady()) {
-        throw new Error('Backend service not initialized');
-      }
-
-      const result = await backendService.approveDocument(documentId);
+      const result = await backend.approve_document(documentId);
       
-      if (result.Err) {
+      if ('Err' in result) {
         throw new Error(result.Err);
       }
 
       // Reload documents to reflect changes
       await loadDocuments();
       
-      console.log('✅ Document verified successfully:', documentId);
+      console.log('✅ Document approved successfully:', documentId);
     } catch (err) {
-      console.error('Failed to verify document:', err);
-      setError(err.message);
+      console.error('Failed to approve document:', err);
+      setError(err.message || 'Failed to approve document');
     } finally {
       setProcessingAction(null);
     }
@@ -118,28 +113,50 @@ const AdminDocuments = () => {
   const handleRejectDocument = async (documentId) => {
     try {
       setProcessingAction(documentId);
+      setError(null);
       
-      // Note: The backend doesn't have a reject function, so we'll simulate it
-      // In a real implementation, you'd add a reject_document function to the backend
-      console.log('Rejecting document:', documentId);
+      const result = await backend.reject_document(documentId, "Rejected by admin");
       
-      // For now, we'll just show a success message
-      setTimeout(() => {
-        setProcessingAction(null);
-        loadDocuments();
-      }, 1000);
+      if ('Err' in result) {
+        throw new Error(result.Err);
+      }
+
+      // Reload documents to reflect changes
+      await loadDocuments();
       
+      console.log('✅ Document rejected successfully:', documentId);
     } catch (err) {
       console.error('Failed to reject document:', err);
-      setError(err.message);
+      setError(err.message || 'Failed to reject document');
+    } finally {
       setProcessingAction(null);
     }
   };
 
-  const handleViewDocument = (document) => {
-    console.log('Viewing document:', document);
-    // In a real implementation, this would open a modal or navigate to a detail page
-    alert(`Document Details:\nID: ${document.id}\nACID: ${document.acidNumber}\nStatus: ${document.status}\nValue: ${document.value}`);
+  const handleViewDocument = async (documentId) => {
+    try {
+      const backendDoc = await backend.get_document(documentId);
+      
+      if (!backendDoc) {
+        throw new Error('Document not found');
+      }
+
+      const doc = {
+        id: backendDoc.id,
+        acid: backendDoc.acid_number,
+        ethereumTxHash: backendDoc.ethereum_tx_hash,
+        value: Number(backendDoc.value_usd),
+        status: getDocumentStatus(backendDoc.status),
+        createdAt: new Date(Number(backendDoc.created_at) / 1000000).toLocaleString(),
+        owner: backendDoc.owner.toString()
+      };
+
+      console.log('Viewing document:', doc);
+      alert(`Document Details:\nID: ${doc.id}\nACID: ${doc.acid}\nStatus: ${doc.status}\nValue: $${doc.value.toLocaleString()}\nEthereum TX: ${doc.ethereumTxHash}\nCreated: ${doc.createdAt}\nOwner: ${doc.owner}`);
+    } catch (err) {
+      console.error('Failed to load document details:', err);
+      setError(err.message || 'Failed to load document details');
+    }
   };
 
   const filteredDocuments = documents.filter(doc => {
@@ -230,6 +247,7 @@ const AdminDocuments = () => {
             <option value="all">All Status</option>
             <option value="pending">Pending</option>
             <option value="verified">Verified</option>
+            <option value="nft-minted">NFT Minted</option>
             <option value="rejected">Rejected</option>
           </select>
         </div>
@@ -274,14 +292,14 @@ const AdminDocuments = () => {
                   <td>{doc.value}</td>
                   <td>
                     <span className={getStatusBadge(doc.status)}>
-                      {doc.status}
+                      {doc.status.replace('-', ' ')}
                     </span>
                   </td>
-                  <td>{new Date(doc.createdAt).toLocaleDateString()}</td>
+                  <td>{doc.createdAt}</td>
                   <td>
                     <div className="flex gap-2">
                       <button
-                        onClick={() => handleViewDocument(doc)}
+                        onClick={() => handleViewDocument(doc.id)}
                         className="admin-documents-action-btn"
                         title="View Document"
                       >
@@ -293,7 +311,7 @@ const AdminDocuments = () => {
                             onClick={() => handleVerifyDocument(doc.id)}
                             disabled={processingAction === doc.id}
                             className="admin-documents-action-btn"
-                            title="Verify Document"
+                            title="Approve Document"
                           >
                             {processingAction === doc.id ? (
                               <Loader2 className="w-4 h-4 animate-spin" />

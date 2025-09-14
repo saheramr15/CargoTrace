@@ -20,7 +20,7 @@ import {
   Globe,
   Loader2
 } from 'lucide-react';
-import { backendService } from '../../services/backendService';
+import { cargo_trace_backend as backend } from '../../../../declarations/cargo_trace_backend';
 
 const DashboardDocuments = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -38,6 +38,7 @@ const DashboardDocuments = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
+  const [processingAction, setProcessingAction] = useState(null);
 
   // Load documents on component mount
   useEffect(() => {
@@ -49,11 +50,7 @@ const DashboardDocuments = () => {
       setLoading(true);
       setError(null);
       
-      if (!backendService.isReady()) {
-        throw new Error('Backend service not initialized');
-      }
-
-      const backendDocs = await backendService.getMyDocuments();
+      const backendDocs = await backend.get_my_documents();
       
       // Transform backend documents to frontend format
       const transformedDocs = backendDocs.map(doc => ({
@@ -61,33 +58,34 @@ const DashboardDocuments = () => {
         acid: doc.acid_number,
         type: 'Bill of Lading', // Default type
         description: `Document for ACID: ${doc.acid_number}`,
-        value: `$${doc.value_usd.toLocaleString()}`,
+        value: `$${doc.value_usd.toString().toLocaleString()}`,
         status: getDocumentStatus(doc.status),
-        date: new Date(doc.created_at).toLocaleDateString(),
-        nftId: doc.status.NftMinted !== undefined ? `NFT-ICP-${doc.id}` : null,
+        date: new Date(Number(doc.created_at) / 1000000).toLocaleDateString(),
+        nftId: 'NftMinted' in doc.status ? `NFT-ICP-${doc.id}` : null,
         cargoDetails: 'Cargo details',
         origin: 'Origin Country',
         destination: 'Destination Country',
         shipper: 'Shipper Company',
         consignee: 'Consignee Company',
         ethereumTxHash: doc.ethereum_tx_hash,
-        rawValue: doc.value_usd
+        rawValue: doc.value_usd, // Keep as BigInt
+        owner: doc.owner.toString()
       }));
 
       setDocuments(transformedDocs);
     } catch (err) {
       console.error('Failed to load documents:', err);
-      setError(err.message);
+      setError(err.message || 'Failed to load documents');
     } finally {
       setLoading(false);
     }
   };
 
   const getDocumentStatus = (status) => {
-    if (status.Pending !== undefined) return 'pending';
-    if (status.Verified !== undefined) return 'verified';
-    if (status.Rejected !== undefined) return 'rejected';
-    if (status.NftMinted !== undefined) return 'nft-minted';
+    if ('Pending' in status) return 'pending';
+    if ('Verified' in status) return 'verified';
+    if ('Rejected' in status) return 'rejected';
+    if ('NftMinted' in status) return 'nft-minted';
     return 'pending';
   };
 
@@ -97,7 +95,10 @@ const DashboardDocuments = () => {
     verified: documents.filter(doc => doc.status === 'verified').length,
     nftMinted: documents.filter(doc => doc.status === 'nft-minted').length,
     rejected: documents.filter(doc => doc.status === 'rejected').length,
-    totalValue: documents.reduce((sum, doc) => sum + (doc.rawValue || 0), 0)
+    totalValue: documents.reduce((sum, doc) => {
+      const val = typeof doc.rawValue === 'bigint' ? doc.rawValue : BigInt(doc.rawValue || 0n);
+      return sum + val;
+    }, 0n).toString()
   };
 
   const documentTypes = [
@@ -147,10 +148,6 @@ const DashboardDocuments = () => {
       setError(null);
       setSuccessMessage('');
       
-      if (!backendService.isReady()) {
-        throw new Error('Backend service not initialized');
-      }
-
       // Validate required fields
       if (!acidNumber || !ethereumTxHash || !valueUsd) {
         throw new Error('Please fill in all required fields');
@@ -168,9 +165,9 @@ const DashboardDocuments = () => {
       }
 
       // Submit document to backend
-      const result = await backendService.submitDocument(acidNumber, ethereumTxHash, value);
+      const result = await backend.submit_document(acidNumber, ethereumTxHash, BigInt(value));
       
-      if (result.Err) {
+      if ('Err' in result) {
         throw new Error(result.Err);
       }
 
@@ -199,9 +196,53 @@ const DashboardDocuments = () => {
     }
   };
 
-  const handleViewDocument = (document) => {
-    console.log('Viewing document:', document);
-    alert(`Document Details:\nID: ${document.id}\nACID: ${document.acid}\nStatus: ${document.status}\nValue: ${document.value}\nEthereum TX: ${document.ethereumTxHash}`);
+  const handleApproveDocument = async (documentId) => {
+    try {
+      setProcessingAction(documentId);
+      setError(null);
+      
+      const result = await backend.approve_document(documentId);
+      
+      if ('Err' in result) {
+        throw new Error(result.Err);
+      }
+
+      // Reload documents to reflect changes
+      await loadDocuments();
+      
+      console.log('✅ Document approved successfully:', documentId);
+    } catch (err) {
+      console.error('Failed to approve document:', err);
+      setError(err.message || 'Failed to approve document');
+    } finally {
+      setProcessingAction(null);
+    }
+  };
+
+  const handleViewDocument = async (documentId) => {
+    try {
+      const backendDoc = await backend.get_document(documentId);
+      
+      if (!backendDoc) {
+        throw new Error('Document not found');
+      }
+
+      const doc = {
+        id: backendDoc.id,
+        acid: backendDoc.acid_number,
+        ethereumTxHash: backendDoc.ethereum_tx_hash,
+        value: backendDoc.value_usd.toString(),  // Convert BigInt to string for display
+        status: getDocumentStatus(backendDoc.status),
+        createdAt: new Date(Number(backendDoc.created_at) / 1000000).toLocaleString(),
+        owner: backendDoc.owner.toString()
+      };
+
+      console.log('Viewing document:', doc);
+      alert(`Document Details:\nID: ${doc.id}\nACID: ${doc.acid}\nStatus: ${doc.status}\nValue: $${doc.value.toLocaleString()}\nEthereum TX: ${doc.ethereumTxHash}\nCreated: ${doc.createdAt}\nOwner: ${doc.owner}`);
+    } catch (err) {
+      console.error('Failed to load document details:', err);
+      setError(err.message || 'Failed to load document details');
+    }
   };
 
   if (loading) {
@@ -242,12 +283,14 @@ const DashboardDocuments = () => {
           </div>
 
           <div className="dashboard-stat-card">
-            <div className="dashboard-stat-icon nfts">
-              <Shield size={24} color="white" />
-            </div>
-            <div className="dashboard-stat-trend">
-              <TrendingUp size={16} />
-              <span className="dashboard-stat-percentage">+22.1%</span>
+            <div className="dashboard-stat-header">
+              <div className="dashboard-stat-icon nfts">
+                <Shield size={24} color="white" />
+              </div>
+              <div className="dashboard-stat-trend">
+                <TrendingUp size={16} />
+                <span className="dashboard-stat-percentage">+22.1%</span>
+              </div>
             </div>
             <div className="dashboard-stat-value">{documentStats.nftMinted}</div>
             <div className="dashboard-stat-label">NFTs Minted</div>
@@ -264,7 +307,7 @@ const DashboardDocuments = () => {
                 <span className="dashboard-stat-percentage">+8.7%</span>
               </div>
             </div>
-            <div className="dashboard-stat-value">${(documentStats.totalValue / 1000000).toFixed(1)}M</div>
+            <div className="dashboard-stat-value">${(parseInt(documentStats.totalValue) / 1000000).toFixed(1)}M</div>
             <div className="dashboard-stat-label">Total Value</div>
             <div className="dashboard-stat-description">Document cargo value</div>
           </div>
@@ -528,12 +571,28 @@ const DashboardDocuments = () => {
                       <td className="dashboard-table-cell">{document.date}</td>
                       <td className="dashboard-table-actions">
                         <button 
-                          onClick={() => handleViewDocument(document)}
+                          onClick={() => handleViewDocument(document.id)}
                           className="dashboard-action-link"
+                          title="View Document"
                         >
                           <Eye size={14} />
                           View
                         </button>
+                        {document.status === 'pending' && (
+                          <button 
+                            onClick={() => handleApproveDocument(document.id)}
+                            disabled={processingAction === document.id}
+                            className="dashboard-action-link"
+                            title="Approve Document"
+                          >
+                            {processingAction === document.id ? (
+                              <Loader2 size={14} className="animate-spin" />
+                            ) : (
+                              <CheckCircle size={14} />
+                            )}
+                            Approve
+                          </button>
+                        )}
                         {document.status === 'nft-minted' && (
                           <button className="dashboard-action-link">
                             <Download size={14} />
@@ -557,4 +616,4 @@ const DashboardDocuments = () => {
   );
 };
 
-export default DashboardDocuments; 
+export default DashboardDocuments;

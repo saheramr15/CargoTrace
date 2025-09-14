@@ -9,7 +9,7 @@ import {
   Loader2,
   AlertCircle
 } from 'lucide-react';
-import { backendService } from '../../../services/backendService';
+import { cargo_trace_backend as backend } from '../../../../../declarations/cargo_trace_backend';
 
 const AdminLoans = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -19,58 +19,68 @@ const AdminLoans = () => {
   const [error, setError] = useState(null);
   const [processingAction, setProcessingAction] = useState(null);
 
-  // Load loans on component mount
+  // Load all loans on component mount
   useEffect(() => {
     loadLoans();
   }, []);
 
+  
   const loadLoans = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      if (!backendService.isReady()) {
-        throw new Error('Backend service not initialized');
-      }
+  try {
+    setLoading(true);
+    setError(null);
 
-      const backendLoans = await backendService.getMyLoans();
-      
-      // Transform backend loans to frontend format
-      const transformedLoans = backendLoans.map(loan => ({
-        id: loan.id,
+    // Fetch all loans directly (no need for individual fetching)
+    const backendLoans = await backend.get_all_loans();
+    
+    console.log('📊 Raw loans from backend:', backendLoans);
+
+    // Transform backend loans to frontend format
+    const transformedLoans = backendLoans
+      .filter(loan => loan !== null && loan !== undefined)
+      .map(loan => ({
+        id: loan.id || 'Unknown',
         status: getLoanStatus(loan.status),
-        company: 'Trade Company', // Default company
-        amount: `$${loan.amount.toLocaleString()}`,
-        interestRate: `${loan.interest_rate}%`,
+        company: 'Trade Company',
+        amount: loan.amount ? `$${loan.amount.toString().toLocaleString()}` : '$0',
+        interestRate: loan.interest_rate ? `${loan.interest_rate}%` : 'N/A',
         term: calculateTerm(loan.created_at, loan.repayment_date),
-        requestedAt: new Date(loan.created_at).toISOString(),
-        dueDate: new Date(loan.repayment_date).toISOString(),
-        documentId: loan.document_id,
-        borrower: loan.borrower,
-        rawAmount: loan.amount
+        requestedAt: loan.created_at ? new Date(Number(loan.created_at) / 1000000).toISOString() : 'N/A',
+        dueDate: loan.repayment_date ? new Date(Number(loan.repayment_date) / 1000000).toISOString() : 'N/A',
+        documentId: loan.document_id || 'N/A',
+        borrower: loan.borrower ? loan.borrower.toString() : 'Unknown',
+        rawAmount: loan.amount || 0n
       }));
 
-      setLoans(transformedLoans);
-    } catch (err) {
-      console.error('Failed to load loans:', err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+    console.log('✅ Transformed loans:', transformedLoans);
+    setLoans(transformedLoans);
+
+  } catch (err) {
+    console.error('❌ Failed to load loans:', err);
+    setError(err.message.includes('Panicked at') 
+      ? 'Backend storage error. Please redeploy the canister or contact support.' 
+      : err.message || 'Failed to load loans');
+  } finally {
+    setLoading(false);
+  }
+};
 
   const getLoanStatus = (status) => {
-    if (status.Pending !== undefined) return 'pending';
-    if (status.Approved !== undefined) return 'approved';
-    if (status.Active !== undefined) return 'active';
-    if (status.Repaid !== undefined) return 'repaid';
-    if (status.Defaulted !== undefined) return 'defaulted';
+    if (!status) return 'unknown';
+    
+    if ('Pending' in status) return 'pending';
+    if ('Approved' in status) return 'approved';
+    if ('Repaid' in status) return 'repaid';
+    if ('Rejected' in status) return 'rejected';
+    if ('Active' in status) return 'active';
+    if ('Defaulted' in status) return 'defaulted';
     return 'pending';
   };
 
   const calculateTerm = (createdAt, repaymentDate) => {
-    const created = new Date(createdAt);
-    const repayment = new Date(repaymentDate);
+    if (!createdAt || !repaymentDate) return 'N/A';
+    const created = new Date(Number(createdAt) / 1000000);
+    const repayment = new Date(Number(repaymentDate) / 1000000);
     const diffTime = repayment - created;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return `${diffDays} days`;
@@ -79,12 +89,14 @@ const AdminLoans = () => {
   const getStatusIcon = (status) => {
     switch (status) {
       case 'approved':
-      case 'active':
       case 'repaid':
         return <CheckCircle className="w-4 h-4 text-green-500" />;
       case 'pending':
         return <Clock className="w-4 h-4 text-yellow-500" />;
       case 'rejected':
+        return <XCircle className="w-4 h-4 text-red-500" />;
+      case 'active':
+        return <CheckCircle className="w-4 h-4 text-blue-500" />;
       case 'defaulted':
         return <XCircle className="w-4 h-4 text-red-500" />;
       default:
@@ -95,11 +107,12 @@ const AdminLoans = () => {
   const getStatusBadge = (status) => {
     const statusClasses = {
       approved: 'bg-green-100 text-green-800',
-      active: 'bg-blue-100 text-blue-800',
       pending: 'bg-yellow-100 text-yellow-800',
       rejected: 'bg-red-100 text-red-800',
       repaid: 'bg-green-100 text-green-800',
-      defaulted: 'bg-red-100 text-red-800'
+      active: 'bg-blue-100 text-blue-800',
+      defaulted: 'bg-red-100 text-red-800',
+      unknown: 'bg-gray-100 text-gray-800'
     };
     return `px-2 py-1 rounded-full text-xs font-medium ${statusClasses[status] || 'bg-gray-100 text-gray-800'}`;
   };
@@ -107,24 +120,17 @@ const AdminLoans = () => {
   const handleApproveLoan = async (loanId) => {
     try {
       setProcessingAction(loanId);
+      const result = await backend.approve_loan(loanId);
       
-      if (!backendService.isReady()) {
-        throw new Error('Backend service not initialized');
-      }
-
-      const result = await backendService.approveLoan(loanId);
-      
-      if (result.Err) {
+      if ('Err' in result) {
         throw new Error(result.Err);
       }
 
-      // Reload loans to reflect changes
       await loadLoans();
-      
       console.log('✅ Loan approved successfully:', loanId);
     } catch (err) {
       console.error('Failed to approve loan:', err);
-      setError(err.message);
+      setError(err.message || 'Failed to approve loan');
     } finally {
       setProcessingAction(null);
     }
@@ -133,28 +139,47 @@ const AdminLoans = () => {
   const handleRejectLoan = async (loanId) => {
     try {
       setProcessingAction(loanId);
+      const result = await backend.reject_loan(loanId);
       
-      // Note: The backend doesn't have a reject function, so we'll simulate it
-      // In a real implementation, you'd add a reject_loan function to the backend
-      console.log('Rejecting loan:', loanId);
-      
-      // For now, we'll just show a success message
-      setTimeout(() => {
-        setProcessingAction(null);
-        loadLoans();
-      }, 1000);
-      
+      if ('Err' in result) {
+        throw new Error(result.Err);
+      }
+
+      await loadLoans();
+      console.log('✅ Loan rejected successfully:', loanId);
     } catch (err) {
       console.error('Failed to reject loan:', err);
-      setError(err.message);
+      setError(err.message || 'Failed to reject loan');
+    } finally {
       setProcessingAction(null);
     }
   };
 
-  const handleViewLoan = (loan) => {
-    console.log('Viewing loan:', loan);
-    // In a real implementation, this would open a modal or navigate to a detail page
-    alert(`Loan Details:\nID: ${loan.id}\nDocument ID: ${loan.documentId}\nAmount: ${loan.amount}\nInterest Rate: ${loan.interestRate}\nStatus: ${loan.status}\nDue Date: ${new Date(loan.dueDate).toLocaleDateString()}`);
+  const handleViewLoan = async (loanId) => {
+    try {
+      const loan = await backend.get_all_loans(loanId);
+      
+      if (!loan) {
+        throw new Error('Loan not found');
+      }
+
+      const loanDetails = {
+        id: loan.id || 'Unknown',
+        documentId: loan.document_id || 'N/A',
+        amount: loan.amount ? loan.amount.toString().toLocaleString() : '0',
+        interestRate: loan.interest_rate ? `${loan.interest_rate}%` : 'N/A',
+        status: getLoanStatus(loan.status),
+        createdAt: loan.created_at ? new Date(Number(loan.created_at) / 1000000).toLocaleString() : 'N/A',
+        repaymentDate: loan.repayment_date ? new Date(Number(loan.repayment_date) / 1000000).toLocaleDateString() : 'N/A',
+        borrower: loan.borrower ? loan.borrower.toString() : 'Unknown'
+      };
+
+      console.log('Viewing loan:', loanDetails);
+      alert(`Loan Details:\nID: ${loanDetails.id}\nDocument ID: ${loanDetails.documentId}\nAmount: $${loanDetails.amount}\nInterest Rate: ${loanDetails.interestRate}\nStatus: ${loanDetails.status}\nCreated: ${loanDetails.createdAt}\nDue Date: ${loanDetails.repaymentDate}\nBorrower: ${loanDetails.borrower}`);
+    } catch (err) {
+      console.error('Failed to load loan details:', err);
+      setError(err.message || 'Failed to load loan details');
+    }
   };
 
   const filteredLoans = loans.filter(loan => {
@@ -210,7 +235,6 @@ const AdminLoans = () => {
 
   return (
     <div className="admin-loans">
-      {/* Header */}
       <div className="admin-loans-header">
         <div className="admin-loans-title">
           <h2>Loans</h2>
@@ -223,7 +247,6 @@ const AdminLoans = () => {
         </div>
       </div>
 
-      {/* Filters and Search */}
       <div className="admin-loans-filters">
         <div className="admin-loans-search">
           <Search className="admin-loans-search-icon" />
@@ -244,14 +267,15 @@ const AdminLoans = () => {
             <option value="all">All Status</option>
             <option value="pending">Pending</option>
             <option value="approved">Approved</option>
-            <option value="active">Active</option>
             <option value="repaid">Repaid</option>
+            <option value="rejected">Rejected</option>
+            <option value="active">Active</option>
             <option value="defaulted">Defaulted</option>
+            <option value="unknown">Unknown</option>
           </select>
         </div>
       </div>
 
-      {/* Loans Table */}
       <div className="admin-loans-table-container">
         {filteredLoans.length === 0 ? (
           <div className="text-center py-12">
@@ -303,7 +327,7 @@ const AdminLoans = () => {
                   <td>
                     <div className="flex gap-2">
                       <button
-                        onClick={() => handleViewLoan(loan)}
+                        onClick={() => handleViewLoan(loan.id)}
                         className="admin-loans-action-btn"
                         title="View Loan"
                       >
