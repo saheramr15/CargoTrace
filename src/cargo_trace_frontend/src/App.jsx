@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
+import NewNavbar from './components/layout/NewNavbar';
+import NewFooter from './components/layout/NewFooter';
 import BottomToggle from './components/layout/BottomToggle';
-import Home from './pages/Home';
+import NewLanding from './pages/NewLanding';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
 import DocumentVerification from './pages/DocumentVerification';
@@ -52,17 +52,17 @@ useEffect(() => {
 
   return (
     <div className="app">
-      {shouldShowLayout && <Navbar />}
+      {shouldShowLayout && <NewNavbar />}
       
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<NewLanding />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/verification" element={<DocumentVerification />} />
         <Route path="/login" element={<Login />} />
       </Routes>
       
-      {shouldShowLayout && <Footer />}
+      {shouldShowLayout && <NewFooter />}
       
       {/* Bottom Toggle Buttons - Always visible except on login/home */}
       <BottomToggle />

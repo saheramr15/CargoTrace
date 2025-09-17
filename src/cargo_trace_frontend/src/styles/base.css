@@ -1,46 +1,83 @@
-/* Custom CSS Variables and Utilities */
+/* Custom CSS Variables and Utilities - MENA Fintech Theme */
 
 :root {
-  /* Color Variables */
-  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-  --dark-gradient: linear-gradient(135deg, #1A1442 0%, #2A1B5A 50%, #1A1442 100%);
-  --card-gradient: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  /* Premium Professional Color Palette */
+  --navy-primary: #0F1419;
+  --navy-secondary: #1A1F2E;
+  --navy-tertiary: #252B3D;
+  --navy-light: #2A3142;
+  --navy-dark: #0A0E14;
+  
+  --steel-blue: #4A5568;
+  --steel-blue-light: #718096;
+  --steel-blue-dark: #2D3748;
+  
+  --platinum: #E2E8F0;
+  --platinum-light: #F7FAFC;
+  --platinum-dark: #CBD5E0;
+  
+  --accent-blue: #3182CE;
+  --accent-blue-light: #4299E1;
+  --accent-blue-dark: #2B6CB0;
+  
+  --success-green: #38A169;
+  --success-green-light: #48BB78;
+  --success-green-dark: #2F855A;
+  
+  /* Professional Gradients */
+  --primary-gradient: linear-gradient(135deg, #3182CE 0%, #2B6CB0 100%);
+  --primary-gradient-hover: linear-gradient(135deg, #2B6CB0 0%, #1E4A72 100%);
+  --secondary-gradient: linear-gradient(135deg, #0F1419 0%, #1A1F2E 100%);
+  --accent-gradient: linear-gradient(135deg, #3182CE 0%, #4299E1 100%);
+  --success-gradient: linear-gradient(135deg, #38A169 0%, #48BB78 100%);
+  --dark-gradient: linear-gradient(135deg, #0F1419 0%, #1A1F2E 50%, #0F1419 100%);
+  --card-gradient: linear-gradient(135deg, rgba(226, 232, 240, 0.05) 0%, rgba(226, 232, 240, 0.08) 100%);
+  --glass-gradient: linear-gradient(135deg, rgba(226, 232, 240, 0.08) 0%, rgba(226, 232, 240, 0.03) 100%);
   
   /* Text Colors */
-  --text-primary: #1A1442;
-  --text-secondary: #2A1B5A;
-  --text-accent: #667eea;
-  --text-muted: #4A5568;
+  --text-primary: #E2E8F0;
+  --text-secondary: rgba(226, 232, 240, 0.85);
+  --text-accent: #3182CE;
+  --text-muted: rgba(226, 232, 240, 0.65);
+  --text-dark: #0F1419;
+  --text-light: #F7FAFC;
   
   /* Background Colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8fafc;
-  --bg-card: rgba(255, 255, 255, 0.9);
+  --bg-primary: #0F1419;
+  --bg-secondary: #1A1F2E;
+  --bg-tertiary: #252B3D;
+  --bg-card: rgba(247, 250, 252, 0.95);
+  --bg-overlay: rgba(15, 20, 25, 0.95);
   
   /* Border and Shadow */
-  --border-color: rgba(102, 126, 234, 0.2);
-  --shadow-light: 0 8px 32px rgba(102, 126, 234, 0.1);
-  --shadow-heavy: 0 20px 60px rgba(102, 126, 234, 0.15);
-  --glow-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+  --border-color: rgba(226, 232, 240, 0.12);
+  --border-color-light: rgba(226, 232, 240, 0.06);
+  --border-color-accent: rgba(49, 130, 206, 0.25);
+  --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.12);
+  --shadow-medium: 0 8px 32px rgba(0, 0, 0, 0.18);
+  --shadow-heavy: 0 16px 48px rgba(0, 0, 0, 0.25);
+  --glow-shadow: 0 0 20px rgba(49, 130, 206, 0.15);
+  --glow-shadow-success: 0 0 20px rgba(56, 161, 105, 0.15);
   
-  /* Gradients */
-  --title-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --button-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --button-hover: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-  --section-gradient: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  /* Professional Gradients */
+  --title-gradient: linear-gradient(135deg, #3182CE 0%, #4299E1 100%);
+  --button-gradient: linear-gradient(135deg, #3182CE 0%, #2B6CB0 100%);
+  --button-hover: linear-gradient(135deg, #2B6CB0 0%, #1E4A72 100%);
+  --section-gradient: linear-gradient(135deg, rgba(49, 130, 206, 0.05) 0%, rgba(56, 161, 105, 0.05) 100%);
   
   /* Hero Colors */
-  --hero-text-primary: #ffffff;
-  --hero-text-secondary: #e2e8f0;
+  --hero-text-primary: #E2E8F0;
+  --hero-text-secondary: rgba(226, 232, 240, 0.85);
+  
+  /* Scrollbar Colors */
+  --scrollbar-track: #0F1419;
+  --scrollbar-thumb: linear-gradient(135deg, #3182CE, #4299E1);
+  --scrollbar-thumb-hover: linear-gradient(135deg, #2B6CB0, #1E4A72);
 }
 
 body {
-  background: var(--bg-primary);
-  color: var(--text-primary);
+  background: var(--navy-primary);
+  color: var(--platinum);
 }
 
 /* Scrollbar styles moved to index.css to avoid conflicts */
