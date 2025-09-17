@@ -24,46 +24,45 @@ const AdminLoans = () => {
     loadLoans();
   }, []);
 
-  
   const loadLoans = async () => {
-  try {
-    setLoading(true);
-    setError(null);
+    try {
+      setLoading(true);
+      setError(null);
 
-    // Fetch all loans directly (no need for individual fetching)
-    const backendLoans = await backend.get_all_loans();
-    
-    console.log('📊 Raw loans from backend:', backendLoans);
+      // Fetch all loans directly (no need for individual fetching)
+      const backendLoans = await backend.get_all_loans();
+      
+      console.log('📊 Raw loans from backend:', backendLoans);
 
-    // Transform backend loans to frontend format
-    const transformedLoans = backendLoans
-      .filter(loan => loan !== null && loan !== undefined)
-      .map(loan => ({
-        id: loan.id || 'Unknown',
-        status: getLoanStatus(loan.status),
-        company: 'Trade Company',
-        amount: loan.amount ? `$${loan.amount.toString().toLocaleString()}` : '$0',
-        interestRate: loan.interest_rate ? `${loan.interest_rate}%` : 'N/A',
-        term: calculateTerm(loan.created_at, loan.repayment_date),
-        requestedAt: loan.created_at ? new Date(Number(loan.created_at) / 1000000).toISOString() : 'N/A',
-        dueDate: loan.repayment_date ? new Date(Number(loan.repayment_date) / 1000000).toISOString() : 'N/A',
-        documentId: loan.document_id || 'N/A',
-        borrower: loan.borrower ? loan.borrower.toString() : 'Unknown',
-        rawAmount: loan.amount || 0n
-      }));
+      // Transform backend loans to frontend format
+      const transformedLoans = backendLoans
+        .filter(loan => loan !== null && loan !== undefined)
+        .map(loan => ({
+          id: loan.id || 'Unknown',
+          status: getLoanStatus(loan.status),
+          company: 'Trade Company',
+          amount: loan.amount ? `$${loan.amount.toString().toLocaleString()}` : '$0',
+          interestRate: loan.interest_rate ? `${loan.interest_rate}%` : 'N/A',
+          term: calculateTerm(loan.created_at, loan.repayment_date),
+          requestedAt: loan.created_at ? new Date(Number(loan.created_at) / 1000000).toISOString() : 'N/A',
+          dueDate: loan.repayment_date ? new Date(Number(loan.repayment_date) / 1000000).toISOString() : 'N/A',
+          documentId: loan.document_id || 'N/A',
+          borrower: loan.borrower ? loan.borrower.toString() : 'Unknown',
+          rawAmount: loan.amount || 0n
+        }));
 
-    console.log('✅ Transformed loans:', transformedLoans);
-    setLoans(transformedLoans);
+      console.log('✅ Transformed loans:', transformedLoans);
+      setLoans(transformedLoans);
 
-  } catch (err) {
-    console.error('❌ Failed to load loans:', err);
-    setError(err.message.includes('Panicked at') 
-      ? 'Backend storage error. Please redeploy the canister or contact support.' 
-      : err.message || 'Failed to load loans');
-  } finally {
-    setLoading(false);
-  }
-};
+    } catch (err) {
+      console.error('❌ Failed to load loans:', err);
+      setError(err.message.includes('Panicked at') 
+        ? 'Backend storage error. Please redeploy the canister or contact support.' 
+        : err.message || 'Failed to load loans');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getLoanStatus = (status) => {
     if (!status) return 'unknown';
@@ -276,7 +275,7 @@ const AdminLoans = () => {
         </div>
       </div>
 
-      <div className="admin-loans-table-container">
+      <div className="admin-loans-table-container" style={{ overflowX: 'auto' }}>
         {filteredLoans.length === 0 ? (
           <div className="text-center py-12">
             <DollarSign className="w-12 h-12 text-gray-400 mx-auto mb-4" />
@@ -288,18 +287,18 @@ const AdminLoans = () => {
             </p>
           </div>
         ) : (
-          <table className="admin-loans-table">
+          <table className="admin-loans-table" style={{ minWidth: '900px' }}>
             <thead>
               <tr>
-                <th>Loan ID</th>
-                <th>Document ID</th>
-                <th>Company</th>
-                <th>Amount</th>
-                <th>Interest Rate</th>
-                <th>Term</th>
-                <th>Status</th>
-                <th>Due Date</th>
-                <th>Actions</th>
+                <th style={{ minWidth: '110px' }}>Loan ID</th>
+                <th style={{ minWidth: '110px' }}>Document ID</th>
+                <th style={{ minWidth: '110px' }}>Company</th>
+                <th style={{ minWidth: '90px' }}>Amount</th>
+                <th style={{ minWidth: '80px' }}>Interest<br />Rate</th>
+                <th style={{ minWidth: '70px' }}>Term</th>
+                <th style={{ minWidth: '90px' }}>Status</th>
+                <th style={{ minWidth: '90px' }}>Due Date</th>
+                <th style={{ minWidth: '140px' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -311,7 +310,7 @@ const AdminLoans = () => {
                       <span className="font-medium">{loan.id}</span>
                     </div>
                   </td>
-                  <td className="font-mono text-sm">{loan.documentId}</td>
+                  <td className="font-mono text-xs">{loan.documentId}</td>
                   <td>{loan.company}</td>
                   <td>{loan.amount}</td>
                   <td>{loan.interestRate}</td>
@@ -369,6 +368,49 @@ const AdminLoans = () => {
           </table>
         )}
       </div>
+      <style jsx>{`
+        .admin-loans-table-container {
+          overflow-x: auto;
+          width: 100%;
+          -webkit-overflow-scrolling: touch;
+        }
+        .admin-loans-table {
+          width: 100%;
+          min-width: 900px;
+          border-collapse: collapse;
+        }
+        .admin-loans-table th,
+        .admin-loans-table td {
+          padding: 6px;
+          text-align: left;
+          border-bottom: 1px solid #e5e7eb;
+          font-size: 0.85rem;
+        }
+        .admin-loans-table th {
+          font-weight: 600;
+          color: #374151;
+          background-color: #f9fafb;
+          line-height: 1.2;
+        }
+        .admin-loans-table-row:hover {
+          background-color: #f3f4f6;
+        }
+        .admin-loans-action-btn {
+          padding: 4px;
+          border-radius: 4px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          transition: background-color 0.2s;
+        }
+        .admin-loans-action-btn:hover {
+          background-color: #e5e7eb;
+        }
+        .admin-loans-action-btn:disabled {
+          cursor: not-allowed;
+          opacity: 0.5;
+        }
+      `}</style>
     </div>
   );
 };
