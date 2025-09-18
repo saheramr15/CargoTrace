@@ -65,28 +65,6 @@ const HowItWorks = () => {
     }
   ];
 
-  const benefits = [
-    {
-      icon: "⚡",
-      title: "Lightning Fast",
-      description: "Complete process in minutes, not weeks"
-    },
-    {
-      icon: "🔒",
-      title: "Bank-Grade Security",
-      description: "Military-grade encryption and blockchain security"
-    },
-    {
-      icon: "💰",
-      title: "Lower Costs",
-      description: "Up to 60% lower interest rates than traditional banks"
-    },
-    {
-      icon: "🌍",
-      title: "Global Access",
-      description: "Available 24/7 from anywhere in the MENA region"
-    }
-  ];
 
   return (
     <section id="how-it-works" className={styles.howItWorks} ref={sectionRef}>
@@ -139,23 +117,6 @@ const HowItWorks = () => {
                     <div className={styles.arrow}>→</div>
                   </div>
                 )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Benefits Grid */}
-        <div className={styles.benefitsSection}>
-          <h3 className={styles.benefitsTitle}>Why Choose Our Process?</h3>
-          <div className={styles.benefitsGrid}>
-            {benefits.map((benefit, index) => (
-              <div 
-                key={index} 
-                className={`${styles.benefitCard} ${styles[`benefit-${index + 1}`]} fade-in`}
-              >
-                <div className={styles.benefitIcon}>{benefit.icon}</div>
-                <h4 className={styles.benefitTitle}>{benefit.title}</h4>
-                <p className={styles.benefitDescription}>{benefit.description}</p>
               </div>
             ))}
           </div>
