@@ -4,7 +4,7 @@
 
 .hero {
   min-height: 100vh;
-  background: var(--dark-gradient);
+  background: var(--navy-gradient);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -20,10 +20,17 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 20% 80%, rgba(49, 130, 206, 0.08) 0%, transparent 60%),
-              radial-gradient(circle at 80% 20%, rgba(56, 161, 105, 0.08) 0%, transparent 60%),
-              radial-gradient(circle at 50% 50%, rgba(49, 130, 206, 0.03) 0%, transparent 70%);
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(49, 130, 206, 0.12) 0%, transparent 60%),
+    radial-gradient(circle at 80% 20%, rgba(0, 199, 169, 0.1) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
   z-index: 1;
+  animation: heroGlow 8s ease-in-out infinite;
+}
+
+@keyframes heroGlow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.9; }
 }
 
 .backgroundPattern {
@@ -33,9 +40,15 @@
   right: 0;
   bottom: 0;
   background-image: 
-    radial-gradient(circle at 1px 1px, rgba(226, 232, 240, 0.05) 1px, transparent 0);
+    radial-gradient(circle at 1px 1px, rgba(232, 244, 253, 0.08) 1px, transparent 0);
   background-size: 24px 24px;
   z-index: 1;
+  animation: patternFloat 10s ease-in-out infinite;
+}
+
+@keyframes patternFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
 
 .container {
