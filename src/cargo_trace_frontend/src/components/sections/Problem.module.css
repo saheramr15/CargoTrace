@@ -1,0 +1,345 @@
+/* Problem Section - Professional MENA Fintech Design */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
+
+.problem {
+  background: var(--navy-secondary);
+  padding: 6rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.problem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(49, 130, 206, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(56, 161, 105, 0.03) 0%, transparent 50%);
+  z-index: 1;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 5rem;
+  animation: fadeInUp 1s ease-out;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--platinum);
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.highlight {
+  background: var(--title-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 1.375rem;
+  color: var(--text-secondary);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.problemsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 5rem;
+}
+
+.problemCard {
+  background: var(--card-gradient);
+  border: 1px solid var(--border-color-light);
+  border-radius: 20px;
+  padding: 2.5rem;
+  backdrop-filter: blur(20px);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 1s ease-out;
+}
+
+.problemCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--title-gradient);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.problemCard:hover::before {
+  transform: scaleX(1);
+}
+
+.problemCard:hover {
+  background: var(--glass-gradient);
+  border-color: var(--border-color-accent);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-medium), var(--glow-shadow);
+}
+
+.card-1 { animation-delay: 0.1s; }
+.card-2 { animation-delay: 0.2s; }
+.card-3 { animation-delay: 0.3s; }
+.card-4 { animation-delay: 0.4s; }
+.card-5 { animation-delay: 0.5s; }
+.card-6 { animation-delay: 0.6s; }
+
+.cardIcon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 0 10px rgba(49, 130, 206, 0.2));
+  transition: all 0.3s ease;
+}
+
+.problemCard:hover .cardIcon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 15px rgba(49, 130, 206, 0.4));
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--platinum);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.cardDescription {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.cardStat {
+  background: var(--accent-gradient);
+  color: var(--text-dark);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.5px;
+  align-self: flex-start;
+  box-shadow: var(--shadow-light);
+}
+
+.impactStatement {
+  background: var(--glass-gradient);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 4rem;
+  text-align: center;
+  backdrop-filter: blur(25px);
+  box-shadow: var(--shadow-medium);
+  animation: fadeInUp 1s ease-out 0.8s both;
+}
+
+.impactContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.impactTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--platinum);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.impactText {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 3rem;
+  font-weight: 400;
+}
+
+.impactText strong {
+  color: var(--accent-blue);
+  font-weight: 800;
+}
+
+.impactStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.impactStat {
+  text-align: center;
+  padding: 1.5rem;
+  background: var(--card-gradient);
+  border: 1px solid var(--border-color-light);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.impactStat:hover {
+  background: var(--glass-gradient);
+  border-color: var(--border-color-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-light);
+}
+
+.statNumber {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--accent-blue);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 20px rgba(49, 130, 206, 0.3);
+}
+
+.statLabel {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .problemsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .problemCard {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .problem {
+    padding: 4rem 0;
+  }
+  
+  .header {
+    margin-bottom: 3rem;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.125rem;
+  }
+  
+  .problemsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  
+  .problemCard {
+    padding: 1.75rem;
+  }
+  
+  .cardIcon {
+    font-size: 2.5rem;
+  }
+  
+  .cardTitle {
+    font-size: 1.25rem;
+  }
+  
+  .impactStatement {
+    padding: 2.5rem 1.5rem;
+  }
+  
+  .impactTitle {
+    font-size: 2rem;
+  }
+  
+  .impactText {
+    font-size: 1.125rem;
+  }
+  
+  .impactStats {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .statNumber {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .problemCard {
+    padding: 1.5rem;
+  }
+  
+  .cardIcon {
+    font-size: 2rem;
+  }
+  
+  .impactStatement {
+    padding: 2rem 1rem;
+  }
+  
+  .impactTitle {
+    font-size: 1.75rem;
+  }
+  
+  .impactText {
+    font-size: 1rem;
+  }
+}
