@@ -39,29 +39,25 @@ const WhyCargoTrace = () => {
       number: "5 Min",
       label: "Lightning Fast Processing",
       description: "From document upload to loan disbursement",
-      icon: "⚡",
-      color: "fast"
+      icon: "⚡"
     },
     {
       number: "60%",
       label: "Cost Savings",
       description: "Compared to traditional trade finance",
-      icon: "💰",
-      color: "cost"
+      icon: "💰"
     },
     {
       number: "99.9%",
       label: "Reliability",
       description: "Uptime guarantee with 24/7 availability",
-      icon: "🔒",
-      color: "secure"
+      icon: "🔒"
     },
     {
       number: "24/7",
       label: "Global Support",
       description: "Round-the-clock assistance in Arabic & English",
-      icon: "🌍",
-      color: "global"
+      icon: "🌍"
     }
   ];
 
@@ -90,7 +86,7 @@ const WhyCargoTrace = () => {
                 <div
                   key={index}
                   ref={(el) => statRefs.current[index] = el}
-                  className={`${styles.statCard} ${styles[stat.color]} ${styles[`stat-${index + 1}`]} fade-in`}
+                  className={`${styles.statCard} ${styles[`stat-${index + 1}`]} fade-in`}
                 >
                   <div className={styles.statIcon}>{stat.icon}</div>
                   <div className={styles.statNumber}>{stat.number}</div>

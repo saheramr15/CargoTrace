@@ -175,6 +175,7 @@
   margin-bottom: 1.5rem;
   animation: iconBounce 3s ease-in-out infinite;
   filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3));
+  color: var(--accent-blue);
 }
 
 @keyframes iconBounce {
@@ -313,22 +314,7 @@
   }
 }
 
-/* Color Variants */
-.fast .statIcon { filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.4)); }
-.fast .statNumber { color: #F59E0B; text-shadow: 0 0 30px rgba(245, 158, 11, 0.4); }
-.fast .statGlow { background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%); }
-
-.cost .statIcon { filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.4)); }
-.cost .statNumber { color: #22C55E; text-shadow: 0 0 30px rgba(34, 197, 94, 0.4); }
-.cost .statGlow { background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, transparent 70%); }
-
-.secure .statIcon { filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.4)); }
-.secure .statNumber { color: #3B82F6; text-shadow: 0 0 30px rgba(59, 130, 246, 0.4); }
-.secure .statGlow { background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%); }
-
-.global .statIcon { filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.4)); }
-.global .statNumber { color: #06B6D4; text-shadow: 0 0 30px rgba(6, 182, 212, 0.4); }
-.global .statGlow { background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 70%); }
+/* All stats use consistent professional blue theme */
 
 /* Stats Connector */
 .statsConnector {
