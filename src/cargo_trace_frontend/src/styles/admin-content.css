@@ -398,11 +398,14 @@
 
 .admin-content {
   flex: 1;
-  padding: 2rem;
+  padding: 2.5rem;
   overflow-y: auto;
   background: transparent;
   position: relative;
   z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 /* Section Headers - Premium Glass Effect */
@@ -413,16 +416,17 @@
 .admin-users-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 2rem;
-  padding: 2rem;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  padding: 2.5rem 3rem;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
   backdrop-filter: blur(20px);
-  border-radius: 20px;
+  border-radius: 24px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(59, 130, 246, 0.2);
   position: relative;
   overflow: hidden;
+  min-height: 120px;
 }
 
 .admin-dashboard-header::before,
@@ -575,9 +579,10 @@
 .admin-repayments-stats,
 .admin-users-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  align-items: stretch;
 }
 
 .admin-dashboard-stat-card,
@@ -730,21 +735,38 @@
   letter-spacing: 0.1em;
 }
 
-/* Filters and Search */
+/* Filters and Search - Premium Glass Effect */
 .admin-documents-filters,
 .admin-loans-filters,
 .admin-repayments-filters,
 .admin-users-filters {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
   align-items: center;
   flex-wrap: wrap;
-  padding: 1.5rem;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 2rem 2.5rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  position: relative;
+  min-height: 80px;
+}
+
+.admin-documents-filters::before,
+.admin-loans-filters::before,
+.admin-repayments-filters::before,
+.admin-users-filters::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #3B82F6, #0891B2, transparent);
+  border-radius: 20px 20px 0 0;
 }
 
 .admin-documents-search,
@@ -753,7 +775,8 @@
 .admin-users-search {
   position: relative;
   flex: 1;
-  min-width: 300px;
+  min-width: 350px;
+  max-width: 500px;
 }
 
 .admin-documents-search-icon,
@@ -774,12 +797,23 @@
 .admin-repayments-search-input,
 .admin-users-search-input {
   width: 100%;
-  padding: 0.875rem 1rem 0.875rem 3rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
+  padding: 1rem 1.25rem 1rem 3.5rem;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 16px;
   font-size: 0.875rem;
-  background: #f8fafc;
-  transition: all 0.2s ease;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+.admin-documents-search-input::placeholder,
+.admin-loans-search-input::placeholder,
+.admin-repayments-search-input::placeholder,
+.admin-users-search-input::placeholder {
+  color: #94A3B8;
+  font-weight: 500;
 }
 
 .admin-documents-search-input:focus,
@@ -787,9 +821,9 @@
 .admin-repayments-search-input:focus,
 .admin-users-search-input:focus {
   outline: none;
-  border-color: #3b82f6;
-  background: white;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #3B82F6;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2), 0 8px 25px rgba(59, 130, 246, 0.1);
 }
 
 .admin-documents-filter-controls,
@@ -851,17 +885,33 @@
   transform: translateY(-1px);
 }
 
-/* Tables */
+/* Tables - Premium Glass Effect */
 .admin-documents-table-container,
 .admin-loans-table-container,
 .admin-repayments-table-container,
 .admin-users-table-container {
-  background: white;
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 24px;
   overflow: hidden;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.admin-documents-table-container::before,
+.admin-loans-table-container::before,
+.admin-repayments-table-container::before,
+.admin-users-table-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #3B82F6 0%, #1D4ED8 50%, #0891B2 100%);
+  border-radius: 24px 24px 0 0;
 }
 
 .admin-documents-table,
@@ -870,40 +920,76 @@
 .admin-users-table {
   width: 100%;
   border-collapse: collapse;
+  background: transparent;
 }
 
 .admin-documents-table th,
 .admin-loans-table th,
 .admin-repayments-table th,
 .admin-users-table th {
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  padding: 1.25rem 1rem;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(8, 145, 178, 0.05) 100%);
+  padding: 1.5rem 1.5rem;
   text-align: left;
   font-size: 0.875rem;
-  font-weight: 700;
-  color: #374151;
-  border-bottom: 2px solid #e2e8f0;
+  font-weight: 800;
+  color: #FFFFFF;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.3);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
   white-space: nowrap;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.admin-documents-table th:first-child,
+.admin-loans-table th:first-child,
+.admin-repayments-table th:first-child,
+.admin-users-table th:first-child {
+  border-top-left-radius: 24px;
+}
+
+.admin-documents-table th:last-child,
+.admin-loans-table th:last-child,
+.admin-repayments-table th:last-child,
+.admin-users-table th:last-child {
+  border-top-right-radius: 24px;
 }
 
 .admin-documents-table td,
 .admin-loans-table td,
 .admin-repayments-table td,
 .admin-users-table td {
-  padding: 1.25rem 1rem;
-  border-bottom: 1px solid #f1f5f9;
+  padding: 1.5rem 1.5rem;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.1);
   font-size: 0.875rem;
-  color: #374151;
+  color: #E2E8F0;
   vertical-align: middle;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.admin-documents-table td:first-child,
+.admin-loans-table td:first-child,
+.admin-repayments-table td:first-child,
+.admin-users-table td:first-child {
+  font-weight: 700;
+  color: #FFFFFF;
 }
 
 .admin-documents-table-row:hover,
 .admin-loans-table-row:hover,
 .admin-repayments-table-row:hover,
 .admin-users-table-row:hover {
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(8, 145, 178, 0.04) 100%);
+  transform: translateX(4px);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+}
+
+.admin-documents-table-row:hover td,
+.admin-loans-table-row:hover td,
+.admin-repayments-table-row:hover td,
+.admin-users-table-row:hover td {
+  color: #FFFFFF;
 }
 
 /* Status Badges */
@@ -1473,10 +1559,86 @@
 .text-yellow-600 { color: #d97706 !important; }
 .text-sm { font-size: 0.875rem !important; }
 
+/* Table Structure Enhancements */
+.admin-table-wrapper {
+  overflow-x: auto;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.admin-table-scroll {
+  min-width: 100%;
+  overflow-x: auto;
+}
+
+.admin-table-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.admin-table-cell-align-center {
+  text-align: center;
+}
+
+.admin-table-cell-align-right {
+  text-align: right;
+}
+
+.admin-table-cell-align-left {
+  text-align: left;
+}
+
+/* Perfect Table Spacing */
+.admin-documents-table th,
+.admin-loans-table th,
+.admin-repayments-table th,
+.admin-users-table th {
+  padding: 1.75rem 1.5rem;
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.admin-documents-table td,
+.admin-loans-table td,
+.admin-repayments-table td,
+.admin-users-table td {
+  padding: 1.5rem 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* Table Action Buttons */
+.admin-table-action-btn {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(8, 145, 178, 0.05) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 8px;
+  color: #E2E8F0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 0.25rem;
+}
+
+.admin-table-action-btn:hover {
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .admin-main-content {
     margin-left: 0;
+  }
+  
+  .admin-content {
+    padding: 1.5rem;
   }
   
   .admin-dashboard-stats,
@@ -1484,7 +1646,8 @@
   .admin-loans-stats,
   .admin-repayments-stats,
   .admin-users-stats {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
   }
   
   .admin-dashboard-content-grid {
@@ -1493,7 +1656,24 @@
   }
   
   .admin-dashboard-actions-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .admin-documents-filters,
+  .admin-loans-filters,
+  .admin-repayments-filters,
+  .admin-users-filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .admin-documents-search,
+  .admin-loans-search,
+  .admin-repayments-search,
+  .admin-users-search {
+    min-width: auto;
+    max-width: none;
   }
 }
 
