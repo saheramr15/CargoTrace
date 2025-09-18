@@ -14,8 +14,8 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 25% 25%, rgba(74, 144, 226, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(78, 205, 196, 0.06) 0%, transparent 50%);
+    radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
   z-index: 1;
   animation: howItWorksGlow 8s ease-in-out infinite;
 }
@@ -28,7 +28,7 @@
   right: 0;
   bottom: 0;
   background: 
-    linear-gradient(60deg, transparent 30%, rgba(74, 144, 226, 0.03) 50%, transparent 70%);
+    linear-gradient(60deg, transparent 30%, rgba(59, 130, 246, 0.03) 50%, transparent 70%);
   z-index: 1;
   animation: howItWorksShimmer 12s ease-in-out infinite;
 }
@@ -82,7 +82,7 @@
 
 .highlight {
   color: var(--accent-blue);
-  text-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
+  text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
 }
 
 .subtitle {
@@ -145,12 +145,12 @@
   position: relative;
   overflow: hidden;
   transition: all 0.4s ease;
-  box-shadow: 0 8px 32px rgba(74, 144, 226, 0.1);
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1);
 }
 
 .stepCard:hover {
   transform: translateY(-12px) scale(1.03);
-  box-shadow: 0 20px 60px rgba(74, 144, 226, 0.2);
+  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
   border-color: var(--accent-blue);
 }
 
@@ -161,7 +161,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(74, 144, 226, 0.08), transparent);
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.08), transparent);
   transition: left 0.8s ease;
 }
 
@@ -180,14 +180,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 20px rgba(74, 144, 226, 0.3);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
   animation: badgePulse 3s ease-in-out infinite;
 }
 
 @keyframes badgePulse {
   0%, 100% { 
     transform: scale(1);
-    box-shadow: 0 4px 20px rgba(74, 144, 226, 0.3);
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
   }
   50% { 
     transform: scale(1.1);
@@ -207,7 +207,7 @@
   text-align: center;
   margin: 1rem 0 1.5rem 0;
   animation: iconFloat 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 15px rgba(74, 144, 226, 0.2));
+  filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.2));
 }
 
 @keyframes iconFloat {
@@ -226,10 +226,10 @@
 
 @keyframes titleGlow {
   0%, 100% { 
-    text-shadow: 0 0 10px rgba(74, 144, 226, 0.2);
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
   }
   50% { 
-    text-shadow: 0 0 20px rgba(74, 144, 226, 0.4);
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
   }
 }
 
@@ -335,7 +335,7 @@
   color: var(--accent-blue);
   margin-left: 5px;
   animation: headBounce 2s ease-in-out infinite;
-  filter: drop-shadow(0 0 8px rgba(74, 144, 226, 0.3));
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.3));
 }
 
 @keyframes headBounce {
@@ -402,7 +402,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(74, 144, 226, 0.1), transparent);
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
   transition: left 0.5s ease;
 }
 
@@ -498,7 +498,7 @@
 
 .timelineItem:hover {
   transform: translateY(-5px) scale(1.05);
-  box-shadow: var(--shadow-light), 0 0 20px rgba(74, 144, 226, 0.2);
+  box-shadow: var(--shadow-light), 0 0 20px rgba(59, 130, 246, 0.2);
   border-color: var(--accent-blue);
 }
 
@@ -507,7 +507,7 @@
   font-weight: 800;
   color: var(--accent-blue);
   margin-bottom: 1rem;
-  text-shadow: 0 0 20px rgba(74, 144, 226, 0.2);
+  text-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
   animation: timeCount 2s ease-out;
   position: relative;
 }
@@ -519,7 +519,7 @@
   left: 50%;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, rgba(74, 144, 226, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   animation: timeRing 3s ease-in-out infinite;

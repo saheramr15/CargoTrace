@@ -1,97 +1,97 @@
 /* Custom CSS Variables and Utilities - MENA Fintech Theme */
 
 :root {
-  /* Clean Professional Warm Color Palette */
-  --navy-primary: #1A2332;
-  --navy-secondary: #2A3441;
-  --navy-tertiary: #3A4451;
-  --navy-light: #4A5461;
-  --navy-dark: #0F1419;
-  --navy-darker: #0A0E12;
+  /* Warm Premium Gradient Navy/Black Color Palette */
+  --navy-primary: #0F1419;
+  --navy-secondary: #1A1F2E;
+  --navy-tertiary: #252B3D;
+  --navy-light: #2F364A;
+  --navy-dark: #0A0E12;
+  --navy-darker: #050709;
   
-  --steel-blue: #5A6471;
-  --steel-blue-light: #7A828F;
-  --steel-blue-dark: #3A424F;
+  --steel-blue: #4A5568;
+  --steel-blue-light: #6B7280;
+  --steel-blue-dark: #374151;
   
-  --platinum: #F8F9FA;
+  --platinum: #F7FAFC;
   --platinum-light: #FFFFFF;
-  --platinum-dark: #E9ECEF;
+  --platinum-dark: #EDF2F7;
   
-  --accent-blue: #4A90E2;
-  --accent-blue-light: #6BA3E8;
-  --accent-blue-dark: #357ABD;
+  --accent-blue: #3B82F6;
+  --accent-blue-light: #60A5FA;
+  --accent-blue-dark: #2563EB;
   
-  --accent-teal: #4ECDC4;
-  --accent-teal-light: #6ED5CE;
-  --accent-teal-dark: #3AB5AC;
+  --accent-cyan: #06B6D4;
+  --accent-cyan-light: #22D3EE;
+  --accent-cyan-dark: #0891B2;
   
-  --accent-slate: #6C7B7F;
-  --accent-slate-light: #8A9599;
-  --accent-slate-dark: #4E5B5F;
+  --accent-gold: #F59E0B;
+  --accent-gold-light: #FBBF24;
+  --accent-gold-dark: #D97706;
   
   --success-green: #38A169;
   --success-green-light: #48BB78;
   --success-green-dark: #2F855A;
   
-  /* Clean Professional Gradients */
-  --primary-gradient: linear-gradient(135deg, #4A90E2 0%, #4ECDC4 100%);
-  --primary-gradient-hover: linear-gradient(135deg, #357ABD 0%, #3AB5AC 100%);
-  --secondary-gradient: linear-gradient(135deg, #1A2332 0%, #2A3441 50%, #3A4451 100%);
-  --accent-gradient: linear-gradient(135deg, #4A90E2 0%, #4ECDC4 100%);
-  --teal-gradient: linear-gradient(135deg, #4ECDC4 0%, #6ED5CE 100%);
-  --slate-gradient: linear-gradient(135deg, #6C7B7F 0%, #8A9599 100%);
+  /* Warm Premium Gradient Navy/Black Gradients */
+  --primary-gradient: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
+  --primary-gradient-hover: linear-gradient(135deg, #2563EB 0%, #0891B2 100%);
+  --secondary-gradient: linear-gradient(135deg, #0F1419 0%, #1A1F2E 50%, #252B3D 100%);
+  --accent-gradient: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
+  --cyan-gradient: linear-gradient(135deg, #06B6D4 0%, #22D3EE 100%);
+  --gold-gradient: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
   --success-gradient: linear-gradient(135deg, #38A169 0%, #48BB78 100%);
-  --navy-gradient: linear-gradient(135deg, #1A2332 0%, #2A3441 50%, #3A4451 100%);
-  --card-gradient: linear-gradient(145deg, rgba(42, 52, 65, 0.9) 0%, rgba(58, 68, 81, 0.7) 100%);
-  --glass-gradient: linear-gradient(145deg, rgba(42, 52, 65, 0.95) 0%, rgba(58, 68, 81, 0.8) 100%);
+  --navy-gradient: linear-gradient(135deg, #0F1419 0%, #1A1F2E 50%, #252B3D 100%);
+  --card-gradient: linear-gradient(145deg, rgba(26, 31, 46, 0.9) 0%, rgba(37, 43, 61, 0.7) 100%);
+  --glass-gradient: linear-gradient(145deg, rgba(26, 31, 46, 0.95) 0%, rgba(37, 43, 61, 0.8) 100%);
   
   /* Text Colors */
-  --text-primary: #F8F9FA;
-  --text-secondary: rgba(248, 249, 250, 0.85);
-  --text-accent: #4A90E2;
-  --text-teal: #4ECDC4;
-  --text-slate: #6C7B7F;
-  --text-muted: rgba(248, 249, 250, 0.65);
-  --text-dark: #1A2332;
+  --text-primary: #F7FAFC;
+  --text-secondary: rgba(247, 250, 252, 0.85);
+  --text-accent: #3B82F6;
+  --text-cyan: #06B6D4;
+  --text-gold: #F59E0B;
+  --text-muted: rgba(247, 250, 252, 0.65);
+  --text-dark: #0F1419;
   --text-light: #FFFFFF;
   
   /* Background Colors */
-  --bg-primary: #1A2332;
-  --bg-secondary: #2A3441;
-  --bg-tertiary: #3A4451;
+  --bg-primary: #0F1419;
+  --bg-secondary: #1A1F2E;
+  --bg-tertiary: #252B3D;
   --bg-card: rgba(255, 255, 255, 0.95);
-  --bg-overlay: rgba(26, 35, 50, 0.95);
-  --bg-glass: rgba(26, 35, 50, 0.85);
-  --bg-glass-light: rgba(42, 52, 65, 0.7);
+  --bg-overlay: rgba(15, 20, 25, 0.95);
+  --bg-glass: rgba(15, 20, 25, 0.85);
+  --bg-glass-light: rgba(26, 31, 46, 0.7);
   
   /* Border and Shadow */
-  --border-color: rgba(74, 144, 226, 0.25);
-  --border-color-light: rgba(74, 144, 226, 0.15);
-  --border-color-accent: rgba(74, 144, 226, 0.5);
-  --border-teal: rgba(78, 205, 196, 0.3);
-  --border-slate: rgba(108, 123, 127, 0.3);
+  --border-color: rgba(59, 130, 246, 0.25);
+  --border-color-light: rgba(59, 130, 246, 0.15);
+  --border-color-accent: rgba(59, 130, 246, 0.5);
+  --border-cyan: rgba(6, 182, 212, 0.3);
+  --border-gold: rgba(245, 158, 11, 0.3);
   --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.15);
   --shadow-medium: 0 8px 32px rgba(0, 0, 0, 0.2);
   --shadow-heavy: 0 16px 48px rgba(0, 0, 0, 0.25);
-  --glow-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
-  --glow-teal: 0 0 20px rgba(78, 205, 196, 0.3);
-  --glow-slate: 0 0 20px rgba(108, 123, 127, 0.3);
+  --glow-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  --glow-cyan: 0 0 20px rgba(6, 182, 212, 0.3);
+  --glow-gold: 0 0 20px rgba(245, 158, 11, 0.3);
   --glow-shadow-success: 0 0 20px rgba(56, 161, 105, 0.3);
   
-  /* Clean Professional Gradients */
-  --title-gradient: linear-gradient(135deg, #4A90E2 0%, #4ECDC4 100%);
-  --button-gradient: linear-gradient(135deg, #4A90E2 0%, #4ECDC4 100%);
-  --button-hover: linear-gradient(135deg, #357ABD 0%, #3AB5AC 100%);
-  --section-gradient: linear-gradient(135deg, rgba(74, 144, 226, 0.08) 0%, rgba(78, 205, 196, 0.05) 100%);
+  /* Warm Premium Gradient Navy/Black Gradients */
+  --title-gradient: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
+  --button-gradient: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
+  --button-hover: linear-gradient(135deg, #2563EB 0%, #0891B2 100%);
+  --section-gradient: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(6, 182, 212, 0.05) 100%);
   
   /* Hero Colors */
-  --hero-text-primary: #F8F9FA;
-  --hero-text-secondary: rgba(248, 249, 250, 0.85);
+  --hero-text-primary: #F7FAFC;
+  --hero-text-secondary: rgba(247, 250, 252, 0.85);
   
   /* Scrollbar Colors */
-  --scrollbar-track: #2A3441;
-  --scrollbar-thumb: linear-gradient(135deg, #4A90E2, #4ECDC4);
-  --scrollbar-thumb-hover: linear-gradient(135deg, #357ABD, #3AB5AC);
+  --scrollbar-track: #1A1F2E;
+  --scrollbar-thumb: linear-gradient(135deg, #3B82F6, #06B6D4);
+  --scrollbar-thumb-hover: linear-gradient(135deg, #2563EB, #0891B2);
 }
 
 body {
