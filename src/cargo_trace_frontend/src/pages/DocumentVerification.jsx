@@ -1,4 +1,5 @@
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import '../styles/main.css';
 
 const DocumentVerification = () => {
   useScrollAnimation();

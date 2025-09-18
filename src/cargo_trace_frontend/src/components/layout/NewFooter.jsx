@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './NewFooter.module.css';
+import styles from '../../styles/landing/NewFooter.module.css';
 
 const NewFooter = () => {
   return (

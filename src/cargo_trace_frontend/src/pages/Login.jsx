@@ -5,6 +5,7 @@ import { backendService } from '../services/backendService';
 import { Principal } from "@dfinity/principal";
 import { cargo_trace_backend as backend } from '../../../declarations/cargo_trace_backend';
 import { useAuth } from '../context/AuthContext';
+import '../styles/main.css';
 
 const Login = () => {
   const [loggedIn, setLoggedIn] = useState(false);

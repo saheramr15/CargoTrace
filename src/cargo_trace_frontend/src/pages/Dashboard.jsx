@@ -6,6 +6,7 @@ import DashboardDocuments from '../components/sections/DashboardDocuments';
 import DashboardLoans from '../components/sections/DashboardLoans';
 import DashboardRepayment from '../components/sections/DashboardRepayment';
 import CustomsIntegration from '../components/sections/CustomsIntegrationSafe';
+import '../styles/main.css';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');

@@ -1,7 +1,4 @@
-/* Main CSS File - Imports all modular styles */
-
-/* Base styles with custom CSS variables and utilities */
-@import './base.css';
+/* Main CSS File - Imports all non-landing page styles */
 
 /* Layout components */
 @import './layout/dashboard-layout.css';
@@ -12,4 +9,10 @@
 
 /* Page-specific styles */
 @import './pages/login.css';
-@import './pages/document-verification.css'; 
+@import './pages/document-verification.css';
+
+/* Admin styles */
+@import './admin.css';
+@import './admin-content.css';
+@import './admin-header.css';
+@import './admin-sidebar.css';

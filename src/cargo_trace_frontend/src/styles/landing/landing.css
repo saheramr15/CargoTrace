@@ -1,0 +1,15 @@
+/* Landing Page CSS File - Imports only landing page styles */
+
+/* Base styles with custom CSS variables and utilities */
+@import './base.css';
+
+/* Landing page layout components */
+@import './NewNavbar.module.css';
+@import './NewFooter.module.css';
+
+/* Landing page sections */
+@import './Hero.module.css';
+@import './Problem.module.css';
+@import './Solution.module.css';
+@import './HowItWorks.module.css';
+@import './WhyCargoTrace.module.css';

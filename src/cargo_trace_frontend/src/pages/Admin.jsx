@@ -7,6 +7,7 @@ import AdminCustoms from '../components/admin/sections/AdminCustoms';
 import AdminLoans from '../components/admin/sections/AdminLoans';
 import AdminRepayments from '../components/admin/sections/AdminRepayments';
 import AdminUsers from '../components/admin/sections/AdminUsers';
+import '../styles/main.css';
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
