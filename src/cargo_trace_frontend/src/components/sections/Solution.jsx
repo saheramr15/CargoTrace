@@ -156,21 +156,37 @@ const Solution = () => {
           ))}
         </div>
 
-        {/* Features Grid */}
+        {/* Features Flow */}
         <div className={styles.featuresSection}>
           <h3 className={styles.featuresTitle}>Platform Features</h3>
-          <div className={styles.featuresGrid}>
-            {features.map((feature, index) => (
-              <div 
-                key={index} 
-                ref={(el) => featureRefs.current[index] = el}
-                className={`${styles.featureCard} ${styles[`feature-${index + 1}`]} fade-in`}
-              >
-                <div className={styles.featureIcon}>{feature.icon}</div>
-                <h4 className={styles.featureTitle}>{feature.title}</h4>
-                <p className={styles.featureDescription}>{feature.description}</p>
-              </div>
-            ))}
+          <div className={styles.featuresFlow}>
+            <div className={styles.featuresTrack}>
+              {/* First set of features */}
+              {features.map((feature, index) => (
+                <div 
+                  key={`first-${index}`} 
+                  ref={(el) => featureRefs.current[index] = el}
+                  className={`${styles.featureCard} ${styles[`feature-${index + 1}`]} fade-in`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className={styles.featureIcon}>{feature.icon}</div>
+                  <h4 className={styles.featureTitle}>{feature.title}</h4>
+                  <p className={styles.featureDescription}>{feature.description}</p>
+                </div>
+              ))}
+              {/* Duplicate set for seamless loop */}
+              {features.map((feature, index) => (
+                <div 
+                  key={`second-${index}`} 
+                  className={`${styles.featureCard} ${styles[`feature-${index + 1}`]} fade-in`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className={styles.featureIcon}>{feature.icon}</div>
+                  <h4 className={styles.featureTitle}>{feature.title}</h4>
+                  <p className={styles.featureDescription}>{feature.description}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
