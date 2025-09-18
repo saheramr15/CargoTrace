@@ -33,7 +33,8 @@ const NewNavbar = () => {
         {/* Logo */}
         <Link to="/" className={styles.logo}>
           <span className={styles.logoIcon}>🚢</span>
-          <span className={styles.logoText}>CargoTrace Finance</span>
+          <span className={styles.logoText}>CargoTrace</span>
+          <span className={styles.logoFinance}>Finance</span>
         </Link>
 
         {/* Desktop Navigation */}

@@ -43,18 +43,26 @@
 }
 
 .logoIcon {
-  font-size: 1.75rem;
-  filter: drop-shadow(0 0 8px rgba(49, 130, 206, 0.3));
+  font-size: 1.25rem;
+  filter: drop-shadow(0 0 6px rgba(49, 130, 206, 0.3));
 }
 
 .logoText {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 800;
   background: var(--title-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.02em;
+}
+
+.logoFinance {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent-blue);
+  margin-left: 0.25rem;
+  letter-spacing: 0.5px;
 }
 
 .navLinks {
@@ -252,10 +260,14 @@
   }
   
   .logoText {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
+  }
+  
+  .logoFinance {
+    font-size: 0.9rem;
   }
   
   .logoIcon {
-    font-size: 1.5rem;
+    font-size: 1.125rem;
   }
 }
