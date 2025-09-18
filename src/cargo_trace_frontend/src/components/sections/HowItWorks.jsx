@@ -103,19 +103,22 @@ const HowItWorks = () => {
           </p>
         </div>
 
-        {/* Elegant Horizontal Flow */}
-        <div className={styles.flowContainer}>
-          <div className={styles.flowTrack}>
+        {/* Elegant Process Flow */}
+        <div className={styles.processFlow}>
+          <div className={styles.stepsContainer}>
             {steps.map((step, index) => (
               <div
                 key={index}
                 ref={(el) => stepRefs.current[index] = el}
-                className={`${styles.flowStep} ${styles[`step-${index + 1}`]} fade-in`}
+                className={`${styles.stepWrapper} ${styles[`step-${index + 1}`]} fade-in`}
               >
-                <div className={styles.stepCard}>
-                  <div className={styles.stepBadge}>
-                    <span className={styles.stepNumber}>{step.number}</span>
-                  </div>
+                {/* Step Number Circle */}
+                <div className={styles.stepNumberCircle}>
+                  <span className={styles.stepNumber}>{step.number}</span>
+                </div>
+                
+                {/* Step Content */}
+                <div className={styles.stepContent}>
                   <div className={styles.stepIcon}>{step.icon}</div>
                   <h3 className={styles.stepTitle}>{step.title}</h3>
                   <p className={styles.stepDescription}>{step.description}</p>
@@ -128,10 +131,12 @@ const HowItWorks = () => {
                     ))}
                   </div>
                 </div>
+                
+                {/* Connecting Line */}
                 {index < steps.length - 1 && (
-                  <div className={styles.flowArrow}>
-                    <div className={styles.arrowLine}></div>
-                    <div className={styles.arrowHead}>→</div>
+                  <div className={styles.connectingLine}>
+                    <div className={styles.line}></div>
+                    <div className={styles.arrow}>→</div>
                   </div>
                 )}
               </div>
