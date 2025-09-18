@@ -109,19 +109,20 @@
 
 /* Elegant Process Flow */
 .processFlow {
-  margin: 4rem 0;
+  margin: 5rem 0;
   position: relative;
   z-index: 2;
+  padding: 0 1rem;
 }
 
 .stepsContainer {
   display: flex;
   align-items: flex-start;
-  justify-content: center;
-  gap: 0;
+  justify-content: space-between;
+  gap: 2rem;
   position: relative;
-  padding: 3rem 0;
-  max-width: 1000px;
+  padding: 4rem 2rem;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -132,7 +133,8 @@
   align-items: center;
   position: relative;
   animation: stepFloat 4s ease-in-out infinite;
-  max-width: 300px;
+  max-width: 320px;
+  padding: 0 1rem;
 }
 
 .step-1 { animation-delay: 0s; }
@@ -153,12 +155,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   position: relative;
   z-index: 3;
   box-shadow: var(--shadow-medium), var(--glow-primary);
   background-size: 200% 200%;
   animation: gradientShift 4s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
 .stepNumber {
@@ -174,13 +177,17 @@
   backdrop-filter: blur(25px);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 2rem;
+  padding: 2.5rem 2rem;
   width: 100%;
   position: relative;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: var(--shadow-light), var(--glow-primary);
   text-align: center;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .stepContent:hover {
@@ -263,7 +270,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-top: 1rem;
+  margin-top: auto;
+  padding-top: 1rem;
 }
 
 .featureItem {
@@ -335,8 +343,8 @@
 .connectingLine {
   position: absolute;
   top: 30px;
-  right: -50px;
-  width: 100px;
+  right: -60px;
+  width: 120px;
   height: 2px;
   display: flex;
   align-items: center;
@@ -345,7 +353,7 @@
 }
 
 .line {
-  width: 80px;
+  width: 100px;
   height: 2px;
   background: var(--accent-gradient);
   position: relative;
@@ -656,17 +664,20 @@
   .stepsContainer {
     flex-direction: column;
     gap: 3rem;
-    padding: 2rem 0;
+    padding: 3rem 1rem;
+    align-items: center;
   }
   
   .stepWrapper {
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
+    padding: 0;
   }
   
   .stepContent {
     padding: 2rem;
+    min-height: 250px;
   }
   
   .stepIcon {
@@ -712,9 +723,14 @@
   
   .stepContent {
     padding: 1.5rem;
+    min-height: 220px;
   }
   
   .stepIcon {
     font-size: 2rem;
+  }
+  
+  .stepsContainer {
+    padding: 2rem 0.5rem;
   }
 }
