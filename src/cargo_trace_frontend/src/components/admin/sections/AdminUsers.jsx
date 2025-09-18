@@ -89,32 +89,32 @@ const AdminUsers = () => {
   const getStatusIcon = (status) => {
     switch (status) {
       case 'active':
-        return <CheckCircle className="w-4 h-4 text-green-500" />;
+        return <CheckCircle className="w-4 h-4 admin-icon-active" />;
       case 'pending':
-        return <Clock className="w-4 h-4 text-yellow-500" />;
+        return <Clock className="w-4 h-4 admin-icon-pending" />;
       case 'suspended':
-        return <XCircle className="w-4 h-4 text-red-500" />;
+        return <XCircle className="w-4 h-4 admin-icon-suspended" />;
       default:
-        return <AlertTriangle className="w-4 h-4 text-gray-500" />;
+        return <AlertTriangle className="w-4 h-4 admin-icon-default" />;
     }
   };
 
   const getStatusBadge = (status) => {
     const statusClasses = {
-      active: 'bg-green-100 text-green-800',
-      pending: 'bg-yellow-100 text-yellow-800',
-      suspended: 'bg-red-100 text-red-800'
+      active: 'admin-status-active',
+      pending: 'admin-status-pending',
+      suspended: 'admin-status-suspended'
     };
-    return `px-2 py-1 rounded-full text-xs font-medium ${statusClasses[status] || 'bg-gray-100 text-gray-800'}`;
+    return `admin-status-badge ${statusClasses[status] || 'admin-status-default'}`;
   };
 
   const getRoleBadge = (role) => {
     const roleClasses = {
-      admin: 'bg-purple-100 text-purple-800',
-      user: 'bg-blue-100 text-blue-800',
-      moderator: 'bg-orange-100 text-orange-800'
+      admin: 'admin-role-admin',
+      user: 'admin-role-user',
+      moderator: 'admin-role-moderator'
     };
-    return `px-2 py-1 rounded-full text-xs font-medium ${roleClasses[role] || 'bg-gray-100 text-gray-800'}`;
+    return `admin-role-badge ${roleClasses[role] || 'admin-role-default'}`;
   };
 
   const handleViewUser = (user) => {

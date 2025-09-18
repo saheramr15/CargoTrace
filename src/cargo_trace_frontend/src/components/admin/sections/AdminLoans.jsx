@@ -89,31 +89,31 @@ const AdminLoans = () => {
     switch (status) {
       case 'approved':
       case 'repaid':
-        return <CheckCircle className="w-4 h-4 text-green-500" />;
+        return <CheckCircle className="w-4 h-4 admin-icon-active" />;
       case 'pending':
-        return <Clock className="w-4 h-4 text-yellow-500" />;
+        return <Clock className="w-4 h-4 admin-icon-pending" />;
       case 'rejected':
-        return <XCircle className="w-4 h-4 text-red-500" />;
+        return <XCircle className="w-4 h-4 admin-icon-suspended" />;
       case 'active':
-        return <CheckCircle className="w-4 h-4 text-blue-500" />;
+        return <CheckCircle className="w-4 h-4 admin-icon-active" />;
       case 'defaulted':
-        return <XCircle className="w-4 h-4 text-red-500" />;
+        return <XCircle className="w-4 h-4 admin-icon-suspended" />;
       default:
-        return <Clock className="w-4 h-4 text-gray-500" />;
+        return <Clock className="w-4 h-4 admin-icon-default" />;
     }
   };
 
   const getStatusBadge = (status) => {
     const statusClasses = {
-      approved: 'bg-green-100 text-green-800',
-      pending: 'bg-yellow-100 text-yellow-800',
-      rejected: 'bg-red-100 text-red-800',
-      repaid: 'bg-green-100 text-green-800',
-      active: 'bg-blue-100 text-blue-800',
-      defaulted: 'bg-red-100 text-red-800',
-      unknown: 'bg-gray-100 text-gray-800'
+      approved: 'admin-status-active',
+      pending: 'admin-status-pending',
+      rejected: 'admin-status-suspended',
+      repaid: 'admin-status-active',
+      active: 'admin-status-active',
+      defaulted: 'admin-status-suspended',
+      unknown: 'admin-status-default'
     };
-    return `px-2 py-1 rounded-full text-xs font-medium ${statusClasses[status] || 'bg-gray-100 text-gray-800'}`;
+    return `admin-status-badge ${statusClasses[status] || 'admin-status-default'}`;
   };
 
   const handleApproveLoan = async (loanId) => {
@@ -199,8 +199,8 @@ const AdminLoans = () => {
           </div>
         </div>
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
-          <span className="ml-2 text-gray-600">Loading loans...</span>
+          <Loader2 className="w-8 h-8 animate-spin admin-icon-active" />
+          <span className="ml-2 admin-text-secondary">Loading loans...</span>
         </div>
       </div>
     );
@@ -217,12 +217,12 @@ const AdminLoans = () => {
         </div>
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
-            <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Error Loading Loans</h3>
-            <p className="text-gray-600 mb-4">{error}</p>
+            <AlertCircle className="w-12 h-12 admin-icon-suspended mx-auto mb-4" />
+            <h3 className="text-lg font-semibold admin-text-primary mb-2">Error Loading Loans</h3>
+            <p className="admin-text-secondary mb-4">{error}</p>
             <button 
               onClick={loadLoans}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              className="admin-btn-primary"
             >
               Try Again
             </button>
@@ -240,7 +240,7 @@ const AdminLoans = () => {
           <p>Manage loan applications and approvals</p>
         </div>
         <div className="admin-loans-stats">
-          <span className="text-sm text-gray-600">
+          <span className="text-sm admin-text-secondary">
             {loans.length} total loans
           </span>
         </div>
@@ -275,30 +275,30 @@ const AdminLoans = () => {
         </div>
       </div>
 
-      <div className="admin-loans-table-container" style={{ overflowX: 'auto' }}>
+      <div className="admin-loans-table-container">
         {filteredLoans.length === 0 ? (
           <div className="text-center py-12">
-            <DollarSign className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No loans found</h3>
-            <p className="text-gray-600">
+            <DollarSign className="w-12 h-12 admin-icon-default mx-auto mb-4" />
+            <h3 className="text-lg font-semibold admin-text-primary mb-2">No loans found</h3>
+            <p className="admin-text-secondary">
               {loans.length === 0 
                 ? "No loans have been requested yet." 
                 : "No loans match your search criteria."}
             </p>
           </div>
         ) : (
-          <table className="admin-loans-table" style={{ minWidth: '900px' }}>
+          <table className="admin-loans-table">
             <thead>
               <tr>
-                <th style={{ minWidth: '110px' }}>Loan ID</th>
-                <th style={{ minWidth: '110px' }}>Document ID</th>
-                <th style={{ minWidth: '110px' }}>Company</th>
-                <th style={{ minWidth: '90px' }}>Amount</th>
-                <th style={{ minWidth: '80px' }}>Interest<br />Rate</th>
-                <th style={{ minWidth: '70px' }}>Term</th>
-                <th style={{ minWidth: '90px' }}>Status</th>
-                <th style={{ minWidth: '90px' }}>Due Date</th>
-                <th style={{ minWidth: '140px' }}>Actions</th>
+                <th>Loan ID</th>
+                <th>Document ID</th>
+                <th>Company</th>
+                <th>Amount</th>
+                <th>Interest<br />Rate</th>
+                <th>Term</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -368,49 +368,6 @@ const AdminLoans = () => {
           </table>
         )}
       </div>
-      <style jsx>{`
-        .admin-loans-table-container {
-          overflow-x: auto;
-          width: 100%;
-          -webkit-overflow-scrolling: touch;
-        }
-        .admin-loans-table {
-          width: 100%;
-          min-width: 900px;
-          border-collapse: collapse;
-        }
-        .admin-loans-table th,
-        .admin-loans-table td {
-          padding: 6px;
-          text-align: left;
-          border-bottom: 1px solid #e5e7eb;
-          font-size: 0.85rem;
-        }
-        .admin-loans-table th {
-          font-weight: 600;
-          color: #374151;
-          background-color: #f9fafb;
-          line-height: 1.2;
-        }
-        .admin-loans-table-row:hover {
-          background-color: #f3f4f6;
-        }
-        .admin-loans-action-btn {
-          padding: 4px;
-          border-radius: 4px;
-          background: none;
-          border: none;
-          cursor: pointer;
-          transition: background-color 0.2s;
-        }
-        .admin-loans-action-btn:hover {
-          background-color: #e5e7eb;
-        }
-        .admin-loans-action-btn:disabled {
-          cursor: not-allowed;
-          opacity: 0.5;
-        }
-      `}</style>
     </div>
   );
 };

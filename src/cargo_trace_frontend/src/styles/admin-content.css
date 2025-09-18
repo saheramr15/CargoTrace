@@ -57,6 +57,7 @@
   margin: 0;
   background: linear-gradient(135deg, #FFFFFF 0%, #E2E8F0 50%, #3B82F6 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
 }
@@ -501,6 +502,7 @@
   margin: 0 0 0.5rem 0;
   background: linear-gradient(135deg, #FFFFFF 0%, #E2E8F0 50%, #3B82F6 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
 }
@@ -924,19 +926,55 @@
   transform: translateY(-1px);
 }
 
-/* Tables - Premium Glass Effect */
+/* Tables - Dark Theme */
 .admin-documents-table-container,
 .admin-loans-table-container,
 .admin-repayments-table-container,
 .admin-users-table-container {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+  border: 1px solid rgba(59, 130, 246, 0.3);
   border-radius: 24px;
   overflow: hidden;
   margin-bottom: 2.5rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(59, 130, 246, 0.2);
   position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: auto;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Table Scroll Styling */
+.admin-documents-table-container::-webkit-scrollbar,
+.admin-loans-table-container::-webkit-scrollbar,
+.admin-repayments-table-container::-webkit-scrollbar,
+.admin-users-table-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.admin-documents-table-container::-webkit-scrollbar-track,
+.admin-loans-table-container::-webkit-scrollbar-track,
+.admin-repayments-table-container::-webkit-scrollbar-track,
+.admin-users-table-container::-webkit-scrollbar-track {
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 4px;
+}
+
+.admin-documents-table-container::-webkit-scrollbar-thumb,
+.admin-loans-table-container::-webkit-scrollbar-thumb,
+.admin-repayments-table-container::-webkit-scrollbar-thumb,
+.admin-users-table-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  border-radius: 4px;
+}
+
+.admin-documents-table-container::-webkit-scrollbar-thumb:hover,
+.admin-loans-table-container::-webkit-scrollbar-thumb:hover,
+.admin-repayments-table-container::-webkit-scrollbar-thumb:hover,
+.admin-users-table-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
 }
 
 .admin-documents-table-container::before,
@@ -958,6 +996,7 @@
 .admin-repayments-table,
 .admin-users-table {
   width: 100%;
+  min-width: 900px;
   border-collapse: collapse;
   background: transparent;
 }
@@ -966,18 +1005,17 @@
 .admin-loans-table th,
 .admin-repayments-table th,
 .admin-users-table th {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(8, 145, 178, 0.05) 100%);
+  background: linear-gradient(135deg, #334155 0%, #1E293B 100%);
   padding: 1.5rem 1.5rem;
   text-align: left;
   font-size: 0.875rem;
   font-weight: 800;
   color: #FFFFFF;
-  border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+  border-bottom: 2px solid rgba(59, 130, 246, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   white-space: nowrap;
   position: relative;
-  backdrop-filter: blur(10px);
 }
 
 .admin-documents-table th:first-child,
@@ -999,12 +1037,21 @@
 .admin-repayments-table td,
 .admin-users-table td {
   padding: 1.5rem 1.5rem;
-  border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.2);
   font-size: 0.875rem;
   color: #E2E8F0;
   vertical-align: middle;
   font-weight: 500;
   transition: all 0.2s ease;
+  background: #1E293B;
+}
+
+/* Alternating row colors for better readability */
+.admin-documents-table tbody tr:nth-child(even) td,
+.admin-loans-table tbody tr:nth-child(even) td,
+.admin-repayments-table tbody tr:nth-child(even) td,
+.admin-users-table tbody tr:nth-child(even) td {
+  background: #0F172A;
 }
 
 .admin-documents-table td:first-child,
@@ -1013,23 +1060,168 @@
 .admin-users-table td:first-child {
   font-weight: 700;
   color: #FFFFFF;
+  background: transparent;
+}
+
+/* Table Cell Content Styling - More Specific */
+.admin-documents-table td span,
+.admin-loans-table td span,
+.admin-repayments-table td span,
+.admin-users-table td span,
+.admin-documents-table td div,
+.admin-loans-table td div,
+.admin-repayments-table td div,
+.admin-users-table td div {
+  color: inherit !important;
+  background: transparent !important;
+}
+
+/* Table User Info Styling */
+.admin-users-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-users-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.admin-users-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.admin-users-name {
+  font-weight: 700;
+  color: #FFFFFF !important;
+  font-size: 0.875rem;
+}
+
+.admin-users-email {
+  color: #E2E8F0 !important;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.admin-users-phone {
+  color: #E2E8F0 !important;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.admin-users-company {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #FFFFFF !important;
+  font-weight: 500;
+}
+
+.admin-users-activity {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #FFFFFF !important;
+  font-weight: 500;
+}
+
+.admin-users-count {
+  color: #FFFFFF !important;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.admin-users-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #FFFFFF !important;
+  font-weight: 500;
+}
+
+.admin-users-actions-cell {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Table Links */
+.admin-documents-table td a,
+.admin-loans-table td a,
+.admin-repayments-table td a,
+.admin-users-table td a {
+  color: #60A5FA !important;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.admin-documents-table td a:hover,
+.admin-loans-table td a:hover,
+.admin-repayments-table td a:hover,
+.admin-users-table td a:hover {
+  color: #93C5FD !important;
+  text-decoration: underline;
+}
+
+/* Table Buttons */
+.admin-documents-table td button,
+.admin-loans-table td button,
+.admin-repayments-table td button,
+.admin-users-table td button {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(8, 145, 178, 0.05) 100%) !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  color: #E2E8F0 !important;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-documents-table td button:hover,
+.admin-loans-table td button:hover,
+.admin-repayments-table td button:hover,
+.admin-users-table td button:hover {
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%) !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .admin-documents-table-row:hover,
 .admin-loans-table-row:hover,
 .admin-repayments-table-row:hover,
 .admin-users-table-row:hover {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(8, 145, 178, 0.03) 100%);
+  background: linear-gradient(135deg, #334155 0%, #1E293B 100%);
   transform: translateX(2px);
-  box-shadow: 0 2px 10px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
 }
 
 .admin-documents-table-row:hover td,
 .admin-loans-table-row:hover td,
 .admin-repayments-table-row:hover td,
 .admin-users-table-row:hover td {
-  color: #E2E8F0;
-  background: transparent;
+  color: #FFFFFF !important;
+  background: transparent !important;
+}
+
+.admin-documents-table-row:hover td *,
+.admin-loans-table-row:hover td *,
+.admin-repayments-table-row:hover td *,
+.admin-users-table-row:hover td * {
+  color: inherit !important;
+  background: transparent !important;
 }
 
 /* Status Badges - Dark Theme Compatible */
@@ -1649,23 +1841,99 @@
   text-align: left;
 }
 
-/* Perfect Table Spacing */
+/* Perfect Table Spacing and Structure */
 .admin-documents-table th,
 .admin-loans-table th,
 .admin-repayments-table th,
 .admin-users-table th {
-  padding: 1.75rem 1.5rem;
+  padding: 1.5rem 1.25rem;
   font-size: 0.8rem;
   line-height: 1.2;
+  text-align: left;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 5;
 }
 
 .admin-documents-table td,
 .admin-loans-table td,
 .admin-repayments-table td,
 .admin-users-table td {
-  padding: 1.5rem 1.5rem;
+  padding: 1.25rem 1.25rem;
   font-size: 0.875rem;
   line-height: 1.4;
+  vertical-align: middle;
+  text-align: left;
+}
+
+/* Table Column Alignment */
+.admin-documents-table th:nth-child(1),
+.admin-loans-table th:nth-child(1),
+.admin-repayments-table th:nth-child(1),
+.admin-users-table th:nth-child(1) {
+  text-align: left;
+  width: 20%;
+}
+
+.admin-documents-table th:nth-child(2),
+.admin-loans-table th:nth-child(2),
+.admin-repayments-table th:nth-child(2),
+.admin-users-table th:nth-child(2) {
+  text-align: left;
+  width: 25%;
+}
+
+.admin-documents-table th:nth-child(3),
+.admin-loans-table th:nth-child(3),
+.admin-repayments-table th:nth-child(3),
+.admin-users-table th:nth-child(3) {
+  text-align: center;
+  width: 15%;
+}
+
+.admin-documents-table th:nth-child(4),
+.admin-loans-table th:nth-child(4),
+.admin-repayments-table th:nth-child(4),
+.admin-users-table th:nth-child(4) {
+  text-align: center;
+  width: 15%;
+}
+
+.admin-documents-table th:nth-child(5),
+.admin-loans-table th:nth-child(5),
+.admin-repayments-table th:nth-child(5),
+.admin-users-table th:nth-child(5) {
+  text-align: center;
+  width: 15%;
+}
+
+.admin-documents-table th:nth-child(6),
+.admin-loans-table th:nth-child(6),
+.admin-repayments-table th:nth-child(6),
+.admin-users-table th:nth-child(6) {
+  text-align: center;
+  width: 10%;
+}
+
+/* Table Cell Alignment */
+.admin-documents-table td:nth-child(3),
+.admin-loans-table td:nth-child(3),
+.admin-repayments-table td:nth-child(3),
+.admin-users-table td:nth-child(3),
+.admin-documents-table td:nth-child(4),
+.admin-loans-table td:nth-child(4),
+.admin-repayments-table td:nth-child(4),
+.admin-users-table td:nth-child(4),
+.admin-documents-table td:nth-child(5),
+.admin-loans-table td:nth-child(5),
+.admin-repayments-table td:nth-child(5),
+.admin-users-table td:nth-child(5),
+.admin-documents-table td:nth-child(6),
+.admin-loans-table td:nth-child(6),
+.admin-repayments-table td:nth-child(6),
+.admin-users-table td:nth-child(6) {
+  text-align: center;
 }
 
 /* Table Action Buttons */
@@ -1687,6 +1955,290 @@
   color: white;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Override All Table Content Colors - More Specific */
+.admin-documents-table-container *,
+.admin-loans-table-container *,
+.admin-repayments-table-container *,
+.admin-users-table-container * {
+  color: inherit;
+}
+
+/* Ensure table content is visible with high contrast */
+.admin-documents-table td,
+.admin-loans-table td,
+.admin-repayments-table td,
+.admin-users-table td {
+  color: #FFFFFF !important;
+  background: transparent !important;
+  font-weight: 500;
+}
+
+.admin-documents-table td:first-child,
+.admin-loans-table td:first-child,
+.admin-repayments-table td:first-child,
+.admin-users-table td:first-child {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+/* Table Input Fields */
+.admin-documents-table input,
+.admin-loans-table input,
+.admin-repayments-table input,
+.admin-users-table input {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  color: #E2E8F0 !important;
+  border-radius: 6px;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.admin-documents-table input:focus,
+.admin-loans-table input:focus,
+.admin-repayments-table input:focus,
+.admin-users-table input:focus {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%) !important;
+  border-color: #3B82F6 !important;
+  color: #FFFFFF !important;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Table Select Dropdowns */
+.admin-documents-table select,
+.admin-loans-table select,
+.admin-repayments-table select,
+.admin-users-table select {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  color: #E2E8F0 !important;
+  border-radius: 6px;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Table Spans and Divs - More Specific */
+.admin-documents-table td span,
+.admin-loans-table td span,
+.admin-repayments-table td span,
+.admin-users-table td span,
+.admin-documents-table td div,
+.admin-loans-table td div,
+.admin-repayments-table td div,
+.admin-users-table td div {
+  color: inherit !important;
+  background: transparent !important;
+}
+
+/* Ensure all text in table cells is visible */
+.admin-documents-table td,
+.admin-loans-table td,
+.admin-repayments-table td,
+.admin-users-table td {
+  color: #E2E8F0 !important;
+}
+
+.admin-documents-table td strong,
+.admin-loans-table td strong,
+.admin-repayments-table td strong,
+.admin-users-table td strong {
+  color: #FFFFFF !important;
+  font-weight: 700;
+}
+
+/* Table Icons */
+.admin-documents-table svg,
+.admin-loans-table svg,
+.admin-repayments-table svg,
+.admin-users-table svg {
+  color: #FFFFFF !important;
+  fill: currentColor !important;
+}
+
+/* Ensure all table content is visible and properly colored */
+.admin-documents-table,
+.admin-loans-table,
+.admin-repayments-table,
+.admin-users-table {
+  color: #E2E8F0 !important;
+}
+
+.admin-documents-table th,
+.admin-loans-table th,
+.admin-repayments-table th,
+.admin-users-table th {
+  color: #FFFFFF !important;
+}
+
+/* Table row hover effects */
+.admin-documents-table-row:hover td,
+.admin-loans-table-row:hover td,
+.admin-repayments-table-row:hover td,
+.admin-users-table-row:hover td {
+  color: #FFFFFF !important;
+}
+
+.admin-documents-table-row:hover td *,
+.admin-loans-table-row:hover td *,
+.admin-repayments-table-row:hover td *,
+.admin-users-table-row:hover td * {
+  color: inherit !important;
+}
+
+/* Status and Role Badges - Dark Theme */
+.admin-status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid;
+  background: transparent;
+}
+
+.admin-status-active {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.8) 0%, rgba(22, 163, 74, 0.7) 100%) !important;
+  border-color: rgba(34, 197, 94, 0.9) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.admin-status-pending {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.8) 0%, rgba(217, 119, 6, 0.7) 100%) !important;
+  border-color: rgba(245, 158, 11, 0.9) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.admin-status-suspended {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.8) 0%, rgba(220, 38, 38, 0.7) 100%) !important;
+  border-color: rgba(239, 68, 68, 0.9) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.admin-status-default {
+  background: linear-gradient(135deg, rgba(107, 114, 128, 0.8) 0%, rgba(75, 85, 99, 0.7) 100%) !important;
+  border-color: rgba(107, 114, 128, 0.9) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.admin-role-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid;
+  background: transparent;
+}
+
+.admin-role-admin {
+  background: linear-gradient(135deg, rgba(147, 51, 234, 0.8) 0%, rgba(124, 58, 237, 0.7) 100%) !important;
+  border-color: rgba(147, 51, 234, 0.9) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.admin-role-user {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(37, 99, 235, 0.7) 100%) !important;
+  border-color: rgba(59, 130, 246, 0.9) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.admin-role-moderator {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.8) 0%, rgba(234, 88, 12, 0.7) 100%) !important;
+  border-color: rgba(249, 115, 22, 0.9) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.admin-role-default {
+  background: linear-gradient(135deg, rgba(107, 114, 128, 0.8) 0%, rgba(75, 85, 99, 0.7) 100%) !important;
+  border-color: rgba(107, 114, 128, 0.9) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Status Icons - High Contrast */
+.admin-icon-active {
+  color: #22C55E !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.admin-icon-pending {
+  color: #F59E0B !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.admin-icon-suspended {
+  color: #EF4444 !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.admin-icon-default {
+  color: #FFFFFF !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* Admin Text Colors */
+.admin-text-primary {
+  color: #FFFFFF !important;
+}
+
+.admin-text-secondary {
+  color: #94A3B8 !important;
+}
+
+.admin-btn-primary {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-btn-primary:hover {
+  background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Additional Table Button Styles */
+.admin-users-action-btn.small {
+  padding: 0.5rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  border-radius: 6px;
+}
+
+.admin-users-action-btn.danger {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.05) 100%) !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+  color: #F87171 !important;
+}
+
+.admin-users-action-btn.danger:hover {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%) !important;
+  color: #FFFFFF !important;
 }
 
 /* Responsive Design */
