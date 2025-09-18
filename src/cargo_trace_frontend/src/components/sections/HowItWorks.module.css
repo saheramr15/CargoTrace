@@ -1,6 +1,6 @@
 /* How It Works Section - Elegant Horizontal Flow Design */
 .howItWorks {
-  background: var(--navy-gradient);
+  background: var(--navy-gradient-deep);
   padding: 6rem 0;
   position: relative;
   overflow: hidden;
@@ -14,8 +14,9 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
+    radial-gradient(circle at 25% 25%, rgba(79, 70, 229, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(8, 145, 178, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.06) 0%, transparent 60%);
   z-index: 1;
   animation: howItWorksGlow 8s ease-in-out infinite;
 }
@@ -34,13 +35,25 @@
 }
 
 @keyframes howItWorksGlow {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 0.8; }
+  0%, 100% { 
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
 }
 
 @keyframes howItWorksShimmer {
-  0%, 100% { transform: translateX(-100%); }
-  50% { transform: translateX(100%); }
+  0%, 100% { 
+    transform: translateX(-100%) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% { 
+    transform: translateX(0%) rotate(1deg);
+    opacity: 0.6;
+  }
 }
 
 .container {
@@ -136,21 +149,21 @@
 }
 
 .stepCard {
-  background: var(--glass-gradient);
-  backdrop-filter: blur(20px);
+  background: var(--glass-gradient-warm);
+  backdrop-filter: blur(25px);
   border: 1px solid var(--border-color);
   border-radius: 24px;
   padding: 2.5rem;
   width: 100%;
   position: relative;
   overflow: hidden;
-  transition: all 0.4s ease;
-  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-medium), var(--glow-primary);
 }
 
 .stepCard:hover {
-  transform: translateY(-12px) scale(1.03);
-  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
+  transform: translateY(-15px) scale(1.05);
+  box-shadow: var(--shadow-heavy), var(--glow-primary), 0 0 50px rgba(79, 70, 229, 0.3);
   border-color: var(--accent-blue);
 }
 
@@ -161,8 +174,8 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.08), transparent);
-  transition: left 0.8s ease;
+  background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.15), transparent);
+  transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .stepCard:hover::before {
@@ -207,7 +220,7 @@
   text-align: center;
   margin: 1rem 0 1.5rem 0;
   animation: iconFloat 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.2));
+  filter: drop-shadow(0 0 20px rgba(79, 70, 229, 0.4));
 }
 
 @keyframes iconFloat {

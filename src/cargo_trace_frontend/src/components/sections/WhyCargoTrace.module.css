@@ -1,6 +1,6 @@
 /* Why CargoTrace Section - Creative Impact Numbers */
 .whyCargoTrace {
-  background: var(--navy-secondary);
+  background: var(--navy-gradient-warm);
   padding: 6rem 0;
   position: relative;
   overflow: hidden;
@@ -14,8 +14,9 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 30% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 70% 80%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
+    radial-gradient(circle at 30% 20%, rgba(79, 70, 229, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(8, 145, 178, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.06) 0%, transparent 60%);
   z-index: 1;
   animation: whyGlow 12s ease-in-out infinite;
 }
@@ -28,19 +29,32 @@
   right: 0;
   bottom: 0;
   background: 
-    linear-gradient(45deg, transparent 30%, rgba(59, 130, 246, 0.03) 50%, transparent 70%);
+    linear-gradient(45deg, transparent 30%, rgba(79, 70, 229, 0.04) 50%, transparent 70%),
+    linear-gradient(135deg, transparent 20%, rgba(8, 145, 178, 0.03) 50%, transparent 80%);
   z-index: 1;
   animation: whyShimmer 18s ease-in-out infinite;
 }
 
 @keyframes whyGlow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.7; }
+  0%, 100% { 
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.8;
+    transform: scale(1.03);
+  }
 }
 
 @keyframes whyShimmer {
-  0%, 100% { transform: translateX(-100%); }
-  50% { transform: translateX(100%); }
+  0%, 100% { 
+    transform: translateX(-100%) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% { 
+    transform: translateX(0%) rotate(1deg);
+    opacity: 0.6;
+  }
 }
 
 .container {
@@ -126,15 +140,15 @@
 }
 
 .statCard {
-  background: var(--glass-gradient);
-  backdrop-filter: blur(20px);
+  background: var(--glass-gradient-warm);
+  backdrop-filter: blur(25px);
   border: 1px solid var(--border-color);
   border-radius: 24px;
   padding: 3rem 2rem;
   text-align: center;
   position: relative;
   overflow: hidden;
-  transition: all 0.4s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: statFloat 6s ease-in-out infinite;
   cursor: pointer;
 }
@@ -145,13 +159,19 @@
 .stat-4 { animation-delay: 4.5s; }
 
 @keyframes statFloat {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-12px) rotate(1deg); }
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.9;
+  }
+  50% { 
+    transform: translateY(-15px) rotate(2deg);
+    opacity: 1;
+  }
 }
 
 .statCard:hover {
-  transform: translateY(-20px) scale(1.08) rotate(2deg);
-  box-shadow: 0 30px 80px rgba(59, 130, 246, 0.3);
+  transform: translateY(-25px) scale(1.1) rotate(3deg);
+  box-shadow: var(--shadow-ultra), var(--glow-primary), 0 0 60px rgba(79, 70, 229, 0.4);
   border-color: var(--accent-blue);
 }
 
@@ -162,8 +182,8 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-  transition: left 0.8s ease;
+  background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.15), transparent);
+  transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .statCard:hover::before {
@@ -174,18 +194,18 @@
   font-size: 3.5rem;
   margin-bottom: 1.5rem;
   animation: iconBounce 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3));
+  filter: drop-shadow(0 0 25px rgba(79, 70, 229, 0.4));
   color: var(--accent-blue);
 }
 
 @keyframes iconBounce {
   0%, 100% { 
     transform: scale(1) rotate(0deg);
-    filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3));
+    filter: drop-shadow(0 0 25px rgba(79, 70, 229, 0.4));
   }
   50% { 
-    transform: scale(1.2) rotate(10deg);
-    filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.5));
+    transform: scale(1.3) rotate(12deg);
+    filter: drop-shadow(0 0 35px rgba(79, 70, 229, 0.6));
   }
 }
 
@@ -194,15 +214,15 @@
   font-weight: 800;
   color: var(--accent-blue);
   margin-bottom: 1rem;
-  text-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
-  animation: numberCount 2s ease-out;
+  text-shadow: 0 0 35px rgba(79, 70, 229, 0.5);
+  animation: numberCount 2s ease-out, glowPulse 3s ease-in-out infinite;
   position: relative;
 }
 
 @keyframes numberCount {
   from { 
     opacity: 0;
-    transform: scale(0.3) rotate(-10deg);
+    transform: scale(0.2) rotate(-15deg);
   }
   to { 
     opacity: 1;
@@ -216,14 +236,15 @@
   color: var(--text-primary);
   margin-bottom: 1rem;
   animation: labelGlow 4s ease-in-out infinite;
+  text-shadow: 0 0 15px rgba(79, 70, 229, 0.3);
 }
 
 @keyframes labelGlow {
   0%, 100% { 
-    text-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+    text-shadow: 0 0 15px rgba(79, 70, 229, 0.3);
   }
   50% { 
-    text-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    text-shadow: 0 0 25px rgba(79, 70, 229, 0.5);
   }
 }
 
@@ -388,13 +409,14 @@
   grid-template-columns: 2fr 1fr;
   gap: 4rem;
   align-items: center;
-  background: var(--glass-gradient);
-  backdrop-filter: blur(20px);
+  background: var(--glass-gradient-warm);
+  backdrop-filter: blur(30px);
   border: 1px solid var(--border-color);
   border-radius: 24px;
   padding: 4rem;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-medium), var(--glow-primary);
 }
 
 .valueProposition::before {
@@ -405,8 +427,9 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
+    radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(8, 145, 178, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 60%);
   z-index: 1;
 }
 
@@ -421,6 +444,7 @@
   color: var(--text-primary);
   margin-bottom: 1.5rem;
   line-height: 1.2;
+  text-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
 }
 
 .valueDescription {
@@ -428,6 +452,7 @@
   color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: 2.5rem;
+  text-shadow: 0 0 10px rgba(79, 70, 229, 0.2);
 }
 
 .valueButtons {
@@ -437,7 +462,7 @@
 }
 
 .primaryButton {
-  background: var(--primary-gradient);
+  background: var(--primary-gradient-glow);
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -445,25 +470,27 @@
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
-  animation: buttonPulse 3s ease-in-out infinite;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-light), var(--glow-primary);
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease-in-out infinite;
 }
 
 @keyframes buttonPulse {
   0%, 100% { 
     transform: scale(1);
-    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+    box-shadow: var(--shadow-light), var(--glow-primary);
   }
   50% { 
     transform: scale(1.05);
-    box-shadow: 0 6px 25px rgba(59, 130, 246, 0.4);
+    box-shadow: var(--shadow-medium), var(--glow-primary), 0 0 30px rgba(79, 70, 229, 0.4);
   }
 }
 
 .primaryButton:hover {
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+  box-shadow: var(--shadow-medium), var(--glow-primary), 0 0 40px rgba(79, 70, 229, 0.5);
+  animation: none;
 }
 
 .secondaryButton {

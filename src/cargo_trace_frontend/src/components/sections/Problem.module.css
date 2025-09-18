@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
 
 .problem {
-  background: var(--navy-gradient);
+  background: var(--navy-gradient-warm);
   padding: 6rem 0;
   position: relative;
   overflow: hidden;
@@ -16,8 +16,9 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 30% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 70% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
+    radial-gradient(circle at 30% 20%, rgba(8, 145, 178, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(79, 70, 229, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.06) 0%, transparent 60%);
   z-index: 1;
   animation: problemGlow 6s ease-in-out infinite;
 }
@@ -30,19 +31,36 @@
   right: 0;
   bottom: 0;
   background: 
-    linear-gradient(45deg, transparent 30%, rgba(59, 130, 246, 0.03) 50%, transparent 70%);
+    linear-gradient(45deg, transparent 30%, rgba(79, 70, 229, 0.04) 50%, transparent 70%),
+    linear-gradient(135deg, transparent 20%, rgba(8, 145, 178, 0.03) 50%, transparent 80%);
   z-index: 1;
   animation: problemShimmer 8s ease-in-out infinite;
 }
 
 @keyframes problemGlow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.7; }
+  0%, 100% { 
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
 }
 
 @keyframes problemShimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% { 
+    transform: translateX(-100%) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% { 
+    transform: translateX(0%) rotate(1deg);
+    opacity: 0.6;
+  }
+  100% { 
+    transform: translateX(100%) rotate(0deg);
+    opacity: 0.3;
+  }
 }
 
 .container {
@@ -92,12 +110,12 @@
 }
 
 .problemCard {
-  background: var(--card-gradient);
+  background: var(--card-gradient-warm);
   border: 1px solid var(--border-color-light);
   border-radius: 20px;
   padding: 2.5rem;
-  backdrop-filter: blur(20px);
-  transition: all 0.4s ease;
+  backdrop-filter: blur(25px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   animation: fadeInUp 1s ease-out;
@@ -110,9 +128,11 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: var(--title-gradient);
+  background: var(--title-gradient-glow);
   transform: scaleX(0);
-  transition: transform 0.4s ease;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease-in-out infinite;
 }
 
 .problemCard:hover::before {
@@ -120,10 +140,10 @@
 }
 
 .problemCard:hover {
-  background: var(--glass-gradient);
+  background: var(--glass-gradient-warm);
   border-color: var(--border-color-accent);
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-medium), var(--glow-shadow);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-medium), var(--glow-primary);
 }
 
 .card-1 { animation-delay: 0.1s; }
@@ -136,13 +156,13 @@
 .cardIcon {
   font-size: 3rem;
   margin-bottom: 1.5rem;
-  filter: drop-shadow(0 0 10px rgba(49, 130, 206, 0.2));
-  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 15px rgba(79, 70, 229, 0.3));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .problemCard:hover .cardIcon {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 15px rgba(49, 130, 206, 0.4));
+  transform: scale(1.15) rotate(5deg);
+  filter: drop-shadow(0 0 20px rgba(79, 70, 229, 0.5));
 }
 
 .cardContent {
@@ -167,8 +187,8 @@
 }
 
 .cardStat {
-  background: var(--accent-gradient);
-  color: var(--text-dark);
+  background: var(--accent-gradient-warm);
+  color: var(--text-light);
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.9rem;
@@ -176,17 +196,19 @@
   text-align: center;
   letter-spacing: 0.5px;
   align-self: flex-start;
-  box-shadow: var(--shadow-light);
+  box-shadow: var(--shadow-light), var(--glow-primary);
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease-in-out infinite;
 }
 
 .impactStatement {
-  background: var(--glass-gradient);
+  background: var(--glass-gradient-warm);
   border: 1px solid var(--border-color);
   border-radius: 24px;
   padding: 4rem;
   text-align: center;
-  backdrop-filter: blur(25px);
-  box-shadow: var(--shadow-medium);
+  backdrop-filter: blur(30px);
+  box-shadow: var(--shadow-medium), var(--glow-primary);
   animation: fadeInUp 1s ease-out 0.8s both;
 }
 
@@ -214,6 +236,7 @@
 .impactText strong {
   color: var(--accent-blue);
   font-weight: 800;
+  text-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
 }
 
 .impactStats {
@@ -226,17 +249,17 @@
 .impactStat {
   text-align: center;
   padding: 1.5rem;
-  background: var(--card-gradient);
+  background: var(--card-gradient-warm);
   border: 1px solid var(--border-color-light);
   border-radius: 16px;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .impactStat:hover {
-  background: var(--glass-gradient);
+  background: var(--glass-gradient-warm);
   border-color: var(--border-color-accent);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-light);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: var(--shadow-light), var(--glow-primary);
 }
 
 .statNumber {
@@ -244,7 +267,8 @@
   font-weight: 800;
   color: var(--accent-blue);
   margin-bottom: 0.5rem;
-  text-shadow: 0 0 20px rgba(49, 130, 206, 0.3);
+  text-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
+  animation: glowPulse 3s ease-in-out infinite;
 }
 
 .statLabel {

@@ -1,97 +1,183 @@
-/* Custom CSS Variables and Utilities - MENA Fintech Theme */
+/* Custom CSS Variables and Utilities - Premium MENA Fintech Theme */
 
 :root {
-  /* Warm Premium Gradient Navy/Black Color Palette */
-  --navy-primary: #0F1419;
-  --navy-secondary: #1A1F2E;
-  --navy-tertiary: #252B3D;
-  --navy-light: #2F364A;
-  --navy-dark: #0A0E12;
-  --navy-darker: #050709;
+  /* Premium Warm Navy Color Palette with Rich Depth */
+  --navy-primary: #0A0F1A;
+  --navy-secondary: #1A2332;
+  --navy-tertiary: #2A3441;
+  --navy-light: #3A4450;
+  --navy-dark: #050A0F;
+  --navy-darker: #020508;
+  --navy-warm: #1B2430;
+  --navy-deep: #0F1620;
   
-  --steel-blue: #4A5568;
-  --steel-blue-light: #6B7280;
-  --steel-blue-dark: #374151;
+  /* Enhanced Steel Blue with Warm Tones */
+  --steel-blue: #4A5A6B;
+  --steel-blue-light: #6B7A8A;
+  --steel-blue-dark: #374550;
+  --steel-blue-warm: #5A6B7A;
   
-  --platinum: #F7FAFC;
+  /* Premium Platinum with Warm Undertones */
+  --platinum: #F8FAFC;
   --platinum-light: #FFFFFF;
-  --platinum-dark: #EDF2F7;
+  --platinum-dark: #F1F5F9;
+  --platinum-warm: #FDFCFB;
   
-  --accent-blue: #3B82F6;
-  --accent-blue-light: #60A5FA;
-  --accent-blue-dark: #2563EB;
+  /* Vibrant Blue Accents with Warm Hues */
+  --accent-blue: #4F46E5;
+  --accent-blue-light: #6366F1;
+  --accent-blue-dark: #3730A3;
+  --accent-blue-warm: #5B52E8;
+  --accent-blue-glow: #6366F1;
   
-  --accent-cyan: #06B6D4;
-  --accent-cyan-light: #22D3EE;
-  --accent-cyan-dark: #0891B2;
+  /* Rich Cyan with Warm Teal Undertones */
+  --accent-cyan: #0891B2;
+  --accent-cyan-light: #0EA5E9;
+  --accent-cyan-dark: #0E7490;
+  --accent-cyan-warm: #14B8A6;
+  --accent-cyan-glow: #06B6D4;
   
+  /* Premium Gold with Warm Amber */
   --accent-gold: #F59E0B;
   --accent-gold-light: #FBBF24;
   --accent-gold-dark: #D97706;
+  --accent-gold-warm: #F59E0B;
+  --accent-gold-glow: #FCD34D;
   
-  --success-green: #38A169;
-  --success-green-light: #48BB78;
-  --success-green-dark: #2F855A;
+  /* Rich Success Green with Warm Tones */
+  --success-green: #059669;
+  --success-green-light: #10B981;
+  --success-green-dark: #047857;
+  --success-green-warm: #34D399;
+  --success-green-glow: #6EE7B7;
   
-  /* Warm Premium Gradient Navy/Black Gradients */
-  --primary-gradient: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
-  --primary-gradient-hover: linear-gradient(135deg, #2563EB 0%, #0891B2 100%);
-  --secondary-gradient: linear-gradient(135deg, #0F1419 0%, #1A1F2E 50%, #252B3D 100%);
-  --accent-gradient: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
-  --cyan-gradient: linear-gradient(135deg, #06B6D4 0%, #22D3EE 100%);
-  --gold-gradient: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
-  --success-gradient: linear-gradient(135deg, #38A169 0%, #48BB78 100%);
-  --navy-gradient: linear-gradient(135deg, #0F1419 0%, #1A1F2E 50%, #252B3D 100%);
-  --card-gradient: linear-gradient(145deg, rgba(26, 31, 46, 0.9) 0%, rgba(37, 43, 61, 0.7) 100%);
-  --glass-gradient: linear-gradient(145deg, rgba(26, 31, 46, 0.95) 0%, rgba(37, 43, 61, 0.8) 100%);
+  /* Premium Purple Accents */
+  --accent-purple: #8B5CF6;
+  --accent-purple-light: #A78BFA;
+  --accent-purple-dark: #7C3AED;
+  --accent-purple-glow: #C4B5FD;
   
-  /* Text Colors */
-  --text-primary: #F7FAFC;
-  --text-secondary: rgba(247, 250, 252, 0.85);
-  --text-accent: #3B82F6;
-  --text-cyan: #06B6D4;
+  /* Warm Coral Accents */
+  --accent-coral: #F97316;
+  --accent-coral-light: #FB923C;
+  --accent-coral-dark: #EA580C;
+  --accent-coral-glow: #FED7AA;
+  
+  /* Premium Warm Gradients - Rich and Catchy */
+  --primary-gradient: linear-gradient(135deg, #4F46E5 0%, #6366F1 25%, #0891B2 75%, #14B8A6 100%);
+  --primary-gradient-hover: linear-gradient(135deg, #3730A3 0%, #4F46E5 25%, #0E7490 75%, #0D9488 100%);
+  --primary-gradient-glow: linear-gradient(135deg, #6366F1 0%, #06B6D4 50%, #34D399 100%);
+  
+  --secondary-gradient: linear-gradient(135deg, #0A0F1A 0%, #1A2332 30%, #2A3441 70%, #3A4450 100%);
+  --secondary-gradient-warm: linear-gradient(135deg, #0F1620 0%, #1B2430 30%, #2A3441 70%, #3A4450 100%);
+  
+  --accent-gradient: linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #0891B2 100%);
+  --accent-gradient-warm: linear-gradient(135deg, #5B52E8 0%, #8B5CF6 50%, #14B8A6 100%);
+  
+  --cyan-gradient: linear-gradient(135deg, #0891B2 0%, #0EA5E9 50%, #14B8A6 100%);
+  --cyan-gradient-glow: linear-gradient(135deg, #06B6D4 0%, #22D3EE 50%, #34D399 100%);
+  
+  --gold-gradient: linear-gradient(135deg, #F59E0B 0%, #FBBF24 50%, #FCD34D 100%);
+  --gold-gradient-warm: linear-gradient(135deg, #D97706 0%, #F59E0B 50%, #FBBF24 100%);
+  
+  --success-gradient: linear-gradient(135deg, #059669 0%, #10B981 50%, #34D399 100%);
+  --success-gradient-glow: linear-gradient(135deg, #047857 0%, #059669 50%, #6EE7B7 100%);
+  
+  --purple-gradient: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 50%, #C4B5FD 100%);
+  --coral-gradient: linear-gradient(135deg, #F97316 0%, #FB923C 50%, #FED7AA 100%);
+  
+  /* Premium Navy Gradients with Warm Undertones */
+  --navy-gradient: linear-gradient(135deg, #0A0F1A 0%, #1A2332 30%, #2A3441 70%, #3A4450 100%);
+  --navy-gradient-warm: linear-gradient(135deg, #0F1620 0%, #1B2430 30%, #2A3441 70%, #3A4450 100%);
+  --navy-gradient-deep: linear-gradient(135deg, #050A0F 0%, #0A0F1A 30%, #1A2332 70%, #2A3441 100%);
+  
+  /* Premium Card and Glass Gradients */
+  --card-gradient: linear-gradient(145deg, rgba(26, 35, 50, 0.95) 0%, rgba(42, 52, 65, 0.85) 50%, rgba(58, 68, 80, 0.75) 100%);
+  --card-gradient-warm: linear-gradient(145deg, rgba(27, 36, 48, 0.95) 0%, rgba(42, 52, 65, 0.85) 50%, rgba(58, 68, 80, 0.75) 100%);
+  
+  --glass-gradient: linear-gradient(145deg, rgba(26, 35, 50, 0.98) 0%, rgba(42, 52, 65, 0.9) 50%, rgba(58, 68, 80, 0.8) 100%);
+  --glass-gradient-warm: linear-gradient(145deg, rgba(27, 36, 48, 0.98) 0%, rgba(42, 52, 65, 0.9) 50%, rgba(58, 68, 80, 0.8) 100%);
+  
+  /* Premium Background Gradients */
+  --bg-gradient-primary: linear-gradient(135deg, #0A0F1A 0%, #1A2332 50%, #2A3441 100%);
+  --bg-gradient-secondary: linear-gradient(135deg, #0F1620 0%, #1B2430 50%, #2A3441 100%);
+  --bg-gradient-accent: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(8, 145, 178, 0.1) 50%, rgba(20, 184, 166, 0.1) 100%);
+  
+  /* Premium Text Colors with Warm Undertones */
+  --text-primary: #F8FAFC;
+  --text-secondary: rgba(248, 250, 252, 0.9);
+  --text-accent: #4F46E5;
+  --text-cyan: #0891B2;
   --text-gold: #F59E0B;
-  --text-muted: rgba(247, 250, 252, 0.65);
-  --text-dark: #0F1419;
+  --text-purple: #8B5CF6;
+  --text-coral: #F97316;
+  --text-muted: rgba(248, 250, 252, 0.7);
+  --text-muted-warm: rgba(253, 252, 251, 0.6);
+  --text-dark: #0A0F1A;
   --text-light: #FFFFFF;
+  --text-glow: rgba(99, 102, 241, 0.8);
   
-  /* Background Colors */
-  --bg-primary: #0F1419;
-  --bg-secondary: #1A1F2E;
-  --bg-tertiary: #252B3D;
-  --bg-card: rgba(255, 255, 255, 0.95);
-  --bg-overlay: rgba(15, 20, 25, 0.95);
-  --bg-glass: rgba(15, 20, 25, 0.85);
-  --bg-glass-light: rgba(26, 31, 46, 0.7);
+  /* Premium Background Colors */
+  --bg-primary: #0A0F1A;
+  --bg-secondary: #1A2332;
+  --bg-tertiary: #2A3441;
+  --bg-card: rgba(255, 255, 255, 0.98);
+  --bg-overlay: rgba(10, 15, 26, 0.95);
+  --bg-glass: rgba(10, 15, 26, 0.9);
+  --bg-glass-light: rgba(26, 35, 50, 0.8);
+  --bg-glass-warm: rgba(27, 36, 48, 0.85);
   
-  /* Border and Shadow */
-  --border-color: rgba(59, 130, 246, 0.25);
-  --border-color-light: rgba(59, 130, 246, 0.15);
-  --border-color-accent: rgba(59, 130, 246, 0.5);
-  --border-cyan: rgba(6, 182, 212, 0.3);
-  --border-gold: rgba(245, 158, 11, 0.3);
-  --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.15);
-  --shadow-medium: 0 8px 32px rgba(0, 0, 0, 0.2);
-  --shadow-heavy: 0 16px 48px rgba(0, 0, 0, 0.25);
-  --glow-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-  --glow-cyan: 0 0 20px rgba(6, 182, 212, 0.3);
-  --glow-gold: 0 0 20px rgba(245, 158, 11, 0.3);
-  --glow-shadow-success: 0 0 20px rgba(56, 161, 105, 0.3);
+  /* Premium Border and Shadow Colors */
+  --border-color: rgba(79, 70, 229, 0.3);
+  --border-color-light: rgba(79, 70, 229, 0.2);
+  --border-color-accent: rgba(79, 70, 229, 0.6);
+  --border-cyan: rgba(8, 145, 178, 0.4);
+  --border-gold: rgba(245, 158, 11, 0.4);
+  --border-purple: rgba(139, 92, 246, 0.4);
+  --border-coral: rgba(249, 115, 22, 0.4);
   
-  /* Warm Premium Gradient Navy/Black Gradients */
-  --title-gradient: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
-  --button-gradient: linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%);
-  --button-hover: linear-gradient(135deg, #2563EB 0%, #0891B2 100%);
-  --section-gradient: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(6, 182, 212, 0.05) 100%);
+  /* Premium Shadow System */
+  --shadow-light: 0 4px 20px rgba(10, 15, 26, 0.2);
+  --shadow-medium: 0 8px 32px rgba(10, 15, 26, 0.3);
+  --shadow-heavy: 0 16px 48px rgba(10, 15, 26, 0.4);
+  --shadow-ultra: 0 24px 64px rgba(10, 15, 26, 0.5);
   
-  /* Hero Colors */
-  --hero-text-primary: #F7FAFC;
-  --hero-text-secondary: rgba(247, 250, 252, 0.85);
+  /* Premium Glow Effects */
+  --glow-shadow: 0 0 30px rgba(79, 70, 229, 0.4);
+  --glow-cyan: 0 0 30px rgba(8, 145, 178, 0.4);
+  --glow-gold: 0 0 30px rgba(245, 158, 11, 0.4);
+  --glow-purple: 0 0 30px rgba(139, 92, 246, 0.4);
+  --glow-coral: 0 0 30px rgba(249, 115, 22, 0.4);
+  --glow-success: 0 0 30px rgba(5, 150, 105, 0.4);
   
-  /* Scrollbar Colors */
-  --scrollbar-track: #1A1F2E;
-  --scrollbar-thumb: linear-gradient(135deg, #3B82F6, #06B6D4);
-  --scrollbar-thumb-hover: linear-gradient(135deg, #2563EB, #0891B2);
+  /* Premium Multi-Color Glow Effects */
+  --glow-primary: 0 0 40px rgba(79, 70, 229, 0.3), 0 0 80px rgba(8, 145, 178, 0.2);
+  --glow-warm: 0 0 40px rgba(245, 158, 11, 0.3), 0 0 80px rgba(249, 115, 22, 0.2);
+  --glow-cool: 0 0 40px rgba(8, 145, 178, 0.3), 0 0 80px rgba(20, 184, 166, 0.2);
+  
+  /* Premium Title and Button Gradients */
+  --title-gradient: linear-gradient(135deg, #4F46E5 0%, #6366F1 25%, #0891B2 75%, #14B8A6 100%);
+  --title-gradient-warm: linear-gradient(135deg, #5B52E8 0%, #8B5CF6 25%, #14B8A6 75%, #34D399 100%);
+  --title-gradient-glow: linear-gradient(135deg, #6366F1 0%, #06B6D4 50%, #34D399 100%);
+  
+  --button-gradient: linear-gradient(135deg, #4F46E5 0%, #6366F1 25%, #0891B2 75%, #14B8A6 100%);
+  --button-gradient-hover: linear-gradient(135deg, #3730A3 0%, #4F46E5 25%, #0E7490 75%, #0D9488 100%);
+  --button-gradient-glow: linear-gradient(135deg, #6366F1 0%, #06B6D4 50%, #34D399 100%);
+  
+  --section-gradient: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(8, 145, 178, 0.08) 50%, rgba(20, 184, 166, 0.06) 100%);
+  --section-gradient-warm: linear-gradient(135deg, rgba(91, 82, 232, 0.1) 0%, rgba(139, 92, 246, 0.08) 50%, rgba(20, 184, 166, 0.06) 100%);
+  
+  /* Premium Hero Colors */
+  --hero-text-primary: #F8FAFC;
+  --hero-text-secondary: rgba(248, 250, 252, 0.9);
+  --hero-text-accent: #4F46E5;
+  --hero-text-glow: rgba(99, 102, 241, 0.8);
+  
+  /* Premium Scrollbar Colors */
+  --scrollbar-track: #1A2332;
+  --scrollbar-thumb: linear-gradient(135deg, #4F46E5, #6366F1, #0891B2, #14B8A6);
+  --scrollbar-thumb-hover: linear-gradient(135deg, #3730A3, #4F46E5, #0E7490, #0D9488);
+  --scrollbar-thumb-glow: linear-gradient(135deg, #6366F1, #06B6D4, #34D399);
 }
 
 body {
@@ -124,11 +210,11 @@ body {
   box-shadow: var(--shadow-light), var(--glow-shadow);
 }
 
-/* Animation Classes */
+/* Premium Animation Classes */
 .fade-in {
-  opacity: 1;
-  transform: translateY(0);
-  transition: all 0.8s ease-out;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .fade-in.animate {
@@ -137,9 +223,9 @@ body {
 }
 
 .slide-in-left {
-  opacity: 1;
-  transform: translateX(0);
-  transition: all 0.8s ease-out;
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .slide-in-left.animate {
@@ -148,9 +234,9 @@ body {
 }
 
 .slide-in-right {
-  opacity: 1;
-  transform: translateX(0);
-  transition: all 0.8s ease-out;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .slide-in-right.animate {
@@ -159,9 +245,9 @@ body {
 }
 
 .scale-in {
-  opacity: 1;
-  transform: scale(1);
-  transition: all 0.6s ease-out;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .scale-in.animate {
@@ -170,12 +256,81 @@ body {
 }
 
 .stagger-animation {
-  opacity: 1;
-  transform: translateY(0);
-  transition: all 0.6s ease-out;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .stagger-animation.animate {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Premium Glow Animations */
+.glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { 
+    box-shadow: var(--glow-primary);
+    filter: brightness(1);
+  }
+  50% { 
+    box-shadow: var(--glow-primary), 0 0 60px rgba(79, 70, 229, 0.3);
+    filter: brightness(1.1);
+  }
+}
+
+.glow-warm {
+  animation: glowWarm 4s ease-in-out infinite;
+}
+
+@keyframes glowWarm {
+  0%, 100% { 
+    box-shadow: var(--glow-warm);
+    filter: brightness(1);
+  }
+  50% { 
+    box-shadow: var(--glow-warm), 0 0 60px rgba(245, 158, 11, 0.3);
+    filter: brightness(1.1);
+  }
+}
+
+.glow-cool {
+  animation: glowCool 3.5s ease-in-out infinite;
+}
+
+@keyframes glowCool {
+  0%, 100% { 
+    box-shadow: var(--glow-cool);
+    filter: brightness(1);
+  }
+  50% { 
+    box-shadow: var(--glow-cool), 0 0 60px rgba(8, 145, 178, 0.3);
+    filter: brightness(1.1);
+  }
+}
+
+/* Premium Gradient Animations */
+.gradient-shift {
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.gradient-flow {
+  background-size: 300% 300%;
+  animation: gradientFlow 6s ease-in-out infinite;
+}
+
+@keyframes gradientFlow {
+  0%, 100% { background-position: 0% 0%; }
+  25% { background-position: 100% 0%; }
+  50% { background-position: 100% 100%; }
+  75% { background-position: 0% 100%; }
 } 

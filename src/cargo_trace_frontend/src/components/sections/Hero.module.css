@@ -4,7 +4,7 @@
 
 .hero {
   min-height: 100vh;
-  background: var(--navy-gradient);
+  background: var(--navy-gradient-warm);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -21,16 +21,23 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 20% 80%, rgba(49, 130, 206, 0.12) 0%, transparent 60%),
-    radial-gradient(circle at 80% 20%, rgba(0, 199, 169, 0.1) 0%, transparent 60%),
-    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+    radial-gradient(circle at 20% 80%, rgba(79, 70, 229, 0.15) 0%, transparent 60%),
+    radial-gradient(circle at 80% 20%, rgba(8, 145, 178, 0.12) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 70%),
+    radial-gradient(circle at 30% 30%, rgba(20, 184, 166, 0.08) 0%, transparent 50%);
   z-index: 1;
   animation: heroGlow 8s ease-in-out infinite;
 }
 
 @keyframes heroGlow {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 0.9; }
+  0%, 100% { 
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }
 
 .backgroundPattern {
@@ -40,15 +47,22 @@
   right: 0;
   bottom: 0;
   background-image: 
-    radial-gradient(circle at 1px 1px, rgba(232, 244, 253, 0.08) 1px, transparent 0);
-  background-size: 24px 24px;
+    radial-gradient(circle at 1px 1px, rgba(99, 102, 241, 0.1) 1px, transparent 0),
+    radial-gradient(circle at 12px 12px, rgba(8, 145, 178, 0.06) 1px, transparent 0);
+  background-size: 24px 24px, 36px 36px;
   z-index: 1;
   animation: patternFloat 10s ease-in-out infinite;
 }
 
 @keyframes patternFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.8;
+  }
+  50% { 
+    transform: translateY(-10px) rotate(1deg);
+    opacity: 1;
+  }
 }
 
 .container {
@@ -117,18 +131,20 @@
   color: var(--platinum);
   margin-bottom: 0.75rem;
   letter-spacing: -0.02em;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 10px rgba(10, 15, 26, 0.4), 0 0 20px rgba(79, 70, 229, 0.2);
 }
 
 .titleSub {
   display: block;
   font-size: 2.75rem;
   font-weight: 600;
-  background: var(--title-gradient);
+  background: var(--title-gradient-glow);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.01em;
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease-in-out infinite;
 }
 
 .subtitle {
@@ -149,18 +165,20 @@
   align-items: center;
   gap: 0.875rem;
   padding: 1.125rem 2.25rem;
-  background: var(--button-gradient);
-  color: var(--text-dark);
+  background: var(--button-gradient-glow);
+  color: var(--text-light);
   border: none;
   border-radius: 14px;
   font-size: 1.2rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.4s ease;
-  box-shadow: var(--shadow-medium), var(--glow-shadow);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-medium), var(--glow-primary);
   position: relative;
   overflow: hidden;
   letter-spacing: 0.5px;
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease-in-out infinite;
 }
 
 .ctaButton::before {
@@ -179,9 +197,10 @@
 }
 
 .ctaButton:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-heavy), var(--glow-shadow);
-  background: var(--button-hover);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: var(--shadow-heavy), var(--glow-primary), 0 0 40px rgba(79, 70, 229, 0.4);
+  background: var(--button-gradient-hover);
+  animation: none;
 }
 
 .ctaText {
@@ -209,11 +228,11 @@
 .statItem {
   text-align: center;
   padding: 1.75rem 1.5rem;
-  background: var(--card-gradient);
+  background: var(--card-gradient-warm);
   border: 1px solid var(--border-color-light);
   border-radius: 16px;
-  backdrop-filter: blur(15px);
-  transition: all 0.4s ease;
+  backdrop-filter: blur(20px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
@@ -224,10 +243,12 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: var(--title-gradient);
+  height: 3px;
+  background: var(--title-gradient-glow);
   transform: scaleX(0);
-  transition: transform 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease-in-out infinite;
 }
 
 .statItem:hover::before {
@@ -235,10 +256,10 @@
 }
 
 .statItem:hover {
-  background: var(--glass-gradient);
+  background: var(--glass-gradient-warm);
   border-color: var(--border-color-accent);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-medium), var(--glow-shadow);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: var(--shadow-medium), var(--glow-primary);
 }
 
 .statNumber {
@@ -246,6 +267,8 @@
   font-weight: 800;
   color: var(--accent-blue);
   margin-bottom: 0.75rem;
+  text-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
+  animation: glowPulse 3s ease-in-out infinite;
 }
 
 .statLabel {
@@ -268,12 +291,14 @@
   background: var(--bg-card);
   border-radius: 20px;
   padding: 2.25rem;
-  box-shadow: var(--shadow-heavy), var(--glow-shadow);
+  box-shadow: var(--shadow-heavy), var(--glow-primary);
   border: 1px solid var(--border-color-accent);
   color: var(--text-dark);
   min-width: 320px;
   animation: float 3s ease-in-out infinite;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(25px);
+  position: relative;
+  overflow: hidden;
 }
 
 .cardHeader {
@@ -348,7 +373,8 @@
 
 .scrollIndicator:hover {
   color: var(--accent-blue);
-  transform: translateX(-50%) translateY(-2px);
+  transform: translateX(-50%) translateY(-3px);
+  text-shadow: 0 0 20px rgba(79, 70, 229, 0.5);
 }
 
 .scrollText {
@@ -360,7 +386,17 @@
 
 .scrollArrow {
   font-size: 1.5rem;
-  filter: drop-shadow(0 0 8px rgba(49, 130, 206, 0.3));
+  filter: drop-shadow(0 0 12px rgba(79, 70, 229, 0.4));
+  animation: arrowBounce 2s ease-in-out infinite;
+}
+
+@keyframes arrowBounce {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(5px);
+  }
 }
 
 /* Animations */
@@ -388,10 +424,10 @@
 
 @keyframes float {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translateY(0px) rotate(0deg);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-12px) rotate(1deg);
   }
 }
 
