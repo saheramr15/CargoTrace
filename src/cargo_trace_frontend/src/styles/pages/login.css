@@ -1,4 +1,4 @@
-/* Login Page Styles */
+/* Login Page Styles - Premium Navy Theme */
 .login-container {
   min-height: 100vh;
   width: 100vw;
@@ -7,8 +7,8 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background: linear-gradient(135deg, #1A1442 0%, #2A1B5A 50%, #1A1442 100%);
-  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #0A0F1A 0%, #1A2332 30%, #2A3441 70%, #3A4450 100%);
+  font-family: 'Cairo', 'Inter', sans-serif;
 }
 
 .login-animated-bg {
@@ -19,9 +19,10 @@
   bottom: 0;
   z-index: 0;
   background:
-    radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(240, 147, 251, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.15) 0%, transparent 60%),
+    radial-gradient(circle at 80% 20%, rgba(8, 145, 178, 0.12) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 70%),
+    radial-gradient(circle at 30% 30%, rgba(20, 184, 166, 0.08) 0%, transparent 50%);
   animation: float 20s ease-in-out infinite;
   pointer-events: none;
 }
@@ -37,7 +38,7 @@
   left: 10%;
   width: 4px;
   height: 4px;
-  background: rgba(167, 139, 250, 0.6);
+  background: rgba(37, 99, 235, 0.6);
   animation: particle1 8s ease-in-out infinite;
 }
 
@@ -46,7 +47,7 @@
   right: 15%;
   width: 6px;
   height: 6px;
-  background: rgba(118, 75, 162, 0.6);
+  background: rgba(8, 145, 178, 0.6);
   animation: particle2 12s ease-in-out infinite;
 }
 
@@ -55,23 +56,23 @@
   left: 20%;
   width: 3px;
   height: 3px;
-  background: rgba(240, 147, 251, 0.6);
+  background: rgba(20, 184, 166, 0.6);
   animation: particle3 10s ease-in-out infinite;
 }
 
 .login-main-container {
   position: relative;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(25px);
   border-radius: 24px;
   padding: 3rem 2.5rem;
   min-width: 380px;
   max-width: 450px;
   text-align: center;
   color: #fff;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(37, 99, 235, 0.2);
   animation: slideUp 0.8s ease-out;
 }
 
@@ -83,11 +84,12 @@
 .login-brand-title {
   font-size: 2.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #A78BFA 0%, #D8B4FE 100%);
+  background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 50%, #14B8A6 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   margin-bottom: 0.5rem;
+  text-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
 }
 
 .login-brand-subtitle {
@@ -120,11 +122,12 @@
 
 .login-status-icon.success {
   background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
 }
 
 .login-status-icon.default {
-  background: linear-gradient(135deg, #A78BFA 0%, #7C3AED 100%);
-  box-shadow: 0 10px 25px rgba(167, 139, 250, 0.3);
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
 }
 
 .login-title {
@@ -159,13 +162,13 @@
 .login-principal-code {
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
   font-size: 0.8rem;
-  color: #A78BFA;
+  color: #60A5FA;
   background: rgba(0, 0, 0, 0.3);
   padding: 0.5rem 0.75rem;
   border-radius: 8px;
   display: block;
   word-break: break-all;
-  border: 1px solid rgba(167, 139, 250, 0.3);
+  border: 1px solid rgba(96, 165, 250, 0.3);
 }
 
 .login-button {
@@ -184,8 +187,8 @@
 }
 
 .login-button.primary {
-  background: linear-gradient(135deg, #A78BFA 0%, #7C3AED 100%);
-  box-shadow: 0 8px 25px rgba(167, 139, 250, 0.3);
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
 }
 
 .login-button.danger {
@@ -199,7 +202,16 @@
 }
 
 .login-button:hover:not(:disabled) {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+}
+
+.login-button.primary:hover:not(:disabled) {
+  box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+}
+
+.login-button.danger:hover:not(:disabled) {
+  box-shadow: 0 12px 35px rgba(239, 68, 68, 0.4);
 }
 
 .login-button-content {
@@ -232,6 +244,37 @@
   line-height: 1.5;
 }
 
+/* Backend Status Styles */
+.login-backend-status {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.login-backend-status-text {
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.login-backend-status-text.success {
+  color: #10B981;
+  text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+
+.login-backend-status-text.error {
+  color: #EF4444;
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.login-backend-status-text.info {
+  color: #60A5FA;
+  text-shadow: 0 0 10px rgba(96, 165, 250, 0.3);
+}
+
 /* Animations */
 @keyframes float {
   0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
@@ -258,22 +301,22 @@
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(30px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(20px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
