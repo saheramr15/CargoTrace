@@ -103,36 +103,40 @@ const HowItWorks = () => {
           </p>
         </div>
 
-        {/* Steps Process */}
-        <div className={styles.stepsContainer}>
-          {steps.map((step, index) => (
-            <div 
-              key={index} 
-              ref={(el) => stepRefs.current[index] = el}
-              className={`${styles.step} ${styles[step.color]} ${styles[`step-${index + 1}`]} fade-in`}
-            >
-              <div className={styles.stepNumber}>{step.number}</div>
-              <div className={styles.stepContent}>
-                <div className={styles.stepIcon}>{step.icon}</div>
-                <h3 className={styles.stepTitle}>{step.title}</h3>
-                <p className={styles.stepDescription}>{step.description}</p>
-                <ul className={styles.stepFeatures}>
-                  {step.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className={styles.stepFeature}>
-                      <span className={styles.featureIcon}>✓</span>
-                      <span className={styles.featureText}>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {index < steps.length - 1 && (
-                <div className={styles.connector}>
-                  <div className={styles.connectorLine}></div>
-                  <div className={styles.connectorArrow}>→</div>
+        {/* Elegant Horizontal Flow */}
+        <div className={styles.flowContainer}>
+          <div className={styles.flowTrack}>
+            {steps.map((step, index) => (
+              <div
+                key={index}
+                ref={(el) => stepRefs.current[index] = el}
+                className={`${styles.flowStep} ${styles[`step-${index + 1}`]} fade-in`}
+              >
+                <div className={styles.stepCard}>
+                  <div className={styles.stepBadge}>
+                    <span className={styles.stepNumber}>{step.number}</span>
+                  </div>
+                  <div className={styles.stepIcon}>{step.icon}</div>
+                  <h3 className={styles.stepTitle}>{step.title}</h3>
+                  <p className={styles.stepDescription}>{step.description}</p>
+                  <div className={styles.stepFeatures}>
+                    {step.features.map((feature, featureIndex) => (
+                      <div key={featureIndex} className={styles.featureItem}>
+                        <span className={styles.featureIcon}>✓</span>
+                        <span className={styles.featureText}>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              )}
-            </div>
-          ))}
+                {index < steps.length - 1 && (
+                  <div className={styles.flowArrow}>
+                    <div className={styles.arrowLine}></div>
+                    <div className={styles.arrowHead}>→</div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Benefits Grid */}
