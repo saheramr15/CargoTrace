@@ -1,7 +1,38 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './Solution.module.css';
 
 const Solution = () => {
+  const sectionRef = useRef(null);
+  const cardRefs = useRef([]);
+  const featureRefs = useRef([]);
+
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate');
+        }
+      });
+    }, observerOptions);
+
+    // Observe solution cards
+    cardRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    // Observe feature cards
+    featureRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   const solutions = [
     {
       icon: "⚡",
@@ -76,6 +107,7 @@ const Solution = () => {
       <div className={styles.container}>
         {/* Section Header */}
         <div className={styles.header}>
+          <div className={styles.headerIcon}>🚀</div>
           <h2 className={styles.title}>
             CargoTrace <span className={styles.highlight}>Unlocks</span> Instant Funding
           </h2>
@@ -83,6 +115,20 @@ const Solution = () => {
             Our blockchain-powered platform transforms trade finance by providing instant, 
             affordable, and accessible funding solutions for MENA region traders.
           </p>
+          <div className={styles.headerStats}>
+            <div className={styles.headerStat}>
+              <span className={styles.statIcon}>⚡</span>
+              <span className={styles.statText}>Instant Processing</span>
+            </div>
+            <div className={styles.headerStat}>
+              <span className={styles.statIcon}>💰</span>
+              <span className={styles.statText}>Lower Costs</span>
+            </div>
+            <div className={styles.headerStat}>
+              <span className={styles.statIcon}>🔒</span>
+              <span className={styles.statText}>Secure & Transparent</span>
+            </div>
+          </div>
         </div>
 
         {/* Main Solution Cards */}
@@ -90,7 +136,8 @@ const Solution = () => {
           {solutions.map((solution, index) => (
             <div 
               key={index} 
-              className={`${styles.solutionCard} ${styles[solution.color]} ${styles[`card-${index + 1}`]}`}
+              ref={(el) => cardRefs.current[index] = el}
+              className={`${styles.solutionCard} ${styles[solution.color]} ${styles[`card-${index + 1}`]} fade-in`}
             >
               <div className={styles.cardHeader}>
                 <div className={styles.cardIcon}>{solution.icon}</div>
@@ -116,7 +163,8 @@ const Solution = () => {
             {features.map((feature, index) => (
               <div 
                 key={index} 
-                className={`${styles.featureCard} ${styles[`feature-${index + 1}`]}`}
+                ref={(el) => featureRefs.current[index] = el}
+                className={`${styles.featureCard} ${styles[`feature-${index + 1}`]} fade-in`}
               >
                 <div className={styles.featureIcon}>{feature.icon}</div>
                 <h4 className={styles.featureTitle}>{feature.title}</h4>
