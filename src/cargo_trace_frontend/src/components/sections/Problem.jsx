@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Problem.module.css';
+import styles from '../../styles/landing/Problem.module.css';
 
 const Problem = () => {
   const problems = [

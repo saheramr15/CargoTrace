@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import styles from './WhyCargoTrace.module.css';
+import styles from '../../styles/landing/WhyCargoTrace.module.css';
 
 const WhyCargoTrace = () => {
   const sectionRef = useRef(null);

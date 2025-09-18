@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import styles from './Solution.module.css';
+import styles from '../../styles/landing/Solution.module.css';
 
 const Solution = () => {
   const sectionRef = useRef(null);

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import styles from './HowItWorks.module.css';
+import styles from '../../styles/landing/HowItWorks.module.css';
 
 const HowItWorks = () => {
   const sectionRef = useRef(null);
