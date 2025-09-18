@@ -1,0 +1,461 @@
+/* Solution Section - Professional 3-Column Layout */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
+
+.solution {
+  background: var(--navy-primary);
+  padding: 6rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.solution::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 30%, rgba(49, 130, 206, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 80% 70%, rgba(56, 161, 105, 0.05) 0%, transparent 50%);
+  z-index: 1;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 5rem;
+  animation: fadeInUp 1s ease-out;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--platinum);
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.highlight {
+  background: var(--title-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 1.375rem;
+  color: var(--text-secondary);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.solutionsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  margin-bottom: 6rem;
+}
+
+.solutionCard {
+  background: var(--card-gradient);
+  border: 1px solid var(--border-color-light);
+  border-radius: 24px;
+  padding: 3rem;
+  backdrop-filter: blur(20px);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 1s ease-out;
+}
+
+.solutionCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--title-gradient);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.solutionCard:hover::before {
+  transform: scaleX(1);
+}
+
+.solutionCard:hover {
+  background: var(--glass-gradient);
+  border-color: var(--border-color-accent);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-heavy), var(--glow-shadow);
+}
+
+.card-1 { animation-delay: 0.1s; }
+.card-2 { animation-delay: 0.2s; }
+.card-3 { animation-delay: 0.3s; }
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.cardIcon {
+  font-size: 3rem;
+  filter: drop-shadow(0 0 10px rgba(49, 130, 206, 0.3));
+  transition: all 0.3s ease;
+}
+
+.solutionCard:hover .cardIcon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 15px rgba(49, 130, 206, 0.5));
+}
+
+.cardTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--platinum);
+  letter-spacing: -0.01em;
+}
+
+.cardDescription {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.benefitsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.benefitItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.benefitIcon {
+  color: var(--success-green);
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.benefitText {
+  font-weight: 500;
+}
+
+/* Color variants for cards */
+.blue .cardIcon {
+  filter: drop-shadow(0 0 10px rgba(49, 130, 206, 0.3));
+}
+
+.green .cardIcon {
+  filter: drop-shadow(0 0 10px rgba(56, 161, 105, 0.3));
+}
+
+.purple .cardIcon {
+  filter: drop-shadow(0 0 10px rgba(147, 51, 234, 0.3));
+}
+
+/* Features Section */
+.featuresSection {
+  margin-bottom: 5rem;
+}
+
+.featuresTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--platinum);
+  text-align: center;
+  margin-bottom: 3rem;
+  letter-spacing: -0.01em;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.featureCard {
+  background: var(--card-gradient);
+  border: 1px solid var(--border-color-light);
+  border-radius: 20px;
+  padding: 2rem;
+  backdrop-filter: blur(15px);
+  transition: all 0.3s ease;
+  text-align: center;
+  animation: fadeInUp 1s ease-out;
+}
+
+.featureCard:hover {
+  background: var(--glass-gradient);
+  border-color: var(--border-color-accent);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-medium), var(--glow-shadow);
+}
+
+.feature-1 { animation-delay: 0.1s; }
+.feature-2 { animation-delay: 0.2s; }
+.feature-3 { animation-delay: 0.3s; }
+.feature-4 { animation-delay: 0.4s; }
+.feature-5 { animation-delay: 0.5s; }
+.feature-6 { animation-delay: 0.6s; }
+
+.featureIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 8px rgba(49, 130, 206, 0.3));
+  transition: all 0.3s ease;
+}
+
+.featureCard:hover .featureIcon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 12px rgba(49, 130, 206, 0.5));
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--platinum);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.featureDescription {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Value Proposition */
+.valueProposition {
+  background: var(--glass-gradient);
+  border: 1px solid var(--border-color);
+  border-radius: 28px;
+  padding: 4rem;
+  text-align: center;
+  backdrop-filter: blur(25px);
+  box-shadow: var(--shadow-medium);
+  animation: fadeInUp 1s ease-out 0.8s both;
+}
+
+.valueContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.valueTitle {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: var(--platinum);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.valueText {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 3rem;
+  font-weight: 400;
+}
+
+.valueStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.valueStat {
+  text-align: center;
+  padding: 1.5rem;
+  background: var(--card-gradient);
+  border: 1px solid var(--border-color-light);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.valueStat:hover {
+  background: var(--glass-gradient);
+  border-color: var(--border-color-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-light);
+}
+
+.statNumber {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--accent-blue);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 20px rgba(49, 130, 206, 0.3);
+}
+
+.statLabel {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .solutionsGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .solutionCard {
+    padding: 2.5rem;
+  }
+  
+  .featuresGrid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .solution {
+    padding: 4rem 0;
+  }
+  
+  .header {
+    margin-bottom: 3rem;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.125rem;
+  }
+  
+  .solutionsGrid {
+    gap: 1.5rem;
+  }
+  
+  .solutionCard {
+    padding: 2rem;
+  }
+  
+  .cardHeader {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+  
+  .cardIcon {
+    font-size: 2.5rem;
+  }
+  
+  .cardTitle {
+    font-size: 1.5rem;
+  }
+  
+  .featuresTitle {
+    font-size: 2rem;
+  }
+  
+  .featuresGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .valueProposition {
+    padding: 2.5rem 1.5rem;
+  }
+  
+  .valueTitle {
+    font-size: 2.25rem;
+  }
+  
+  .valueText {
+    font-size: 1.125rem;
+  }
+  
+  .valueStats {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .statNumber {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .solutionCard {
+    padding: 1.5rem;
+  }
+  
+  .cardIcon {
+    font-size: 2rem;
+  }
+  
+  .cardTitle {
+    font-size: 1.25rem;
+  }
+  
+  .featureCard {
+    padding: 1.5rem;
+  }
+  
+  .valueProposition {
+    padding: 2rem 1rem;
+  }
+  
+  .valueTitle {
+    font-size: 1.75rem;
+  }
+  
+  .valueText {
+    font-size: 1rem;
+  }
+}
