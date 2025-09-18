@@ -23,68 +23,68 @@
   --platinum-dark: #F1F5F9;
   --platinum-warm: #FDFCFB;
   
-  /* Vibrant Blue Accents with Warm Hues */
-  --accent-blue: #4F46E5;
-  --accent-blue-light: #6366F1;
-  --accent-blue-dark: #3730A3;
-  --accent-blue-warm: #5B52E8;
-  --accent-blue-glow: #6366F1;
+  /* Professional Blue Accents */
+  --accent-blue: #2563EB;
+  --accent-blue-light: #3B82F6;
+  --accent-blue-dark: #1D4ED8;
+  --accent-blue-warm: #1E40AF;
+  --accent-blue-glow: #3B82F6;
   
-  /* Rich Cyan with Warm Teal Undertones */
+  /* Elegant Cyan Accents */
   --accent-cyan: #0891B2;
   --accent-cyan-light: #0EA5E9;
   --accent-cyan-dark: #0E7490;
-  --accent-cyan-warm: #14B8A6;
-  --accent-cyan-glow: #06B6D4;
+  --accent-cyan-warm: #0F766E;
+  --accent-cyan-glow: #0891B2;
   
-  /* Premium Gold with Warm Amber */
-  --accent-gold: #F59E0B;
-  --accent-gold-light: #FBBF24;
-  --accent-gold-dark: #D97706;
-  --accent-gold-warm: #F59E0B;
-  --accent-gold-glow: #FCD34D;
+  /* Professional Gold Accents */
+  --accent-gold: #D97706;
+  --accent-gold-light: #F59E0B;
+  --accent-gold-dark: #B45309;
+  --accent-gold-warm: #A16207;
+  --accent-gold-glow: #D97706;
   
-  /* Rich Success Green with Warm Tones */
+  /* Success Green */
   --success-green: #059669;
   --success-green-light: #10B981;
   --success-green-dark: #047857;
-  --success-green-warm: #34D399;
-  --success-green-glow: #6EE7B7;
+  --success-green-warm: #065F46;
+  --success-green-glow: #059669;
   
-  /* Premium Purple Accents */
-  --accent-purple: #8B5CF6;
-  --accent-purple-light: #A78BFA;
-  --accent-purple-dark: #7C3AED;
-  --accent-purple-glow: #C4B5FD;
+  /* Professional Teal Accents */
+  --accent-teal: #0F766E;
+  --accent-teal-light: #14B8A6;
+  --accent-teal-dark: #0D9488;
+  --accent-teal-glow: #0F766E;
   
-  /* Warm Coral Accents */
-  --accent-coral: #F97316;
-  --accent-coral-light: #FB923C;
-  --accent-coral-dark: #EA580C;
-  --accent-coral-glow: #FED7AA;
+  /* Professional Steel Blue */
+  --accent-steel: #475569;
+  --accent-steel-light: #64748B;
+  --accent-steel-dark: #334155;
+  --accent-steel-glow: #475569;
   
-  /* Premium Warm Gradients - Rich and Catchy */
-  --primary-gradient: linear-gradient(135deg, #4F46E5 0%, #6366F1 25%, #0891B2 75%, #14B8A6 100%);
-  --primary-gradient-hover: linear-gradient(135deg, #3730A3 0%, #4F46E5 25%, #0E7490 75%, #0D9488 100%);
-  --primary-gradient-glow: linear-gradient(135deg, #6366F1 0%, #06B6D4 50%, #34D399 100%);
+  /* Professional Navy & Blue Gradients */
+  --primary-gradient: linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #0891B2 100%);
+  --primary-gradient-hover: linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #0E7490 100%);
+  --primary-gradient-glow: linear-gradient(135deg, #3B82F6 0%, #0891B2 100%);
   
   --secondary-gradient: linear-gradient(135deg, #0A0F1A 0%, #1A2332 30%, #2A3441 70%, #3A4450 100%);
   --secondary-gradient-warm: linear-gradient(135deg, #0F1620 0%, #1B2430 30%, #2A3441 70%, #3A4450 100%);
   
-  --accent-gradient: linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #0891B2 100%);
-  --accent-gradient-warm: linear-gradient(135deg, #5B52E8 0%, #8B5CF6 50%, #14B8A6 100%);
+  --accent-gradient: linear-gradient(135deg, #2563EB 0%, #0891B2 100%);
+  --accent-gradient-warm: linear-gradient(135deg, #1E40AF 0%, #0F766E 100%);
   
-  --cyan-gradient: linear-gradient(135deg, #0891B2 0%, #0EA5E9 50%, #14B8A6 100%);
-  --cyan-gradient-glow: linear-gradient(135deg, #06B6D4 0%, #22D3EE 50%, #34D399 100%);
+  --cyan-gradient: linear-gradient(135deg, #0891B2 0%, #0EA5E9 100%);
+  --cyan-gradient-glow: linear-gradient(135deg, #0891B2 0%, #14B8A6 100%);
   
-  --gold-gradient: linear-gradient(135deg, #F59E0B 0%, #FBBF24 50%, #FCD34D 100%);
-  --gold-gradient-warm: linear-gradient(135deg, #D97706 0%, #F59E0B 50%, #FBBF24 100%);
+  --gold-gradient: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+  --gold-gradient-warm: linear-gradient(135deg, #B45309 0%, #D97706 100%);
   
-  --success-gradient: linear-gradient(135deg, #059669 0%, #10B981 50%, #34D399 100%);
-  --success-gradient-glow: linear-gradient(135deg, #047857 0%, #059669 50%, #6EE7B7 100%);
+  --success-gradient: linear-gradient(135deg, #059669 0%, #10B981 100%);
+  --success-gradient-glow: linear-gradient(135deg, #047857 0%, #059669 100%);
   
-  --purple-gradient: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 50%, #C4B5FD 100%);
-  --coral-gradient: linear-gradient(135deg, #F97316 0%, #FB923C 50%, #FED7AA 100%);
+  --teal-gradient: linear-gradient(135deg, #0F766E 0%, #14B8A6 100%);
+  --steel-gradient: linear-gradient(135deg, #475569 0%, #64748B 100%);
   
   /* Premium Navy Gradients with Warm Undertones */
   --navy-gradient: linear-gradient(135deg, #0A0F1A 0%, #1A2332 30%, #2A3441 70%, #3A4450 100%);
@@ -150,34 +150,34 @@
   --glow-coral: 0 0 30px rgba(249, 115, 22, 0.4);
   --glow-success: 0 0 30px rgba(5, 150, 105, 0.4);
   
-  /* Premium Multi-Color Glow Effects */
-  --glow-primary: 0 0 40px rgba(79, 70, 229, 0.3), 0 0 80px rgba(8, 145, 178, 0.2);
-  --glow-warm: 0 0 40px rgba(245, 158, 11, 0.3), 0 0 80px rgba(249, 115, 22, 0.2);
-  --glow-cool: 0 0 40px rgba(8, 145, 178, 0.3), 0 0 80px rgba(20, 184, 166, 0.2);
+  /* Professional Glow Effects */
+  --glow-primary: 0 0 30px rgba(37, 99, 235, 0.2), 0 0 60px rgba(8, 145, 178, 0.15);
+  --glow-warm: 0 0 30px rgba(217, 119, 6, 0.2), 0 0 60px rgba(15, 118, 110, 0.15);
+  --glow-cool: 0 0 30px rgba(8, 145, 178, 0.2), 0 0 60px rgba(15, 118, 110, 0.15);
   
-  /* Premium Title and Button Gradients */
-  --title-gradient: linear-gradient(135deg, #4F46E5 0%, #6366F1 25%, #0891B2 75%, #14B8A6 100%);
-  --title-gradient-warm: linear-gradient(135deg, #5B52E8 0%, #8B5CF6 25%, #14B8A6 75%, #34D399 100%);
-  --title-gradient-glow: linear-gradient(135deg, #6366F1 0%, #06B6D4 50%, #34D399 100%);
+  /* Professional Title and Button Gradients */
+  --title-gradient: linear-gradient(135deg, #2563EB 0%, #0891B2 100%);
+  --title-gradient-warm: linear-gradient(135deg, #1E40AF 0%, #0F766E 100%);
+  --title-gradient-glow: linear-gradient(135deg, #3B82F6 0%, #0891B2 100%);
   
-  --button-gradient: linear-gradient(135deg, #4F46E5 0%, #6366F1 25%, #0891B2 75%, #14B8A6 100%);
-  --button-gradient-hover: linear-gradient(135deg, #3730A3 0%, #4F46E5 25%, #0E7490 75%, #0D9488 100%);
-  --button-gradient-glow: linear-gradient(135deg, #6366F1 0%, #06B6D4 50%, #34D399 100%);
+  --button-gradient: linear-gradient(135deg, #2563EB 0%, #0891B2 100%);
+  --button-gradient-hover: linear-gradient(135deg, #1D4ED8 0%, #0E7490 100%);
+  --button-gradient-glow: linear-gradient(135deg, #3B82F6 0%, #0891B2 100%);
   
-  --section-gradient: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(8, 145, 178, 0.08) 50%, rgba(20, 184, 166, 0.06) 100%);
-  --section-gradient-warm: linear-gradient(135deg, rgba(91, 82, 232, 0.1) 0%, rgba(139, 92, 246, 0.08) 50%, rgba(20, 184, 166, 0.06) 100%);
+  --section-gradient: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(8, 145, 178, 0.06) 100%);
+  --section-gradient-warm: linear-gradient(135deg, rgba(30, 64, 175, 0.08) 0%, rgba(15, 118, 110, 0.06) 100%);
   
-  /* Premium Hero Colors */
+  /* Professional Hero Colors */
   --hero-text-primary: #F8FAFC;
   --hero-text-secondary: rgba(248, 250, 252, 0.9);
-  --hero-text-accent: #4F46E5;
-  --hero-text-glow: rgba(99, 102, 241, 0.8);
+  --hero-text-accent: #2563EB;
+  --hero-text-glow: rgba(37, 99, 235, 0.6);
   
-  /* Premium Scrollbar Colors */
+  /* Professional Scrollbar Colors */
   --scrollbar-track: #1A2332;
-  --scrollbar-thumb: linear-gradient(135deg, #4F46E5, #6366F1, #0891B2, #14B8A6);
-  --scrollbar-thumb-hover: linear-gradient(135deg, #3730A3, #4F46E5, #0E7490, #0D9488);
-  --scrollbar-thumb-glow: linear-gradient(135deg, #6366F1, #06B6D4, #34D399);
+  --scrollbar-thumb: linear-gradient(135deg, #2563EB, #0891B2);
+  --scrollbar-thumb-hover: linear-gradient(135deg, #1D4ED8, #0E7490);
+  --scrollbar-thumb-glow: linear-gradient(135deg, #3B82F6, #14B8A6);
 }
 
 body {
