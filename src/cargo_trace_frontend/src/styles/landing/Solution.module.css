@@ -411,13 +411,15 @@
   padding: 3rem 0;
   overflow: hidden;
   width: 100%;
+  min-height: 200px;
 }
 
 .featuresTrack {
   display: flex;
   gap: 2rem;
-  animation: featuresMove 20s linear infinite;
+  animation: featuresMove 15s linear infinite;
   will-change: transform;
+  min-width: 200%;
 }
 
 .featuresTrack:hover {
@@ -439,6 +441,8 @@
   width: 300px;
   animation: featureSlideIn 0.8s ease-out;
   box-shadow: var(--shadow-light), var(--glow-primary);
+  opacity: 1;
+  visibility: visible;
 }
 
 .featureCard::before {
@@ -523,7 +527,7 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 

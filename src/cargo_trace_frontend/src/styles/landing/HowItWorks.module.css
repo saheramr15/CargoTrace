@@ -4,6 +4,8 @@
   padding: 6rem 0;
   position: relative;
   overflow: hidden;
+  z-index: 1;
+  display: block;
 }
 
 .howItWorks::before {
@@ -113,6 +115,8 @@
   position: relative;
   z-index: 2;
   padding: 0 1rem;
+  display: block;
+  visibility: visible;
 }
 
 .stepsContainer {
