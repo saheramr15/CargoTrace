@@ -18,14 +18,34 @@ const Hero = () => {
         
         {/* Parallax layer 1 */}
         <div 
-          className="absolute inset-0 bg-gradient-to-tr from-amber-500/8 via-transparent to-orange-400/8"
+          className="absolute inset-0 bg-gradient-to-tr from-blue-500/8 via-transparent to-cyan-400/8"
           style={{ transform: `translateY(${scrollY * 0.5}px)` }}
         ></div>
         
         {/* Parallax layer 2 */}
         <div 
-          className="absolute inset-0 bg-gradient-to-bl from-transparent via-amber-600/4 to-transparent"
+          className="absolute inset-0 bg-gradient-to-bl from-transparent via-blue-600/4 to-transparent"
           style={{ transform: `translateY(${scrollY * 0.3}px)` }}
+        ></div>
+        
+        {/* Additional moving background elements */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-400/3 to-transparent"
+          style={{ transform: `translateY(${scrollY * 0.7}px) translateX(${scrollY * 0.2}px)` }}
+        ></div>
+        
+        {/* Floating particles */}
+        <div 
+          className="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-400/20 rounded-full animate-ping"
+          style={{ transform: `translateY(${scrollY * 0.1}px) translateX(${scrollY * 0.05}px)` }}
+        ></div>
+        <div 
+          className="absolute top-3/4 right-1/3 w-1 h-1 bg-cyan-400/30 rounded-full animate-ping"
+          style={{ transform: `translateY(${scrollY * 0.15}px) translateX(${scrollY * 0.1}px)`, animationDelay: '2s' }}
+        ></div>
+        <div 
+          className="absolute bottom-1/4 left-1/3 w-1.5 h-1.5 bg-blue-300/25 rounded-full animate-ping"
+          style={{ transform: `translateY(${scrollY * 0.2}px) translateX(${scrollY * 0.08}px)`, animationDelay: '4s' }}
         ></div>
       </div>
 
@@ -33,31 +53,57 @@ const Hero = () => {
       <div className="absolute inset-0 overflow-hidden">
         {/* Floating 3D Cubes */}
         <div 
-          className="absolute top-20 left-20 w-16 h-16 bg-gradient-to-br from-amber-400/15 to-orange-300/15 rounded-lg transform rotate-45 animate-float"
+          className="absolute top-20 left-20 w-16 h-16 bg-gradient-to-br from-blue-400/15 to-cyan-300/15 rounded-lg transform rotate-45 animate-float"
           style={{ 
             transform: `translateY(${scrollY * 0.2}px) rotate(45deg)`,
             animationDelay: '0s'
           }}
         ></div>
         <div 
-          className="absolute top-40 right-32 w-12 h-12 bg-gradient-to-br from-amber-500/20 to-orange-400/20 rounded-full animate-float"
+          className="absolute top-40 right-32 w-12 h-12 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-full animate-float"
           style={{ 
             transform: `translateY(${scrollY * 0.15}px)`,
             animationDelay: '2s'
           }}
         ></div>
         <div 
-          className="absolute bottom-40 left-40 w-20 h-20 bg-gradient-to-br from-orange-400/12 to-amber-500/12 rounded-lg transform rotate-12 animate-float"
+          className="absolute bottom-40 left-40 w-20 h-20 bg-gradient-to-br from-cyan-400/12 to-blue-500/12 rounded-lg transform rotate-12 animate-float"
           style={{ 
             transform: `translateY(${scrollY * 0.25}px) rotate(12deg)`,
             animationDelay: '4s'
           }}
         ></div>
         
+        {/* Additional moving shapes */}
+        <div 
+          className="absolute top-1/3 left-1/2 w-8 h-8 bg-gradient-to-br from-blue-300/20 to-cyan-200/20 rounded-full animate-float"
+          style={{ 
+            transform: `translateY(${scrollY * 0.3}px) translateX(${scrollY * 0.1}px)`,
+            animationDelay: '1s'
+          }}
+        ></div>
+        <div 
+          className="absolute bottom-1/3 right-1/4 w-6 h-6 bg-gradient-to-br from-cyan-300/25 to-blue-400/25 rounded-lg transform rotate-45 animate-float"
+          style={{ 
+            transform: `translateY(${scrollY * 0.18}px) translateX(${scrollY * 0.12}px) rotate(45deg)`,
+            animationDelay: '3s'
+          }}
+        ></div>
+        
         {/* Chain Links Animation */}
-        <div className="absolute top-1/4 right-1/4 w-8 h-8 border-2 border-amber-400/25 rounded-full animate-ping"></div>
-        <div className="absolute top-1/3 right-1/3 w-6 h-6 border-2 border-orange-400/30 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
-        <div className="absolute top-1/2 right-1/2 w-4 h-4 border-2 border-amber-300/35 rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
+        <div className="absolute top-1/4 right-1/4 w-8 h-8 border-2 border-blue-400/25 rounded-full animate-ping"></div>
+        <div className="absolute top-1/3 right-1/3 w-6 h-6 border-2 border-cyan-400/30 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/2 right-1/2 w-4 h-4 border-2 border-blue-300/35 rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
+        
+        {/* Moving lines */}
+        <div 
+          className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/20 to-transparent"
+          style={{ transform: `translateY(${scrollY * 0.1}px)` }}
+        ></div>
+        <div 
+          className="absolute top-2/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/15 to-transparent"
+          style={{ transform: `translateY(${scrollY * 0.05}px)` }}
+        ></div>
       </div>
 
       {/* Main Content */}
@@ -67,16 +113,16 @@ const Hero = () => {
           {/* Left Content */}
           <div className="space-y-10">
             {/* Animated Badge */}
-            <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-amber-500/10 to-orange-400/10 border border-amber-400/30 rounded-full text-amber-300 text-sm font-medium backdrop-blur-sm animate-fade-in">
-              <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
+            <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500/10 to-cyan-400/10 border border-blue-400/30 rounded-full text-blue-300 text-sm font-medium backdrop-blur-sm animate-fade-in">
+              <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
               <span>Next-Gen Web3 Finance</span>
-              <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
             </div>
 
             {/* Main Title with 3D Effect */}
             <div className="space-y-6">
               <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-tight">
-                <span className="block bg-gradient-to-r from-amber-400 via-orange-300 to-amber-500 bg-clip-text text-transparent transform hover:scale-105 transition-transform duration-500">
+                <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent transform hover:scale-105 transition-transform duration-500">
                   CargoTrace
                 </span>
                 <span className="block text-white mt-2 transform hover:scale-105 transition-transform duration-500">
@@ -93,8 +139,8 @@ const Hero = () => {
             {/* Animated Feature Icons */}
             <div className="flex flex-wrap gap-8">
               <div className="flex items-center gap-3 text-slate-200 group">
-                <div className="w-12 h-12 bg-gradient-to-br from-amber-500/20 to-orange-400/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 </div>
@@ -102,8 +148,8 @@ const Hero = () => {
               </div>
               
               <div className="flex items-center gap-3 text-slate-200 group">
-                <div className="w-12 h-12 bg-gradient-to-br from-orange-500/20 to-amber-400/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 bg-gradient-to-br from-cyan-500/20 to-blue-400/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                   </svg>
                 </div>
@@ -111,8 +157,8 @@ const Hero = () => {
               </div>
               
               <div className="flex items-center gap-3 text-slate-200 group">
-                <div className="w-12 h-12 bg-gradient-to-br from-amber-400/20 to-orange-300/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-6 h-6 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-400/20 to-cyan-300/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
@@ -122,15 +168,15 @@ const Hero = () => {
 
             {/* CTA Buttons with Smooth Animations */}
             <div className="flex flex-col sm:flex-row gap-6">
-              <button className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-amber-600 to-orange-500 text-white font-bold text-lg rounded-xl transition-all duration-300 hover:from-amber-500 hover:to-orange-400 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/25 transform hover:-translate-y-1">
+              <button className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-lg rounded-xl transition-all duration-300 hover:from-blue-500 hover:to-cyan-400 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-1">
                 <span className="relative z-10">Get Started</span>
                 <svg className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-orange-400 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </button>
               
-              <button className="group inline-flex items-center justify-center px-8 py-4 bg-slate-800/50 backdrop-blur-sm border border-amber-400/30 text-slate-200 font-semibold text-lg rounded-xl transition-all duration-300 hover:bg-amber-500/10 hover:border-amber-300/50 hover:scale-105 transform hover:-translate-y-1">
+              <button className="group inline-flex items-center justify-center px-8 py-4 bg-slate-800/50 backdrop-blur-sm border border-blue-400/30 text-slate-200 font-semibold text-lg rounded-xl transition-all duration-300 hover:bg-blue-500/10 hover:border-blue-300/50 hover:scale-105 transform hover:-translate-y-1">
                 <svg className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m-6-8h8a2 2 0 012 2v8a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2z" />
                 </svg>
@@ -139,17 +185,17 @@ const Hero = () => {
             </div>
 
             {/* Animated Stats */}
-            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-amber-400/20">
+            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-blue-400/20">
               <div className="text-center group">
-                <div className="text-3xl font-bold bg-gradient-to-r from-amber-400 to-orange-300 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">$50M+</div>
+                <div className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">$50M+</div>
                 <div className="text-sm text-slate-300">Cargo Tracked</div>
               </div>
               <div className="text-center group">
-                <div className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-amber-300 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">10K+</div>
+                <div className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">10K+</div>
                 <div className="text-sm text-slate-300">Active Shipments</div>
               </div>
               <div className="text-center group">
-                <div className="text-3xl font-bold bg-gradient-to-r from-amber-300 to-orange-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">99.9%</div>
+                <div className="text-3xl font-bold bg-gradient-to-r from-blue-300 to-cyan-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">99.9%</div>
                 <div className="text-sm text-slate-300">Accuracy Rate</div>
               </div>
             </div>
@@ -158,15 +204,15 @@ const Hero = () => {
           {/* Right Content - 3D NFT Card */}
           <div className="relative">
             {/* Main 3D Card */}
-            <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-700/80 backdrop-blur-xl border border-amber-400/30 rounded-3xl p-8 shadow-2xl transform hover:scale-105 transition-all duration-500 group">
+            <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-700/80 backdrop-blur-xl border border-blue-400/30 rounded-3xl p-8 shadow-2xl transform hover:scale-105 transition-all duration-500 group">
               
               {/* Glow Effect */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/50 to-orange-400/50 rounded-3xl blur opacity-75 group-hover:opacity-100 transition duration-500"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/50 to-cyan-400/50 rounded-3xl blur opacity-75 group-hover:opacity-100 transition duration-500"></div>
               
               {/* Card Header */}
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-400 rounded-2xl flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform duration-300">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-2xl flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform duration-300">
                     <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -177,51 +223,51 @@ const Hero = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-orange-400 rounded-full animate-pulse"></div>
-                  <span className="text-xs text-orange-400 font-bold">LIVE</span>
+                  <div className="w-3 h-3 bg-cyan-400 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-cyan-400 font-bold">LIVE</span>
                 </div>
               </div>
 
               {/* NFT Details */}
               <div className="space-y-6">
-                <div className="flex justify-between items-center py-4 border-b border-amber-400/20">
+                <div className="flex justify-between items-center py-4 border-b border-blue-400/20">
                   <span className="text-slate-200 font-medium">Document Hash</span>
                   <span className="text-sm font-mono text-white bg-slate-700/50 px-3 py-1 rounded-lg">0x4a7b2c...</span>
                 </div>
-                <div className="flex justify-between items-center py-4 border-b border-amber-400/20">
+                <div className="flex justify-between items-center py-4 border-b border-blue-400/20">
                   <span className="text-slate-200 font-medium">Block Number</span>
                   <span className="text-white font-semibold">#18,247,392</span>
                 </div>
-                <div className="flex justify-between items-center py-4 border-b border-amber-400/20">
+                <div className="flex justify-between items-center py-4 border-b border-blue-400/20">
                   <span className="text-slate-200 font-medium">Network</span>
                   <span className="text-white">Internet Computer</span>
                 </div>
                 <div className="flex justify-between items-center py-4">
                   <span className="text-slate-200 font-medium">NFT Value</span>
-                  <span className="text-3xl font-black bg-gradient-to-r from-amber-400 to-orange-300 bg-clip-text text-transparent">$25,000</span>
+                  <span className="text-3xl font-black bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">$25,000</span>
                 </div>
               </div>
 
               {/* Chain Status */}
-              <div className="mt-8 flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-amber-500/20 to-orange-400/20 border border-amber-400/30 rounded-xl">
-                <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
-                <span className="text-sm font-bold text-orange-300">Live on Blockchain</span>
-                <div className="w-1 h-1 bg-orange-400 rounded-full"></div>
+              <div className="mt-8 flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-blue-500/20 to-cyan-400/20 border border-blue-400/30 rounded-xl">
+                <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                <span className="text-sm font-bold text-cyan-300">Live on Blockchain</span>
+                <div className="w-1 h-1 bg-cyan-400 rounded-full"></div>
               </div>
             </div>
 
             {/* Floating 3D Elements */}
-            <div className="absolute -top-6 -right-6 w-12 h-12 bg-gradient-to-br from-amber-400/30 to-orange-300/30 rounded-full blur-sm animate-float"></div>
-            <div className="absolute -bottom-6 -left-6 w-8 h-8 bg-gradient-to-br from-orange-400/40 to-amber-300/40 rounded-lg blur-sm animate-float" style={{animationDelay: '3s'}}></div>
-            <div className="absolute top-1/2 -left-8 w-6 h-6 bg-amber-400/20 rounded-full animate-pulse"></div>
+            <div className="absolute -top-6 -right-6 w-12 h-12 bg-gradient-to-br from-blue-400/30 to-cyan-300/30 rounded-full blur-sm animate-float"></div>
+            <div className="absolute -bottom-6 -left-6 w-8 h-8 bg-gradient-to-br from-cyan-400/40 to-blue-300/40 rounded-lg blur-sm animate-float" style={{animationDelay: '3s'}}></div>
+            <div className="absolute top-1/2 -left-8 w-6 h-6 bg-blue-400/20 rounded-full animate-pulse"></div>
           </div>
         </div>
       </div>
 
       {/* Animated Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-amber-400/50 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-gradient-to-b from-amber-400 to-orange-300 rounded-full mt-2 animate-pulse" />
+        <div className="w-6 h-10 border-2 border-blue-400/50 rounded-full flex justify-center">
+          <div className="w-1 h-3 bg-gradient-to-b from-blue-400 to-cyan-300 rounded-full mt-2 animate-pulse" />
         </div>
       </div>
     </section>
