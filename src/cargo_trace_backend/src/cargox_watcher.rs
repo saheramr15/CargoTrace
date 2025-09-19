@@ -338,4 +338,54 @@ async fn fetch_metadata_from_uri(uri: &str) -> Result<DocumentMetadata, String> 
     }
 }
 
+fn parse_metadata(json_text: &str) -> Result<DocumentMetadata, String> {
+    let json: serde_json::Value = serde_json::from_str(json_text)
+        .map_err(|e| format!("Failed to parse metadata JSON: {}", e))?;
+
+    let attributes: Vec<DocumentAttribute> = json["attributes"]
+        .as_array()
+        .unwrap_or(&vec![])
+        .iter()
+        .filter_map(|attr| {
+            Some(DocumentAttribute {
+                trait_type: attr["trait_type"].as_str()?.to_string(),
+                value: attr["value"].as_str().unwrap_or("").to_string(),
+            })
+        })
+        .collect();
+
+    // Extract document-specific information from attributes
+    let document_hash = attributes
+        .iter()
+        .find(|attr| attr.trait_type == "Document Hash" || attr.trait_type == "hash")
+        .map(|attr| attr.value.clone());
+
+    let document_type = attributes
+        .iter()
+        .find(|attr| attr.trait_type == "Document Type" || attr.trait_type == "type")
+        .map(|attr| attr.value.clone());
+
+    let issuer = attributes
+        .iter()
+        .find(|attr| attr.trait_type == "Issuer" || attr.trait_type == "issuer")
+        .map(|attr| attr.value.clone());
+
+    let creation_date = attributes
+        .iter()
+        .find(|attr| attr.trait_type == "Creation Date" || attr.trait_type == "created")
+        .map(|attr| attr.value.clone());
+
+    Ok(DocumentMetadata {
+        name: json["name"].as_str().map(|s| s.to_string()),
+        description: json["description"].as_str().map(|s| s.to_string()),
+        image: json["image"].as_str().map(|s| s.to_string()),
+        external_url: json["external_url"].as_str().map(|s| s.to_string()),
+        attributes,
+        document_hash,
+        document_type,
+        issuer,
+        creation_date,
+    })
+}
+
  
