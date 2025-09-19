@@ -116,6 +116,84 @@ const handleLogin = async () => {
         <div className="absolute bottom-1/4 left-1/3 w-1.5 h-1.5 bg-blue-300/25 rounded-full animate-ping" style={{animationDelay: '4s'}}></div>
       </div>
 
+      {/* 3D Floating Objects */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Floating Cargo Containers */}
+        <div className="absolute top-1/4 left-1/6 w-16 h-12 transform rotate-12 animate-float" style={{animationDelay: '1s', animationDuration: '8s'}}>
+          <div className="relative w-full h-full">
+            {/* Container Base */}
+            <div className="absolute inset-0 bg-gradient-to-b from-blue-500/20 to-blue-600/20 rounded-lg shadow-lg border border-blue-400/30">
+              {/* Container Lines */}
+              <div className="absolute top-1 left-1 right-1 h-0.5 bg-blue-300/40 rounded"></div>
+              <div className="absolute top-3 left-1 right-1 h-0.5 bg-blue-300/40 rounded"></div>
+              <div className="absolute top-5 left-1 right-1 h-0.5 bg-blue-300/40 rounded"></div>
+              <div className="absolute top-7 left-1 right-1 h-0.5 bg-blue-300/40 rounded"></div>
+            </div>
+            {/* Blockchain Node */}
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-cyan-400/60 rounded-full animate-pulse border border-white/20"></div>
+            {/* Connection Line */}
+            <div className="absolute -top-0.5 right-1 w-0.5 h-2 bg-gradient-to-b from-cyan-400/60 to-transparent"></div>
+          </div>
+        </div>
+
+        <div className="absolute top-1/3 right-1/5 w-14 h-10 transform -rotate-6 animate-float" style={{animationDelay: '3s', animationDuration: '10s'}}>
+          <div className="relative w-full h-full">
+            <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/20 to-cyan-600/20 rounded-lg shadow-lg border border-cyan-400/30">
+              <div className="absolute top-1 left-1 right-1 h-0.5 bg-cyan-300/40 rounded"></div>
+              <div className="absolute top-3 left-1 right-1 h-0.5 bg-cyan-300/40 rounded"></div>
+              <div className="absolute top-5 left-1 right-1 h-0.5 bg-cyan-300/40 rounded"></div>
+            </div>
+            <div className="absolute -top-1 -right-1 w-2 h-2 bg-blue-400/60 rounded-full animate-pulse border border-white/20"></div>
+            <div className="absolute -top-0.5 right-1 w-0.5 h-1.5 bg-gradient-to-b from-blue-400/60 to-transparent"></div>
+          </div>
+        </div>
+
+        {/* Floating Data Packets */}
+        <div className="absolute bottom-1/3 left-1/4 w-8 h-8 transform rotate-45 animate-float" style={{animationDelay: '2s', animationDuration: '6s'}}>
+          <div className="relative w-full h-full">
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-lg shadow-lg border border-indigo-400/30">
+              <div className="absolute top-1 left-1 right-1 h-0.5 bg-indigo-300/40 rounded"></div>
+              <div className="absolute bottom-1 left-1 right-1 h-0.5 bg-indigo-300/40 rounded"></div>
+              <div className="absolute left-1 top-1 bottom-1 w-0.5 bg-indigo-300/40 rounded"></div>
+              <div className="absolute right-1 top-1 bottom-1 w-0.5 bg-indigo-300/40 rounded"></div>
+            </div>
+            <div className="absolute -top-1 -left-1 w-2 h-2 bg-purple-400/60 rounded-full animate-pulse border border-white/20"></div>
+          </div>
+        </div>
+
+        <div className="absolute bottom-1/4 right-1/3 w-6 h-6 transform -rotate-45 animate-float" style={{animationDelay: '4s', animationDuration: '7s'}}>
+          <div className="relative w-full h-full">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-lg shadow-lg border border-blue-400/30">
+              <div className="absolute top-1 left-1 right-1 h-0.5 bg-blue-300/40 rounded"></div>
+              <div className="absolute bottom-1 left-1 right-1 h-0.5 bg-blue-300/40 rounded"></div>
+            </div>
+            <div className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-indigo-400/60 rounded-full animate-pulse border border-white/20"></div>
+          </div>
+        </div>
+
+        {/* Floating Blockchain Nodes */}
+        <div className="absolute top-1/2 left-1/12 w-4 h-4 bg-gradient-to-br from-cyan-400/40 to-blue-500/40 rounded-full animate-pulse shadow-lg border border-white/20"></div>
+        <div className="absolute top-2/3 right-1/6 w-3 h-3 bg-gradient-to-br from-blue-400/40 to-cyan-300/40 rounded-full animate-pulse shadow-lg border border-white/20" style={{animationDelay: '1s'}}></div>
+        <div className="absolute bottom-1/2 right-1/12 w-5 h-5 bg-gradient-to-br from-indigo-400/40 to-purple-500/40 rounded-full animate-pulse shadow-lg border border-white/20" style={{animationDelay: '2s'}}></div>
+
+        {/* Animated Connection Lines */}
+        <div className="absolute top-1/4 left-1/6 w-20 h-0.5 bg-gradient-to-r from-transparent via-blue-400/30 to-transparent animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/3 right-1/5 w-16 h-0.5 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-pulse" style={{animationDelay: '2s'}}></div>
+        <div className="absolute bottom-1/3 left-1/4 w-12 h-0.5 bg-gradient-to-r from-transparent via-indigo-400/30 to-transparent animate-pulse" style={{animationDelay: '3s'}}></div>
+
+        {/* Floating Geometric Shapes */}
+        <div className="absolute top-1/6 right-1/4 w-6 h-6 border-2 border-blue-400/30 rotate-45 animate-spin" style={{animationDuration: '20s'}}></div>
+        <div className="absolute bottom-1/6 left-1/5 w-4 h-4 border-2 border-cyan-400/30 rotate-12 animate-spin" style={{animationDuration: '15s', animationDirection: 'reverse'}}></div>
+        <div className="absolute top-3/4 left-1/3 w-5 h-5 border-2 border-indigo-400/30 rotate-45 animate-spin" style={{animationDuration: '25s'}}></div>
+
+        {/* Floating Particles with Different Sizes */}
+        <div className="absolute top-1/5 left-1/3 w-1 h-1 bg-blue-400/40 rounded-full animate-ping"></div>
+        <div className="absolute top-2/3 left-1/5 w-1.5 h-1.5 bg-cyan-400/40 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
+        <div className="absolute bottom-1/5 right-1/4 w-1 h-1 bg-indigo-400/40 rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
+        <div className="absolute top-1/2 right-1/3 w-0.5 h-0.5 bg-purple-400/40 rounded-full animate-ping" style={{animationDelay: '3s'}}></div>
+        <div className="absolute bottom-1/3 left-1/2 w-1 h-1 bg-blue-300/40 rounded-full animate-ping" style={{animationDelay: '4s'}}></div>
+      </div>
+
       {/* Main Login Container */}
       <div className="relative z-10 w-full max-w-md">
         <div className="bg-slate-800/30 backdrop-blur-xl border border-slate-700/30 rounded-3xl p-8 shadow-2xl shadow-blue-500/10">
