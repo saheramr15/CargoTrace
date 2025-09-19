@@ -88,5 +88,80 @@ async fn fetch_transfers_with_metadata() -> Result<Vec<TransferEvent>, String> {
     Ok(enhanced_transfers)
 }
 
-
-
+#[update]
+async fn fetch_cargox_documents() -> Result<Vec<CargoXDocument>, String> {
+    // First get basic transfers without metadata to avoid too many HTTP calls
+    let transfers = fetch_transfers().await?;
+    let mut documents: HashMap<String, CargoXDocument> = HashMap::new();
+    
+    // Group transfers by token_id to get the latest owner
+    let mut token_owners: HashMap<String, TransferEvent> = HashMap::new();
+    for transfer in transfers {
+        let token_id = transfer.token_id.clone();
+        match token_owners.get(&token_id) {
+            Some(existing) => {
+                if transfer.block_number > existing.block_number {
+                    token_owners.insert(token_id, transfer);
+                }
+            }
+            None => {
+                token_owners.insert(token_id, transfer);
+            }
+        }
+    }
+    
+    // Now fetch metadata for unique tokens only (limit to first 5 to avoid cycle issues)
+    let mut processed = 0;
+    const MAX_TOKENS: usize = 5;
+    
+    for (token_id, latest_transfer) in token_owners {
+        if processed >= MAX_TOKENS {
+            break;
+        }
+        
+        match fetch_token_metadata(&token_id).await {
+            Ok(metadata) => {
+                let document_hash = metadata.document_hash.clone().unwrap_or_default();
+                let document_type = metadata.document_type.clone().unwrap_or("Unknown".to_string());
+                
+                let mut transfer_with_metadata = latest_transfer.clone();
+                transfer_with_metadata.metadata = Some(metadata.clone());
+                
+                documents.insert(token_id.clone(), CargoXDocument {
+                    token_id: token_id.clone(),
+                    owner: latest_transfer.to.clone(),
+                    document_hash,
+                    document_type,
+                    metadata,
+                    last_transfer: transfer_with_metadata,
+                });
+            }
+            Err(e) => {
+                ic_cdk::println!("Failed to fetch metadata for token {}: {}", token_id, e);
+                // Create document without metadata
+                documents.insert(token_id.clone(), CargoXDocument {
+                    token_id: token_id.clone(),
+                    owner: latest_transfer.to.clone(),
+                    document_hash: "Unknown".to_string(),
+                    document_type: "Unknown".to_string(),
+                    metadata: DocumentMetadata {
+                        name: Some(format!("CargoX Token #{}", token_id)),
+                        description: None,
+                        image: None,
+                        external_url: None,
+                        attributes: vec![],
+                        document_hash: None,
+                        document_type: None,
+                        issuer: None,
+                        creation_date: None,
+                    },
+                    last_transfer: latest_transfer,
+                });
+            }
+        }
+        processed += 1;
+    }
+    
+    Ok(documents.into_values().collect())
+}
+ 
