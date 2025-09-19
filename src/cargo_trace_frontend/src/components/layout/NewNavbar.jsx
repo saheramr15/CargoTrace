@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import styles from '../../styles/landing/NewNavbar.module.css';
 
 const NewNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
+      setScrollY(window.scrollY);
       setIsScrolled(window.scrollY > 50);
     };
 
@@ -28,61 +29,183 @@ const NewNavbar = () => {
   };
 
   return (
-    <nav className={`${styles.navbar} ${isScrolled ? styles.scrolled : ''}`}>
-      <div className={styles.container}>
-        {/* Logo */}
-        <Link to="/" className={styles.logo}>
-          <span className={styles.logoIcon}>🚢</span>
-          <span className={styles.logoText}>CargoTrace</span>
-          <span className={styles.logoFinance}>Finance</span>
-        </Link>
+    <>
+      {/* Background Blur Effect */}
+      <div 
+        className={`fixed top-0 left-0 w-full h-20 bg-gradient-to-r from-slate-900/80 via-slate-800/80 to-slate-900/80 backdrop-blur-xl transition-all duration-500 z-40 ${
+          isScrolled ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{ 
+          transform: `translateY(${isScrolled ? 0 : -100}px)`,
+          background: `linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.8) 50%, rgba(15, 23, 42, 0.8) 100%)`
+        }}
+      />
 
-        {/* Desktop Navigation */}
-        <ul className={styles.navLinks}>
-          <li><a href="#home" onClick={() => scrollToSection('home')}>Home</a></li>
-          <li><a href="#problem" onClick={() => scrollToSection('problem')}>Problem</a></li>
-          <li><a href="#solution" onClick={() => scrollToSection('solution')}>Solution</a></li>
-          <li><a href="#how-it-works" onClick={() => scrollToSection('how-it-works')}>How It Works</a></li>
-          <li><a href="#technology" onClick={() => scrollToSection('technology')}>Technology</a></li>
-          <li><a href="#why-cargotrace" onClick={() => scrollToSection('why-cargotrace')}>Why CargoTrace</a></li>
-          <li><a href="#roadmap" onClick={() => scrollToSection('roadmap')}>Roadmap</a></li>
-        </ul>
-
-        {/* CTA Button */}
-        <Link to="/login" className={styles.ctaButton}>
-          Get Started
-        </Link>
-
-        {/* Mobile Menu Toggle */}
-        <button 
-          className={`${styles.mobileToggle} ${isMobileMenuOpen ? styles.active : ''}`}
-          onClick={toggleMobileMenu}
-          aria-label="Toggle mobile menu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+      {/* Animated Background Elements */}
+      <div className="fixed top-0 left-0 w-full h-20 overflow-hidden z-30 pointer-events-none">
+        <div 
+          className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-500/10 via-cyan-400/10 to-blue-500/10"
+          style={{ transform: `translateX(${scrollY * 0.1}px)` }}
+        />
+        <div 
+          className="absolute top-2 left-1/4 w-2 h-2 bg-blue-400/30 rounded-full animate-ping"
+          style={{ transform: `translateY(${scrollY * 0.05}px)` }}
+        />
+        <div 
+          className="absolute top-4 right-1/3 w-1 h-1 bg-cyan-400/40 rounded-full animate-ping"
+          style={{ transform: `translateY(${scrollY * 0.08}px)`, animationDelay: '2s' }}
+        />
+        <div 
+          className="absolute top-6 left-2/3 w-1.5 h-1.5 bg-blue-300/25 rounded-full animate-ping"
+          style={{ transform: `translateY(${scrollY * 0.03}px)`, animationDelay: '4s' }}
+        />
       </div>
 
-      {/* Mobile Menu */}
-      <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ''}`}>
-        <ul className={styles.mobileNavLinks}>
-          <li><a href="#home" onClick={() => scrollToSection('home')}>Home</a></li>
-          <li><a href="#problem" onClick={() => scrollToSection('problem')}>Problem</a></li>
-          <li><a href="#solution" onClick={() => scrollToSection('solution')}>Solution</a></li>
-          <li><a href="#how-it-works" onClick={() => scrollToSection('how-it-works')}>How It Works</a></li>
-          <li><a href="#technology" onClick={() => scrollToSection('technology')}>Technology</a></li>
-          <li><a href="#why-cargotrace" onClick={() => scrollToSection('why-cargotrace')}>Why CargoTrace</a></li>
-          <li><a href="#roadmap" onClick={() => scrollToSection('roadmap')}>Roadmap</a></li>
-          <li>
-            <Link to="/login" className={styles.mobileCtaButton}>
-              Get Started
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+        isScrolled 
+          ? 'bg-slate-900/20 backdrop-blur-2xl border-b border-blue-400/20 shadow-2xl shadow-blue-500/10' 
+          : 'bg-transparent'
+      }`}>
+        <div className="container-custom px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            
+            {/* Logo with 3D Effect */}
+            <Link 
+              to="/" 
+              className="group flex items-center space-x-3 transition-all duration-300 hover:scale-105"
+            >
+              <div className="relative">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform duration-300">
+                  <span className="text-2xl">🚢</span>
+                </div>
+                <div className="absolute -inset-1 bg-gradient-to-br from-blue-500/50 to-cyan-400/50 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+              <div className="flex flex-col">
+                <span className={`text-2xl font-black transition-all duration-300 ${
+                  isScrolled 
+                    ? 'bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent' 
+                    : 'text-white'
+                }`}>
+                  CargoTrace
+                </span>
+                <span className={`text-sm font-medium transition-all duration-300 ${
+                  isScrolled ? 'text-blue-200' : 'text-slate-300'
+                }`}>
+                  Finance
+                </span>
+              </div>
             </Link>
-          </li>
-        </ul>
-      </div>
-    </nav>
+
+            {/* Desktop Navigation */}
+            <ul className="hidden lg:flex items-center space-x-8">
+              {[
+                { id: 'home', label: 'Home' },
+                { id: 'problem', label: 'Problem' },
+                { id: 'solution', label: 'Solution' },
+                { id: 'how-it-works', label: 'How It Works' },
+                { id: 'technology', label: 'Technology' },
+                { id: 'why-cargotrace', label: 'Why CargoTrace' },
+                { id: 'roadmap', label: 'Roadmap' }
+              ].map((item) => (
+                <li key={item.id}>
+                  <a
+                    href={`#${item.id}`}
+                    onClick={() => scrollToSection(item.id)}
+                    className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105 group ${
+                      isScrolled 
+                        ? 'text-slate-200 hover:text-blue-300' 
+                        : 'text-slate-300 hover:text-white'
+                    }`}
+                  >
+                    {item.label}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-300 transition-all duration-300 group-hover:w-full"></span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            {/* CTA Button with Glow Effect */}
+            <div className="hidden lg:block">
+              <Link 
+                to="/login" 
+                className="group relative inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold text-sm rounded-xl transition-all duration-300 hover:from-blue-500 hover:to-cyan-400 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-0.5"
+              >
+                <span className="relative z-10">Get Started</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <svg className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
+
+            {/* Mobile Menu Toggle with Animation */}
+            <button 
+              className={`lg:hidden relative w-10 h-10 flex flex-col justify-center items-center space-y-1.5 transition-all duration-300 ${
+                isMobileMenuOpen ? 'rotate-180' : ''
+              }`}
+              onClick={toggleMobileMenu}
+              aria-label="Toggle mobile menu"
+            >
+              <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${
+                isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''
+              }`}></span>
+              <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${
+                isMobileMenuOpen ? 'opacity-0' : ''
+              }`}></span>
+              <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${
+                isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''
+              }`}></span>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu with Glass Effect */}
+        <div className={`lg:hidden transition-all duration-500 overflow-hidden ${
+          isMobileMenuOpen 
+            ? 'max-h-96 opacity-100' 
+            : 'max-h-0 opacity-0'
+        }`}>
+          <div className="bg-slate-900/90 backdrop-blur-2xl border-t border-blue-400/20 shadow-2xl">
+            <ul className="px-4 py-6 space-y-4">
+              {[
+                { id: 'home', label: 'Home' },
+                { id: 'problem', label: 'Problem' },
+                { id: 'solution', label: 'Solution' },
+                { id: 'how-it-works', label: 'How It Works' },
+                { id: 'technology', label: 'Technology' },
+                { id: 'why-cargotrace', label: 'Why CargoTrace' },
+                { id: 'roadmap', label: 'Roadmap' }
+              ].map((item, index) => (
+                <li key={item.id}>
+                  <a
+                    href={`#${item.id}`}
+                    onClick={() => scrollToSection(item.id)}
+                    className="block px-4 py-3 text-slate-200 font-medium rounded-lg transition-all duration-300 hover:bg-blue-500/10 hover:text-blue-300 hover:translate-x-2"
+                    style={{ 
+                      animationDelay: `${index * 0.1}s`,
+                      animation: isMobileMenuOpen ? 'slideInLeft 0.3s ease-out forwards' : 'none'
+                    }}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+              <li className="pt-4">
+                <Link 
+                  to="/login" 
+                  className="block w-full text-center px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl transition-all duration-300 hover:from-blue-500 hover:to-cyan-400 hover:scale-105"
+                >
+                  Get Started
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      {/* Spacer to prevent content jump */}
+      <div className="h-20"></div>
+    </>
   );
 };
 

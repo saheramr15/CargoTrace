@@ -48,6 +48,18 @@
   }
 }
 
+/* Custom Animations for Navbar */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 /* Reset and Base Styles */
 * {
   margin: 0;
