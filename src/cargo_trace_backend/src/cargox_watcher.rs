@@ -461,4 +461,107 @@ fn parse_transfer_events(json_text: &str) -> Result<Vec<TransferEvent>, String> 
     Ok(events)
 }
 
- 
+fn extract_address_from_topic(topic: Option<&serde_json::Value>) -> String {
+    if let Some(topic_str) = topic.and_then(|t| t.as_str()) {
+        if topic_str.len() >= 42 {
+            let address = &topic_str[topic_str.len() - 40..];
+            format!("0x{}", address)
+        } else {
+            topic_str.to_string()
+        }
+    } else {
+        String::new()
+    }
+}
+
+fn extract_token_id_from_topic(topic: Option<&serde_json::Value>) -> String {
+    if let Some(topic_str) = topic.and_then(|t| t.as_str()) {
+        let hex_str = topic_str.strip_prefix("0x").unwrap_or(topic_str);
+        match u64::from_str_radix(hex_str, 16) {
+            Ok(token_id) => token_id.to_string(),
+            Err(_) => topic_str.to_string(),
+        }
+    } else {
+        String::new()
+    }
+}
+
+fn parse_hex_to_u64(hex_str: &str) -> u64 {
+    let clean_hex = hex_str.strip_prefix("0x").unwrap_or(hex_str);
+    u64::from_str_radix(clean_hex, 16).unwrap_or(0)
+}
+
+#[query]
+fn transform_response(raw: TransformArgs) -> HttpResponse {
+    HttpResponse {
+        status: raw.response.status.clone(),
+        body: raw.response.body.clone(),
+        headers: vec![],
+    }
+}
+
+#[derive(CandidType, Deserialize)]
+struct TransformArgs {
+    response: HttpResponse,
+    context: Vec<u8>,
+}
+
+#[update]
+async fn fetch_cargox_documents_simple() -> Result<Vec<CargoXDocument>, String> {
+    // Get basic transfers first
+    let transfers = fetch_transfers().await?;
+    
+    if transfers.is_empty() {
+        return Ok(vec![]);
+    }
+    
+    let mut documents: Vec<CargoXDocument> = Vec::new();
+    
+    // Just take the first few transfers and create documents without external metadata calls
+    for (i, transfer) in transfers.iter().take(10).enumerate() {
+        let mock_metadata = DocumentMetadata {
+            name: Some(format!("CargoX Document #{}", transfer.token_id)),
+            description: Some("CargoX Trade Document".to_string()),
+            image: None,
+            external_url: Some(format!("https://cargox.io/document/{}", transfer.token_id)),
+            attributes: vec![
+                DocumentAttribute {
+                    trait_type: "Token ID".to_string(),
+                    value: transfer.token_id.clone(),
+                },
+                DocumentAttribute {
+                    trait_type: "Block Number".to_string(),
+                    value: transfer.block_number.to_string(),
+                },
+                DocumentAttribute {
+                    trait_type: "Document Type".to_string(),
+                    value: "Bill of Lading".to_string(),
+                }
+            ],
+            document_hash: Some(format!("0x{:0>64x}", i + 1)),
+            document_type: Some("Trade Document".to_string()),
+            issuer: Some("CargoX Platform".to_string()),
+            creation_date: None,
+        };
+        
+        let mut transfer_with_metadata = transfer.clone();
+        transfer_with_metadata.metadata = Some(mock_metadata.clone());
+        
+        documents.push(CargoXDocument {
+            token_id: transfer.token_id.clone(),
+            owner: transfer.to.clone(),
+            document_hash: format!("0x{:0>64x}", i + 1),
+            document_type: "Trade Document".to_string(),
+            metadata: mock_metadata,
+            last_transfer: transfer_with_metadata,
+        });
+    }
+    
+    Ok(documents)
+}
+
+#[query]
+fn get_canister_info() -> String {
+    "CargoX Watcher Backend - Monitoring ERC-721 transfers with document metadata".to_string()
+}
+
