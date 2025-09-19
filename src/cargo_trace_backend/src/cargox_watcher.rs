@@ -16,4 +16,17 @@ pub struct TransferEvent {
     pub block_number: u64,
     pub metadata: Option<DocumentMetadata>,
 }
- 
+
+#[derive(CandidType, Deserialize, Clone, Debug, Serialize)]
+pub struct DocumentMetadata {
+    pub name: Option<String>,
+    pub description: Option<String>,
+    pub image: Option<String>,
+    pub external_url: Option<String>,
+    pub attributes: Vec<DocumentAttribute>,
+    pub document_hash: Option<String>,
+    pub document_type: Option<String>,
+    pub issuer: Option<String>,
+    pub creation_date: Option<String>,
+}
+
