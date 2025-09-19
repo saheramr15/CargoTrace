@@ -46,4 +46,11 @@ pub struct CargoXDocument {
     pub last_transfer: TransferEvent,
 }
 
+#[derive(CandidType, Deserialize)]
+pub struct ApiResponse {
+    pub status: String,
+    pub message: String,
+    pub result: Vec<LogEntry>,
+}
 
+ 
