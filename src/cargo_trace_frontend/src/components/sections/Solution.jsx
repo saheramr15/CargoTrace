@@ -206,17 +206,7 @@ const Solution = () => {
           })}
         </div>
 
-        {/* CTA */}
-        <div className={`text-center mt-16 transition-all duration-1000 delay-800 ${isVisible ? 'animate-slide-up' : 'opacity-0 translate-y-10'}`}>
-          <p className="text-slate-300 mb-6 text-lg">
-            Ready to transform your supply chain with CargoTrace?
-          </p>
-          <button className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-lg rounded-xl transition-all duration-300 hover:from-blue-500 hover:to-cyan-400 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-1">
-            <span className="relative z-10">Start Your Journey</span>
-            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </button>
-        </div>
+     
       </div>
     </section>
   );
