@@ -8,7 +8,7 @@ import {
   Clock,
   Loader2,
   AlertCircle,
-  Wallet // Add Wallet icon for funding button
+  Wallet
 } from 'lucide-react';
 import { cargo_trace_backend as backend } from '../../../../../declarations/cargo_trace_backend';
 
@@ -19,9 +19,8 @@ const AdminLoans = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [processingAction, setProcessingAction] = useState(null);
-  const [funding, setFunding] = useState(false); // New state for funding action
+  const [funding, setFunding] = useState(false);
 
-  // Load all loans on component mount
   useEffect(() => {
     loadLoans();
   }, []);
@@ -38,7 +37,7 @@ const AdminLoans = () => {
           id: loan.id || 'Unknown',
           status: getLoanStatus(loan.status),
           company: 'Trade Company',
-          amount: loan.amount ? `$${Number(loan.amount).toLocaleString()}` : '$0', // Ensure amount is converted to number
+          amount: loan.amount ? `$${Number(loan.amount).toLocaleString()}` : '$0',
           interestRate: loan.interest_rate ? `${loan.interest_rate}%` : 'N/A',
           term: calculateTerm(loan.created_at, loan.repayment_date),
           requestedAt: loan.created_at ? new Date(Number(loan.created_at) / 1000000).toISOString() : 'N/A',
@@ -59,18 +58,16 @@ const AdminLoans = () => {
     }
   };
 
-  // New function to fund the canister
   const handleFundCanister = async () => {
     try {
       setFunding(true);
       setError(null);
-      const result = await backend.request_test_tokens(1000n); // Call with 1000 USD
+      const result = await backend.request_test_tokens(1000n);
       if ('Err' in result) {
         throw new Error(result.Err);
       }
       console.log('✅ Canister funded with 1000 USD worth of test tokens');
       alert('Canister successfully funded with 1000 USD worth of test tokens');
-      // Optionally check balance after funding
       const balance = await backend.check_canister_balance();
       console.log('📈 Canister balance after funding:', balance);
     } catch (err) {
@@ -89,8 +86,8 @@ const AdminLoans = () => {
     if ('Rejected' in status) return 'rejected';
     if ('Active' in status) return 'active';
     if ('Defaulted' in status) return 'defaulted';
-    if ('TransferPending' in status) return 'transfer_pending'; // Add new status
-    if ('TransferFailed' in status) return 'transfer_failed'; // Add new status
+    if ('TransferPending' in status) return 'transfer_pending';
+    if ('TransferFailed' in status) return 'transfer_failed';
     return 'unknown';
   };
 
@@ -174,7 +171,7 @@ const AdminLoans = () => {
 
   const handleViewLoan = async (loanId) => {
     try {
-      const loan = (await backend.get_all_loans()).find(l => l.id === loanId); // Fix: Filter from all loans
+      const loan = (await backend.get_all_loans()).find(l => l.id === loanId);
       if (!loan) {
         throw new Error('Loan not found');
       }
@@ -258,20 +255,6 @@ const AdminLoans = () => {
           <span className="text-sm admin-text-secondary">
             {loans.length} total loans
           </span>
-          {/* Add Fund Canister Button */}
-          <button
-            onClick={handleFundCanister}
-            disabled={funding}
-            className="admin-btn-primary ml-4"
-            title="Fund Canister with Test Tokens"
-          >
-            {funding ? (
-              <Loader2 className="w-4 h-4 animate-spin inline mr-2" />
-            ) : (
-              <Wallet className="w-4 h-4 inline mr-2" />
-            )}
-            Fund Canister
-          </button>
         </div>
       </div>
 
@@ -399,6 +382,22 @@ const AdminLoans = () => {
           </table>
         )}
       </div>
+      {/* Moved Fund Canister Button beneath the table */}
+      <div className="admin-loans-footer mt-4">
+        <button
+          onClick={handleFundCanister}
+          disabled={funding}
+          className="admin-btn-primary"
+          title="Fund Canister with Test Tokens"
+        >
+          {funding ? (
+            <Loader2 className="w-4 h-4 animate-spin inline mr-2" />
+          ) : (
+            <Wallet className="w-4 h-4 inline mr-2" />
+          )}
+          Fund Canister
+        </button>
+      </div>
       <style jsx>{`
         .admin-loans-table-container {
           overflow-x: auto;
@@ -444,11 +443,11 @@ const AdminLoans = () => {
         .admin-btn-primary {
           display: inline-flex;
           align-items: center;
-          padding: 6px 12px;
-          border-radius: 4px;
+          padding: 8px 16px;
+          border-radius: 6px;
           background-color: #2563eb;
           color: white;
-          font-size: 0.85rem;
+          font-size: 0.9rem;
           font-weight: 500;
           cursor: pointer;
           transition: background-color 0.2s;
@@ -459,6 +458,11 @@ const AdminLoans = () => {
         .admin-btn-primary:disabled {
           background-color: #93c5fd;
           cursor: not-allowed;
+        }
+        .admin-loans-footer {
+          display: flex;
+          justify-content: center;
+          padding: 16px 0;
         }
       `}</style>
     </div>
