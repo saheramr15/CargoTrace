@@ -67,4 +67,26 @@ fn init() {
     ic_cdk::println!("CargoX Watcher Backend initialized");
 }
 
- 
+#[update]
+async fn fetch_transfers_with_metadata() -> Result<Vec<TransferEvent>, String> {
+    let transfers = fetch_transfers().await?;
+    let mut enhanced_transfers = Vec::new();
+    
+    for mut transfer in transfers {
+        match fetch_token_metadata(&transfer.token_id).await {
+            Ok(metadata) => {
+                transfer.metadata = Some(metadata);
+                enhanced_transfers.push(transfer);
+            }
+            Err(e) => {
+                ic_cdk::println!("Failed to fetch metadata for token {}: {}", transfer.token_id, e);
+                enhanced_transfers.push(transfer); // Add without metadata
+            }
+        }
+    }
+    
+    Ok(enhanced_transfers)
+}
+
+
+
