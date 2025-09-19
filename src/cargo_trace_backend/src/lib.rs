@@ -55,14 +55,14 @@ const LEDGER_CANISTER_ID: &str = "umunu-kh777-77774-qaaca-cai"; // Replace with 
 const TRANSFER_FEE: u64 = 100_000; // 0.0001 TCIP (with 8 decimals)
 const DECIMALS: u8 = 8;
 
-// Convert USD to TCIP tokens (1 USD = 1 TCIP for testing)
-fn usd_to_tokens(usd_amount: u64) -> u64 {
-    usd_amount * 10_u64.pow(DECIMALS as u32)
+// Convert USD cents to ICRC-1 tokens (1 USD = 100,000,000 e8s tokens)
+fn usd_to_tokens(usd_cents: u64) -> u64 {
+    usd_cents * 1_000_000 // Convert cents to e8s (100 cents = 100,000,000 e8s)
 }
 
-// Convert tokens to USD
-fn tokens_to_usd(token_amount: u64) -> u64 {
-    token_amount / 10_u64.pow(DECIMALS as u32)
+// Convert ICRC-1 tokens to USD cents for display
+fn tokens_to_usd_cents(tokens: u64) -> u64 {
+    tokens / 1_000_000 // Convert e8s to cents
 }
 
 // Define memory manager
@@ -760,6 +760,7 @@ pub async fn approve_loan(loan_id: String) -> Result<(), String> {
         }
     })?;
 
+    // Convert USD cents to ICRC-1 tokens
     let token_amount = usd_to_tokens(loan.amount);
     
     let transfer_args = TransferArgs {
@@ -785,10 +786,11 @@ pub async fn approve_loan(loan_id: String) -> Result<(), String> {
                 }
             });
             
-            ic_cdk::println!("Loan {} approved and {} TCIP transferred to user. Block: {:?}", 
-                loan_id, token_amount, block_height);
+            let usd_amount = loan.amount as f64 / 100.0; // Convert cents to dollars for display
+            ic_cdk::println!("Loan {} approved and {} ICRC tokens ({} USD) transferred to user. Block: {:?}", 
+                loan_id, token_amount, usd_amount, block_height);
             
-            Ok(())
+            Ok(()) // FIXED: Return () instead of String
         },
         Err(transfer_error) => {
             LOANS.with(|loans| {
@@ -804,7 +806,7 @@ pub async fn approve_loan(loan_id: String) -> Result<(), String> {
     }
 }
 
-// Get user's ICRC-1 wallet balance
+// FIXED: Get user's ICRC-1 wallet balance in tokens (e8s)
 #[update]
 pub async fn get_wallet_balance_async() -> Result<u64, String> {
     let caller = caller();
@@ -814,16 +816,26 @@ pub async fn get_wallet_balance_async() -> Result<u64, String> {
     };
     
     match icrc1_balance_of(account).await {
-        Ok(balance) => Ok(balance),
-        Err(e) => Err(format!("Failed to get wallet balance: {}", e)),
+        Ok(balance) => {
+            // balance is already u64, return it directly
+            Ok(balance)
+        },
+        Err(e) => Err(format!("Failed to get wallet balance: {:?}", e)),
     }
 }
 
-// Convert token balance to USD for display
+// Get user's wallet balance in USD cents for display
 #[update]
-pub async fn get_wallet_balance_usd() -> Result<u64, String> {
+pub async fn get_wallet_balance_usd_cents() -> Result<u64, String> {
     let balance_tokens = get_wallet_balance_async().await?;
-    Ok(tokens_to_usd(balance_tokens))
+    Ok(tokens_to_usd_cents(balance_tokens))
+}
+
+// Get user's wallet balance in USD dollars (for display)
+#[update]
+pub async fn get_wallet_balance_usd() -> Result<f64, String> {
+    let balance_cents = get_wallet_balance_usd_cents().await?;
+    Ok(balance_cents as f64 / 100.0) // Convert cents to dollars
 }
 
 // Get active loan for a user
@@ -843,6 +855,7 @@ pub fn get_active_loan() -> Option<Loan> {
 }
 
 // Retry failed transfer for a loan
+// FIXED: Updated retry_loan_transfer to match return type
 #[update]
 pub async fn retry_loan_transfer(loan_id: String) -> Result<(), String> {
     let loan = LOANS.with(|loans| {
@@ -862,7 +875,14 @@ pub async fn retry_loan_transfer(loan_id: String) -> Result<(), String> {
         }
     });
 
-    approve_loan(loan_id).await
+    approve_loan(loan_id).await // FIXED: Now both functions return Result<(), String>
+}
+
+#[update]
+pub async fn refresh_wallet_balance() -> Result<f64, String> {
+    let balance_tokens = get_wallet_balance_async().await?;
+    let balance_usd = tokens_to_usd_cents(balance_tokens) as f64 / 100.0;
+    Ok(balance_usd)
 }
 
 
