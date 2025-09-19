@@ -62,5 +62,9 @@ pub struct LogEntry {
     pub block_number: String,
 }
 
+#[init]
+fn init() {
+    ic_cdk::println!("CargoX Watcher Backend initialized");
+}
 
-
+ 
