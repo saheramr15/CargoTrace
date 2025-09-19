@@ -171,11 +171,11 @@ const NewNavbar = () => {
             <div className="hidden lg:block">
               <Link 
                 to="/login" 
-                className="group relative inline-flex items-center px-6 py-3 font-semibold text-sm rounded-xl transition-all duration-500 hover:scale-105 transform hover:-translate-y-0.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:from-blue-500 hover:to-cyan-400 hover:shadow-2xl hover:shadow-blue-500/25"
+                className="group relative inline-flex items-center px-3 py-1.5 font-medium text-xs rounded-md transition-all duration-500 hover:scale-105 transform hover:-translate-y-0.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:from-blue-500 hover:to-cyan-400 hover:shadow-2xl hover:shadow-blue-500/25"
               >
                 <span className="relative z-10">Get Started</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <svg className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <svg className="ml-1.5 h-3 w-3 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </Link>
@@ -236,7 +236,7 @@ const NewNavbar = () => {
               <li className="pt-4">
                 <Link 
                   to="/login" 
-                  className="block w-full text-center px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl transition-all duration-300 hover:from-blue-500 hover:to-cyan-400 hover:scale-105"
+                  className="block w-full text-center px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-medium text-sm rounded-md transition-all duration-300 hover:from-blue-500 hover:to-cyan-400 hover:scale-105"
                 >
                   Get Started
                 </Link>

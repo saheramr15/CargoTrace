@@ -191,8 +191,8 @@ const Hero = () => {
                 <span className="block text-white mt-2 transform hover:scale-105 transition-transform duration-500">
                   Finance
                 </span>
-              </h1>
-              
+          </h1>
+
               <p className="text-xl text-slate-200 leading-relaxed max-w-2xl">
                 Revolutionary blockchain technology meets innovative supply chain finance. 
                 Experience the future of decentralized cargo tracking with unparalleled security and transparency.
@@ -244,25 +244,25 @@ const Hero = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m-6-8h8a2 2 0 012 2v8a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2z" />
                 </svg>
                 <span>Watch Demo</span>
-              </button>
-            </div>
+            </button>
+          </div>
 
             {/* Animated Stats */}
             <div className="grid grid-cols-3 gap-8 pt-8 border-t border-blue-400/20">
               <div className="text-center group">
                 <div className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">$50M+</div>
                 <div className="text-sm text-slate-300">Cargo Tracked</div>
-              </div>
+            </div>
               <div className="text-center group">
                 <div className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">10K+</div>
                 <div className="text-sm text-slate-300">Active Shipments</div>
-              </div>
+            </div>
               <div className="text-center group">
                 <div className="text-3xl font-bold bg-gradient-to-r from-blue-300 to-cyan-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">99.9%</div>
                 <div className="text-sm text-slate-300">Accuracy Rate</div>
-              </div>
             </div>
           </div>
+        </div>
 
           {/* Right Content - 3D NFT Card */}
           <div className="relative">
@@ -304,11 +304,11 @@ const Hero = () => {
                 <div className="flex justify-between items-center py-4 border-b border-blue-400/20">
                   <span className="text-slate-200 font-medium">Network</span>
                   <span className="text-white">Internet Computer</span>
-                </div>
+            </div>
                 <div className="flex justify-between items-center py-4">
                   <span className="text-slate-200 font-medium">NFT Value</span>
                   <span className="text-3xl font-black bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">$25,000</span>
-                </div>
+              </div>
               </div>
 
               {/* Chain Status */}
