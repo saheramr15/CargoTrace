@@ -143,6 +143,7 @@ dependencies = [
  "ic-cdk-timers",
  "ic-ledger-types",
  "ic-stable-structures",
+ "num-bigint",
  "serde",
  "serde_json",
 ]

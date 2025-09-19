@@ -17,5 +17,8 @@
   ],
   "dependencies": {
     "react-router-dom": "^7.7.0"
+  },
+  "devDependencies": {
+    "terser": "^5.44.0"
   }
 }

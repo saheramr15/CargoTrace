@@ -7,7 +7,8 @@ import {
   XCircle,
   Clock,
   Loader2,
-  AlertCircle
+  AlertCircle,
+  Wallet // Add Wallet icon for funding button
 } from 'lucide-react';
 import { cargo_trace_backend as backend } from '../../../../../declarations/cargo_trace_backend';
 
@@ -18,6 +19,7 @@ const AdminLoans = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [processingAction, setProcessingAction] = useState(null);
+  const [funding, setFunding] = useState(false); // New state for funding action
 
   // Load all loans on component mount
   useEffect(() => {
@@ -28,20 +30,15 @@ const AdminLoans = () => {
     try {
       setLoading(true);
       setError(null);
-
-      // Fetch all loans directly (no need for individual fetching)
       const backendLoans = await backend.get_all_loans();
-      
       console.log('📊 Raw loans from backend:', backendLoans);
-
-      // Transform backend loans to frontend format
       const transformedLoans = backendLoans
         .filter(loan => loan !== null && loan !== undefined)
         .map(loan => ({
           id: loan.id || 'Unknown',
           status: getLoanStatus(loan.status),
           company: 'Trade Company',
-          amount: loan.amount ? `$${loan.amount.toString().toLocaleString()}` : '$0',
+          amount: loan.amount ? `$${Number(loan.amount).toLocaleString()}` : '$0', // Ensure amount is converted to number
           interestRate: loan.interest_rate ? `${loan.interest_rate}%` : 'N/A',
           term: calculateTerm(loan.created_at, loan.repayment_date),
           requestedAt: loan.created_at ? new Date(Number(loan.created_at) / 1000000).toISOString() : 'N/A',
@@ -50,10 +47,8 @@ const AdminLoans = () => {
           borrower: loan.borrower ? loan.borrower.toString() : 'Unknown',
           rawAmount: loan.amount || 0n
         }));
-
       console.log('✅ Transformed loans:', transformedLoans);
       setLoans(transformedLoans);
-
     } catch (err) {
       console.error('❌ Failed to load loans:', err);
       setError(err.message.includes('Panicked at') 
@@ -64,16 +59,39 @@ const AdminLoans = () => {
     }
   };
 
+  // New function to fund the canister
+  const handleFundCanister = async () => {
+    try {
+      setFunding(true);
+      setError(null);
+      const result = await backend.request_test_tokens(1000n); // Call with 1000 USD
+      if ('Err' in result) {
+        throw new Error(result.Err);
+      }
+      console.log('✅ Canister funded with 1000 USD worth of test tokens');
+      alert('Canister successfully funded with 1000 USD worth of test tokens');
+      // Optionally check balance after funding
+      const balance = await backend.check_canister_balance();
+      console.log('📈 Canister balance after funding:', balance);
+    } catch (err) {
+      console.error('❌ Failed to fund canister:', err);
+      setError(err.message || 'Failed to fund canister');
+    } finally {
+      setFunding(false);
+    }
+  };
+
   const getLoanStatus = (status) => {
     if (!status) return 'unknown';
-    
     if ('Pending' in status) return 'pending';
     if ('Approved' in status) return 'approved';
     if ('Repaid' in status) return 'repaid';
     if ('Rejected' in status) return 'rejected';
     if ('Active' in status) return 'active';
     if ('Defaulted' in status) return 'defaulted';
-    return 'pending';
+    if ('TransferPending' in status) return 'transfer_pending'; // Add new status
+    if ('TransferFailed' in status) return 'transfer_failed'; // Add new status
+    return 'unknown';
   };
 
   const calculateTerm = (createdAt, repaymentDate) => {
@@ -89,14 +107,14 @@ const AdminLoans = () => {
     switch (status) {
       case 'approved':
       case 'repaid':
-        return <CheckCircle className="w-4 h-4 admin-icon-active" />;
-      case 'pending':
-        return <Clock className="w-4 h-4 admin-icon-pending" />;
-      case 'rejected':
-        return <XCircle className="w-4 h-4 admin-icon-suspended" />;
       case 'active':
         return <CheckCircle className="w-4 h-4 admin-icon-active" />;
+      case 'pending':
+      case 'transfer_pending':
+        return <Clock className="w-4 h-4 admin-icon-pending" />;
+      case 'rejected':
       case 'defaulted':
+      case 'transfer_failed':
         return <XCircle className="w-4 h-4 admin-icon-suspended" />;
       default:
         return <Clock className="w-4 h-4 admin-icon-default" />;
@@ -111,6 +129,8 @@ const AdminLoans = () => {
       repaid: 'admin-status-active',
       active: 'admin-status-active',
       defaulted: 'admin-status-suspended',
+      transfer_pending: 'admin-status-pending',
+      transfer_failed: 'admin-status-suspended',
       unknown: 'admin-status-default'
     };
     return `admin-status-badge ${statusClasses[status] || 'admin-status-default'}`;
@@ -119,12 +139,11 @@ const AdminLoans = () => {
   const handleApproveLoan = async (loanId) => {
     try {
       setProcessingAction(loanId);
+      setError(null);
       const result = await backend.approve_loan(loanId);
-      
       if ('Err' in result) {
         throw new Error(result.Err);
       }
-
       await loadLoans();
       console.log('✅ Loan approved successfully:', loanId);
     } catch (err) {
@@ -138,12 +157,11 @@ const AdminLoans = () => {
   const handleRejectLoan = async (loanId) => {
     try {
       setProcessingAction(loanId);
+      setError(null);
       const result = await backend.reject_loan(loanId);
-      
       if ('Err' in result) {
         throw new Error(result.Err);
       }
-
       await loadLoans();
       console.log('✅ Loan rejected successfully:', loanId);
     } catch (err) {
@@ -156,23 +174,20 @@ const AdminLoans = () => {
 
   const handleViewLoan = async (loanId) => {
     try {
-      const loan = await backend.get_all_loans(loanId);
-      
+      const loan = (await backend.get_all_loans()).find(l => l.id === loanId); // Fix: Filter from all loans
       if (!loan) {
         throw new Error('Loan not found');
       }
-
       const loanDetails = {
         id: loan.id || 'Unknown',
         documentId: loan.document_id || 'N/A',
-        amount: loan.amount ? loan.amount.toString().toLocaleString() : '0',
+        amount: loan.amount ? Number(loan.amount).toLocaleString() : '0',
         interestRate: loan.interest_rate ? `${loan.interest_rate}%` : 'N/A',
         status: getLoanStatus(loan.status),
         createdAt: loan.created_at ? new Date(Number(loan.created_at) / 1000000).toLocaleString() : 'N/A',
         repaymentDate: loan.repayment_date ? new Date(Number(loan.repayment_date) / 1000000).toLocaleDateString() : 'N/A',
         borrower: loan.borrower ? loan.borrower.toString() : 'Unknown'
       };
-
       console.log('Viewing loan:', loanDetails);
       alert(`Loan Details:\nID: ${loanDetails.id}\nDocument ID: ${loanDetails.documentId}\nAmount: $${loanDetails.amount}\nInterest Rate: ${loanDetails.interestRate}\nStatus: ${loanDetails.status}\nCreated: ${loanDetails.createdAt}\nDue Date: ${loanDetails.repaymentDate}\nBorrower: ${loanDetails.borrower}`);
     } catch (err) {
@@ -243,6 +258,20 @@ const AdminLoans = () => {
           <span className="text-sm admin-text-secondary">
             {loans.length} total loans
           </span>
+          {/* Add Fund Canister Button */}
+          <button
+            onClick={handleFundCanister}
+            disabled={funding}
+            className="admin-btn-primary ml-4"
+            title="Fund Canister with Test Tokens"
+          >
+            {funding ? (
+              <Loader2 className="w-4 h-4 animate-spin inline mr-2" />
+            ) : (
+              <Wallet className="w-4 h-4 inline mr-2" />
+            )}
+            Fund Canister
+          </button>
         </div>
       </div>
 
@@ -270,12 +299,14 @@ const AdminLoans = () => {
             <option value="rejected">Rejected</option>
             <option value="active">Active</option>
             <option value="defaulted">Defaulted</option>
+            <option value="transfer_pending">Transfer Pending</option>
+            <option value="transfer_failed">Transfer Failed</option>
             <option value="unknown">Unknown</option>
           </select>
         </div>
       </div>
 
-      <div className="admin-loans-table-container">
+      <div className="admin-loans-table-container" style={{ overflowX: 'auto' }}>
         {filteredLoans.length === 0 ? (
           <div className="text-center py-12">
             <DollarSign className="w-12 h-12 admin-icon-default mx-auto mb-4" />
@@ -287,18 +318,18 @@ const AdminLoans = () => {
             </p>
           </div>
         ) : (
-          <table className="admin-loans-table">
+          <table className="admin-loans-table" style={{ minWidth: '900px' }}>
             <thead>
               <tr>
-                <th>Loan ID</th>
-                <th>Document ID</th>
-                <th>Company</th>
-                <th>Amount</th>
-                <th>Interest<br />Rate</th>
-                <th>Term</th>
-                <th>Status</th>
-                <th>Due Date</th>
-                <th>Actions</th>
+                <th style={{ minWidth: '110px' }}>Loan ID</th>
+                <th style={{ minWidth: '110px' }}>Document ID</th>
+                <th style={{ minWidth: '110px' }}>Company</th>
+                <th style={{ minWidth: '90px' }}>Amount</th>
+                <th style={{ minWidth: '80px' }}>Interest<br />Rate</th>
+                <th style={{ minWidth: '70px' }}>Term</th>
+                <th style={{ minWidth: '90px' }}>Status</th>
+                <th style={{ minWidth: '90px' }}>Due Date</th>
+                <th style={{ minWidth: '140px' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -317,7 +348,7 @@ const AdminLoans = () => {
                   <td>{loan.term}</td>
                   <td>
                     <span className={getStatusBadge(loan.status)}>
-                      {loan.status}
+                      {loan.status.replace('_', ' ')}
                     </span>
                   </td>
                   <td>
@@ -368,6 +399,68 @@ const AdminLoans = () => {
           </table>
         )}
       </div>
+      <style jsx>{`
+        .admin-loans-table-container {
+          overflow-x: auto;
+          width: 100%;
+          -webkit-overflow-scrolling: touch;
+        }
+        .admin-loans-table {
+          width: 100%;
+          min-width: 900px;
+          border-collapse: collapse;
+        }
+        .admin-loans-table th,
+        .admin-loans-table td {
+          padding: 6px;
+          text-align: left;
+          border-bottom: 1px solid #e5e7eb;
+          font-size: 0.85rem;
+        }
+        .admin-loans-table th {
+          font-weight: 600;
+          color: #374151;
+          background-color: #f9fafb;
+          line-height: 1.2;
+        }
+        .admin-loans-table-row:hover {
+          background-color: #f3f4f6;
+        }
+        .admin-loans-action-btn {
+          padding: 4px;
+          border-radius: 4px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          transition: background-color 0.2s;
+        }
+        .admin-loans-action-btn:hover {
+          background-color: #e5e7eb;
+        }
+        .admin-loans-action-btn:disabled {
+          cursor: not-allowed;
+          opacity: 0.5;
+        }
+        .admin-btn-primary {
+          display: inline-flex;
+          align-items: center;
+          padding: 6px 12px;
+          border-radius: 4px;
+          background-color: #2563eb;
+          color: white;
+          font-size: 0.85rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: background-color 0.2s;
+        }
+        .admin-btn-primary:hover {
+          background-color: #1d4ed8;
+        }
+        .admin-btn-primary:disabled {
+          background-color: #93c5fd;
+          cursor: not-allowed;
+        }
+      `}</style>
     </div>
   );
 };

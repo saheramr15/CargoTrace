@@ -5,20 +5,21 @@ import {
   DollarSign,
   CreditCard,
   Wallet,
-  Menu,
-  Activity,
   Shield,
   Settings,
   HelpCircle,
-  Link
+  Link,
+  RefreshCw
 } from 'lucide-react';
 import { cargo_trace_backend as backend } from '../../../../declarations/cargo_trace_backend';
 
 const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
   const [walletBalance, setWalletBalance] = useState(0);
+  const [walletBalanceUsd, setWalletBalanceUsd] = useState(0);
   const [activeLoan, setActiveLoan] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     fetchWalletData();
@@ -29,23 +30,40 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
       setLoading(true);
       setError(null);
 
-      // Fetch wallet balance
-      const balanceResult = await backend.get_wallet_balance_async();  // Now an update call
+      // Fetch wallet balance in tokens (TCIP)
+      const balanceResult = await backend.get_wallet_balance_async();
       if (balanceResult.Err) {
         throw new Error(balanceResult.Err);
       }
-      // Convert e8s to USD (assuming 1 token = 1 USD for simplicity)
-      const balanceInUSD = (balanceResult.Ok / 100_000_000).toFixed(2);
-      setWalletBalance(balanceInUSD);
+
+      // Convert from smallest unit (e8s) to TCIP tokens
+      const balanceInTCIP = (balanceResult.Ok / 100_000_000).toFixed(8);
+      setWalletBalance(balanceInTCIP);
+
+      // Also get USD equivalent
+      try {
+        const usdBalanceResult = await backend.get_wallet_balance_usd();
+        if (usdBalanceResult.Ok) {
+          setWalletBalanceUsd(usdBalanceResult.Ok);
+        }
+      } catch (usdError) {
+        console.warn('Could not fetch USD balance:', usdError);
+        // If USD conversion fails, assume 1:1 ratio for display
+        setWalletBalanceUsd(parseFloat(balanceInTCIP).toFixed(2));
+      }
 
       // Fetch active loan
       const loanResult = await backend.get_active_loan();
-      if (loanResult) {
-        const repaymentAmount = (loanResult.amount * (1 + loanResult.interest_rate / 100)).toFixed(2);
+      if (loanResult && loanResult.length > 0) {
+        const loan = loanResult[0];
+        const repaymentAmount = (loan.amount * (1 + loan.interest_rate / 100)).toFixed(2);
         setActiveLoan({
-          amount: (loanResult.amount / 100_000_000).toFixed(2),
+          id: loan.id,
+          amount: loan.amount.toFixed(2),
           repaymentAmount,
-          dueDate: new Date(loanResult.repayment_date).toLocaleDateString(),
+          dueDate: new Date(Number(loan.repayment_date) / 1000000).toLocaleDateString(), // Convert nanoseconds to milliseconds
+          status: loan.status,
+          transferBlockHeight: loan.transfer_block_height ? loan.transfer_block_height.toString() : null,
         });
       } else {
         setActiveLoan(null);
@@ -55,40 +73,43 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
       setError(err.message || 'Failed to load wallet data');
     } finally {
       setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchWalletData();
+  };
+
+  const formatBalance = (balance) => {
+    if (loading) return 'Loading...';
+    if (error) return 'Error';
+    return `${balance}`;
+  };
+
+  const formatTokenBalance = (balance) => {
+    if (loading) return 'Loading...';
+    if (error) return 'Error';
+    return `${parseFloat(balance).toFixed(4)} TCIP`;
+  };
+
+  const getLoanStatusColor = (status) => {
+    switch (status) {
+      case 'Active': return 'text-green-400';
+      case 'TransferPending': return 'text-yellow-400';
+      case 'TransferFailed': return 'text-red-400';
+      case 'Pending': return 'text-blue-400';
+      default: return 'text-gray-400';
     }
   };
 
   const sidebarItems = [
-    {
-      id: 'dashboard',
-      label: 'Dashboard',
-      icon: Home,
-      badge: null
-    },
-    {
-      id: 'documents',
-      label: 'Documents',
-      icon: FileText,
-      badge: '12'
-    },
-    {
-      id: 'customs',
-      label: 'Customs Integration',
-      icon: Link,
-      badge: '5'
-    },
-    {
-      id: 'loans',
-      label: 'Loan Requests',
-      icon: DollarSign,
-      badge: '3'
-    },
-    {
-      id: 'repayment',
-      label: 'Repayment',
-      icon: CreditCard,
-      badge: null
-    }
+    { id: 'dashboard', label: 'Dashboard', icon: Home },
+    { id: 'documents', label: 'Documents', icon: FileText, badge: '12' },
+    { id: 'customs', label: 'Customs Integration', icon: Link, badge: '5' },
+    { id: 'loans', label: 'Loan Requests', icon: DollarSign, badge: '3' },
+    { id: 'repayment', label: 'Repayment', icon: CreditCard },
   ];
 
   const handleTabChange = (tabId) => {
@@ -143,24 +164,42 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
             <div className="sidebar-wallet-icon">
               <Wallet className="w-4 h-4 text-white" />
             </div>
-            <span className="sidebar-wallet-title">CargoTrace Wallet</span>
+            <span className="sidebar-wallet-title">ICRC-1 Wallet</span>
+            <button
+              onClick={handleRefresh}
+              disabled={refreshing}
+              className="ml-auto p-1 hover:bg-gray-700 rounded transition-colors"
+              title="Refresh balance"
+            >
+              <RefreshCw className={`w-3 h-3 text-gray-400 ${refreshing ? 'animate-spin' : ''}`} />
+            </button>
           </div>
-          <div className="sidebar-wallet-title">Wallet Balance</div>
+
+          <div className="sidebar-wallet-title">Token Balance</div>
+          <div className="sidebar-wallet-amount text-sm">
+            {formatTokenBalance(walletBalance)}
+          </div>
+
+          <div className="sidebar-wallet-title">USD Equivalent</div>
           <div className="sidebar-wallet-amount">
-            {loading ? 'Loading...' : error ? 'Error' : `${walletBalance} USD`}
+            {formatBalance(walletBalanceUsd)} USD
           </div>
+
           <div className="sidebar-wallet-title">Active Loan</div>
           <div className="sidebar-wallet-amount">
-            {loading ? 'Loading...' : error ? 'Error' : activeLoan ? `${activeLoan.amount} USD` : '0.00 USD'}
-          </div>
-          <div className="sidebar-wallet-title">Repayment Due</div>
-          <div className="sidebar-wallet-amount">
-            {loading ? 'Loading...' : error ? 'Error' : activeLoan ? `${activeLoan.repaymentAmount} USD` : '0.00 USD'}
-          </div>
-          <div className="sidebar-wallet-status">
-            <div className="sidebar-wallet-indicator"></div>
-            <span className="sidebar-wallet-status-text">Connected</span>
-            {error && <button onClick={fetchWalletData} className="ml-2 text-xs text-blue-500 hover:underline">Retry</button>}
+            {loading ? 'Loading...' : error ? 'Error' : activeLoan ? (
+              <div className="space-y-1">
+                <div>{activeLoan.amount} USD</div>
+                <div className={`text-xs ${getLoanStatusColor(activeLoan.status)}`}>
+                  {activeLoan.status}
+                </div>
+                {activeLoan.transferBlockHeight && (
+                  <div className="text-xs text-gray-400">
+                    Block: {activeLoan.transferBlockHeight}
+                  </div>
+                )}
+              </div>
+            ) : 'No active loan'}
           </div>
         </div>
       </div>
