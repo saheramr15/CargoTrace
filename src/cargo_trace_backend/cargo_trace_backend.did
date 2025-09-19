@@ -4,6 +4,14 @@ type AcidValidation = record {
   is_valid : bool;
   customs_data : opt text;
 };
+type CargoXDocument = record {
+  document_hash : text;
+  document_type : text;
+  token_id : text;
+  owner : text;
+  metadata : DocumentMetadata;
+  last_transfer : TransferEvent;
+};
 type CargoXMapping = record {
   id : text;
   verified : bool;
@@ -33,7 +41,25 @@ type Document = record {
   ethereum_tx_hash : text;
   value_usd : nat64;
 };
+type DocumentAttribute = record { trait_type : text; value : text };
+type DocumentMetadata = record {
+  document_hash : opt text;
+  document_type : opt text;
+  external_url : opt text;
+  name : opt text;
+  description : opt text;
+  issuer : opt text;
+  attributes : vec DocumentAttribute;
+  image : opt text;
+  creation_date : opt text;
+};
 type DocumentStatus = variant { NftMinted; Rejected; Verified; Pending };
+type HttpHeader = record { value : text; name : text };
+type HttpResponse = record {
+  status : nat;
+  body : blob;
+  headers : vec HttpHeader;
+};
 type Loan = record {
   id : text;
   status : LoanStatus;
@@ -54,8 +80,19 @@ type LoanStatus = variant {
 };
 type Result = variant { Ok; Err : text };
 type Result_1 = variant { Ok : vec text; Err : text };
-type Result_2 = variant { Ok : text; Err : text };
-type Result_3 = variant { Ok : bool; Err : text };
+type Result_2 = variant { Ok : vec CargoXDocument; Err : text };
+type Result_3 = variant { Ok : vec TransferEvent; Err : text };
+type Result_4 = variant { Ok : opt CargoXDocument; Err : text };
+type Result_5 = variant { Ok : text; Err : text };
+type Result_6 = variant { Ok : bool; Err : text };
+type TransferEvent = record {
+  to : text;
+  token_id : text;
+  metadata : opt DocumentMetadata;
+  from : text;
+  block_number : nat64;
+  tx_hash : text;
+};
 type TransferPayload = record {
   to : text;
   token_id : text;
@@ -66,11 +103,16 @@ type TransferPayload = record {
   block_number : nat64;
   tx_hash : text;
 };
-service : {
+type TransformArgs = record { context : blob; response : HttpResponse };
+service : () -> {
   add_id : (nat64) -> (bool);
   approve_document : (text) -> (Result);
   approve_loan : (text) -> (Result);
   batch_trigger_lending : (vec text) -> (Result_1);
+  fetch_cargox_documents : () -> (Result_2);
+  fetch_cargox_documents_simple : () -> (Result_2);
+  fetch_transfers : () -> (Result_3);
+  fetch_transfers_with_metadata : () -> (Result_3);
   get_acid_validation : (text) -> (opt AcidValidation) query;
   get_all_cargox_mappings : () -> (vec CargoXMapping) query;
   get_all_customs_verifications : () -> (vec CustomsVerification) query;
@@ -78,10 +120,12 @@ service : {
   get_all_loan_ids : () -> (vec text) query;
   get_all_loans : () -> (vec Loan) query;
   get_balance : () -> (nat64) query;
+  get_canister_info : () -> (text) query;
   get_cargox_mapping : (text) -> (opt CargoXMapping) query;
   get_customs_verification : (text) -> (opt CustomsVerification) query;
   get_document : (text) -> (opt Document) query;
   get_document_by_nft_hash : (text) -> (opt Document) query;
+  get_document_by_token_id : (text) -> (Result_4);
   get_loan : (text) -> (opt Loan) query;
   get_my_cargox_mappings : () -> (vec CargoXMapping) query;
   get_my_documents : () -> (vec Document) query;
@@ -92,18 +136,19 @@ service : {
   get_verification_stats : () -> (nat64, nat64, nat64, nat64) query;
   has_id : (nat64) -> (bool) query;
   ingest_transfer : (TransferPayload) -> ();
-  link_cargox_to_acid : (text, text) -> (Result_2);
+  link_cargox_to_acid : (text, text) -> (Result_5);
   mint : (nat64) -> ();
   reject_customs_entry : (text, text) -> (Result);
   reject_document : (text) -> (Result);
   reject_loan : (text) -> (Result);
   remove_id : (nat64) -> (bool);
   repay_loan : (text, nat64) -> (Result);
-  request_loan : (text, nat64, nat64) -> (Result_2);
+  request_loan : (text, nat64, nat64) -> (Result_5);
   save_principal : (principal) -> ();
-  submit_document : (text, text, nat64) -> (Result_2);
+  submit_document : (text, text, nat64) -> (Result_5);
   transfer : (principal, nat64) -> (Result);
+  transform_response : (TransformArgs) -> (HttpResponse) query;
   trigger_lending : (text) -> (Result);
-  validate_acid : (text) -> (Result_3);
+  validate_acid : (text) -> (Result_6);
   verify_customs_entry : (text) -> (Result);
 }
