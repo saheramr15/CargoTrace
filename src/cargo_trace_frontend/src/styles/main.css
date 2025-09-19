@@ -9,7 +9,6 @@
 
 /* Page-specific styles */
 @import './pages/login.css';
-@import './pages/document-verification.css';
 
 /* Admin styles */
 @import './admin.css';

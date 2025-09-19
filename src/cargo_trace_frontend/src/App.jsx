@@ -6,7 +6,6 @@ import BottomToggle from './components/layout/BottomToggle';
 import NewLanding from './pages/NewLanding';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
-import DocumentVerification from './pages/DocumentVerification';
 import Login from './pages/Login';
 import backendService from './services/backendService';
 // Scroll to top on route change
@@ -58,7 +57,6 @@ useEffect(() => {
         <Route path="/" element={<NewLanding />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/verification" element={<DocumentVerification />} />
         <Route path="/login" element={<Login />} />
       </Routes>
       
