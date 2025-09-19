@@ -53,4 +53,14 @@ pub struct ApiResponse {
     pub result: Vec<LogEntry>,
 }
 
- 
+#[derive(CandidType, Deserialize)]
+pub struct LogEntry {
+    #[serde(rename = "transactionHash")]
+    pub transaction_hash: String,
+    pub topics: Vec<String>,
+    #[serde(rename = "blockNumber")]
+    pub block_number: String,
+}
+
+
+
