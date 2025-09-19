@@ -49,61 +49,124 @@ const Hero = () => {
         ></div>
       </div>
 
-      {/* 3D Vector Graphics */}
+      {/* Premium 3D Objects */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Floating 3D Cubes */}
+        {/* Floating Cargo Containers */}
         <div 
-          className="absolute top-20 left-20 w-16 h-16 bg-gradient-to-br from-blue-400/15 to-cyan-300/15 rounded-lg transform rotate-45 animate-float"
+          className="absolute top-20 left-20 w-20 h-16 bg-gradient-to-br from-slate-700/30 to-slate-800/30 rounded-lg transform rotate-12 animate-float shadow-2xl border border-blue-400/20"
           style={{ 
-            transform: `translateY(${scrollY * 0.2}px) rotate(45deg)`,
+            transform: `translateY(${scrollY * 0.2}px) translateX(${scrollY * 0.1}px) rotate(12deg)`,
             animationDelay: '0s'
           }}
-        ></div>
+        >
+          <div className="w-full h-full bg-gradient-to-b from-blue-500/20 to-cyan-400/20 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-6 bg-gradient-to-b from-blue-400 to-cyan-300 rounded-sm">
+              <div className="absolute top-1 left-0.5 right-0.5 h-0.5 bg-blue-200"></div>
+              <div className="absolute top-2 left-0.5 right-0.5 h-0.5 bg-blue-200"></div>
+              <div className="absolute top-3 left-0.5 right-0.5 h-0.5 bg-blue-200"></div>
+            </div>
+          </div>
+        </div>
+        
         <div 
-          className="absolute top-40 right-32 w-12 h-12 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-full animate-float"
+          className="absolute top-40 right-32 w-16 h-16 bg-gradient-to-br from-slate-700/30 to-slate-800/30 rounded-2xl animate-float shadow-2xl border border-cyan-400/20"
           style={{ 
-            transform: `translateY(${scrollY * 0.15}px)`,
+            transform: `translateY(${scrollY * 0.15}px) translateX(${scrollY * -0.05}px)`,
             animationDelay: '2s'
           }}
-        ></div>
+        >
+          <div className="w-full h-full bg-gradient-to-br from-cyan-500/20 to-blue-400/20 rounded-2xl flex items-center justify-center">
+            <div className="w-8 h-8 border-2 border-cyan-300 rounded-full animate-pulse"></div>
+          </div>
+        </div>
+        
         <div 
-          className="absolute bottom-40 left-40 w-20 h-20 bg-gradient-to-br from-cyan-400/12 to-blue-500/12 rounded-lg transform rotate-12 animate-float"
+          className="absolute bottom-40 left-40 w-24 h-20 bg-gradient-to-br from-slate-700/30 to-slate-800/30 rounded-xl transform -rotate-6 animate-float shadow-2xl border border-indigo-400/20"
           style={{ 
-            transform: `translateY(${scrollY * 0.25}px) rotate(12deg)`,
+            transform: `translateY(${scrollY * 0.25}px) translateX(${scrollY * 0.08}px) rotate(-6deg)`,
             animationDelay: '4s'
           }}
-        ></div>
+        >
+          <div className="w-full h-full bg-gradient-to-br from-indigo-500/20 to-blue-400/20 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-8 bg-gradient-to-b from-indigo-400 to-blue-300 rounded-sm">
+              <div className="absolute top-1 left-0.5 right-0.5 h-0.5 bg-indigo-200"></div>
+              <div className="absolute top-2 left-0.5 right-0.5 h-0.5 bg-indigo-200"></div>
+              <div className="absolute top-3 left-0.5 right-0.5 h-0.5 bg-indigo-200"></div>
+              <div className="absolute top-4 left-0.5 right-0.5 h-0.5 bg-indigo-200"></div>
+            </div>
+          </div>
+        </div>
         
-        {/* Additional moving shapes */}
+        {/* Floating Blockchain Nodes */}
         <div 
-          className="absolute top-1/3 left-1/2 w-8 h-8 bg-gradient-to-br from-blue-300/20 to-cyan-200/20 rounded-full animate-float"
+          className="absolute top-1/3 left-1/2 w-12 h-12 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-full animate-float shadow-xl border-2 border-blue-400/30"
           style={{ 
             transform: `translateY(${scrollY * 0.3}px) translateX(${scrollY * 0.1}px)`,
             animationDelay: '1s'
           }}
-        ></div>
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="w-6 h-6 bg-gradient-to-br from-blue-400 to-cyan-300 rounded-full animate-pulse"></div>
+          </div>
+        </div>
+        
         <div 
-          className="absolute bottom-1/3 right-1/4 w-6 h-6 bg-gradient-to-br from-cyan-300/25 to-blue-400/25 rounded-lg transform rotate-45 animate-float"
+          className="absolute bottom-1/3 right-1/4 w-10 h-10 bg-gradient-to-br from-cyan-500/20 to-blue-400/20 rounded-lg transform rotate-45 animate-float shadow-xl border-2 border-cyan-400/30"
           style={{ 
             transform: `translateY(${scrollY * 0.18}px) translateX(${scrollY * 0.12}px) rotate(45deg)`,
             animationDelay: '3s'
           }}
-        ></div>
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="w-4 h-4 bg-gradient-to-br from-cyan-300 to-blue-400 rounded-sm animate-pulse"></div>
+          </div>
+        </div>
         
-        {/* Chain Links Animation */}
-        <div className="absolute top-1/4 right-1/4 w-8 h-8 border-2 border-blue-400/25 rounded-full animate-ping"></div>
-        <div className="absolute top-1/3 right-1/3 w-6 h-6 border-2 border-cyan-400/30 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
-        <div className="absolute top-1/2 right-1/2 w-4 h-4 border-2 border-blue-300/35 rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
-        
-        {/* Moving lines */}
+        {/* Floating Data Packets */}
         <div 
-          className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/20 to-transparent"
+          className="absolute top-1/4 right-1/4 w-8 h-8 bg-gradient-to-br from-green-500/20 to-emerald-400/20 rounded-lg animate-float shadow-lg border border-green-400/30"
+          style={{ 
+            transform: `translateY(${scrollY * 0.12}px) translateX(${scrollY * -0.08}px)`,
+            animationDelay: '5s'
+          }}
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="w-4 h-4 bg-gradient-to-br from-green-400 to-emerald-300 rounded-sm animate-ping"></div>
+          </div>
+        </div>
+        
+        <div 
+          className="absolute bottom-1/4 left-1/3 w-6 h-6 bg-gradient-to-br from-purple-500/20 to-pink-400/20 rounded-full animate-float shadow-lg border border-purple-400/30"
+          style={{ 
+            transform: `translateY(${scrollY * 0.22}px) translateX(${scrollY * 0.15}px)`,
+            animationDelay: '6s'
+          }}
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="w-3 h-3 bg-gradient-to-br from-purple-400 to-pink-300 rounded-full animate-ping"></div>
+          </div>
+        </div>
+        
+        {/* Animated Connection Lines */}
+        <div 
+          className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/30 to-transparent"
           style={{ transform: `translateY(${scrollY * 0.1}px)` }}
         ></div>
         <div 
-          className="absolute top-2/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/15 to-transparent"
+          className="absolute top-2/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/25 to-transparent"
           style={{ transform: `translateY(${scrollY * 0.05}px)` }}
         ></div>
+        <div 
+          className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-indigo-400/20 to-transparent"
+          style={{ transform: `translateY(${scrollY * 0.08}px)` }}
+        ></div>
+        
+        {/* Floating Particles */}
+        <div className="absolute top-1/4 right-1/4 w-2 h-2 bg-blue-400/40 rounded-full animate-ping"></div>
+        <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-cyan-400/50 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/2 right-1/2 w-1 h-1 bg-indigo-400/60 rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
+        <div className="absolute bottom-1/3 left-1/4 w-1.5 h-1.5 bg-green-400/40 rounded-full animate-ping" style={{animationDelay: '3s'}}></div>
+        <div className="absolute bottom-1/4 right-1/3 w-1 h-1 bg-purple-400/50 rounded-full animate-ping" style={{animationDelay: '4s'}}></div>
       </div>
 
       {/* Main Content */}

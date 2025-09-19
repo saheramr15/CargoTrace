@@ -3,6 +3,7 @@ import { ArrowRight, Star, Zap, Shield, Globe } from 'lucide-react';
 
 const WhyCargoTrace = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -24,13 +25,121 @@ const WhyCargoTrace = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <section id="why-cargotrace" ref={sectionRef} className="py-32 relative overflow-hidden">
       {/* Minimal Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800"></div>
       
-      {/* Subtle Floating Elements */}
+      {/* Premium 3D Objects */}
       <div className="absolute inset-0 overflow-hidden">
+        {/* Floating Cargo Containers */}
+        <div 
+          className="absolute top-20 left-16 w-16 h-12 bg-gradient-to-br from-slate-700/20 to-slate-800/20 rounded-lg transform rotate-6 animate-float shadow-xl border border-blue-400/15"
+          style={{ 
+            transform: `translateY(${scrollY * 0.1}px) translateX(${scrollY * 0.05}px) rotate(6deg)`,
+            animationDelay: '0s'
+          }}
+        >
+          <div className="w-full h-full bg-gradient-to-b from-blue-500/15 to-cyan-400/15 rounded-lg flex items-center justify-center">
+            <div className="w-6 h-4 bg-gradient-to-b from-blue-400 to-cyan-300 rounded-sm">
+              <div className="absolute top-0.5 left-0.5 right-0.5 h-0.5 bg-blue-200"></div>
+              <div className="absolute top-1.5 left-0.5 right-0.5 h-0.5 bg-blue-200"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div 
+          className="absolute top-32 right-20 w-12 h-12 bg-gradient-to-br from-slate-700/20 to-slate-800/20 rounded-2xl animate-float shadow-xl border border-cyan-400/15"
+          style={{ 
+            transform: `translateY(${scrollY * 0.08}px) translateX(${scrollY * -0.03}px)`,
+            animationDelay: '2s'
+          }}
+        >
+          <div className="w-full h-full bg-gradient-to-br from-cyan-500/15 to-blue-400/15 rounded-2xl flex items-center justify-center">
+            <div className="w-6 h-6 border-2 border-cyan-300 rounded-full animate-pulse"></div>
+          </div>
+        </div>
+        
+        <div 
+          className="absolute bottom-32 left-20 w-18 h-14 bg-gradient-to-br from-slate-700/20 to-slate-800/20 rounded-xl transform -rotate-3 animate-float shadow-xl border border-indigo-400/15"
+          style={{ 
+            transform: `translateY(${scrollY * 0.12}px) translateX(${scrollY * 0.04}px) rotate(-3deg)`,
+            animationDelay: '4s'
+          }}
+        >
+          <div className="w-full h-full bg-gradient-to-br from-indigo-500/15 to-blue-400/15 rounded-xl flex items-center justify-center">
+            <div className="w-8 h-6 bg-gradient-to-b from-indigo-400 to-blue-300 rounded-sm">
+              <div className="absolute top-0.5 left-0.5 right-0.5 h-0.5 bg-indigo-200"></div>
+              <div className="absolute top-1.5 left-0.5 right-0.5 h-0.5 bg-indigo-200"></div>
+              <div className="absolute top-2.5 left-0.5 right-0.5 h-0.5 bg-indigo-200"></div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Floating Blockchain Nodes */}
+        <div 
+          className="absolute top-1/3 left-1/3 w-10 h-10 bg-gradient-to-br from-blue-500/15 to-cyan-400/15 rounded-full animate-float shadow-lg border-2 border-blue-400/20"
+          style={{ 
+            transform: `translateY(${scrollY * 0.15}px) translateX(${scrollY * 0.06}px)`,
+            animationDelay: '1s'
+          }}
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="w-4 h-4 bg-gradient-to-br from-blue-400 to-cyan-300 rounded-full animate-pulse"></div>
+          </div>
+        </div>
+        
+        <div 
+          className="absolute bottom-1/3 right-1/3 w-8 h-8 bg-gradient-to-br from-cyan-500/15 to-blue-400/15 rounded-lg transform rotate-45 animate-float shadow-lg border-2 border-cyan-400/20"
+          style={{ 
+            transform: `translateY(${scrollY * 0.1}px) translateX(${scrollY * 0.08}px) rotate(45deg)`,
+            animationDelay: '3s'
+          }}
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="w-3 h-3 bg-gradient-to-br from-cyan-300 to-blue-400 rounded-sm animate-pulse"></div>
+          </div>
+        </div>
+        
+        {/* Floating Data Packets */}
+        <div 
+          className="absolute top-1/4 right-1/3 w-6 h-6 bg-gradient-to-br from-green-500/15 to-emerald-400/15 rounded-lg animate-float shadow-lg border border-green-400/20"
+          style={{ 
+            transform: `translateY(${scrollY * 0.06}px) translateX(${scrollY * -0.04}px)`,
+            animationDelay: '5s'
+          }}
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="w-3 h-3 bg-gradient-to-br from-green-400 to-emerald-300 rounded-sm animate-ping"></div>
+          </div>
+        </div>
+        
+        <div 
+          className="absolute bottom-1/4 left-1/4 w-5 h-5 bg-gradient-to-br from-purple-500/15 to-pink-400/15 rounded-full animate-float shadow-lg border border-purple-400/20"
+          style={{ 
+            transform: `translateY(${scrollY * 0.14}px) translateX(${scrollY * 0.1}px)`,
+            animationDelay: '6s'
+          }}
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="w-2 h-2 bg-gradient-to-br from-purple-400 to-pink-300 rounded-full animate-ping"></div>
+          </div>
+        </div>
+        
+        {/* Floating Particles */}
+        <div className="absolute top-1/4 right-1/4 w-1.5 h-1.5 bg-blue-400/30 rounded-full animate-ping"></div>
+        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-cyan-400/40 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/2 right-1/2 w-0.5 h-0.5 bg-indigo-400/50 rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
+        <div className="absolute bottom-1/3 left-1/4 w-1 h-1 bg-green-400/30 rounded-full animate-ping" style={{animationDelay: '3s'}}></div>
+        <div className="absolute bottom-1/4 right-1/3 w-0.5 h-0.5 bg-purple-400/40 rounded-full animate-ping" style={{animationDelay: '4s'}}></div>
+        
+        {/* Subtle Background Blurs */}
         <div 
           className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/3 rounded-full blur-3xl animate-float"
           style={{ animationDelay: '0s' }}
