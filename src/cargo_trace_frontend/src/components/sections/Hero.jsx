@@ -107,7 +107,7 @@ const Hero = () => {
       </div>
 
       {/* Main Content */}
-      <div className="container-custom section-padding relative z-10">
+      <div className="container-custom px-4 sm:px-6 lg:px-8 pt-8 pb-16 relative z-10">
         <div className="grid lg:grid-cols-2 gap-20 items-center min-h-screen">
           
           {/* Left Content */}
