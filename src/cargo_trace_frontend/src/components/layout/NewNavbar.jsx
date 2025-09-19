@@ -167,20 +167,14 @@ const NewNavbar = () => {
               ))}
             </ul>
 
-            {/* CTA Button with Dynamic Styling */}
+            {/* CTA Button with Colored Background */}
             <div className="hidden lg:block">
               <Link 
                 to="/login" 
-                className={`group relative inline-flex items-center px-6 py-3 font-semibold text-sm rounded-xl transition-all duration-500 hover:scale-105 transform hover:-translate-y-0.5 ${
-                  isScrolled 
-                    ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:from-blue-500 hover:to-cyan-400 hover:shadow-2xl hover:shadow-blue-500/25' 
-                    : 'bg-slate-800/50 backdrop-blur-sm border border-blue-400/30 text-blue-200 hover:bg-blue-500/10 hover:border-blue-300/50'
-                }`}
+                className="group relative inline-flex items-center px-6 py-3 font-semibold text-sm rounded-xl transition-all duration-500 hover:scale-105 transform hover:-translate-y-0.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:from-blue-500 hover:to-cyan-400 hover:shadow-2xl hover:shadow-blue-500/25"
               >
                 <span className="relative z-10">Get Started</span>
-                {isScrolled && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                )}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <svg className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
