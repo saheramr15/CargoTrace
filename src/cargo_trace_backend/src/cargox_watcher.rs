@@ -281,4 +281,61 @@ async fn fetch_token_uri(token_id: &str) -> Result<String, String> {
     }
 }
 
+fn decode_token_uri_result(hex_result: &str) -> Result<String, String> {
+    let hex_str = hex_result.strip_prefix("0x").unwrap_or(hex_result);
+    
+    if hex_str.len() < 128 {
+        return Err("Invalid response format".to_string());
+    }
+    
+    // Skip the first 64 characters (offset) and get the length
+    let length_hex = &hex_str[64..128];
+    let length = u64::from_str_radix(length_hex, 16).unwrap_or(0) as usize;
+    
+    // Get the actual string data
+    let data_hex = &hex_str[128..];
+    let uri_bytes: Vec<u8> = (0..std::cmp::min(data_hex.len(), length * 2))
+        .step_by(2)
+        .filter_map(|i| u8::from_str_radix(&data_hex[i..i + 2], 16).ok())
+        .collect();
+    
+    String::from_utf8(uri_bytes).map_err(|e| format!("Failed to decode URI: {}", e))
+}
+
+async fn fetch_metadata_from_uri(uri: &str) -> Result<DocumentMetadata, String> {
+    let request = CanisterHttpRequestArgument {
+        url: uri.to_string(),
+        method: HttpMethod::GET,
+        body: None,
+        max_response_bytes: Some(500_000), // Reduced size
+        transform: Some(TransformContext::from_name("transform_response".to_string(), vec![])),
+        headers: vec![
+            HttpHeader {
+                name: "User-Agent".to_string(),
+                value: "CargoX-Watcher/1.0".to_string(),
+            },
+            HttpHeader {
+                name: "Accept".to_string(),
+                value: "application/json".to_string(),
+            },
+        ],
+    };
+
+    match http_request(request, 10_000_000_000).await { // Reduced cycles
+        Ok((response,)) => {
+            if response.status == 200u16 {
+                let text = String::from_utf8(response.body)
+                    .map_err(|e| format!("Failed to decode response: {}", e))?;
+                
+                parse_metadata(&text)
+            } else {
+                Err(format!("HTTP error: {}", response.status))
+            }
+        }
+        Err((code, msg)) => {
+            Err(format!("HTTP request failed: {:?} - {}", code, msg))
+        }
+    }
+}
+
  
