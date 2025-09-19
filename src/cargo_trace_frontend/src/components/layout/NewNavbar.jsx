@@ -30,42 +30,36 @@ const NewNavbar = () => {
 
   return (
     <>
-      {/* Background Blur Effect */}
+      {/* Always Visible Background */}
       <div 
-        className={`fixed top-0 left-0 w-full h-20 bg-gradient-to-r from-slate-900/80 via-slate-800/80 to-slate-900/80 backdrop-blur-xl transition-all duration-500 z-40 ${
-          isScrolled ? 'opacity-100' : 'opacity-0'
-        }`}
+        className="fixed top-0 left-0 w-full h-20 backdrop-blur-xl z-40"
         style={{ 
-          transform: `translateY(${isScrolled ? 0 : -100}px)`,
-          background: `linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.8) 50%, rgba(15, 23, 42, 0.8) 100%)`
+          background: `linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.85) 50%, rgba(15, 23, 42, 0.85) 100%)`,
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(59, 130, 246, 0.1)'
         }}
       />
 
       {/* Animated Background Elements */}
       <div className="fixed top-0 left-0 w-full h-20 overflow-hidden z-30 pointer-events-none">
         <div 
-          className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-500/10 via-cyan-400/10 to-blue-500/10"
+          className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-500/5 via-cyan-400/5 to-blue-500/5"
           style={{ transform: `translateX(${scrollY * 0.1}px)` }}
         />
         <div 
-          className="absolute top-2 left-1/4 w-2 h-2 bg-blue-400/30 rounded-full animate-ping"
+          className="absolute top-2 left-1/4 w-2 h-2 bg-blue-400/20 rounded-full animate-ping"
           style={{ transform: `translateY(${scrollY * 0.05}px)` }}
         />
         <div 
-          className="absolute top-4 right-1/3 w-1 h-1 bg-cyan-400/40 rounded-full animate-ping"
+          className="absolute top-4 right-1/3 w-1 h-1 bg-cyan-400/25 rounded-full animate-ping"
           style={{ transform: `translateY(${scrollY * 0.08}px)`, animationDelay: '2s' }}
         />
         <div 
-          className="absolute top-6 left-2/3 w-1.5 h-1.5 bg-blue-300/25 rounded-full animate-ping"
+          className="absolute top-6 left-2/3 w-1.5 h-1.5 bg-blue-300/15 rounded-full animate-ping"
           style={{ transform: `translateY(${scrollY * 0.03}px)`, animationDelay: '4s' }}
         />
       </div>
 
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'bg-slate-900/20 backdrop-blur-2xl border-b border-blue-400/20 shadow-2xl shadow-blue-500/10' 
-          : 'bg-transparent'
-      }`}>
+      <nav className="fixed top-0 left-0 w-full z-50 bg-slate-900/20 backdrop-blur-2xl border-b border-blue-400/30 shadow-lg">
         <div className="container-custom px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             
@@ -81,16 +75,10 @@ const NewNavbar = () => {
                 <div className="absolute -inset-1 bg-gradient-to-br from-blue-500/50 to-cyan-400/50 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
               <div className="flex flex-col">
-                <span className={`text-2xl font-black transition-all duration-300 ${
-                  isScrolled 
-                    ? 'bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent' 
-                    : 'text-white'
-                }`}>
+                <span className="text-2xl font-black text-white drop-shadow-lg">
                   CargoTrace
                 </span>
-                <span className={`text-sm font-medium transition-all duration-300 ${
-                  isScrolled ? 'text-blue-200' : 'text-slate-300'
-                }`}>
+                <span className="text-sm font-medium text-blue-200 drop-shadow-md">
                   Finance
                 </span>
               </div>
@@ -111,11 +99,7 @@ const NewNavbar = () => {
                   <a
                     href={`#${item.id}`}
                     onClick={() => scrollToSection(item.id)}
-                    className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105 group ${
-                      isScrolled 
-                        ? 'text-slate-200 hover:text-blue-300' 
-                        : 'text-slate-300 hover:text-white'
-                    }`}
+                    className="relative px-4 py-2 text-sm font-medium text-white hover:text-blue-300 drop-shadow-md transition-all duration-300 hover:scale-105 group"
                   >
                     {item.label}
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-300 transition-all duration-300 group-hover:w-full"></span>
@@ -165,7 +149,7 @@ const NewNavbar = () => {
             ? 'max-h-96 opacity-100' 
             : 'max-h-0 opacity-0'
         }`}>
-          <div className="bg-slate-900/90 backdrop-blur-2xl border-t border-blue-400/20 shadow-2xl">
+          <div className="bg-slate-900/95 backdrop-blur-2xl border-t border-blue-400/30 shadow-2xl">
             <ul className="px-4 py-6 space-y-4">
               {[
                 { id: 'home', label: 'Home' },
