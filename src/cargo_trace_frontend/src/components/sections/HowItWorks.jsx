@@ -363,22 +363,7 @@ const HowItWorks = () => {
             );
           })}
         </div>
-
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <p className="text-slate-300 mb-6 text-lg">
-            Ready to revolutionize your supply chain operations?
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-lg rounded-xl transition-all duration-300 hover:from-blue-500 hover:to-cyan-400 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-1">
-              <span className="relative z-10">Get Started</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </button>
-            <button className="px-8 py-4 border border-slate-700/50 hover:bg-slate-800/50 hover:border-blue-400/50 transition-all duration-300 rounded-xl font-medium text-slate-300 hover:text-white">
-              View Documentation
-            </button>
-          </div>
-        </div>
+      
       </div>
     </section>
   );
