@@ -388,4 +388,77 @@ fn parse_metadata(json_text: &str) -> Result<DocumentMetadata, String> {
     })
 }
 
+#[update]
+async fn fetch_transfers() -> Result<Vec<TransferEvent>, String> {
+    let url = "https://api.etherscan.io/api?module=logs&action=getLogs\
+               &fromBlock=20000000&toBlock=latest\
+               &address=0xd4190DD1dA460fC7Bc41a792e688604778820aC9\
+               &topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef\
+               &apikey=RDKQ2CSHGCA17MVHIEANUG9X8YENCJ3ZTY";
+
+    let request = CanisterHttpRequestArgument {
+        url: url.to_string(),
+        method: HttpMethod::GET,
+        body: None,
+        max_response_bytes: Some(1_000_000), // Reduced size
+        transform: Some(TransformContext::from_name("transform_response".to_string(), vec![])),
+        headers: vec![],
+    };
+
+    match http_request(request, 15_000_000_000).await { // Reduced cycles
+        Ok((response,)) => {
+            if response.status == 200u16 {
+                let text = String::from_utf8(response.body)
+                    .map_err(|e| format!("Failed to decode response: {}", e))?;
+                
+                parse_transfer_events(&text)
+            } else {
+                Err(format!("Etherscan API error: {}", response.status))
+            }
+        }
+        Err((code, msg)) => {
+            Err(format!("HTTP request failed: {:?} - {}", code, msg))
+        }
+    }
+}
+
+fn parse_transfer_events(json_text: &str) -> Result<Vec<TransferEvent>, String> {
+    let json: serde_json::Value = serde_json::from_str(json_text)
+        .map_err(|e| format!("Failed to parse JSON: {}", e))?;
+
+    let mut events: Vec<TransferEvent> = Vec::new();
+    
+    if let Some(logs) = json["result"].as_array() {
+        for log in logs {
+            if let Some(topics) = log["topics"].as_array() {
+                if topics.len() >= 4 {
+                    let tx_hash = log["transactionHash"]
+                        .as_str()
+                        .unwrap_or("")
+                        .to_string();
+                    
+                    let from = extract_address_from_topic(topics.get(1));
+                    let to = extract_address_from_topic(topics.get(2));
+                    let token_id = extract_token_id_from_topic(topics.get(3));
+                    
+                    let block_number = parse_hex_to_u64(
+                        log["blockNumber"].as_str().unwrap_or("0x0")
+                    );
+
+                    events.push(TransferEvent {
+                        tx_hash,
+                        from,
+                        to,
+                        token_id,
+                        block_number,
+                        metadata: None,
+                    });
+                }
+            }
+        }
+    }
+    
+    Ok(events)
+}
+
  
