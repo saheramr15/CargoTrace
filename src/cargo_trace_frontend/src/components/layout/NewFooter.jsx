@@ -1,97 +1,241 @@
 import React from 'react';
-import styles from '../../styles/landing/NewFooter.module.css';
+import { 
+  Mail, 
+  Twitter, 
+  Linkedin, 
+  MessageCircle, 
+  Github,
+  ArrowRight,
+  Shield,
+  Zap,
+  Globe,
+  Lock
+} from 'lucide-react';
 
 const NewFooter = () => {
   return (
-    <footer className={styles.footer}>
-      <div className={styles.container}>
+    <footer className="relative bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-500/5 via-transparent to-cyan-500/5"></div>
+        <div 
+          className="absolute top-20 left-20 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl animate-float"
+          style={{ animationDelay: '0s' }}
+        ></div>
+        <div 
+          className="absolute top-40 right-32 w-24 h-24 bg-cyan-500/5 rounded-full blur-2xl animate-float"
+          style={{ animationDelay: '2s' }}
+        ></div>
+        <div 
+          className="absolute bottom-20 left-1/3 w-28 h-28 bg-indigo-500/5 rounded-full blur-3xl animate-float"
+          style={{ animationDelay: '4s' }}
+        ></div>
+      </div>
+
+      {/* Animated Grid Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div 
+          className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-transparent to-cyan-500/10"
+          style={{ 
+            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(59, 130, 246, 0.3) 1px, transparent 0)`,
+            backgroundSize: '40px 40px',
+            animation: 'gridMove 20s linear infinite'
+          }}
+        ></div>
+      </div>
+
+      <div className="container-custom px-4 relative z-10">
         {/* Main Footer Content */}
-        <div className={styles.mainContent}>
-          {/* Brand Section */}
-          <div className={styles.brandSection}>
-            <div className={styles.logo}>
-              <span className={styles.logoIcon}>🚢</span>
-              <span className={styles.logoText}>CargoTrace</span>
+        <div className="py-16">
+          <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-12">
+            
+            {/* Brand Section */}
+            <div className="lg:col-span-1 space-y-6">
+              <div className="group flex items-center space-x-3">
+                <div className="relative">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform duration-300">
+                    <span className="text-2xl">🚢</span>
+                  </div>
+                  <div className="absolute -inset-1 bg-gradient-to-br from-blue-500/50 to-cyan-400/50 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-2xl font-black bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+                    CargoTrace
+                  </span>
+                  <span className="text-sm font-medium text-blue-200">
+                    Finance
+                  </span>
+                </div>
+              </div>
+              
+              <p className="text-slate-300 leading-relaxed text-sm">
+                Revolutionizing trade finance in the MENA region through blockchain innovation. 
+                Connecting traditional commerce with cutting-edge DeFi solutions for a more 
+                efficient and accessible global trade ecosystem.
+              </p>
+              
+              {/* Social Links */}
+              <div className="flex space-x-4">
+                {[
+                  { icon: Mail, href: "#", label: "Email", color: "hover:text-blue-400" },
+                  { icon: Twitter, href: "#", label: "Twitter", color: "hover:text-cyan-400" },
+                  { icon: Linkedin, href: "#", label: "LinkedIn", color: "hover:text-indigo-400" },
+                  { icon: MessageCircle, href: "#", label: "Telegram", color: "hover:text-blue-300" },
+                  { icon: Github, href: "#", label: "GitHub", color: "hover:text-slate-300" }
+                ].map((social, index) => {
+                  const Icon = social.icon;
+                  return (
+                    <a
+                      key={index}
+                      href={social.href}
+                      className={`w-10 h-10 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl flex items-center justify-center text-slate-400 transition-all duration-300 hover:scale-110 hover:border-blue-400/50 hover:shadow-lg hover:shadow-blue-500/20 ${social.color}`}
+                      aria-label={social.label}
+                    >
+                      <Icon className="w-5 h-5" />
+                    </a>
+                  );
+                })}
+              </div>
             </div>
-            <p className={styles.brandDescription}>
-              Revolutionizing trade finance in the MENA region through blockchain innovation. 
-              Connecting traditional commerce with cutting-edge DeFi solutions for a more 
-              efficient and accessible global trade ecosystem.
-            </p>
-            <div className={styles.socialLinks}>
-              <a href="#" className={styles.socialLink} aria-label="Email">
-                <span>📧</span>
-              </a>
-              <a href="#" className={styles.socialLink} aria-label="Twitter">
-                <span>🐦</span>
-              </a>
-              <a href="#" className={styles.socialLink} aria-label="LinkedIn">
-                <span>💼</span>
-              </a>
-              <a href="#" className={styles.socialLink} aria-label="Telegram">
-                <span>📱</span>
-              </a>
+
+            {/* Links Sections */}
+            <div className="lg:col-span-3 grid md:grid-cols-4 grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <h4 className="text-white font-bold text-lg relative">
+                  Product
+                  <div className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full"></div>
+                </h4>
+                <ul className="space-y-3">
+                  {['Features', 'How It Works', 'Technology', 'API Documentation', 'Integration Guide'].map((link, index) => (
+                    <li key={index}>
+                      <a 
+                        href={`#${link.toLowerCase().replace(/\s+/g, '-')}`}
+                        className="text-slate-300 hover:text-blue-400 transition-colors duration-300 text-sm group flex items-center"
+                      >
+                        <ArrowRight className="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-white font-bold text-lg relative">
+                  Company
+                  <div className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gradient-to-r from-cyan-500 to-blue-400 rounded-full"></div>
+                </h4>
+                <ul className="space-y-3">
+                  {['About Us', 'Partners', 'Careers', 'Press Kit', 'Contact'].map((link, index) => (
+                    <li key={index}>
+                      <a 
+                        href={`#${link.toLowerCase().replace(/\s+/g, '-')}`}
+                        className="text-slate-300 hover:text-cyan-400 transition-colors duration-300 text-sm group flex items-center"
+                      >
+                        <ArrowRight className="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-white font-bold text-lg relative">
+                  Support
+                  <div className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gradient-to-r from-indigo-500 to-blue-400 rounded-full"></div>
+                </h4>
+                <ul className="space-y-3">
+                  {['Help Center', 'Documentation', 'Community', 'Status Page', 'Security'].map((link, index) => (
+                    <li key={index}>
+                      <a 
+                        href="#"
+                        className="text-slate-300 hover:text-indigo-400 transition-colors duration-300 text-sm group flex items-center"
+                      >
+                        <ArrowRight className="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-white font-bold text-lg relative">
+                  Legal
+                  <div className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full"></div>
+                </h4>
+                <ul className="space-y-3">
+                  {['Privacy Policy', 'Terms of Service', 'Cookie Policy', 'Compliance', 'Licenses'].map((link, index) => (
+                    <li key={index}>
+                      <a 
+                        href="#"
+                        className="text-slate-300 hover:text-blue-300 transition-colors duration-300 text-sm group flex items-center"
+                      >
+                        <ArrowRight className="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* Links Sections */}
-          <div className={styles.linksSection}>
-            <div className={styles.linkGroup}>
-              <h4 className={styles.linkTitle}>Product</h4>
-              <ul className={styles.linkList}>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#how-it-works">How It Works</a></li>
-                <li><a href="#technology">Technology</a></li>
-                <li><a href="#">API Documentation</a></li>
-                <li><a href="#">Integration Guide</a></li>
-              </ul>
+        {/* Newsletter Section */}
+        <div className="py-12 border-t border-slate-700/50">
+          <div className="max-w-4xl mx-auto text-center space-y-6">
+            <div className="space-y-4">
+              <h3 className="text-2xl font-bold text-white">
+                Stay Updated with <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">CargoTrace</span>
+              </h3>
+              <p className="text-slate-300">
+                Get the latest updates on blockchain innovations, trade finance solutions, and platform developments.
+              </p>
             </div>
-
-            <div className={styles.linkGroup}>
-              <h4 className={styles.linkTitle}>Company</h4>
-              <ul className={styles.linkList}>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#partners">Partners</a></li>
-                <li><a href="#">Careers</a></li>
-                <li><a href="#">Press Kit</a></li>
-                <li><a href="#">Contact</a></li>
-              </ul>
-            </div>
-
-            <div className={styles.linkGroup}>
-              <h4 className={styles.linkTitle}>Support</h4>
-              <ul className={styles.linkList}>
-                <li><a href="#">Help Center</a></li>
-                <li><a href="#">Documentation</a></li>
-                <li><a href="#">Community</a></li>
-                <li><a href="#">Status Page</a></li>
-                <li><a href="#">Security</a></li>
-              </ul>
-            </div>
-
-            <div className={styles.linkGroup}>
-              <h4 className={styles.linkTitle}>Legal</h4>
-              <ul className={styles.linkList}>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Terms of Service</a></li>
-                <li><a href="#">Cookie Policy</a></li>
-                <li><a href="#">Compliance</a></li>
-                <li><a href="#">Licenses</a></li>
-              </ul>
+            
+            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 px-4 py-3 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-blue-400/50 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
+              />
+              <button className="group inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold rounded-xl transition-all duration-300 hover:from-blue-500 hover:to-cyan-400 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25">
+                <span>Subscribe</span>
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+              </button>
             </div>
           </div>
         </div>
 
         {/* Bottom Footer */}
-        <div className={styles.bottomFooter}>
-          <div className={styles.copyright}>
-            © 2024 CargoTrace Finance. Built on Internet Computer. All rights reserved.
-          </div>
-          <div className={styles.techBadges}>
-            <span className={styles.badge}>ICP</span>
-            <span className={styles.badge}>Ethereum</span>
-            <span className={styles.badge}>CargoX</span>
-            <span className={styles.badge}>NAFEZA</span>
+        <div className="py-8 border-t border-slate-700/50">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div className="text-slate-400 text-sm">
+              © 2024 CargoTrace Finance. Built on Internet Computer. All rights reserved.
+            </div>
+            
+            {/* Tech Badges */}
+            <div className="flex flex-wrap gap-3">
+              {[
+                { name: 'ICP', icon: Globe, color: 'from-blue-500 to-cyan-400' },
+                { name: 'Ethereum', icon: Shield, color: 'from-indigo-500 to-blue-400' },
+                { name: 'CargoX', icon: Zap, color: 'from-cyan-500 to-blue-500' },
+                { name: 'NAFEZA', icon: Lock, color: 'from-blue-400 to-indigo-400' }
+              ].map((tech, index) => {
+                const Icon = tech.icon;
+                return (
+                  <div
+                    key={index}
+                    className={`group flex items-center space-x-2 px-3 py-2 bg-gradient-to-r ${tech.color} rounded-lg text-white text-xs font-medium hover:scale-105 transition-transform duration-300`}
+                  >
+                    <Icon className="w-3 h-3" />
+                    <span>{tech.name}</span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
