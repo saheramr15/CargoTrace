@@ -147,6 +147,7 @@ service : () -> {
   has_id : (nat64) -> (bool) query;
   ingest_transfer : (TransferPayload) -> ();
   init_ledger_principal : (text) -> (Result);
+  init_user_balance : (nat64) -> (Result);
   link_cargox_to_acid : (text, text) -> (Result_7);
   mint : (nat64) -> ();
   refresh_wallet_balance : () -> (Result_6);

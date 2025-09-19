@@ -95,6 +95,20 @@ thread_local! {
     static LEDGER_PRINCIPAL: RefCell<Option<Principal>> = RefCell::new(None);
 }
 
+// Ensure balance initialization for testing
+#[update]
+pub fn init_user_balance(amount_usd_cents: u64) -> Result<(), String> {
+    let token_amount = usd_to_tokens(amount_usd_cents);
+    BALANCES.with(|b| {
+        let mut balances = b.borrow_mut();
+        let caller = caller();
+        let current = balances.get(&caller).unwrap_or(0);
+        balances.insert(caller, current + token_amount);
+        ic_cdk::println!("Initialized balance for {}: {} tokens ({} USD cents)", caller, token_amount, amount_usd_cents);
+    });
+    Ok(())
+}
+
 // Initialize ledger principal (call this during canister init)
 #[update]
 pub async fn init_ledger_principal(ledger_id: String) -> Result<(), String> {
@@ -142,26 +156,36 @@ pub fn request_test_tokens(amount: u64) -> Result<(), String> {
 
 // Mock ICRC-1 transfer function for testing
 async fn icrc1_transfer(args: TransferArgs) -> Result<candid::Nat, TransferError> {
-    // Get canister and recipient balances before any mutations
+    ic_cdk::println!("icrc1_transfer: from canister to {}, amount: {}, fee: {:?}", 
+        args.to.owner, args.amount, args.fee);
     let balance = BALANCES.with(|b| b.borrow().get(&ic_cdk::api::id()).unwrap_or(0));
     let recipient_balance = BALANCES.with(|b| b.borrow().get(&args.to.owner).unwrap_or(0));
 
-    let amount: u64 = args.amount.0.try_into().map_err(|_| TransferError::GenericError {
-        error_code: candid::Nat::from(1u64),
-        message: "Invalid amount".to_string(),
+    let amount: u64 = args.amount.0.try_into().map_err(|_| {
+        let err = TransferError::GenericError {
+            error_code: candid::Nat::from(1u64),
+            message: "Invalid amount".to_string(),
+        };
+        ic_cdk::println!("Transfer error: {:?}", err);
+        err
     })?;
-    let fee: u64 = args.fee.unwrap_or(candid::Nat::from(TRANSFER_FEE)).0.try_into().map_err(|_| TransferError::GenericError {
-        error_code: candid::Nat::from(1u64),
-        message: "Invalid fee".to_string(),
+    let fee: u64 = args.fee.unwrap_or(candid::Nat::from(TRANSFER_FEE)).0.try_into().map_err(|_| {
+        let err = TransferError::GenericError {
+            error_code: candid::Nat::from(1u64),
+            message: "Invalid fee".to_string(),
+        };
+        ic_cdk::println!("Transfer error: {:?}", err);
+        err
     })?;
 
     if balance < amount + fee {
-        return Err(TransferError::InsufficientFunds {
+        let err = TransferError::InsufficientFunds {
             balance: candid::Nat::from(balance),
-        });
+        };
+        ic_cdk::println!("Transfer error: {:?}", err);
+        return Err(err);
     }
 
-    // Perform mutations in a single mutable borrow
     BALANCES.with(|b| {
         let mut balances = b.borrow_mut();
         let new_balance = balance - (amount + fee);
@@ -169,12 +193,16 @@ async fn icrc1_transfer(args: TransferArgs) -> Result<candid::Nat, TransferError
         balances.insert(args.to.owner, recipient_balance + amount);
     });
 
-    Ok(candid::Nat::from(123456u64)) // Simulate block height
+    let block_height = candid::Nat::from(123456u64);
+    ic_cdk::println!("Transfer successful: {} tokens to {}, block: {}", amount, args.to.owner, block_height);
+    Ok(block_height)
 }
 
 // Mock ICRC-1 balance_of function for testing
 async fn icrc1_balance_of(account: Account) -> Result<u64, String> {
-    Ok(BALANCES.with(|b| b.borrow().get(&account.owner).unwrap_or(0)))
+    let balance = BALANCES.with(|b| b.borrow().get(&account.owner).unwrap_or(0));
+    ic_cdk::println!("icrc1_balance_of for principal {}: {} tokens", account.owner, balance);
+    Ok(balance)
 }
 
 // Data structures
@@ -197,7 +225,7 @@ pub enum DocumentStatus {
     NftMinted,
 }
 
-#[derive(CandidType, Deserialize, Clone)]
+#[derive(CandidType, Deserialize, Debug, Clone)]
 pub struct Loan {
     pub id: String,
     pub document_id: String,
@@ -210,7 +238,7 @@ pub struct Loan {
     pub transfer_block_height: Option<candid::Nat>,
 }
 
-#[derive(CandidType, Deserialize, PartialEq, Clone)]
+#[derive(CandidType, Deserialize, PartialEq, Debug, Clone)]
 pub enum LoanStatus {
     Pending,
     Approved,
@@ -838,19 +866,22 @@ pub async fn get_wallet_balance_usd() -> Result<f64, String> {
     Ok(balance_cents as f64 / 100.0) // Convert cents to dollars
 }
 
-// Get active loan for a user
+// Modified get_active_loan to include Approved status
 #[query]
 pub fn get_active_loan() -> Option<Loan> {
     let caller = caller();
+    ic_cdk::println!("get_active_loan for principal {}", caller);
     LOANS.with(|loans| {
-        loans.borrow()
+        let loan = loans.borrow()
             .iter()
             .find(|entry| {
                 entry.value().borrower == caller && 
                 matches!(entry.value().status, 
-                    LoanStatus::Active | LoanStatus::TransferPending | LoanStatus::TransferFailed)
+                    LoanStatus::Active | LoanStatus::TransferPending | LoanStatus::TransferFailed | LoanStatus::Approved)
             })
-            .map(|entry| entry.value().clone())
+            .map(|entry| entry.value().clone());
+        ic_cdk::println!("get_active_loan result: {:?}", loan);
+        loan
     })
 }
 
