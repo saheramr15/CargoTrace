@@ -236,7 +236,7 @@ const NewNavbar = () => {
               <li className="pt-4">
                 <Link 
                   to="/login" 
-                  className="block w-full text-center px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-medium text-sm rounded-md transition-all duration-300 hover:from-blue-500 hover:to-cyan-400 hover:scale-105"
+                  className="block w-full text-center px-3 py-1.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-medium text-xs rounded-md transition-all duration-300 hover:from-blue-500 hover:to-cyan-400 hover:scale-105"
                 >
                   Get Started
                 </Link>
