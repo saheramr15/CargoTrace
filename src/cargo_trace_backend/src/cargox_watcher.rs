@@ -164,4 +164,33 @@ async fn fetch_cargox_documents() -> Result<Vec<CargoXDocument>, String> {
     
     Ok(documents.into_values().collect())
 }
+
+#[update]
+async fn get_document_by_token_id(token_id: String) -> Result<Option<CargoXDocument>, String> {
+    let metadata = fetch_token_metadata(&token_id).await?;
+    
+    // Get the latest transfer for this token
+    let transfers = fetch_transfers().await?;
+    let latest_transfer = transfers
+        .into_iter()
+        .filter(|t| t.token_id == token_id)
+        .max_by_key(|t| t.block_number);
+    
+    if let Some(transfer) = latest_transfer {
+        let document_hash = metadata.document_hash.clone().unwrap_or_default();
+        let document_type = metadata.document_type.clone().unwrap_or("Unknown".to_string());
+        
+        Ok(Some(CargoXDocument {
+            token_id: token_id.clone(),
+            owner: transfer.to.clone(),
+            document_hash,
+            document_type,
+            metadata,
+            last_transfer: transfer,
+        }))
+    } else {
+        Ok(None)
+    }
+}
+
  
