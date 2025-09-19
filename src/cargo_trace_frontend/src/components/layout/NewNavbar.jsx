@@ -146,9 +146,7 @@ const NewNavbar = () => {
                 { id: 'problem', label: 'Problem' },
                 { id: 'solution', label: 'Solution' },
                 { id: 'how-it-works', label: 'How It Works' },
-                { id: 'technology', label: 'Technology' },
-                { id: 'why-cargotrace', label: 'Why CargoTrace' },
-                { id: 'roadmap', label: 'Roadmap' }
+                { id: 'why-cargotrace', label: 'Why CargoTrace' }
               ].map((item) => (
                 <li key={item.id}>
                   <a
@@ -215,9 +213,7 @@ const NewNavbar = () => {
                 { id: 'problem', label: 'Problem' },
                 { id: 'solution', label: 'Solution' },
                 { id: 'how-it-works', label: 'How It Works' },
-                { id: 'technology', label: 'Technology' },
-                { id: 'why-cargotrace', label: 'Why CargoTrace' },
-                { id: 'roadmap', label: 'Roadmap' }
+                { id: 'why-cargotrace', label: 'Why CargoTrace' }
               ].map((item, index) => (
                 <li key={item.id}>
                   <a
