@@ -1,180 +1,227 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Hero = () => {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <section className="relative min-h-screen bg-dark-900 overflow-hidden">
-      {/* Premium Dark Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900"></div>
-      <div className="absolute inset-0 bg-gradient-to-tr from-primary-900/20 via-transparent to-primary-800/30"></div>
-      
-      {/* Animated Grid Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(59, 130, 246, 0.3) 1px, transparent 0)`,
-          backgroundSize: '50px 50px'
-        }}></div>
+    <section className="relative min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 overflow-hidden">
+      {/* Animated Background Layers */}
+      <div className="absolute inset-0">
+        {/* Base gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-900/90 to-slate-800/95"></div>
+        
+        {/* Parallax layer 1 */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-tr from-amber-500/8 via-transparent to-orange-400/8"
+          style={{ transform: `translateY(${scrollY * 0.5}px)` }}
+        ></div>
+        
+        {/* Parallax layer 2 */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-bl from-transparent via-amber-600/4 to-transparent"
+          style={{ transform: `translateY(${scrollY * 0.3}px)` }}
+        ></div>
       </div>
-      
-      {/* Floating Premium Elements */}
-      <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-primary-600/20 to-primary-800/20 rounded-full blur-xl animate-bounce-gentle"></div>
-      <div className="absolute top-40 right-32 w-24 h-24 bg-gradient-to-br from-primary-500/30 to-primary-700/30 rounded-lg blur-lg animate-bounce-gentle" style={{animationDelay: '2s'}}></div>
-      <div className="absolute bottom-32 left-32 w-20 h-20 bg-gradient-to-br from-primary-400/25 to-primary-600/25 rounded-full blur-md animate-bounce-gentle" style={{animationDelay: '4s'}}></div>
-      
-      {/* Main Content Container */}
-      <div className="container-custom relative z-10 min-h-screen flex items-center">
-        <div className="w-full">
+
+      {/* 3D Vector Graphics */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Floating 3D Cubes */}
+        <div 
+          className="absolute top-20 left-20 w-16 h-16 bg-gradient-to-br from-amber-400/15 to-orange-300/15 rounded-lg transform rotate-45 animate-float"
+          style={{ 
+            transform: `translateY(${scrollY * 0.2}px) rotate(45deg)`,
+            animationDelay: '0s'
+          }}
+        ></div>
+        <div 
+          className="absolute top-40 right-32 w-12 h-12 bg-gradient-to-br from-amber-500/20 to-orange-400/20 rounded-full animate-float"
+          style={{ 
+            transform: `translateY(${scrollY * 0.15}px)`,
+            animationDelay: '2s'
+          }}
+        ></div>
+        <div 
+          className="absolute bottom-40 left-40 w-20 h-20 bg-gradient-to-br from-orange-400/12 to-amber-500/12 rounded-lg transform rotate-12 animate-float"
+          style={{ 
+            transform: `translateY(${scrollY * 0.25}px) rotate(12deg)`,
+            animationDelay: '4s'
+          }}
+        ></div>
+        
+        {/* Chain Links Animation */}
+        <div className="absolute top-1/4 right-1/4 w-8 h-8 border-2 border-amber-400/25 rounded-full animate-ping"></div>
+        <div className="absolute top-1/3 right-1/3 w-6 h-6 border-2 border-orange-400/30 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/2 right-1/2 w-4 h-4 border-2 border-amber-300/35 rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
+      </div>
+
+      {/* Main Content */}
+      <div className="container-custom section-padding relative z-10">
+        <div className="grid lg:grid-cols-2 gap-20 items-center min-h-screen">
           
-          {/* Hero Content Grid */}
-          <div className="grid lg:grid-cols-12 gap-12 items-center">
-            
-            {/* Left Content - 7 columns */}
-            <div className="lg:col-span-7 space-y-12">
+          {/* Left Content */}
+          <div className="space-y-10">
+            {/* Animated Badge */}
+            <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-amber-500/10 to-orange-400/10 border border-amber-400/30 rounded-full text-amber-300 text-sm font-medium backdrop-blur-sm animate-fade-in">
+              <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
+              <span>Next-Gen Web3 Finance</span>
+              <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+            </div>
+
+            {/* Main Title with 3D Effect */}
+            <div className="space-y-6">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-tight">
+                <span className="block bg-gradient-to-r from-amber-400 via-orange-300 to-amber-500 bg-clip-text text-transparent transform hover:scale-105 transition-transform duration-500">
+                  CargoTrace
+                </span>
+                <span className="block text-white mt-2 transform hover:scale-105 transition-transform duration-500">
+                  Finance
+                </span>
+              </h1>
               
-              {/* Status Badge */}
-              <div className="inline-flex items-center gap-3 px-6 py-3 bg-dark-800/50 backdrop-blur-sm border border-primary-500/30 rounded-full text-primary-400 text-sm font-medium animate-fade-in">
-                <div className="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
-                <span>Live on Internet Computer</span>
-                <div className="w-1 h-1 bg-primary-500 rounded-full"></div>
-              </div>
+              <p className="text-xl text-slate-200 leading-relaxed max-w-2xl">
+                Revolutionary blockchain technology meets innovative supply chain finance. 
+                Experience the future of decentralized cargo tracking with unparalleled security and transparency.
+              </p>
+            </div>
 
-              {/* Main Title */}
-              <div className="space-y-6 animate-fade-in">
-                <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-[0.9] tracking-tight">
-                  <span className="block text-white mb-2">
-                    Decentralized
-                  </span>
-                  <span className="block bg-gradient-to-r from-primary-400 via-primary-500 to-primary-600 bg-clip-text text-transparent">
-                    Trade Finance
-                  </span>
-                  <span className="block text-gray-300 text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mt-4">
-                    for Global Commerce
-                  </span>
-                </h1>
+            {/* Animated Feature Icons */}
+            <div className="flex flex-wrap gap-8">
+              <div className="flex items-center gap-3 text-slate-200 group">
+                <div className="w-12 h-12 bg-gradient-to-br from-amber-500/20 to-orange-400/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <span className="font-medium">Secure & Audited</span>
               </div>
-
-              {/* Subtitle */}
-              <div className="max-w-2xl animate-fade-in">
-                <p className="text-xl text-gray-300 leading-relaxed mb-6">
-                  Transform your customs documents into tradeable NFTs on the blockchain. 
-                  Unlock instant DeFi loans and streamline international trade finance with 
-                  verified, immutable cargo documentation.
-                </p>
-                <p className="text-lg text-gray-400 leading-relaxed">
-                  Empowering importers across Egypt and the MENA region with cutting-edge 
-                  blockchain technology and seamless CargoX/ACI integration.
-                </p>
+              
+              <div className="flex items-center gap-3 text-slate-200 group">
+                <div className="w-12 h-12 bg-gradient-to-br from-orange-500/20 to-amber-400/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                  </svg>
+                </div>
+                <span className="font-medium">High Performance</span>
               </div>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-6 animate-fade-in">
-                <button className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-700 text-white font-bold text-lg rounded-xl transition-all duration-300 hover:from-primary-500 hover:to-primary-600 hover:scale-105 hover:shadow-2xl hover:shadow-primary-500/25">
-                  <span className="mr-3">Start Trading</span>
-                  <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
-                </button>
-                <button className="group inline-flex items-center justify-center px-8 py-4 bg-dark-800/50 backdrop-blur-sm border border-gray-600 text-gray-300 font-semibold text-lg rounded-xl transition-all duration-300 hover:bg-dark-700/50 hover:text-white hover:border-primary-500/50">
-                  <span className="mr-3">View Demo</span>
-                  <span className="group-hover:translate-x-1 transition-transform duration-300">↗</span>
-                </button>
-              </div>
-
-              {/* Stats Grid */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 pt-8 animate-fade-in">
-                <div className="text-center group">
-                  <div className="text-4xl font-black text-primary-400 mb-2 group-hover:scale-110 transition-transform duration-300">$50M+</div>
-                  <div className="text-sm text-gray-400 font-medium uppercase tracking-wider">Trade Volume</div>
+              
+              <div className="flex items-center gap-3 text-slate-200 group">
+                <div className="w-12 h-12 bg-gradient-to-br from-amber-400/20 to-orange-300/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
                 </div>
-                <div className="text-center group">
-                  <div className="text-4xl font-black text-primary-300 mb-2 group-hover:scale-110 transition-transform duration-300">1,200+</div>
-                  <div className="text-sm text-gray-400 font-medium uppercase tracking-wider">Documents</div>
-                </div>
-                <div className="text-center group">
-                  <div className="text-4xl font-black text-white mb-2 group-hover:scale-110 transition-transform duration-300">500+</div>
-                  <div className="text-sm text-gray-400 font-medium uppercase tracking-wider">Traders</div>
-                </div>
-                <div className="text-center group">
-                  <div className="text-4xl font-black text-primary-500 mb-2 group-hover:scale-110 transition-transform duration-300">99.9%</div>
-                  <div className="text-sm text-gray-400 font-medium uppercase tracking-wider">Uptime</div>
-                </div>
+                <span className="font-medium">Lightning Fast</span>
               </div>
             </div>
 
-            {/* Right Content - 5 columns */}
-            <div className="lg:col-span-5 relative animate-slide-up">
+            {/* CTA Buttons with Smooth Animations */}
+            <div className="flex flex-col sm:flex-row gap-6">
+              <button className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-amber-600 to-orange-500 text-white font-bold text-lg rounded-xl transition-all duration-300 hover:from-amber-500 hover:to-orange-400 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/25 transform hover:-translate-y-1">
+                <span className="relative z-10">Get Started</span>
+                <svg className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-orange-400 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </button>
               
-              {/* Main Premium Card */}
-              <div className="relative">
-                {/* Card Glow Effect */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary-600/50 to-primary-400/50 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-                
-                {/* Card Content */}
-                <div className="relative bg-dark-800/80 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-8 shadow-2xl">
-                  
-                  {/* Card Header */}
-                  <div className="flex items-center justify-between mb-8">
-                    <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center shadow-lg">
-                        <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-white">Document Verified</h3>
-                        <p className="text-sm text-gray-400">Blockchain Confirmed</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-primary-500 rounded-full animate-pulse"></div>
-                      <span className="text-xs text-primary-400 font-medium">LIVE</span>
-                    </div>
-                  </div>
+              <button className="group inline-flex items-center justify-center px-8 py-4 bg-slate-800/50 backdrop-blur-sm border border-amber-400/30 text-slate-200 font-semibold text-lg rounded-xl transition-all duration-300 hover:bg-amber-500/10 hover:border-amber-300/50 hover:scale-105 transform hover:-translate-y-1">
+                <svg className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m-6-8h8a2 2 0 012 2v8a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2z" />
+                </svg>
+                <span>Watch Demo</span>
+              </button>
+            </div>
 
-                  {/* Document Details */}
-                  <div className="space-y-6">
-                    <div className="flex justify-between items-center py-4 border-b border-gray-700/50">
-                      <span className="text-sm text-gray-400 font-medium">Document ID</span>
-                      <span className="text-sm font-mono text-white bg-dark-700/50 px-3 py-1 rounded-lg">CTX-2024-001</span>
-                    </div>
-                    <div className="flex justify-between items-center py-4 border-b border-gray-700/50">
-                      <span className="text-sm text-gray-400 font-medium">Cargo Type</span>
-                      <span className="text-sm text-white font-semibold">Electronics</span>
-                    </div>
-                    <div className="flex justify-between items-center py-4 border-b border-gray-700/50">
-                      <span className="text-sm text-gray-400 font-medium">Origin</span>
-                      <span className="text-sm text-white">Shanghai, China</span>
-                    </div>
-                    <div className="flex justify-between items-center py-4 border-b border-gray-700/50">
-                      <span className="text-sm text-gray-400 font-medium">Destination</span>
-                      <span className="text-sm text-white">Alexandria, Egypt</span>
-                    </div>
-                    <div className="flex justify-between items-center py-4">
-                      <span className="text-sm text-gray-400 font-medium">Loan Value</span>
-                      <span className="text-2xl font-black text-primary-400">$25,000</span>
-                    </div>
-                  </div>
-
-                  {/* Status Indicator */}
-                  <div className="mt-8 flex items-center justify-center gap-3 px-6 py-3 bg-gradient-to-r from-primary-900/50 to-primary-800/50 border border-primary-500/30 rounded-xl">
-                    <div className="w-2 h-2 bg-primary-400 rounded-full animate-pulse"></div>
-                    <span className="text-sm font-bold text-primary-300">Live on Blockchain</span>
-                    <div className="w-1 h-1 bg-primary-400 rounded-full"></div>
-                  </div>
-                </div>
-
-                {/* Floating Premium Elements */}
-                <div className="absolute -top-8 -right-8 w-16 h-16 bg-gradient-to-br from-primary-500/30 to-primary-700/30 rounded-full blur-lg animate-bounce-gentle"></div>
-                <div className="absolute -bottom-8 -left-8 w-12 h-12 bg-gradient-to-br from-primary-400/25 to-primary-600/25 rounded-lg blur-md animate-bounce-gentle" style={{animationDelay: '3s'}}></div>
-                <div className="absolute top-1/2 -left-12 w-8 h-8 bg-gray-500/20 rounded-full animate-pulse"></div>
+            {/* Animated Stats */}
+            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-amber-400/20">
+              <div className="text-center group">
+                <div className="text-3xl font-bold bg-gradient-to-r from-amber-400 to-orange-300 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">$50M+</div>
+                <div className="text-sm text-slate-300">Cargo Tracked</div>
+              </div>
+              <div className="text-center group">
+                <div className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-amber-300 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">10K+</div>
+                <div className="text-sm text-slate-300">Active Shipments</div>
+              </div>
+              <div className="text-center group">
+                <div className="text-3xl font-bold bg-gradient-to-r from-amber-300 to-orange-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">99.9%</div>
+                <div className="text-sm text-slate-300">Accuracy Rate</div>
               </div>
             </div>
+          </div>
+
+          {/* Right Content - 3D NFT Card */}
+          <div className="relative">
+            {/* Main 3D Card */}
+            <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-700/80 backdrop-blur-xl border border-amber-400/30 rounded-3xl p-8 shadow-2xl transform hover:scale-105 transition-all duration-500 group">
+              
+              {/* Glow Effect */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/50 to-orange-400/50 rounded-3xl blur opacity-75 group-hover:opacity-100 transition duration-500"></div>
+              
+              {/* Card Header */}
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-400 rounded-2xl flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform duration-300">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-white">Blockchain Verified</h3>
+                    <p className="text-slate-200">Cargo Document NFT</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-orange-400 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-orange-400 font-bold">LIVE</span>
+                </div>
+              </div>
+
+              {/* NFT Details */}
+              <div className="space-y-6">
+                <div className="flex justify-between items-center py-4 border-b border-amber-400/20">
+                  <span className="text-slate-200 font-medium">Document Hash</span>
+                  <span className="text-sm font-mono text-white bg-slate-700/50 px-3 py-1 rounded-lg">0x4a7b2c...</span>
+                </div>
+                <div className="flex justify-between items-center py-4 border-b border-amber-400/20">
+                  <span className="text-slate-200 font-medium">Block Number</span>
+                  <span className="text-white font-semibold">#18,247,392</span>
+                </div>
+                <div className="flex justify-between items-center py-4 border-b border-amber-400/20">
+                  <span className="text-slate-200 font-medium">Network</span>
+                  <span className="text-white">Internet Computer</span>
+                </div>
+                <div className="flex justify-between items-center py-4">
+                  <span className="text-slate-200 font-medium">NFT Value</span>
+                  <span className="text-3xl font-black bg-gradient-to-r from-amber-400 to-orange-300 bg-clip-text text-transparent">$25,000</span>
+                </div>
+              </div>
+
+              {/* Chain Status */}
+              <div className="mt-8 flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-amber-500/20 to-orange-400/20 border border-amber-400/30 rounded-xl">
+                <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
+                <span className="text-sm font-bold text-orange-300">Live on Blockchain</span>
+                <div className="w-1 h-1 bg-orange-400 rounded-full"></div>
+              </div>
+            </div>
+
+            {/* Floating 3D Elements */}
+            <div className="absolute -top-6 -right-6 w-12 h-12 bg-gradient-to-br from-amber-400/30 to-orange-300/30 rounded-full blur-sm animate-float"></div>
+            <div className="absolute -bottom-6 -left-6 w-8 h-8 bg-gradient-to-br from-orange-400/40 to-amber-300/40 rounded-lg blur-sm animate-float" style={{animationDelay: '3s'}}></div>
+            <div className="absolute top-1/2 -left-8 w-6 h-6 bg-amber-400/20 rounded-full animate-pulse"></div>
           </div>
         </div>
       </div>
 
-      {/* Premium Scroll Indicator */}
-      <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-3 text-gray-500 animate-bounce">
-        <div className="text-sm font-medium uppercase tracking-wider">Explore Platform</div>
-        <div className="w-6 h-10 border-2 border-gray-600 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-primary-500 rounded-full mt-2 animate-pulse"></div>
+      {/* Animated Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="w-6 h-10 border-2 border-amber-400/50 rounded-full flex justify-center">
+          <div className="w-1 h-3 bg-gradient-to-b from-amber-400 to-orange-300 rounded-full mt-2 animate-pulse" />
         </div>
       </div>
     </section>
@@ -182,3 +229,4 @@ const Hero = () => {
 };
 
 export default Hero;
+
