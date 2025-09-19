@@ -35,4 +35,15 @@ pub struct DocumentAttribute {
     pub trait_type: String,
     pub value: String,
 }
- 
+
+#[derive(CandidType, Deserialize, Clone, Debug, Serialize)]
+pub struct CargoXDocument {
+    pub token_id: String,
+    pub owner: String,
+    pub document_hash: String,
+    pub document_type: String,
+    pub metadata: DocumentMetadata,
+    pub last_transfer: TransferEvent,
+}
+
+
