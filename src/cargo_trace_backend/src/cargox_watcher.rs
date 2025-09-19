@@ -30,3 +30,9 @@ pub struct DocumentMetadata {
     pub creation_date: Option<String>,
 }
 
+#[derive(CandidType, Deserialize, Clone, Debug, Serialize)]
+pub struct DocumentAttribute {
+    pub trait_type: String,
+    pub value: String,
+}
+ 
