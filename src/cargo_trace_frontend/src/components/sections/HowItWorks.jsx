@@ -142,16 +142,112 @@ const HowItWorks = () => {
           </p>
         </div>
 
-        {/* Feature Icons Set */}
+        {/* Global Trade Network Visualization */}
         <div className="mb-16 text-center">
-          <div className="w-full max-w-4xl mx-auto h-64 bg-gradient-to-br from-slate-800/50 to-slate-700/50 rounded-2xl shadow-2xl flex items-center justify-center border border-blue-400/20">
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-2xl flex items-center justify-center mx-auto">
-                <Shield className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-white">Feature Icons Set</h3>
-              <p className="text-slate-300">Interactive visualization coming soon</p>
+          <div className="relative w-full max-w-5xl mx-auto h-80 bg-gradient-to-br from-slate-900/80 to-slate-800/80 rounded-3xl shadow-2xl border border-blue-400/20 overflow-hidden">
+            {/* Animated Background Map */}
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-cyan-500/5"></div>
+            
+            {/* Floating Trade Routes */}
+            <div className="absolute inset-0">
+              {/* Route 1 - Europe to MENA */}
+              <div className="absolute top-1/4 left-1/4 w-32 h-0.5 bg-gradient-to-r from-blue-400/60 to-transparent transform rotate-12 animate-pulse"></div>
+              <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-400 rounded-full animate-ping"></div>
+              
+              {/* Route 2 - Asia to MENA */}
+              <div className="absolute top-1/2 right-1/4 w-40 h-0.5 bg-gradient-to-r from-cyan-400/60 to-transparent transform -rotate-12 animate-pulse" style={{animationDelay: '1s'}}></div>
+              <div className="absolute top-1/2 right-1/4 w-2 h-2 bg-cyan-400 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
+              
+              {/* Route 3 - Americas to MENA */}
+              <div className="absolute bottom-1/3 left-1/3 w-36 h-0.5 bg-gradient-to-r from-indigo-400/60 to-transparent transform rotate-45 animate-pulse" style={{animationDelay: '2s'}}></div>
+              <div className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-indigo-400 rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
             </div>
+
+            {/* Floating Cargo Ships */}
+            <div className="absolute inset-0">
+              <div className="absolute top-1/3 left-1/5 w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-lg transform rotate-12 animate-float">
+                <div className="w-full h-full flex items-center justify-center text-white text-xs">🚢</div>
+              </div>
+              <div className="absolute top-1/2 right-1/5 w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-400 rounded-lg transform -rotate-12 animate-float" style={{animationDelay: '2s'}}>
+                <div className="w-full h-full flex items-center justify-center text-white text-xs">🚢</div>
+              </div>
+              <div className="absolute bottom-1/4 left-1/2 w-8 h-8 bg-gradient-to-br from-indigo-500 to-blue-400 rounded-lg transform rotate-45 animate-float" style={{animationDelay: '4s'}}>
+                <div className="w-full h-full flex items-center justify-center text-white text-xs">🚢</div>
+              </div>
+            </div>
+
+            {/* Trading Hubs */}
+            <div className="absolute inset-0">
+              {/* Dubai Hub */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full flex items-center justify-center shadow-2xl shadow-blue-500/50 animate-pulse">
+                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                    <span className="text-blue-600 font-bold text-sm">DXB</span>
+                  </div>
+                </div>
+                <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-blue-300 font-medium">Dubai Hub</div>
+              </div>
+
+              {/* Singapore Hub */}
+              <div className="absolute top-1/4 right-1/4">
+                <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-400 rounded-full flex items-center justify-center shadow-xl shadow-cyan-500/50 animate-pulse" style={{animationDelay: '1s'}}>
+                  <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+                    <span className="text-cyan-600 font-bold text-xs">SIN</span>
+                  </div>
+                </div>
+                <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-cyan-300 font-medium">Singapore</div>
+              </div>
+
+              {/* Rotterdam Hub */}
+              <div className="absolute bottom-1/3 left-1/4">
+                <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-blue-400 rounded-full flex items-center justify-center shadow-xl shadow-indigo-500/50 animate-pulse" style={{animationDelay: '2s'}}>
+                  <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+                    <span className="text-indigo-600 font-bold text-xs">RTM</span>
+                  </div>
+                </div>
+                <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-indigo-300 font-medium">Rotterdam</div>
+              </div>
+            </div>
+
+            {/* Data Flow Particles */}
+            <div className="absolute inset-0">
+              <div className="absolute top-1/4 left-1/3 w-1 h-1 bg-blue-400 rounded-full animate-ping"></div>
+              <div className="absolute top-1/2 right-1/3 w-1 h-1 bg-cyan-400 rounded-full animate-ping" style={{animationDelay: '0.5s'}}></div>
+              <div className="absolute bottom-1/4 left-1/2 w-1 h-1 bg-indigo-400 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
+              <div className="absolute top-1/3 right-1/2 w-1 h-1 bg-blue-300 rounded-full animate-ping" style={{animationDelay: '1.5s'}}></div>
+              <div className="absolute bottom-1/3 right-1/4 w-1 h-1 bg-cyan-300 rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
+            </div>
+
+            {/* Blockchain Network Visualization */}
+            <div className="absolute top-4 left-4 right-4 flex justify-between items-center">
+              <div className="flex items-center gap-2 px-3 py-1 bg-blue-500/20 rounded-full border border-blue-400/30">
+                <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                <span className="text-xs text-blue-300 font-medium">Blockchain Network</span>
+              </div>
+              <div className="flex items-center gap-2 px-3 py-1 bg-cyan-500/20 rounded-full border border-cyan-400/30">
+                <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                <span className="text-xs text-cyan-300 font-medium">Live Tracking</span>
+              </div>
+            </div>
+
+            {/* Trade Volume Stats */}
+            <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+              <div className="text-center">
+                <div className="text-lg font-bold text-white">$2.4B</div>
+                <div className="text-xs text-slate-300">Cargo Value</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-white">15K+</div>
+                <div className="text-xs text-slate-300">Active Ships</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-white">99.8%</div>
+                <div className="text-xs text-slate-300">Accuracy</div>
+              </div>
+            </div>
+
+            {/* Overlay Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 via-transparent to-slate-900/30 pointer-events-none"></div>
           </div>
         </div>
 
