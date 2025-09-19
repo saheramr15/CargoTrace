@@ -51,12 +51,34 @@ const NewFooter = () => {
             
             {/* Brand Section */}
             <div className="lg:col-span-1 space-y-6">
-              <div className="group flex items-center space-x-3">
+              <div className="group flex items-center space-x-4">
                 <div className="relative">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform duration-300">
-                    <span className="text-2xl">🚢</span>
+                  {/* Main Logo Container */}
+                  <div className="w-14 h-14 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl flex items-center justify-center shadow-2xl group-hover:shadow-blue-500/25 transition-all duration-300 border border-blue-400/20 group-hover:border-blue-400/40">
+                    {/* Cargo Container Icon */}
+                    <div className="relative">
+                      {/* Container Base */}
+                      <div className="w-8 h-6 bg-gradient-to-b from-blue-500 to-blue-600 rounded-sm shadow-lg">
+                        {/* Container Lines */}
+                        <div className="absolute top-1 left-0.5 right-0.5 h-0.5 bg-blue-300"></div>
+                        <div className="absolute top-2 left-0.5 right-0.5 h-0.5 bg-blue-300"></div>
+                        <div className="absolute top-3 left-0.5 right-0.5 h-0.5 bg-blue-300"></div>
+                        <div className="absolute top-4 left-0.5 right-0.5 h-0.5 bg-blue-300"></div>
+                      </div>
+                      {/* Blockchain Chain Links */}
+                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                      <div className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-cyan-300 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                      {/* Tracking Signal */}
+                      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-green-400 rounded-full animate-ping"></div>
+                    </div>
                   </div>
-                  <div className="absolute -inset-1 bg-gradient-to-br from-blue-500/50 to-cyan-400/50 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  {/* Glow Effect */}
+                  <div className="absolute -inset-1 bg-gradient-to-br from-blue-500/30 to-cyan-400/30 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  {/* Floating Elements */}
+                  <div className="absolute -top-1 -right-1 w-1 h-1 bg-blue-400 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute -bottom-1 -left-1 w-1 h-1 bg-cyan-400 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{animationDelay: '1s'}}></div>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-2xl font-black bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
