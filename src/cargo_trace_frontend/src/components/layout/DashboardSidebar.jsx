@@ -122,7 +122,7 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
   };
 
   return (
-    <aside className={`fixed left-0 top-0 h-full w-72 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-r border-slate-700/50 shadow-2xl z-40 transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} overflow-hidden`}>
+    <aside className={`fixed left-0 top-0 h-screen w-72 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-r border-slate-700/50 shadow-2xl z-40 transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} overflow-y-auto`}>
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl animate-float"></div>
@@ -130,22 +130,42 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
         <div className="absolute top-1/2 left-10 w-16 h-16 bg-indigo-500/5 rounded-full blur-xl animate-float" style={{animationDelay: '4s'}}></div>
       </div>
       
-      <div className="relative z-10 h-full flex flex-col">
+      <div className="relative z-10 min-h-screen flex flex-col">
         {/* Logo Section */}
         <div className="p-6 border-b border-slate-700/30">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-4">
               <div className="relative group">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-lg flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
-                  <Shield size={20} className="text-white" />
+                {/* Premium Logo Container - Matching Navbar */}
+                <div className="w-12 h-12 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl flex items-center justify-center shadow-2xl group-hover:shadow-blue-500/30 transition-all duration-500 border border-slate-700/50 group-hover:border-blue-400/60 relative overflow-hidden">
+                  {/* Premium Background Pattern */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-cyan-500/5 to-indigo-600/10 rounded-2xl"></div>
+                  
+                  {/* Main Logo Design - Letter C */}
+                  <div className="relative z-10">
+                    <div className="w-8 h-8 relative">
+                      {/* Outer C Ring */}
+                      <div className="absolute inset-0 border-3 border-blue-400 rounded-full"></div>
+                      {/* Inner C Ring */}
+                      <div className="absolute inset-1 border-2 border-cyan-300 rounded-full"></div>
+                      {/* C Opening */}
+                      <div className="absolute top-0 right-0 w-2 h-3 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-r-full"></div>
+                      {/* Center Dot */}
+                      <div className="absolute top-1/2 left-1/2 w-1.5 h-1.5 bg-gradient-to-br from-blue-400 to-cyan-300 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+                    </div>
+                  </div>
+                  
+                  {/* Glow Effect */}
+                  <div className="absolute -inset-1 bg-gradient-to-br from-blue-500/20 via-cyan-400/20 to-indigo-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
-                <div className="absolute -inset-2 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
-              <div>
-                <h1 className="text-lg font-semibold bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent">
+              <div className="flex flex-col">
+                <span className="text-lg font-black tracking-tight bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent">
                   CargoTrace
-                </h1>
-                <p className="text-slate-400 text-sm">Trade Finance</p>
+                </span>
+                <span className="text-sm font-semibold tracking-wide text-slate-300">
+                  Finance
+                </span>
               </div>
             </div>
             <div className="flex items-center space-x-1 px-2 py-1 bg-green-500/10 border border-green-500/20 rounded-md">
@@ -194,7 +214,7 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
         </nav>
 
         {/* Wallet Section */}
-        <div className="p-4 border-t border-slate-700/30">
+        <div className="p-4 border-t border-slate-700/30 flex-shrink-0">
           <div className="group relative bg-slate-800/50 border border-slate-700/30 rounded-lg p-4 hover:border-blue-400/30 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/10 via-cyan-400/10 to-blue-500/10 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="relative">
@@ -279,7 +299,7 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-slate-700/30">
+        <div className="p-4 border-t border-slate-700/30 flex-shrink-0 mt-auto">
           <div className="space-y-3">
             <div className="flex space-x-1">
               <button className="group flex-1 flex items-center justify-center space-x-2 px-3 py-2 bg-slate-800/50 hover:bg-slate-700/50 rounded-lg text-slate-300 hover:text-white transition-all duration-300 hover:scale-105 transform hover:-translate-y-0.5">
