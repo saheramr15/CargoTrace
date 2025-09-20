@@ -174,19 +174,19 @@ const Hero = () => {
         <div className="flex flex-col items-center justify-center h-screen text-center max-w-5xl mx-auto">
           
           {/* Animated Badge */}
-          <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-blue-500/10 to-cyan-400/10 border border-blue-400/30 rounded-full text-blue-300 text-sm font-medium backdrop-blur-sm animate-fade-in mb-3">
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-blue-500/10 to-cyan-400/10 border border-blue-400/30 rounded-full text-blue-300 text-sm font-medium backdrop-blur-sm animate-fade-in mb-8">
             <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
             <span>Next-Gen Web3 Finance</span>
             <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
           </div>
 
           {/* Main Title with Enhanced Typography */}
-          <div className="space-y-3 mb-5">
+          <div className="space-y-6 mb-10">
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.15] tracking-tight">
               <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent transform hover:scale-105 transition-transform duration-500 drop-shadow-2xl" style={{textShadow: '0 0 30px rgba(59, 130, 246, 0.3)', lineHeight: '1.15', paddingBottom: '0.1em'}}>
                 CargoTrace
               </span>
-              <span className="block text-white mt-0.5 transform hover:scale-105 transition-transform duration-500 drop-shadow-lg">
+              <span className="block text-white mt-1 transform hover:scale-105 transition-transform duration-500 drop-shadow-lg">
                 Finance
               </span>
             </h1>
@@ -198,7 +198,7 @@ const Hero = () => {
           </div>
 
           {/* Animated Feature Icons */}
-          <div className="flex flex-wrap justify-center gap-6 mb-5">
+          <div className="flex flex-wrap justify-center gap-8 mb-10">
             <div className="flex items-center gap-3 text-slate-200 group">
               <div className="w-10 h-10 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -228,7 +228,7 @@ const Hero = () => {
           </div>
 
           {/* CTA Buttons with Enhanced Design */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-5">
+          <div className="flex flex-col sm:flex-row gap-6 mb-10">
             <button className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-lg rounded-xl transition-all duration-300 hover:from-blue-500 hover:to-cyan-400 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-1">
               <span className="relative z-10">Get Started</span>
               <svg className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -246,18 +246,18 @@ const Hero = () => {
           </div>
 
           {/* Animated Stats with Enhanced Design */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-3 border-t border-blue-400/20 w-full max-w-3xl">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-6 border-t border-blue-400/20 w-full max-w-3xl">
             <div className="text-center group">
               <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">$50M+</div>
-              <div className="text-xs sm:text-sm text-slate-300 mt-1">Cargo Tracked</div>
+              <div className="text-xs sm:text-sm text-slate-300 mt-2">Cargo Tracked</div>
             </div>
             <div className="text-center group">
               <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">10K+</div>
-              <div className="text-xs sm:text-sm text-slate-300 mt-1">Active Shipments</div>
+              <div className="text-xs sm:text-sm text-slate-300 mt-2">Active Shipments</div>
             </div>
             <div className="text-center group">
               <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-300 to-cyan-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">99.9%</div>
-              <div className="text-xs sm:text-sm text-slate-300 mt-1">Accuracy Rate</div>
+              <div className="text-xs sm:text-sm text-slate-300 mt-2">Accuracy Rate</div>
             </div>
           </div>
         </div>
