@@ -199,9 +199,9 @@ const DashboardHome = () => {
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-40 right-32 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
-        <div className="absolute bottom-40 left-1/3 w-80 h-80 bg-green-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '4s'}}></div>
-        <div className="absolute bottom-20 right-20 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '6s'}}></div>
+        <div className="absolute top-40 right-32 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+        <div className="absolute bottom-40 left-1/3 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '4s'}}></div>
+        <div className="absolute bottom-20 right-20 w-64 h-64 bg-slate-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '6s'}}></div>
       </div>
 
       {/* Floating Particles */}
@@ -225,20 +225,20 @@ const DashboardHome = () => {
           {/* Main Hero Card */}
           <div className="relative bg-gradient-to-br from-slate-800/60 to-slate-700/40 backdrop-blur-xl border border-slate-600/30 rounded-2xl p-6 lg:p-8 overflow-hidden">
             {/* Background Pattern */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-green-500/5"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-indigo-500/5 to-cyan-500/5"></div>
             <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-purple-500/10 to-transparent rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-indigo-500/10 to-transparent rounded-full blur-3xl"></div>
             
             <div className="relative z-10">
               <div className="text-center mb-8">
-                <div className="inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-400/30 rounded-full text-blue-300 text-sm font-medium mb-6">
+                <div className="inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 border border-blue-400/30 rounded-full text-blue-300 text-sm font-medium mb-6">
                   <Sparkles size={16} />
                   <span>Welcome to the Future of Trade Finance</span>
                   <Sparkles size={16} />
                 </div>
                 
                 <h1 className="text-3xl lg:text-5xl font-black text-white mb-4 leading-tight">
-                  <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 bg-clip-text text-transparent">
+                  <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent">
                     CargoTrace
                   </span>
                   <span className="block text-2xl lg:text-3xl mt-1">Finance</span>
@@ -338,7 +338,7 @@ const DashboardHome = () => {
         <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-400 rounded-xl flex items-center justify-center">
                 <Activity size={20} className="text-white" />
               </div>
               <div>
@@ -377,7 +377,7 @@ const DashboardHome = () => {
                       </div>
                     </div>
                     <div className="flex-shrink-0">
-                      <div className="w-6 h-6 bg-green-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-6 h-6 bg-cyan-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                         <CheckCircle size={12} className="text-cyan-400" />
                       </div>
                     </div>
@@ -391,7 +391,7 @@ const DashboardHome = () => {
         {/* System Health */}
         <div>
           <div className="flex items-center space-x-3 mb-6">
-            <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-slate-500 to-slate-400 rounded-xl flex items-center justify-center">
               <Target size={20} className="text-white" />
             </div>
             <div>
@@ -438,7 +438,7 @@ const DashboardHome = () => {
       {/* Quick Actions */}
       <div className={`mb-8 transition-all duration-1000 delay-600 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="flex items-center space-x-3 mb-6">
-          <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-400 rounded-xl flex items-center justify-center">
             <Rocket size={20} className="text-white" />
           </div>
           <div>

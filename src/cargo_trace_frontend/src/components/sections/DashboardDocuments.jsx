@@ -251,7 +251,7 @@ const DashboardDocuments = () => {
         {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute top-40 right-32 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+          <div className="absolute top-40 right-32 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
         </div>
         
         <div className="flex items-center justify-center py-12 relative z-10">
@@ -273,8 +273,8 @@ const DashboardDocuments = () => {
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-40 right-32 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
-        <div className="absolute bottom-40 left-1/3 w-80 h-80 bg-green-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '4s'}}></div>
+        <div className="absolute top-40 right-32 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+        <div className="absolute bottom-40 left-1/3 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '4s'}}></div>
       </div>
 
       {/* Floating Particles */}
@@ -296,7 +296,7 @@ const DashboardDocuments = () => {
       <div className="mb-8">
         <div className="relative">
           <div className="bg-gradient-to-br from-slate-800/60 to-slate-700/40 backdrop-blur-xl border border-slate-600/30 rounded-2xl p-6 lg:p-8 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-green-500/5"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-indigo-500/5 to-cyan-500/5"></div>
             <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-3xl"></div>
             
             <div className="relative z-10">
@@ -336,7 +336,7 @@ const DashboardDocuments = () => {
       {/* Document Submission Form */}
       <div className="mb-8">
         <div className="flex items-center space-x-3 mb-6">
-          <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-400 rounded-xl flex items-center justify-center">
             <Upload size={20} className="text-white" />
           </div>
           <div>
@@ -346,7 +346,7 @@ const DashboardDocuments = () => {
         </div>
         
         {error && (
-          <div className="mb-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
+          <div className="mb-4 p-4 bg-slate-500/10 border border-slate-500/30 rounded-xl">
             <div className="flex items-center">
               <AlertCircle className="w-5 h-5 text-slate-400 mr-3" />
               <span className="text-slate-300">{error}</span>
@@ -355,7 +355,7 @@ const DashboardDocuments = () => {
         )}
 
         {successMessage && (
-          <div className="mb-4 p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
+          <div className="mb-4 p-4 bg-cyan-500/10 border border-cyan-500/30 rounded-xl">
             <div className="flex items-center">
               <CheckCircle className="w-5 h-5 text-cyan-400 mr-3" />
               <span className="text-cyan-300 font-semibold">{successMessage}</span>
@@ -471,7 +471,7 @@ const DashboardDocuments = () => {
                 className={`group flex items-center space-x-2 px-6 py-3 font-semibold rounded-lg transition-all duration-300 ${
                   submitting
                     ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-400 hover:to-emerald-500 hover:scale-105 shadow-lg shadow-green-500/25'
+                    : 'bg-gradient-to-r from-cyan-500 to-blue-400 text-white hover:from-cyan-400 hover:to-blue-300 hover:scale-105 shadow-lg shadow-cyan-500/25'
                 }`}
               >
                 {submitting ? (
@@ -495,7 +495,7 @@ const DashboardDocuments = () => {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-400 rounded-xl flex items-center justify-center">
               <FileText size={20} className="text-white" />
             </div>
             <div>

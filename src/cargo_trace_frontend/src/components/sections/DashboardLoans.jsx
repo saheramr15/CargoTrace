@@ -317,7 +317,7 @@ const DashboardLoans = () => {
         </div>
         
         {error && (
-          <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+          <div className="mb-4 p-3 bg-slate-500/10 border border-slate-500/30 rounded-lg">
             <div className="flex items-center">
               <AlertCircle className="w-4 h-4 text-slate-400 mr-2" />
               <span className="text-slate-300 text-sm">{error}</span>
@@ -326,7 +326,7 @@ const DashboardLoans = () => {
         )}
 
         {successMessage && (
-          <div className="mb-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+          <div className="mb-4 p-3 bg-cyan-500/10 border border-cyan-500/30 rounded-lg">
             <div className="flex items-center">
               <CheckCircle className="w-4 h-4 text-cyan-400 mr-2" />
               <span className="text-cyan-300 text-sm">{successMessage}</span>
@@ -425,7 +425,7 @@ const DashboardLoans = () => {
       <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-400 rounded-xl flex items-center justify-center">
               <FileCheck size={20} className="text-white" />
             </div>
             <h2 className="text-2xl font-bold text-white">Loan Applications</h2>
@@ -534,7 +534,7 @@ const DashboardLoans = () => {
       {/* Loan Processing Pipeline */}
       <div className="mb-8">
         <div className="flex items-center space-x-3 mb-6">
-          <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-400 rounded-xl flex items-center justify-center">
             <Target size={20} className="text-white" />
           </div>
           <h2 className="text-2xl font-bold text-white">Loan Processing Pipeline</h2>
