@@ -170,94 +170,94 @@ const Hero = () => {
       </div>
 
       {/* Main Content */}
-      <div className="container-custom px-4 sm:px-6 lg:px-8 pt-8 pb-16 relative z-10">
-        <div className="flex flex-col items-center justify-center min-h-screen text-center max-w-4xl mx-auto">
+      <div className="container-custom px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+        <div className="flex flex-col items-center justify-center h-screen text-center max-w-5xl mx-auto">
           
           {/* Animated Badge */}
-          <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500/10 to-cyan-400/10 border border-blue-400/30 rounded-full text-blue-300 text-sm font-medium backdrop-blur-sm animate-fade-in mb-8">
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-blue-500/10 to-cyan-400/10 border border-blue-400/30 rounded-full text-blue-300 text-sm font-medium backdrop-blur-sm animate-fade-in mb-4">
             <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
             <span>Next-Gen Web3 Finance</span>
             <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
           </div>
 
-          {/* Main Title with 3D Effect */}
-          <div className="space-y-8 mb-12">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-tight">
-              <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent transform hover:scale-105 transition-transform duration-500">
+          {/* Main Title with Enhanced Typography */}
+          <div className="space-y-4 mb-6">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.1] tracking-tight">
+              <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent transform hover:scale-105 transition-transform duration-500 drop-shadow-2xl" style={{textShadow: '0 0 30px rgba(59, 130, 246, 0.3)', lineHeight: '1.1'}}>
                 CargoTrace
               </span>
-              <span className="block text-white mt-4 transform hover:scale-105 transition-transform duration-500">
+              <span className="block text-white mt-1 transform hover:scale-105 transition-transform duration-500 drop-shadow-lg">
                 Finance
               </span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-slate-200 leading-relaxed max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl md:text-2xl text-slate-200 leading-relaxed max-w-4xl mx-auto px-4">
               Revolutionary blockchain technology meets innovative supply chain finance. 
               Experience the future of decentralized cargo tracking with unparalleled security and transparency.
             </p>
           </div>
 
           {/* Animated Feature Icons */}
-          <div className="flex flex-wrap justify-center gap-8 mb-12">
+          <div className="flex flex-wrap justify-center gap-6 mb-6">
             <div className="flex items-center gap-3 text-slate-200 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               </div>
-              <span className="font-medium">Secure & Audited</span>
+              <span className="font-medium text-sm sm:text-base">Secure & Audited</span>
             </div>
             
             <div className="flex items-center gap-3 text-slate-200 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-cyan-500/20 to-blue-400/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-10 h-10 bg-gradient-to-br from-cyan-500/20 to-blue-400/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                 </svg>
               </div>
-              <span className="font-medium">High Performance</span>
+              <span className="font-medium text-sm sm:text-base">High Performance</span>
             </div>
             
             <div className="flex items-center gap-3 text-slate-200 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-400/20 to-cyan-300/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-6 h-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-400/20 to-cyan-300/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <svg className="w-5 h-5 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <span className="font-medium">Lightning Fast</span>
+              <span className="font-medium text-sm sm:text-base">Lightning Fast</span>
             </div>
           </div>
 
-          {/* CTA Buttons with Smooth Animations */}
-          <div className="flex flex-col sm:flex-row gap-6 mb-16">
-            <button className="group relative inline-flex items-center justify-center px-10 py-5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-xl rounded-xl transition-all duration-300 hover:from-blue-500 hover:to-cyan-400 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-1">
+          {/* CTA Buttons with Enhanced Design */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            <button className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-lg rounded-xl transition-all duration-300 hover:from-blue-500 hover:to-cyan-400 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-1">
               <span className="relative z-10">Get Started</span>
-              <svg className="ml-3 h-6 w-6 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
             
-            <button className="group inline-flex items-center justify-center px-10 py-5 bg-slate-800/50 backdrop-blur-sm border border-blue-400/30 text-slate-200 font-semibold text-xl rounded-xl transition-all duration-300 hover:bg-blue-500/10 hover:border-blue-300/50 hover:scale-105 transform hover:-translate-y-1">
-              <svg className="mr-3 h-6 w-6 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button className="group inline-flex items-center justify-center px-8 py-4 bg-slate-800/50 backdrop-blur-sm border border-blue-400/30 text-slate-200 font-semibold text-lg rounded-xl transition-all duration-300 hover:bg-blue-500/10 hover:border-blue-300/50 hover:scale-105 transform hover:-translate-y-1">
+              <svg className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m-6-8h8a2 2 0 012 2v8a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2z" />
               </svg>
               <span>Watch Demo</span>
             </button>
           </div>
 
-          {/* Animated Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pt-8 border-t border-blue-400/20 w-full max-w-2xl">
+          {/* Animated Stats with Enhanced Design */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-4 border-t border-blue-400/20 w-full max-w-3xl">
             <div className="text-center group">
-              <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">$50M+</div>
-              <div className="text-sm md:text-base text-slate-300 mt-2">Cargo Tracked</div>
+              <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">$50M+</div>
+              <div className="text-xs sm:text-sm text-slate-300 mt-1">Cargo Tracked</div>
             </div>
             <div className="text-center group">
-              <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">10K+</div>
-              <div className="text-sm md:text-base text-slate-300 mt-2">Active Shipments</div>
+              <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">10K+</div>
+              <div className="text-xs sm:text-sm text-slate-300 mt-1">Active Shipments</div>
             </div>
             <div className="text-center group">
-              <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-300 to-cyan-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">99.9%</div>
-              <div className="text-sm md:text-base text-slate-300 mt-2">Accuracy Rate</div>
+              <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-300 to-cyan-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">99.9%</div>
+              <div className="text-xs sm:text-sm text-slate-300 mt-1">Accuracy Rate</div>
             </div>
           </div>
         </div>
