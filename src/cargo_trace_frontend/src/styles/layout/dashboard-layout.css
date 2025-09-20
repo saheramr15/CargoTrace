@@ -1281,29 +1281,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  background: rgba(167, 139, 250, 0.1);
-  border: 1px solid rgba(167, 139, 250, 0.2);
-  border-radius: 0.5rem;
-  color: #6b7280;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.dashboard-sidebar-footer-action:hover {
-  background: rgba(167, 139, 250, 0.15);
-  color: #7C3AED;
-}
-
-.dashboard-sidebar-footer-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.dashboard-sidebar-footer-version {
+  paddin{
   font-size: 0.75rem;
   color: #6b7280;
   font-weight: 500;
