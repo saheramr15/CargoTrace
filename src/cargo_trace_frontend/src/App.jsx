@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import NewNavbar from './components/layout/NewNavbar';
 import NewFooter from './components/layout/NewFooter';
-import BottomToggle from './components/layout/BottomToggle';
 import NewLanding from './pages/NewLanding';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
@@ -61,9 +60,6 @@ useEffect(() => {
       </Routes>
       
       {shouldShowLayout && <NewFooter />}
-      
-      {/* Bottom Toggle Buttons - Always visible except on login/home */}
-      <BottomToggle />
     </div>
   );
 };
