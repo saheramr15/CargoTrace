@@ -170,7 +170,7 @@ const Hero = () => {
       </div>
 
       {/* Main Content */}
-      <div className="container-custom px-4 sm:px-6 lg:px-8 py-4 relative z-10">
+      <div className="container-custom px-4 sm:px-6 lg:px-8 pt-2 pb-4 relative z-10">
         <div className="flex flex-col items-center justify-center h-screen text-center max-w-5xl mx-auto">
           
           {/* Animated Badge */}
