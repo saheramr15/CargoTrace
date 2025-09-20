@@ -250,15 +250,15 @@ const DashboardHome = () => {
                 </p>
                 
                 <div className="flex flex-wrap justify-center gap-4 mb-8">
-                  <div className="flex items-center space-x-2 px-6 py-3 bg-green-500/10 border border-green-500/30 rounded-full text-green-400 hover:bg-green-500/20 transition-all duration-300">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <div className="flex items-center space-x-2 px-6 py-3 bg-cyan-500/10 border border-cyan-500/30 rounded-full text-cyan-400 hover:bg-cyan-500/20 transition-all duration-300">
+                    <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
                     <span className="font-medium">Chain Fusion Active</span>
                   </div>
                   <div className="flex items-center space-x-2 px-6 py-3 bg-blue-500/10 border border-blue-500/30 rounded-full text-blue-400 hover:bg-blue-500/20 transition-all duration-300">
                     <TrendingUp size={16} />
                     <span className="font-medium">Portfolio +12.5%</span>
                   </div>
-                  <div className="flex items-center space-x-2 px-6 py-3 bg-purple-500/10 border border-purple-500/30 rounded-full text-purple-400 hover:bg-purple-500/20 transition-all duration-300">
+                  <div className="flex items-center space-x-2 px-6 py-3 bg-indigo-500/10 border border-indigo-500/30 rounded-full text-indigo-400 hover:bg-indigo-500/20 transition-all duration-300">
                     <Shield size={16} />
                     <span className="font-medium">NAFEZA Connected</span>
                   </div>
@@ -305,7 +305,7 @@ const DashboardHome = () => {
                     <div className={`w-10 h-10 bg-gradient-to-br ${metric.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                       <IconComponent size={20} className="text-white" />
                     </div>
-                    <div className="flex items-center space-x-1 text-green-400">
+                    <div className="flex items-center space-x-1 text-cyan-400">
                       <TrendingUp size={14} />
                       <span className="text-xs font-bold">{metric.change}</span>
                     </div>
@@ -378,7 +378,7 @@ const DashboardHome = () => {
                     </div>
                     <div className="flex-shrink-0">
                       <div className="w-6 h-6 bg-green-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <CheckCircle size={12} className="text-green-400" />
+                        <CheckCircle size={12} className="text-cyan-400" />
                       </div>
                     </div>
                   </div>
@@ -424,8 +424,8 @@ const DashboardHome = () => {
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      <span className="text-xs text-green-400 font-medium capitalize">{system.status}</span>
+                      <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                      <span className="text-xs text-cyan-400 font-medium capitalize">{system.status}</span>
                     </div>
                   </div>
                 );

@@ -145,7 +145,7 @@ const CustomsIntegrationSafe = () => {
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-8 py-6 lg:pl-80 lg:pr-8">
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
-            <Loader2 className="w-12 h-12 animate-spin text-orange-500 mx-auto mb-4" />
+            <Loader2 className="w-12 h-12 animate-spin text-blue-500 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-white mb-2">Loading Customs Integration...</h3>
             <p className="text-slate-300">Please wait while we load your data.</p>
           </div>
@@ -184,7 +184,7 @@ const CustomsIntegrationSafe = () => {
               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center">
                 <BarChart3 size={24} className="text-white" />
               </div>
-              <div className="flex items-center space-x-1 text-green-400">
+              <div className="flex items-center space-x-1 text-cyan-400">
                 <TrendingUp size={16} />
                 <span className="text-sm font-medium">+12.5%</span>
               </div>
@@ -314,10 +314,10 @@ const CustomsIntegrationSafe = () => {
           {error && (
             <div className="mt-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
               <div className="flex items-center">
-                <AlertCircle className="w-5 h-5 text-red-400 mr-3" />
+                <AlertCircle className="w-5 h-5 text-slate-400 mr-3" />
                 <div>
-                  <h3 className="text-sm font-semibold text-red-300">Error</h3>
-                  <p className="mt-1 text-sm text-red-200">{error}</p>
+                  <h3 className="text-sm font-semibold text-slate-300">Error</h3>
+                  <p className="mt-1 text-sm text-slate-200">{error}</p>
                 </div>
               </div>
             </div>
@@ -326,10 +326,10 @@ const CustomsIntegrationSafe = () => {
           {successMessage && (
             <div className="mt-6 p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
               <div className="flex items-center">
-                <CheckCircle className="w-5 h-5 text-green-400 mr-3" />
+                <CheckCircle className="w-5 h-5 text-cyan-400 mr-3" />
                 <div>
-                  <h3 className="text-sm font-semibold text-green-300">Success</h3>
-                  <p className="mt-1 text-sm text-green-200">{successMessage}</p>
+                  <h3 className="text-sm font-semibold text-cyan-300">Success</h3>
+                  <p className="mt-1 text-sm text-cyan-200">{successMessage}</p>
                 </div>
               </div>
             </div>
@@ -418,7 +418,7 @@ const CustomsIntegrationSafe = () => {
                           <div>
                             <div className="text-sm font-semibold text-white">{mapping.id}</div>
                             {newlyCreatedMapping === mapping.id && (
-                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-500/20 text-green-400 animate-pulse">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-cyan-500/20 text-cyan-400 animate-pulse">
                                 NEW
                               </span>
                             )}

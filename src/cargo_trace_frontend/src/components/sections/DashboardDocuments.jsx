@@ -316,15 +316,15 @@ const DashboardDocuments = () => {
                   <div className="text-xs text-slate-300">Total Documents</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-black text-purple-400 mb-1">{documentStats.nftMinted}</div>
+                  <div className="text-2xl font-black text-indigo-400 mb-1">{documentStats.nftMinted}</div>
                   <div className="text-xs text-slate-300">NFTs Minted</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-black text-green-400 mb-1">${(parseInt(documentStats.totalValue) / 1000000).toFixed(1)}M</div>
+                  <div className="text-2xl font-black text-cyan-400 mb-1">${(parseInt(documentStats.totalValue) / 1000000).toFixed(1)}M</div>
                   <div className="text-xs text-slate-300">Total Value</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-black text-orange-400 mb-1">{documentStats.verified}</div>
+                  <div className="text-2xl font-black text-indigo-400 mb-1">{documentStats.verified}</div>
                   <div className="text-xs text-slate-300">Verified</div>
                 </div>
               </div>
@@ -348,8 +348,8 @@ const DashboardDocuments = () => {
         {error && (
           <div className="mb-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
             <div className="flex items-center">
-              <AlertCircle className="w-5 h-5 text-red-400 mr-3" />
-              <span className="text-red-300">{error}</span>
+              <AlertCircle className="w-5 h-5 text-slate-400 mr-3" />
+              <span className="text-slate-300">{error}</span>
             </div>
           </div>
         )}
@@ -357,8 +357,8 @@ const DashboardDocuments = () => {
         {successMessage && (
           <div className="mb-4 p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
             <div className="flex items-center">
-              <CheckCircle className="w-5 h-5 text-green-400 mr-3" />
-              <span className="text-green-300 font-semibold">{successMessage}</span>
+              <CheckCircle className="w-5 h-5 text-cyan-400 mr-3" />
+              <span className="text-cyan-300 font-semibold">{successMessage}</span>
             </div>
           </div>
         )}
@@ -622,7 +622,7 @@ const DashboardDocuments = () => {
                               <button 
                                 onClick={() => handleApproveDocument(document.id)}
                                 disabled={processingAction === document.id}
-                                className="p-2 text-slate-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-110"
+                                className="p-2 text-slate-400 hover:text-cyan-400 hover:bg-cyan-500/10 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-110"
                                 title="Approve Document"
                               >
                                 {processingAction === document.id ? (
@@ -633,11 +633,11 @@ const DashboardDocuments = () => {
                               </button>
                             )}
                             {document.status === 'nft-minted' && (
-                              <button className="p-2 text-slate-400 hover:text-purple-400 hover:bg-purple-500/10 rounded-lg transition-all duration-200 hover:scale-110">
+                              <button className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-lg transition-all duration-200 hover:scale-110">
                                 <Download size={14} />
                               </button>
                             )}
-                            <button className="p-2 text-slate-400 hover:text-orange-400 hover:bg-orange-500/10 rounded-lg transition-all duration-200 hover:scale-110">
+                            <button className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-lg transition-all duration-200 hover:scale-110">
                               <Edit size={14} />
                             </button>
                           </div>

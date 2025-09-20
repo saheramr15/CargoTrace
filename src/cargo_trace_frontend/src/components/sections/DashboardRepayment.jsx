@@ -170,7 +170,7 @@ const DashboardRepayment = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
                 <DollarSign size={20} className="text-white" />
               </div>
-              <div className="flex items-center space-x-1 text-green-400">
+              <div className="flex items-center space-x-1 text-cyan-400">
                 <TrendingUp size={16} />
                 <span className="text-sm font-medium">+15.7%</span>
               </div>
@@ -185,7 +185,7 @@ const DashboardRepayment = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center">
                 <CreditCard size={20} className="text-white" />
               </div>
-              <div className="flex items-center space-x-1 text-green-400">
+              <div className="flex items-center space-x-1 text-cyan-400">
                 <TrendingUp size={16} />
                 <span className="text-sm font-medium">+22.3%</span>
               </div>
@@ -200,7 +200,7 @@ const DashboardRepayment = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
                 <Percent size={20} className="text-white" />
               </div>
-              <div className="flex items-center space-x-1 text-green-400">
+              <div className="flex items-center space-x-1 text-cyan-400">
                 <TrendingUp size={16} />
                 <span className="text-sm font-medium">+8.9%</span>
               </div>
@@ -215,7 +215,7 @@ const DashboardRepayment = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
                 <CalendarDays size={20} className="text-white" />
               </div>
-              <div className="flex items-center space-x-1 text-red-400">
+              <div className="flex items-center space-x-1 text-slate-400">
                 <TrendingUp size={16} className="rotate-180" />
                 <span className="text-sm font-medium">-12.5%</span>
               </div>
@@ -242,7 +242,7 @@ const DashboardRepayment = () => {
               <div className="space-y-2">
                 <div className="flex items-center space-x-3">
                   <span className="text-lg font-bold text-white">LOAN-2024-001</span>
-                  <span className="px-2 py-1 bg-orange-500/20 text-orange-400 text-xs font-medium rounded-full">Due in 5 days</span>
+                  <span className="px-2 py-1 bg-indigo-500/20 text-indigo-400 text-xs font-medium rounded-full">Due in 5 days</span>
                 </div>
                 <div className="space-y-1">
                   <div className="text-xl font-bold text-white">$25,000</div>
@@ -436,8 +436,8 @@ const DashboardRepayment = () => {
                         <div className="text-sm text-slate-300">
                           <div>{repayment.nextDueDate}</div>
                           <div className={`text-xs ${
-                            getDaysUntilDueColor(repayment.daysUntilDue) === 'rejected' ? 'text-red-400' :
-                            getDaysUntilDueColor(repayment.daysUntilDue) === 'pending' ? 'text-orange-400' : 'text-green-400'
+                            getDaysUntilDueColor(repayment.daysUntilDue) === 'rejected' ? 'text-slate-400' :
+                            getDaysUntilDueColor(repayment.daysUntilDue) === 'pending' ? 'text-indigo-400' : 'text-cyan-400'
                           }`}>
                             {repayment.daysUntilDue < 0 ? `${Math.abs(repayment.daysUntilDue)} days overdue` : 
                              repayment.daysUntilDue === 0 ? 'Due today' : 
@@ -520,8 +520,8 @@ const DashboardRepayment = () => {
                     <div className="flex items-center space-x-3">
                       <span className="text-lg font-bold text-white">{repayment.loanId}</span>
                       <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        getDaysUntilDueColor(repayment.daysUntilDue) === 'rejected' ? 'bg-red-500/20 text-red-400' :
-                        getDaysUntilDueColor(repayment.daysUntilDue) === 'pending' ? 'bg-orange-500/20 text-orange-400' : 'bg-green-500/20 text-green-400'
+                        getDaysUntilDueColor(repayment.daysUntilDue) === 'rejected' ? 'bg-slate-500/20 text-slate-400' :
+                        getDaysUntilDueColor(repayment.daysUntilDue) === 'pending' ? 'bg-indigo-500/20 text-indigo-400' : 'bg-cyan-500/20 text-cyan-400'
                       }`}>
                         {repayment.daysUntilDue === 0 ? 'Due today' : `${repayment.daysUntilDue} days`}
                       </span>
@@ -554,7 +554,7 @@ const DashboardRepayment = () => {
           <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-green-400/30 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-3">
               <h4 className="text-lg font-semibold text-white">On-Time Payment Rate</h4>
-              <span className="text-xl font-bold text-green-400">96.8%</span>
+              <span className="text-xl font-bold text-cyan-400">96.8%</span>
             </div>
             <div className="w-full h-2 bg-slate-700 rounded-full overflow-hidden mb-2">
               <div className="h-full bg-gradient-to-r from-green-500 to-emerald-400 transition-all duration-1000" style={{ width: '96.8%' }}></div>
@@ -576,7 +576,7 @@ const DashboardRepayment = () => {
           <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-purple-400/30 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-3">
               <h4 className="text-lg font-semibold text-white">Collection Rate</h4>
-              <span className="text-xl font-bold text-purple-400">98.5%</span>
+              <span className="text-xl font-bold text-indigo-400">98.5%</span>
             </div>
             <div className="w-full h-2 bg-slate-700 rounded-full overflow-hidden mb-2">
               <div className="h-full bg-gradient-to-r from-purple-500 to-indigo-400 transition-all duration-1000" style={{ width: '98.5%' }}></div>
@@ -587,7 +587,7 @@ const DashboardRepayment = () => {
           <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-3">
               <h4 className="text-lg font-semibold text-white">Customer Satisfaction</h4>
-              <span className="text-xl font-bold text-orange-400">4.9/5</span>
+              <span className="text-xl font-bold text-slate-400">4.9/5</span>
             </div>
             <div className="w-full h-2 bg-slate-700 rounded-full overflow-hidden mb-2">
               <div className="h-full bg-gradient-to-r from-orange-500 to-red-400 transition-all duration-1000" style={{ width: '98%' }}></div>

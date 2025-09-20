@@ -356,9 +356,9 @@ const CustomsIntegration = () => {
                   </div>
                   <div className="absolute -inset-2 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
-                <div className="flex items-center space-x-2 px-3 py-1 bg-green-500/10 border border-green-500/30 rounded-full">
-                  <TrendingUp size={14} className="text-green-400" />
-                  <span className="text-sm font-medium text-green-400">+12.5%</span>
+                <div className="flex items-center space-x-2 px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full">
+                  <TrendingUp size={14} className="text-blue-400" />
+                  <span className="text-sm font-medium text-blue-400">+12.5%</span>
                 </div>
               </div>
               <div className="space-y-2">
@@ -465,9 +465,9 @@ const CustomsIntegration = () => {
           <div className="mb-8 p-6 bg-red-500/10 border border-red-500/30 rounded-2xl backdrop-blur-sm">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center">
-                <AlertCircle className="w-5 h-5 text-red-400" />
+                <AlertCircle className="w-5 h-5 text-slate-400" />
               </div>
-              <span className="text-red-300 font-medium">{error}</span>
+              <span className="text-slate-300 font-medium">{error}</span>
             </div>
           </div>
         )}
@@ -615,10 +615,10 @@ const CustomsIntegration = () => {
                       <span className="text-lg font-bold text-white">{doc.id}</span>
                     </div>
                     <span className={`px-4 py-2 rounded-full text-sm font-bold ${
-                      doc.status.Pending ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30' :
-                      doc.status.Verified ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+                      doc.status.Pending ? 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30' :
+                      doc.status.Verified ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30' :
                       doc.status.NftMinted ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
-                      'bg-red-500/20 text-red-400 border border-red-500/30'
+                      'bg-slate-500/20 text-slate-400 border border-slate-500/30'
                     }`}>
                       {doc.status.Pending ? 'Pending' :
                        doc.status.Verified ? 'Verified' :
@@ -633,7 +633,7 @@ const CustomsIntegration = () => {
                     </div>
                     <div className="flex justify-between items-center py-2 border-b border-slate-700/50">
                       <span className="text-slate-400 font-medium">Value:</span>
-                      <span className="text-2xl font-black bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">${doc.value_usd.toLocaleString()}</span>
+                      <span className="text-2xl font-black bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent">${doc.value_usd.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between items-center py-2">
                       <span className="text-slate-400 font-medium">Created:</span>
@@ -712,7 +712,7 @@ const CustomsIntegration = () => {
               <div className="text-center py-16">
                 <div className="relative mb-8">
                   <div className="w-20 h-20 bg-gradient-to-br from-purple-500/20 to-indigo-400/20 rounded-2xl flex items-center justify-center mx-auto shadow-2xl border border-purple-400/30">
-                    <Link size={32} className="text-purple-400" />
+                    <Link size={32} className="text-blue-400" />
                   </div>
                   <div className="absolute -inset-2 bg-gradient-to-br from-purple-500/10 to-indigo-400/10 rounded-2xl blur animate-pulse"></div>
                 </div>

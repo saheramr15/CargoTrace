@@ -250,7 +250,7 @@ const DashboardLoans = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center">
                 <FileCheck size={20} className="text-white" />
               </div>
-              <div className="flex items-center space-x-1 text-green-400">
+              <div className="flex items-center space-x-1 text-cyan-400">
                 <TrendingUp size={14} />
                 <span className="text-xs font-medium">+12.5%</span>
               </div>
@@ -319,8 +319,8 @@ const DashboardLoans = () => {
         {error && (
           <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
             <div className="flex items-center">
-              <AlertCircle className="w-4 h-4 text-red-400 mr-2" />
-              <span className="text-red-300 text-sm">{error}</span>
+              <AlertCircle className="w-4 h-4 text-slate-400 mr-2" />
+              <span className="text-slate-300 text-sm">{error}</span>
             </div>
           </div>
         )}
@@ -328,8 +328,8 @@ const DashboardLoans = () => {
         {successMessage && (
           <div className="mb-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
             <div className="flex items-center">
-              <CheckCircle className="w-4 h-4 text-green-400 mr-2" />
-              <span className="text-green-300 text-sm">{successMessage}</span>
+              <CheckCircle className="w-4 h-4 text-cyan-400 mr-2" />
+              <span className="text-cyan-300 text-sm">{successMessage}</span>
             </div>
           </div>
         )}
@@ -365,7 +365,7 @@ const DashboardLoans = () => {
                 ))}
               </select>
               {documents.length === 0 && (
-                <p className="text-sm text-orange-400 mt-1">
+                <p className="text-sm text-indigo-400 mt-1">
                   No approved documents available. Please submit and get a document approved first.
                 </p>
               )}
