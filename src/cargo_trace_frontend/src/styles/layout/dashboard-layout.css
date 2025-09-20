@@ -1411,36 +1411,3 @@
     padding: 1rem;
   }
   
-  .dashboard-header-info h2 {
-    font-size: 1.5rem;
-  }
-  
-  .dashboard-header-actions {
-    gap: 0.5rem;
-  }
-  
-  .dashboard-header-button {
-    padding: 0.5rem;
-  }
-  
-  .dashboard-header-search-input {
-    width: 200px;
-  }
-  
-  .dashboard-header-status-indicators {
-    display: none;
-  }
-  
-  .dashboard-header-search {
-    display: none;
-  }
-  
-  .dashboard-header-notification-badge {
-    top: -0.25rem;
-    right: -0.25rem;
-    min-width: 1rem;
-    height: 1rem;
-    font-size: 0.65rem;
-    padding: 0.15rem 0.3rem;
-  }
-}
