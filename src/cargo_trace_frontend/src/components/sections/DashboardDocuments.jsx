@@ -247,265 +247,288 @@ const DashboardDocuments = () => {
 
   if (loading) {
     return (
-      <div className="dashboard-documents-container">
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
-          <span className="ml-2 text-gray-600">Loading documents...</span>
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-8 py-6 lg:pl-80 lg:pr-8 relative overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute top-40 right-32 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+        </div>
+        
+        <div className="flex items-center justify-center py-12 relative z-10">
+          <div className="text-center">
+            <div className="relative">
+              <Loader2 className="w-16 h-16 animate-spin text-blue-500 mx-auto mb-6" />
+              <div className="absolute inset-0 w-16 h-16 border-2 border-blue-500/20 rounded-full animate-ping mx-auto"></div>
+            </div>
+            <h3 className="text-2xl font-bold text-white mb-2">Loading Documents</h3>
+            <p className="text-slate-300">Please wait while we fetch your data...</p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="dashboard-documents-container">
-      {/* Document Statistics */}
-      <div className="dashboard-section">
-        <div className="dashboard-section-header">
-          <h2 className="dashboard-section-title">
-            <BarChart3 className="dashboard-section-icon" />
-            Document Overview
-          </h2>
-        </div>
-        <div className="dashboard-stats-grid">
-          <div className="dashboard-stat-card">
-            <div className="dashboard-stat-header">
-              <div className="dashboard-stat-icon documents">
-                <FileText size={24} color="white" />
-              </div>
-              <div className="dashboard-stat-trend">
-                <TrendingUp size={16} />
-                <span className="dashboard-stat-percentage">+15.2%</span>
-              </div>
-            </div>
-            <div className="dashboard-stat-value">{documentStats.total}</div>
-            <div className="dashboard-stat-label">Total Documents</div>
-            <div className="dashboard-stat-description">CargoX documents processed</div>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-8 py-6 lg:pl-80 lg:pr-8 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-40 right-32 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+        <div className="absolute bottom-40 left-1/3 w-80 h-80 bg-green-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '4s'}}></div>
+      </div>
 
-          <div className="dashboard-stat-card">
-            <div className="dashboard-stat-header">
-              <div className="dashboard-stat-icon nfts">
-                <Shield size={24} color="white" />
+      {/* Floating Particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-white/20 rounded-full animate-ping"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${2 + Math.random() * 3}s`
+            }}
+          ></div>
+        ))}
+      </div>
+      {/* Hero Section */}
+      <div className="mb-8">
+        <div className="relative">
+          <div className="bg-gradient-to-br from-slate-800/60 to-slate-700/40 backdrop-blur-xl border border-slate-600/30 rounded-2xl p-6 lg:p-8 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-green-500/5"></div>
+            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-3xl"></div>
+            
+            <div className="relative z-10">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center">
+                  <FileText size={24} className="text-white" />
+                </div>
+                <div>
+                  <h1 className="text-2xl lg:text-3xl font-black text-white">Document Management</h1>
+                  <p className="text-lg text-slate-300">Manage your CargoX documents and blockchain NFTs</p>
+                </div>
               </div>
-              <div className="dashboard-stat-trend">
-                <TrendingUp size={16} />
-                <span className="dashboard-stat-percentage">+22.1%</span>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <div className="text-2xl font-black text-blue-400 mb-1">{documentStats.total}</div>
+                  <div className="text-xs text-slate-300">Total Documents</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-black text-purple-400 mb-1">{documentStats.nftMinted}</div>
+                  <div className="text-xs text-slate-300">NFTs Minted</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-black text-green-400 mb-1">${(parseInt(documentStats.totalValue) / 1000000).toFixed(1)}M</div>
+                  <div className="text-xs text-slate-300">Total Value</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-black text-orange-400 mb-1">{documentStats.verified}</div>
+                  <div className="text-xs text-slate-300">Verified</div>
+                </div>
               </div>
             </div>
-            <div className="dashboard-stat-value">{documentStats.nftMinted}</div>
-            <div className="dashboard-stat-label">NFTs Minted</div>
-            <div className="dashboard-stat-description">ICP blockchain NFTs</div>
-          </div>
-
-          <div className="dashboard-stat-card">
-            <div className="dashboard-stat-header">
-              <div className="dashboard-stat-icon loans">
-                <Building2 size={24} color="white" />
-              </div>
-              <div className="dashboard-stat-trend">
-                <TrendingUp size={16} />
-                <span className="dashboard-stat-percentage">+8.7%</span>
-              </div>
-            </div>
-            <div className="dashboard-stat-value">${(parseInt(documentStats.totalValue) / 1000000).toFixed(1)}M</div>
-            <div className="dashboard-stat-label">Total Value</div>
-            <div className="dashboard-stat-description">Document cargo value</div>
-          </div>
-
-          <div className="dashboard-stat-card">
-            <div className="dashboard-stat-header">
-              <div className="dashboard-stat-icon fusion">
-                <Globe size={24} color="white" />
-              </div>
-              <div className="dashboard-stat-trend">
-                <TrendingUp size={16} />
-                <span className="dashboard-stat-percentage">99.9%</span>
-              </div>
-            </div>
-            <div className="dashboard-stat-value">{documentStats.verified}</div>
-            <div className="dashboard-stat-label">Verified</div>
-            <div className="dashboard-stat-description">NAFEZA verified documents</div>
           </div>
         </div>
       </div>
 
       {/* Document Submission Form */}
-      <div className="dashboard-section">
-        <div className="dashboard-section-header">
-          <h2 className="dashboard-section-title">
-            <Upload className="dashboard-section-icon" />
-            Submit New Document
-          </h2>
+      <div className="mb-8">
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+            <Upload size={20} className="text-white" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-white">Submit New Document</h2>
+            <p className="text-slate-400">Upload and verify your CargoX documents</p>
+          </div>
         </div>
         
         {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <div className="mb-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
             <div className="flex items-center">
-              <AlertCircle className="w-5 h-5 text-red-500 mr-2" />
-              <span className="text-red-700">{error}</span>
+              <AlertCircle className="w-5 h-5 text-red-400 mr-3" />
+              <span className="text-red-300">{error}</span>
             </div>
           </div>
         )}
 
         {successMessage && (
-          <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+          <div className="mb-4 p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
             <div className="flex items-center">
-              <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
-              <span className="text-green-700">{successMessage}</span>
+              <CheckCircle className="w-5 h-5 text-green-400 mr-3" />
+              <span className="text-green-300 font-semibold">{successMessage}</span>
             </div>
           </div>
         )}
 
-        <form onSubmit={handleSubmitDocument} className="dashboard-form-grid">
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Document Type</label>
-            <select 
-              value={documentType} 
-              onChange={(e) => setDocumentType(e.target.value)}
-              className="dashboard-form-input"
-            >
-              <option value="">Select document type</option>
-              {documentTypes.map(type => (
-                <option key={type} value={type}>{type}</option>
-              ))}
-            </select>
-          </div>
-          
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Cargo Description</label>
-            <input
-              type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="dashboard-form-input"
-              placeholder="Describe the cargo contents..."
-            />
-          </div>
-          
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">CargoX Document ID *</label>
-            <input
-              type="text"
-              value={ethereumTxHash}
-              onChange={(e) => setEthereumTxHash(e.target.value)}
-              className="dashboard-form-input monospace"
-              placeholder="0x1234...abcd"
-              required
-            />
-          </div>
-          
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">ACID Number *</label>
-            <input
-              type="text"
-              value={acidNumber}
-              onChange={(e) => setAcidNumber(e.target.value)}
-              className="dashboard-form-input monospace"
-              placeholder="123456789"
-              maxLength="9"
-              required
-            />
-          </div>
-          
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Cargo Value (USD) *</label>
-            <input
-              type="number"
-              value={valueUsd}
-              onChange={(e) => setValueUsd(e.target.value)}
-              className="dashboard-form-input"
-              placeholder="125000"
-              min="1"
-              required
-            />
-          </div>
-          
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Origin Country</label>
-            <input
-              type="text"
-              value={origin}
-              onChange={(e) => setOrigin(e.target.value)}
-              className="dashboard-form-input"
-              placeholder="China"
-            />
-          </div>
-          
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Destination</label>
-            <input
-              type="text"
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-              className="dashboard-form-input"
-              placeholder="Egypt"
-            />
-          </div>
-          
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Shipper</label>
-            <input
-              type="text"
-              value={shipper}
-              onChange={(e) => setShipper(e.target.value)}
-              className="dashboard-form-input"
-              placeholder="Company name"
-            />
-          </div>
-        </form>
-        <button 
-          type="submit" 
-          onClick={handleSubmitDocument}
-          disabled={submitting}
-          className="dashboard-submit-button"
-        >
-          {submitting ? (
-            <>
-              <Loader2 size={16} className="animate-spin" />
-              Submitting...
-            </>
-          ) : (
-            <>
-              <Upload size={16} />
-              Submit Document for Verification
-            </>
-          )}
-        </button>
+        <div className="bg-gradient-to-br from-slate-800/60 to-slate-700/40 backdrop-blur-xl border border-slate-600/30 rounded-xl p-6">
+          <form onSubmit={handleSubmitDocument} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-slate-300">Document Type</label>
+                <select 
+                  value={documentType} 
+                  onChange={(e) => setDocumentType(e.target.value)}
+                  className="w-full px-3 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200"
+                >
+                  <option value="">Select document type</option>
+                  {documentTypes.map(type => (
+                    <option key={type} value={type}>{type}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-slate-300">Cargo Description</label>
+                <input
+                  type="text"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="w-full px-3 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200"
+                  placeholder="Describe the cargo contents..."
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-slate-300">CargoX Document ID *</label>
+                <input
+                  type="text"
+                  value={ethereumTxHash}
+                  onChange={(e) => setEthereumTxHash(e.target.value)}
+                  className="w-full px-3 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200 font-mono"
+                  placeholder="0x1234...abcd"
+                  required
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-slate-300">ACID Number *</label>
+                <input
+                  type="text"
+                  value={acidNumber}
+                  onChange={(e) => setAcidNumber(e.target.value)}
+                  className="w-full px-3 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200 font-mono"
+                  placeholder="123456789"
+                  maxLength="9"
+                  required
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-slate-300">Cargo Value (USD) *</label>
+                <input
+                  type="number"
+                  value={valueUsd}
+                  onChange={(e) => setValueUsd(e.target.value)}
+                  className="w-full px-3 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200"
+                  placeholder="125000"
+                  min="1"
+                  required
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-slate-300">Origin Country</label>
+                <input
+                  type="text"
+                  value={origin}
+                  onChange={(e) => setOrigin(e.target.value)}
+                  className="w-full px-3 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200"
+                  placeholder="China"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-slate-300">Destination</label>
+                <input
+                  type="text"
+                  value={destination}
+                  onChange={(e) => setDestination(e.target.value)}
+                  className="w-full px-3 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200"
+                  placeholder="Egypt"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-slate-300">Shipper</label>
+                <input
+                  type="text"
+                  value={shipper}
+                  onChange={(e) => setShipper(e.target.value)}
+                  className="w-full px-3 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200"
+                  placeholder="Company name"
+                />
+              </div>
+            </div>
+            
+            <div className="flex justify-end">
+              <button 
+                type="submit" 
+                onClick={handleSubmitDocument}
+                disabled={submitting}
+                className={`group flex items-center space-x-2 px-6 py-3 font-semibold rounded-lg transition-all duration-300 ${
+                  submitting
+                    ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-400 hover:to-emerald-500 hover:scale-105 shadow-lg shadow-green-500/25'
+                }`}
+              >
+                {submitting ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    <span>Submitting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Upload size={16} />
+                    <span>Submit Document</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
 
       {/* Document Management */}
-      <div className="dashboard-section">
-        <div className="dashboard-section-header">
-          <h2 className="dashboard-section-title">
-            <FileText className="dashboard-section-icon" />
-            Document Management
-          </h2>
-          <div className="dashboard-section-actions">
-            <span className="dashboard-section-count">{filteredDocuments.length} documents</span>
-            <button className="dashboard-section-action">
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
+              <FileText size={20} className="text-white" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-white">Document Management</h2>
+              <p className="text-slate-400">Manage and track your submitted documents</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3">
+            <span className="text-sm font-semibold text-slate-300">{filteredDocuments.length} documents</span>
+            <button className="flex items-center space-x-2 px-4 py-2 bg-slate-700/50 hover:bg-slate-600/50 border border-slate-600/50 rounded-lg text-slate-300 hover:text-white transition-all duration-200 hover:scale-105">
               <Download size={16} />
-              Export Data
+              <span className="text-sm font-medium">Export</span>
             </button>
           </div>
         </div>
-
+        
         {/* Search and Filter */}
-        <div className="dashboard-action-bar">
-          <div className="dashboard-search-container">
-            <Search className="dashboard-search-icon" />
+        <div className="flex flex-col sm:flex-row gap-4 mb-6">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" size={16} />
             <input
               type="text"
               placeholder="Search by ID, ACID, or description..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="dashboard-search-input"
+              className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200"
             />
           </div>
-          <div className="dashboard-action-buttons">
+          <div className="sm:w-48">
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="dashboard-action-button secondary"
+              className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200"
             >
               <option value="all">All Status</option>
               <option value="pending">Pending</option>
@@ -517,98 +540,114 @@ const DashboardDocuments = () => {
         </div>
 
         {/* Documents Table */}
-        <div className="dashboard-table-container">
+        <div className="bg-gradient-to-br from-slate-800/60 to-slate-700/40 backdrop-blur-xl border border-slate-600/30 rounded-xl overflow-hidden">
           {filteredDocuments.length === 0 ? (
             <div className="text-center py-12">
-              <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No documents found</h3>
-              <p className="text-gray-600">
+              <div className="w-16 h-16 bg-slate-700/50 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <FileText size={32} className="text-slate-500" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-400 mb-2">No documents found</h3>
+              <p className="text-slate-500">
                 {documents.length === 0 
                   ? "No documents have been submitted yet. Submit your first document above." 
                   : "No documents match your search criteria."}
               </p>
             </div>
           ) : (
-            <table className="dashboard-table">
-              <thead>
-                <tr>
-                  <th>Document Info</th>
-                  <th>Type</th>
-                  <th>ACID Number</th>
-                  <th>Value</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredDocuments.map((document) => {
-                  const StatusIcon = getStatusIcon(document.status);
-                  return (
-                    <tr key={document.id} className="dashboard-table-row">
-                      <td>
-                        <div className="dashboard-document-info">
-                          <div className="dashboard-document-icon">
-                            <FileText size={16} color="white" />
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-slate-700/50">
+                  <tr>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">Document Info</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">Type</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">ACID Number</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">Value</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">Status</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">Date</th>
+                    <th className="px-4 py-4 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-700/50">
+                  {filteredDocuments.map((document) => {
+                    const StatusIcon = getStatusIcon(document.status);
+                    return (
+                      <tr key={document.id} className="hover:bg-slate-700/30 transition-all duration-300">
+                        <td className="px-4 py-4">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-lg flex items-center justify-center">
+                              <FileText size={16} className="text-white" />
+                            </div>
+                            <div>
+                              <div className="text-sm font-bold text-white">{document.id}</div>
+                              <div className="text-xs text-slate-400">{document.description}</div>
+                            </div>
                           </div>
-                          <div>
-                            <div className="dashboard-document-id">{document.id}</div>
-                            <div className="dashboard-document-description">{document.description}</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="dashboard-table-cell">{document.type}</td>
-                      <td className="dashboard-table-cell monospace">{document.acid}</td>
-                      <td className="dashboard-table-cell value">{document.value}</td>
-                      <td>
-                        <div className="dashboard-status-container">
-                          <StatusIcon size={16} />
-                          <span className={`dashboard-status ${getStatusColor(document.status)}`}>
-                            {document.status.replace('-', ' ')}
+                        </td>
+                        <td className="px-4 py-4">
+                          <span className="px-2 py-1 bg-slate-700/50 text-slate-300 rounded-lg text-xs font-medium">
+                            {document.type}
                           </span>
-                        </div>
-                      </td>
-                      <td className="dashboard-table-cell">{document.date}</td>
-                      <td className="dashboard-table-actions">
-                        <button 
-                          onClick={() => handleViewDocument(document.id)}
-                          className="dashboard-action-link"
-                          title="View Document"
-                        >
-                          <Eye size={14} />
-                          View
-                        </button>
-                        {document.status === 'pending' && (
-                          <button 
-                            onClick={() => handleApproveDocument(document.id)}
-                            disabled={processingAction === document.id}
-                            className="dashboard-action-link"
-                            title="Approve Document"
-                          >
-                            {processingAction === document.id ? (
-                              <Loader2 size={14} className="animate-spin" />
-                            ) : (
-                              <CheckCircle size={14} />
+                        </td>
+                        <td className="px-4 py-4 text-sm font-mono text-slate-300">{document.acid}</td>
+                        <td className="px-4 py-4 text-sm font-bold text-white">{document.value}</td>
+                        <td className="px-4 py-4">
+                          <div className="flex items-center space-x-2">
+                            <StatusIcon size={14} className={
+                              getStatusColor(document.status) === 'success' ? 'text-green-400' :
+                              getStatusColor(document.status) === 'pending' ? 'text-orange-400' :
+                              getStatusColor(document.status) === 'nft-minted' ? 'text-purple-400' :
+                              getStatusColor(document.status) === 'rejected' ? 'text-red-400' : 'text-slate-400'
+                            } />
+                            <span className={`text-xs font-bold ${
+                              getStatusColor(document.status) === 'success' ? 'text-green-400' :
+                              getStatusColor(document.status) === 'pending' ? 'text-orange-400' :
+                              getStatusColor(document.status) === 'nft-minted' ? 'text-purple-400' :
+                              getStatusColor(document.status) === 'rejected' ? 'text-red-400' : 'text-slate-400'
+                            }`}>
+                              {document.status.replace('-', ' ')}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-4 text-sm text-slate-300 font-medium">{document.date}</td>
+                        <td className="px-4 py-4">
+                          <div className="flex items-center space-x-2">
+                            <button 
+                              onClick={() => handleViewDocument(document.id)}
+                              className="p-2 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-all duration-200 hover:scale-110"
+                              title="View Document"
+                            >
+                              <Eye size={14} />
+                            </button>
+                            {document.status === 'pending' && (
+                              <button 
+                                onClick={() => handleApproveDocument(document.id)}
+                                disabled={processingAction === document.id}
+                                className="p-2 text-slate-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-110"
+                                title="Approve Document"
+                              >
+                                {processingAction === document.id ? (
+                                  <Loader2 size={14} className="animate-spin" />
+                                ) : (
+                                  <CheckCircle size={14} />
+                                )}
+                              </button>
                             )}
-                            Approve
-                          </button>
-                        )}
-                        {document.status === 'nft-minted' && (
-                          <button className="dashboard-action-link">
-                            <Download size={14} />
-                            Download NFT
-                          </button>
-                        )}
-                        <button className="dashboard-action-link">
-                          <Edit size={14} />
-                          Edit
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                            {document.status === 'nft-minted' && (
+                              <button className="p-2 text-slate-400 hover:text-purple-400 hover:bg-purple-500/10 rounded-lg transition-all duration-200 hover:scale-110">
+                                <Download size={14} />
+                              </button>
+                            )}
+                            <button className="p-2 text-slate-400 hover:text-orange-400 hover:bg-orange-500/10 rounded-lg transition-all duration-200 hover:scale-110">
+                              <Edit size={14} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>

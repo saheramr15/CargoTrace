@@ -123,94 +123,116 @@ const { globalPrincipal, setGlobalPrincipal } = useAuth();
     }
   };
 
+  
   return (
-    <div className="dashboard-header">
-      <div className="dashboard-header-content">
+    <div className="fixed top-0 left-0 lg:left-72 right-0 h-16 bg-gradient-to-r from-slate-950/95 via-slate-900/95 to-slate-950/95 backdrop-blur-xl border-b border-slate-700/50 shadow-2xl z-40">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/30 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent"></div>
+      </div>
+      
+      <div className="h-full flex items-center justify-between px-4 relative z-10">
         {/* Left Section - Mobile Menu & Tab Info */}
-        <div className="dashboard-header-info">
+        <div className="flex items-center space-x-4">
           <button 
-            className="dashboard-mobile-menu-toggle"
+            className="lg:hidden group relative p-2 text-slate-300 hover:text-white hover:bg-slate-700/50 rounded-lg transition-all duration-300 hover:scale-105 transform hover:-translate-y-0.5"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            <Menu size={20} />
+            <Menu size={18} className="group-hover:scale-110 transition-transform duration-300" />
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 to-cyan-400/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </button>
           
-          <div className="dashboard-header-tab-info">
-            <h2 className="dashboard-header-title">{tabInfo.title}</h2>
-            <p className="dashboard-header-description">{tabInfo.description}</p>
+          <div className="hidden lg:block">
+            <h2 className="text-lg font-semibold bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent">
+              {tabInfo.title}
+            </h2>
+            <p className="text-slate-400 text-sm">{tabInfo.description}</p>
           </div>
         </div>
 
         {/* Right Section - Actions & User Menu */}
-        <div className="dashboard-header-actions">
+        <div className="flex items-center space-x-3">
           {/* Admin Toggle Button */}
           <button 
-            className="dashboard-header-admin-toggle"
+            className="hidden lg:group relative flex items-center space-x-2 px-3 py-2 bg-gradient-to-r from-blue-600/20 to-cyan-500/20 border border-blue-400/30 text-blue-300 rounded-lg hover:from-blue-500/30 hover:to-cyan-400/30 hover:border-blue-300/50 transition-all duration-300 hover:scale-105 transform hover:-translate-y-0.5"
             onClick={handleSwitchToAdmin}
             title="Switch to Admin Panel"
           >
-            <AdminIcon size={16} />
-            <span>Admin</span>
+            <AdminIcon size={14} className="group-hover:scale-110 transition-transform duration-300" />
+            <span className="text-sm font-medium">Admin</span>
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 to-cyan-400/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </button>
 
           {/* System Status Indicators */}
-          <div className="dashboard-header-status-indicators">
-            <div className="dashboard-header-status-item">
-              <div className="dashboard-header-status-dot online"></div>
-              <span className="dashboard-header-status-label">CargoX</span>
-            </div>
-            <div className="dashboard-header-status-item">
-              <div className="dashboard-header-status-dot online"></div>
-              <span className="dashboard-header-status-label">NAFEZA</span>
-            </div>
-            <div className="dashboard-header-status-item">
-              <div className="dashboard-header-status-dot online"></div>
-              <span className="dashboard-header-status-label">ICP</span>
-            </div>
-            <div className="dashboard-header-status-item">
-              <div className="dashboard-header-status-dot online"></div>
-              <span className="dashboard-header-status-label">Bridge</span>
-            </div>
+          <div className="hidden xl:flex items-center space-x-2">
+            {[
+              { name: 'CargoX', status: 'online', color: 'from-blue-500 to-cyan-400' },
+              { name: 'NAFEZA', status: 'online', color: 'from-green-500 to-emerald-400' },
+              { name: 'ICP', status: 'online', color: 'from-purple-500 to-indigo-400' },
+              { name: 'Bridge', status: 'online', color: 'from-orange-500 to-yellow-400' }
+            ].map((service, index) => (
+              <div key={index} className="group flex items-center space-x-1 px-2 py-1 bg-slate-800/30 rounded-md hover:bg-slate-700/50 transition-all duration-300">
+                <div className="relative">
+                  <div className={`w-2 h-2 bg-gradient-to-r ${service.color} rounded-full animate-pulse`}></div>
+                  <div className={`absolute -inset-1 bg-gradient-to-r ${service.color} rounded-full blur opacity-0 group-hover:opacity-50 transition-opacity duration-300`}></div>
+                </div>
+                <span className="text-xs text-slate-300 font-medium group-hover:text-white transition-colors duration-300">{service.name}</span>
+              </div>
+            ))}
           </div>
 
           {/* Search */}
-          <div className="dashboard-header-search">
-            <Search size={16} className="dashboard-header-search-icon" />
+          <div className="hidden md:group relative flex items-center space-x-2 bg-slate-800/50 border border-slate-700/50 rounded-lg px-3 py-2 min-w-64 hover:border-blue-400/30 transition-all duration-300">
+            <Search size={16} className="text-slate-400 group-hover:text-blue-400 transition-colors duration-300" />
             <input
               type="text"
-              placeholder="Search documents, loans, or transactions..."
-              className="dashboard-header-search-input"
+              placeholder="Search..."
+              className="bg-transparent text-white placeholder-slate-400 text-sm outline-none flex-1"
             />
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/10 to-cyan-400/10 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </div>
 
+
           {/* Notifications */}
-          <div className="dashboard-header-notifications" ref={notificationsRef}>
+          <div className="relative" ref={notificationsRef}>
             <button 
-              className="dashboard-header-button notification"
-              onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+              className="group relative p-2 text-slate-300 hover:text-white hover:bg-slate-700/50 rounded-lg transition-all duration-300 hover:scale-105 transform hover:-translate-y-0.5"
+              onClick={() => {
+                setIsNotificationsOpen(!isNotificationsOpen);
+                setIsUserMenuOpen(false);
+              }}
             >
-              <Bell size={18} />
+              <Bell size={18} className="group-hover:scale-110 transition-transform duration-300" />
               {notifications.length > 0 && (
-                <span className="dashboard-header-notification-badge">
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-lg animate-pulse">
                   {notifications.length}
                 </span>
               )}
+              <div className="absolute -inset-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
             
             {/* Notifications Dropdown */}
             {isNotificationsOpen && (
-              <div className="dashboard-header-notifications-dropdown">
-                <div className="dashboard-header-notifications-header">
-                  <h4>Notifications</h4>
-                  <button className="dashboard-header-notifications-clear">Clear all</button>
+              <div className="fixed right-4 top-20 w-72 bg-slate-800/95 backdrop-blur-xl border border-slate-700/50 rounded-xl shadow-2xl z-[9999]">
+                <div className="p-4 border-b border-slate-700/50">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-semibold text-white">Notifications</h4>
+                    <button className="text-xs text-blue-400 hover:text-blue-300 hover:underline">Clear all</button>
+                  </div>
                 </div>
-                <div className="dashboard-header-notifications-list">
+                <div className="max-h-64 overflow-y-auto">
                   {notifications.map(notification => (
-                    <div key={notification.id} className="dashboard-header-notification-item">
-                      <div className={`dashboard-header-notification-dot ${notification.type}`}></div>
-                      <div className="dashboard-header-notification-content">
-                        <p className="dashboard-header-notification-message">{notification.message}</p>
-                        <span className="dashboard-header-notification-time">{notification.time}</span>
+                    <div key={notification.id} className="p-3 hover:bg-slate-700/50 transition-colors duration-200 border-b border-slate-700/30 last:border-b-0">
+                      <div className="flex items-start space-x-3">
+                        <div className={`w-2 h-2 rounded-full mt-2 ${
+                          notification.type === 'success' ? 'bg-green-400' : 
+                          notification.type === 'error' ? 'bg-red-400' : 'bg-blue-400'
+                        }`}></div>
+                        <div className="flex-1">
+                          <p className="text-sm text-white font-medium">{notification.message}</p>
+                          <span className="text-xs text-slate-400">{notification.time}</span>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -220,66 +242,80 @@ const { globalPrincipal, setGlobalPrincipal } = useAuth();
           </div>
 
           {/* User Menu */}
-          <div className="dashboard-header-user-menu" ref={userMenuRef}>
+          <div className="relative" ref={userMenuRef}>
             <button 
-              className="dashboard-header-avatar"
-              onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+              className="group flex items-center space-x-2 p-2 text-slate-300 hover:text-white hover:bg-slate-700/50 rounded-lg transition-all duration-300 hover:scale-105 transform hover:-translate-y-0.5"
+              onClick={() => {
+                setIsUserMenuOpen(!isUserMenuOpen);
+                setIsNotificationsOpen(false);
+              }}
             >
-              <User size={20} color="white" />
-              <ChevronDown size={14} color="white" />
+              <div className="relative">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-lg flex items-center justify-center shadow-lg">
+                  <User size={16} color="white" />
+                </div>
+                <div className="absolute -inset-1 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+              <ChevronDown size={14} className="text-slate-400 group-hover:text-white transition-colors duration-300" />
             </button>
             
             {isUserMenuOpen && (
-              <div className="dashboard-header-dropdown">
-                <div className="dashboard-header-dropdown-header">
-                  <div className="dashboard-header-user-info">
-                    <div className="dashboard-header-user-avatar">
-                      <User size={16} color="white" />
+              <div className="fixed right-4 top-20 w-80 bg-slate-800/95 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl z-[9999] overflow-hidden">
+                <div className="p-6 border-b border-slate-700/50 bg-gradient-to-r from-slate-800/50 to-slate-700/50">
+                  <div className="flex items-center space-x-4">
+                    <div className="relative">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg">
+                        <User size={20} color="white" />
+                      </div>
+                      <div className="absolute -inset-1 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-xl blur"></div>
                     </div>
-                    <div className="dashboard-header-user-details">
-                      <p className="dashboard-header-user-name">Trade Partner</p>
-                      <div className="dashboard-header-principal-container">
+                    <div className="flex-1">
+                      <p className="text-lg font-bold text-white">Trade Partner</p>
+                      <div className="flex items-center space-x-3 mt-2">
                         <p 
-                          className="dashboard-header-principal"
+                          className="text-sm text-slate-300 font-mono cursor-pointer hover:text-white transition-colors duration-300 bg-slate-700/50 px-3 py-1 rounded-lg"
                           onClick={() => setShowFullPrincipal(!showFullPrincipal)}
                           title={showFullPrincipal ? "Click to collapse" : "Click to expand"}
                         >
                           {showFullPrincipal ? globalPrincipal : truncatePrincipal(globalPrincipal)}
                         </p>
                         <button 
-                          className="dashboard-header-copy-btn"
+                          className="p-2 text-slate-400 hover:text-white hover:bg-slate-600/50 rounded-lg transition-all duration-300 hover:scale-110"
                           onClick={copyPrincipal}
                           title="Copy principal"
                         >
-                          {copied ? <Check size={12} /> : <Copy size={12} />}
+                          {copied ? <Check size={14} /> : <Copy size={14} />}
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
                 
-                <div className="dashboard-header-dropdown-divider"></div>
-                
-                <div className="dashboard-header-dropdown-item">
-                  <User size={16} />
-                  <span>Profile</span>
-                </div>
-                
-                <div className="dashboard-header-dropdown-item">
-                  <Settings size={16} />
-                  <span>Settings</span>
-                </div>
-                
-                <div className="dashboard-header-dropdown-item">
-                  <Activity size={16} />
-                  <span>Activity Log</span>
-                </div>
-                
-                <div className="dashboard-header-dropdown-divider"></div>
-                
-                <div className="dashboard-header-dropdown-item" onClick={handleLogout}>
-                  <LogOut size={16} />
-                  <span>Logout</span>
+                <div className="py-3">
+                  <div className="group flex items-center space-x-4 px-6 py-3 text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all duration-300 cursor-pointer">
+                    <User size={18} className="group-hover:scale-110 transition-transform duration-300" />
+                    <span className="text-sm font-semibold">Profile</span>
+                  </div>
+                  
+                  <div className="group flex items-center space-x-4 px-6 py-3 text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all duration-300 cursor-pointer">
+                    <Settings size={18} className="group-hover:scale-110 transition-transform duration-300" />
+                    <span className="text-sm font-semibold">Settings</span>
+                  </div>
+                  
+                  <div className="group flex items-center space-x-4 px-6 py-3 text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all duration-300 cursor-pointer">
+                    <Activity size={18} className="group-hover:scale-110 transition-transform duration-300" />
+                    <span className="text-sm font-semibold">Activity Log</span>
+                  </div>
+                  
+                  <div className="border-t border-slate-700/50 my-3"></div>
+                  
+                  <div 
+                    className="group flex items-center space-x-4 px-6 py-3 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all duration-300 cursor-pointer"
+                    onClick={handleLogout}
+                  >
+                    <LogOut size={18} className="group-hover:scale-110 transition-transform duration-300" />
+                    <span className="text-sm font-bold">Logout</span>
+                  </div>
                 </div>
               </div>
             )}

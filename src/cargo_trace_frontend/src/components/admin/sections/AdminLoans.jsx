@@ -8,7 +8,16 @@ import {
   Clock,
   Loader2,
   AlertCircle,
-  Wallet
+  Wallet,
+  TrendingUp,
+  TrendingDown,
+  Hash,
+  Building,
+  Calendar,
+  Percent,
+  RefreshCw,
+  Shield,
+  Activity
 } from 'lucide-react';
 import { cargo_trace_backend as backend } from '../../../../../declarations/cargo_trace_backend';
 
@@ -105,32 +114,32 @@ const AdminLoans = () => {
       case 'approved':
       case 'repaid':
       case 'active':
-        return <CheckCircle className="w-4 h-4 admin-icon-active" />;
+        return <CheckCircle className="w-4 h-4 text-green-400" />;
       case 'pending':
       case 'transfer_pending':
-        return <Clock className="w-4 h-4 admin-icon-pending" />;
+        return <Clock className="w-4 h-4 text-yellow-400" />;
       case 'rejected':
       case 'defaulted':
       case 'transfer_failed':
-        return <XCircle className="w-4 h-4 admin-icon-suspended" />;
+        return <XCircle className="w-4 h-4 text-red-400" />;
       default:
-        return <Clock className="w-4 h-4 admin-icon-default" />;
+        return <Clock className="w-4 h-4 text-slate-400" />;
     }
   };
 
   const getStatusBadge = (status) => {
     const statusClasses = {
-      approved: 'admin-status-active',
-      pending: 'admin-status-pending',
-      rejected: 'admin-status-suspended',
-      repaid: 'admin-status-active',
-      active: 'admin-status-active',
-      defaulted: 'admin-status-suspended',
-      transfer_pending: 'admin-status-pending',
-      transfer_failed: 'admin-status-suspended',
-      unknown: 'admin-status-default'
+      approved: 'bg-green-500/20 text-green-400 border border-green-500/30',
+      pending: 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30',
+      rejected: 'bg-red-500/20 text-red-400 border border-red-500/30',
+      repaid: 'bg-green-500/20 text-green-400 border border-green-500/30',
+      active: 'bg-green-500/20 text-green-400 border border-green-500/30',
+      defaulted: 'bg-red-500/20 text-red-400 border border-red-500/30',
+      transfer_pending: 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30',
+      transfer_failed: 'bg-red-500/20 text-red-400 border border-red-500/30',
+      unknown: 'bg-slate-500/20 text-slate-400 border border-slate-500/30'
     };
-    return `admin-status-badge ${statusClasses[status] || 'admin-status-default'}`;
+    return `inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${statusClasses[status] || 'bg-slate-500/20 text-slate-400 border border-slate-500/30'}`;
   };
 
   const handleApproveLoan = async (loanId) => {
@@ -203,16 +212,28 @@ const AdminLoans = () => {
 
   if (loading) {
     return (
-      <div className="admin-loans">
-        <div className="admin-loans-header">
-          <div className="admin-loans-title">
-            <h2>Loans</h2>
-            <p>Manage loan applications and approvals</p>
+      <div className="px-6 py-6 lg:pl-80 lg:pr-6">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center space-x-3 mb-2">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-lg flex items-center justify-center">
+              <DollarSign size={20} className="text-blue-400" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Loan Management</h1>
+              <p className="text-slate-400">Manage loan applications and approvals</p>
+            </div>
           </div>
         </div>
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin admin-icon-active" />
-          <span className="ml-2 admin-text-secondary">Loading loans...</span>
+        
+        <div className="flex items-center justify-center py-20">
+          <div className="text-center">
+            <div className="relative">
+              <Loader2 className="w-12 h-12 animate-spin text-blue-400 mx-auto mb-4" />
+              <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/20 to-cyan-400/20 rounded-full blur opacity-50"></div>
+            </div>
+            <p className="text-slate-300 text-lg">Loading loans...</p>
+          </div>
         </div>
       </div>
     );
@@ -220,23 +241,34 @@ const AdminLoans = () => {
 
   if (error) {
     return (
-      <div className="admin-loans">
-        <div className="admin-loans-header">
-          <div className="admin-loans-title">
-            <h2>Loans</h2>
-            <p>Manage loan applications and approvals</p>
+      <div className="px-6 py-6 lg:pl-80 lg:pr-6">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center space-x-3 mb-2">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-lg flex items-center justify-center">
+              <DollarSign size={20} className="text-blue-400" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Loan Management</h1>
+              <p className="text-slate-400">Manage loan applications and approvals</p>
+            </div>
           </div>
         </div>
-        <div className="flex items-center justify-center py-12">
+        
+        <div className="flex items-center justify-center py-20">
           <div className="text-center">
-            <AlertCircle className="w-12 h-12 admin-icon-suspended mx-auto mb-4" />
-            <h3 className="text-lg font-semibold admin-text-primary mb-2">Error Loading Loans</h3>
-            <p className="admin-text-secondary mb-4">{error}</p>
+            <div className="relative mb-6">
+              <AlertCircle className="w-16 h-16 text-red-400 mx-auto" />
+              <div className="absolute -inset-4 bg-gradient-to-r from-red-500/20 to-pink-500/20 rounded-full blur opacity-50"></div>
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-2">Error Loading Loans</h3>
+            <p className="text-slate-300 mb-6 max-w-md">{error}</p>
             <button 
               onClick={loadLoans}
-              className="admin-btn-primary"
+              className="group relative px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg hover:from-blue-600 hover:to-cyan-700 transition-all duration-300 hover:scale-105 transform hover:-translate-y-0.5 shadow-lg hover:shadow-purple-500/25"
             >
-              Try Again
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/20 to-cyan-400/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative">Try Again</span>
             </button>
           </div>
         </div>
@@ -245,226 +277,191 @@ const AdminLoans = () => {
   }
 
   return (
-    <div className="admin-loans">
-      <div className="admin-loans-header">
-        <div className="admin-loans-title">
-          <h2>Loans</h2>
-          <p>Manage loan applications and approvals</p>
-        </div>
-        <div className="admin-loans-stats">
-          <span className="text-sm admin-text-secondary">
-            {loans.length} total loans
-          </span>
-        </div>
-      </div>
-
-      <div className="admin-loans-filters">
-        <div className="admin-loans-search">
-          <Search className="admin-loans-search-icon" />
-          <input
-            type="text"
-            placeholder="Search loans by ID, document ID, or company..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="admin-loans-search-input"
-          />
-        </div>
-        <div className="admin-loans-filter-controls">
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="admin-loans-status-filter"
-          >
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="approved">Approved</option>
-            <option value="repaid">Repaid</option>
-            <option value="rejected">Rejected</option>
-            <option value="active">Active</option>
-            <option value="defaulted">Defaulted</option>
-            <option value="transfer_pending">Transfer Pending</option>
-            <option value="transfer_failed">Transfer Failed</option>
-            <option value="unknown">Unknown</option>
-          </select>
+    <div className="px-6 py-6 lg:pl-80 lg:pr-6">
+      {/* Header */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-lg flex items-center justify-center">
+              <DollarSign size={20} className="text-blue-400" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Loan Management</h1>
+              <p className="text-slate-400">Manage loan applications and approvals</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2 px-4 py-2 bg-slate-800/50 border border-slate-700/50 rounded-lg">
+            <Hash size={16} className="text-blue-400" />
+            <span className="text-sm font-medium text-white">{loans.length}</span>
+            <span className="text-xs text-slate-400">total loans</span>
+          </div>
         </div>
       </div>
 
-      <div className="admin-loans-table-container" style={{ overflowX: 'auto' }}>
+      {/* Filters and Search */}
+      <div className="mb-8">
+        <div className="flex flex-col lg:flex-row gap-4">
+          {/* Search */}
+          <div className="flex-1">
+            <div className="relative group">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 group-hover:text-blue-400 transition-colors duration-300" size={18} />
+              <input
+                type="text"
+                placeholder="Search loans by ID, document ID, or company..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-300"
+              />
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/10 to-cyan-400/10 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+          </div>
+          
+          {/* Status Filter */}
+          <div className="lg:w-48">
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-white focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-300"
+            >
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="repaid">Repaid</option>
+              <option value="rejected">Rejected</option>
+              <option value="active">Active</option>
+              <option value="defaulted">Defaulted</option>
+              <option value="transfer_pending">Transfer Pending</option>
+              <option value="transfer_failed">Transfer Failed</option>
+              <option value="unknown">Unknown</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* Loans Table */}
+      <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl overflow-hidden shadow-2xl">
         {filteredLoans.length === 0 ? (
-          <div className="text-center py-12">
-            <DollarSign className="w-12 h-12 admin-icon-default mx-auto mb-4" />
-            <h3 className="text-lg font-semibold admin-text-primary mb-2">No loans found</h3>
-            <p className="admin-text-secondary">
+          <div className="flex flex-col items-center justify-center py-20">
+            <div className="relative mb-6">
+              <DollarSign className="w-16 h-16 text-slate-400" />
+              <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/10 to-cyan-400/10 rounded-full blur opacity-50"></div>
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-2">No loans found</h3>
+            <p className="text-slate-400 text-center max-w-md">
               {loans.length === 0 
                 ? "No loans have been requested yet." 
                 : "No loans match your search criteria."}
             </p>
           </div>
         ) : (
-          <table className="admin-loans-table" style={{ minWidth: '900px' }}>
-            <thead>
-              <tr>
-                <th style={{ minWidth: '110px' }}>Loan ID</th>
-                <th style={{ minWidth: '110px' }}>Document ID</th>
-                <th style={{ minWidth: '110px' }}>Company</th>
-                <th style={{ minWidth: '90px' }}>Amount</th>
-                <th style={{ minWidth: '80px' }}>Interest<br />Rate</th>
-                <th style={{ minWidth: '70px' }}>Term</th>
-                <th style={{ minWidth: '90px' }}>Status</th>
-                <th style={{ minWidth: '90px' }}>Due Date</th>
-                <th style={{ minWidth: '140px' }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredLoans.map((loan) => (
-                <tr key={loan.id} className="admin-loans-table-row">
-                  <td>
-                    <div className="flex items-center gap-2">
-                      {getStatusIcon(loan.status)}
-                      <span className="font-medium">{loan.id}</span>
-                    </div>
-                  </td>
-                  <td className="font-mono text-xs">{loan.documentId}</td>
-                  <td>{loan.company}</td>
-                  <td>{loan.amount}</td>
-                  <td>{loan.interestRate}</td>
-                  <td>{loan.term}</td>
-                  <td>
-                    <span className={getStatusBadge(loan.status)}>
-                      {loan.status.replace('_', ' ')}
-                    </span>
-                  </td>
-                  <td>
-                    {loan.dueDate ? new Date(loan.dueDate).toLocaleDateString() : 'N/A'}
-                  </td>
-                  <td>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleViewLoan(loan.id)}
-                        className="admin-loans-action-btn"
-                        title="View Loan"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
-                      {loan.status === 'pending' && (
-                        <>
-                          <button
-                            onClick={() => handleApproveLoan(loan.id)}
-                            disabled={processingAction === loan.id}
-                            className="admin-loans-action-btn"
-                            title="Approve Loan"
-                          >
-                            {processingAction === loan.id ? (
-                              <Loader2 className="w-4 h-4 animate-spin" />
-                            ) : (
-                              <CheckCircle className="w-4 h-4" />
-                            )}
-                          </button>
-                          <button
-                            onClick={() => handleRejectLoan(loan.id)}
-                            disabled={processingAction === loan.id}
-                            className="admin-loans-action-btn"
-                            title="Reject Loan"
-                          >
-                            {processingAction === loan.id ? (
-                              <Loader2 className="w-4 h-4 animate-spin" />
-                            ) : (
-                              <XCircle className="w-4 h-4" />
-                            )}
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[900px]">
+              <thead className="bg-slate-700/30 border-b border-slate-600/50">
+                <tr>
+                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[110px]">Loan ID</th>
+                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[110px]">Document ID</th>
+                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[110px]">Company</th>
+                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[90px]">Amount</th>
+                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[80px]">Interest Rate</th>
+                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[70px]">Term</th>
+                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[90px]">Status</th>
+                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[90px]">Due Date</th>
+                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[140px]">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-700/50">
+                {filteredLoans.map((loan) => (
+                  <tr key={loan.id} className="hover:bg-slate-700/30 transition-colors duration-200 group">
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <div className="flex items-center space-x-3">
+                        <div className="group-hover:scale-110 transition-transform duration-300">
+                          {getStatusIcon(loan.status)}
+                        </div>
+                        <span className="text-sm font-medium text-white">{loan.id}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <div className="text-sm font-mono text-slate-300 bg-slate-800/50 px-3 py-1 rounded-lg border border-slate-600/30">
+                        {loan.documentId}
+                      </div>
+                    </td>
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-300">{loan.company}</td>
+                    <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-green-400">{loan.amount}</td>
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-300">{loan.interestRate}</td>
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-300">{loan.term}</td>
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <span className={getStatusBadge(loan.status)}>
+                        {loan.status.replace('_', ' ')}
+                      </span>
+                    </td>
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-300">
+                      {loan.dueDate ? new Date(loan.dueDate).toLocaleDateString() : 'N/A'}
+                    </td>
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() => handleViewLoan(loan.id)}
+                          className="group/btn p-2 text-slate-400 hover:text-white hover:bg-slate-600/50 rounded-lg transition-all duration-300 hover:scale-110"
+                          title="View Loan"
+                        >
+                          <Eye size={16} className="group-hover/btn:scale-110 transition-transform duration-300" />
+                        </button>
+                        {loan.status === 'pending' && (
+                          <>
+                            <button
+                              onClick={() => handleApproveLoan(loan.id)}
+                              disabled={processingAction === loan.id}
+                              className="group/btn p-2 text-green-400 hover:text-green-300 hover:bg-green-500/20 rounded-lg transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+                              title="Approve Loan"
+                            >
+                              {processingAction === loan.id ? (
+                                <Loader2 size={16} className="animate-spin" />
+                              ) : (
+                                <CheckCircle size={16} className="group-hover/btn:scale-110 transition-transform duration-300" />
+                              )}
+                            </button>
+                            <button
+                              onClick={() => handleRejectLoan(loan.id)}
+                              disabled={processingAction === loan.id}
+                              className="group/btn p-2 text-red-400 hover:text-red-300 hover:bg-red-500/20 rounded-lg transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+                              title="Reject Loan"
+                            >
+                              {processingAction === loan.id ? (
+                                <Loader2 size={16} className="animate-spin" />
+                              ) : (
+                                <XCircle size={16} className="group-hover/btn:scale-110 transition-transform duration-300" />
+                              )}
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
-      {/* Moved Fund Canister Button beneath the table */}
-      <div className="admin-loans-footer mt-4">
+      {/* Fund Canister Button */}
+      <div className="mt-8 flex justify-center">
         <button
           onClick={handleFundCanister}
           disabled={funding}
-          className="admin-btn-primary"
+          className="group relative px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg hover:from-blue-600 hover:to-cyan-700 transition-all duration-300 hover:scale-105 transform hover:-translate-y-0.5 shadow-lg hover:shadow-purple-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           title="Fund Canister with Test Tokens"
         >
-          {funding ? (
-            <Loader2 className="w-4 h-4 animate-spin inline mr-2" />
-          ) : (
-            <Wallet className="w-4 h-4 inline mr-2" />
-          )}
-          Fund Canister
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/20 to-cyan-400/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative flex items-center space-x-2">
+            {funding ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Wallet className="w-4 h-4" />
+            )}
+            <span>Fund Canister</span>
+          </div>
         </button>
       </div>
-      <style jsx>{`
-        .admin-loans-table-container {
-          overflow-x: auto;
-          width: 100%;
-          -webkit-overflow-scrolling: touch;
-        }
-        .admin-loans-table {
-          width: 100%;
-          min-width: 900px;
-          border-collapse: collapse;
-        }
-        .admin-loans-table th,
-        .admin-loans-table td {
-          padding: 6px;
-          text-align: left;
-          border-bottom: 1px solid #e5e7eb;
-          font-size: 0.85rem;
-        }
-        .admin-loans-table th {
-          font-weight: 600;
-          color: #374151;
-          background-color: #f9fafb;
-          line-height: 1.2;
-        }
-        .admin-loans-table-row:hover {
-          background-color: #f3f4f6;
-        }
-        .admin-loans-action-btn {
-          padding: 4px;
-          border-radius: 4px;
-          background: none;
-          border: none;
-          cursor: pointer;
-          transition: background-color 0.2s;
-        }
-        .admin-loans-action-btn:hover {
-          background-color: #e5e7eb;
-        }
-        .admin-loans-action-btn:disabled {
-          cursor: not-allowed;
-          opacity: 0.5;
-        }
-        .admin-btn-primary {
-          display: inline-flex;
-          align-items: center;
-          padding: 8px 16px;
-          border-radius: 6px;
-          background-color: #2563eb;
-          color: white;
-          font-size: 0.9rem;
-          font-weight: 500;
-          cursor: pointer;
-          transition: background-color 0.2s;
-        }
-        .admin-btn-primary:hover {
-          background-color: #1d4ed8;
-        }
-        .admin-btn-primary:disabled {
-          background-color: #93c5fd;
-          cursor: not-allowed;
-        }
-        .admin-loans-footer {
-          display: flex;
-          justify-content: center;
-          padding: 16px 0;
-        }
-      `}</style>
     </div>
   );
 };

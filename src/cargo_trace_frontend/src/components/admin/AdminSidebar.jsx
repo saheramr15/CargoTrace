@@ -7,8 +7,15 @@ import {
   Users,
   Settings,
   LogOut,
-  Anchor,
-  Link
+  Shield,
+  Link,
+  Database,
+  Activity,
+  BarChart3,
+  Crown,
+  Zap,
+  Globe,
+  RefreshCw
 } from 'lucide-react';
 
 const AdminSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
@@ -23,19 +30,19 @@ const AdminSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
       id: 'documents',
       label: 'Documents',
       icon: FileText,
-      description: 'CargoX verification'
+      description: 'Document management'
     },
     {
       id: 'customs',
-      label: 'Customs Integration',
+      label: 'Customs',
       icon: Link,
-      description: 'ACID mapping & verification'
+      description: 'ACID verification'
     },
     {
       id: 'loans',
       label: 'Loans',
       icon: DollarSign,
-      description: 'Lending operations'
+      description: 'Loan management'
     },
     {
       id: 'repayments',
@@ -56,53 +63,90 @@ const AdminSidebar = ({ activeTab, setActiveTab, isMobileMenuOpen }) => {
   };
 
   return (
-    <div className={`admin-sidebar ${isMobileMenuOpen ? 'admin-sidebar-open' : ''}`}>
-      {/* Logo Section */}
-      <div className="admin-sidebar-logo">
-        <div className="admin-sidebar-logo-icon">
-          <Anchor size={24} />
+    <aside className={`fixed left-0 top-0 h-full w-72 bg-slate-900 border-r border-slate-700/50 shadow-lg z-40 transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+      
+      <div className="relative z-10 h-full flex flex-col">
+        {/* Logo Section */}
+        <div className="p-6 border-b border-slate-700/30">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                <Crown size={20} className="text-white" />
+              </div>
+              <div>
+                <h1 className="text-lg font-semibold text-white">
+                  CargoTrace
+                </h1>
+                <p className="text-slate-400 text-sm">Admin Panel</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-1 px-2 py-1 bg-blue-500/10 border border-blue-500/20 rounded-md">
+              <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+              <span className="text-xs font-medium text-blue-400">ADMIN</span>
+            </div>
+          </div>
         </div>
-        <div className="admin-sidebar-logo-text">
-          <h2>CargoTrace</h2>
-          <span>Finance Admin</span>
-        </div>
-      </div>
 
-      {/* Navigation */}
-      <nav className="admin-sidebar-nav">
-        <ul>
-          {navigationItems.map((item) => {
-            const IconComponent = item.icon;
-            return (
-              <li key={item.id}>
+        {/* Navigation */}
+        <nav className="flex-1 px-4 py-4">
+          <div className="space-y-1">
+            {navigationItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
                 <button
-                  className={`admin-sidebar-nav-item ${activeTab === item.id ? 'active' : ''}`}
+                  key={item.id}
+                  className={`group relative w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 ${
+                    isActive 
+                      ? 'bg-blue-500/20 text-white' 
+                      : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+                  }`}
                   onClick={() => setActiveTab(item.id)}
                 >
-                  <IconComponent size={20} />
-                  <div className="admin-sidebar-nav-content">
-                    <span className="admin-sidebar-nav-label">{item.label}</span>
-                    <span className="admin-sidebar-nav-description">{item.description}</span>
+                  <Icon size={18} className={`${isActive ? 'text-blue-400' : 'text-slate-400 group-hover:text-blue-400'} transition-colors duration-300`} />
+                  <div className="flex-1 text-left">
+                    <div className={`text-sm font-medium ${isActive ? 'text-white' : 'group-hover:text-white'} transition-colors duration-300`}>
+                      {item.label}
+                    </div>
+                    <div className={`text-xs ${isActive ? 'text-blue-300' : 'text-slate-400 group-hover:text-slate-300'} transition-colors duration-300`}>
+                      {item.description}
+                    </div>
                   </div>
                 </button>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
+              );
+            })}
+          </div>
+        </nav>
 
-      {/* Footer */}
-      <div className="admin-sidebar-footer">
-        <button className="admin-sidebar-footer-btn">
-          <Settings size={18} />
-          <span>Settings</span>
-        </button>
-        <button className="admin-sidebar-footer-btn logout">
-          <LogOut size={18} />
-          <span>Logout</span>
-        </button>
+        {/* System Status */}
+        <div className="p-4 border-t border-slate-700/30">
+          <div className="bg-slate-800/50 border border-slate-700/30 rounded-lg p-4">
+            <div className="flex items-center space-x-2 mb-3">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-sm font-medium text-white">System Online</span>
+            </div>
+            <div className="text-xs text-slate-400">All services operational</div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="p-4 border-t border-slate-700/30">
+          <div className="flex space-x-2">
+            <button className="flex-1 flex items-center justify-center space-x-2 px-3 py-2 bg-slate-800/50 hover:bg-slate-700/50 rounded-lg text-slate-300 hover:text-white transition-all duration-300">
+              <Settings size={14} />
+              <span className="text-xs font-medium">Settings</span>
+            </button>
+            <button 
+              className="flex-1 flex items-center justify-center space-x-2 px-3 py-2 bg-slate-800/50 hover:bg-red-500/20 rounded-lg text-slate-300 hover:text-red-400 transition-all duration-300"
+              onClick={handleLogout}
+            >
+              <LogOut size={14} />
+              <span className="text-xs font-medium">Logout</span>
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+    </aside>
   );
 };
 

@@ -8,7 +8,15 @@ import {
   XCircle,
   Clock,
   Loader2,
-  AlertCircle
+  AlertCircle,
+  Shield,
+  Database,
+  Hash,
+  Download,
+  RefreshCw,
+  TrendingUp,
+  FileCheck,
+  FileX
 } from 'lucide-react';
 import { cargo_trace_backend as backend } from '../../../../../declarations/cargo_trace_backend';
 
@@ -67,24 +75,24 @@ const AdminDocuments = () => {
     switch (status) {
       case 'verified':
       case 'nft-minted':
-        return <CheckCircle className="w-4 h-4 text-green-500" />;
+        return <CheckCircle className="w-4 h-4 text-green-400" />;
       case 'pending':
-        return <Clock className="w-4 h-4 text-yellow-500" />;
+        return <Clock className="w-4 h-4 text-yellow-400" />;
       case 'rejected':
-        return <XCircle className="w-4 h-4 text-red-500" />;
+        return <XCircle className="w-4 h-4 text-red-400" />;
       default:
-        return <Clock className="w-4 h-4 text-gray-500" />;
+        return <Clock className="w-4 h-4 text-slate-400" />;
     }
   };
 
   const getStatusBadge = (status) => {
     const statusClasses = {
-      verified: 'bg-green-100 text-green-800',
-      'nft-minted': 'bg-green-100 text-green-800',
-      pending: 'bg-yellow-100 text-yellow-800',
-      rejected: 'bg-red-100 text-red-800'
+      verified: 'bg-green-500/20 text-green-400 border border-green-500/30',
+      'nft-minted': 'bg-green-500/20 text-green-400 border border-green-500/30',
+      pending: 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30',
+      rejected: 'bg-red-500/20 text-red-400 border border-red-500/30'
     };
-    return `px-2 py-1 rounded-full text-xs font-medium ${statusClasses[status] || 'bg-gray-100 text-gray-800'}`;
+    return `inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${statusClasses[status] || 'bg-slate-500/20 text-slate-400 border border-slate-500/30'}`;
   };
 
   const handleVerifyDocument = async (documentId) => {
@@ -170,16 +178,28 @@ const AdminDocuments = () => {
 
   if (loading) {
     return (
-      <div className="admin-documents">
-        <div className="admin-documents-header">
-          <div className="admin-documents-title">
-            <h2>Documents</h2>
-            <p>Manage trade documents and verification status</p>
+      <div className="px-6 py-6 lg:pl-80 lg:pr-6">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center space-x-3 mb-2">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-lg flex items-center justify-center">
+              <FileText size={20} className="text-blue-400" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Document Management</h1>
+              <p className="text-slate-400">Manage trade documents and verification status</p>
+            </div>
           </div>
         </div>
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
-          <span className="ml-2 text-gray-600">Loading documents...</span>
+        
+        <div className="flex items-center justify-center py-20">
+          <div className="text-center">
+            <div className="relative">
+              <Loader2 className="w-12 h-12 animate-spin text-blue-400 mx-auto mb-4" />
+              <div className="absolute -inset-2 bg-gradient-to-r from-blue-500/20 to-cyan-400/20 rounded-full blur opacity-50"></div>
+            </div>
+            <p className="text-slate-300 text-lg">Loading documents...</p>
+          </div>
         </div>
       </div>
     );
@@ -187,23 +207,34 @@ const AdminDocuments = () => {
 
   if (error) {
     return (
-      <div className="admin-documents">
-        <div className="admin-documents-header">
-          <div className="admin-documents-title">
-            <h2>Documents</h2>
-            <p>Manage trade documents and verification status</p>
+      <div className="px-6 py-6 lg:pl-80 lg:pr-6">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center space-x-3 mb-2">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-lg flex items-center justify-center">
+              <FileText size={20} className="text-blue-400" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Document Management</h1>
+              <p className="text-slate-400">Manage trade documents and verification status</p>
+            </div>
           </div>
         </div>
-        <div className="flex items-center justify-center py-12">
+        
+        <div className="flex items-center justify-center py-20">
           <div className="text-center">
-            <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Error Loading Documents</h3>
-            <p className="text-gray-600 mb-4">{error}</p>
+            <div className="relative mb-6">
+              <AlertCircle className="w-16 h-16 text-red-400 mx-auto" />
+              <div className="absolute -inset-4 bg-gradient-to-r from-red-500/20 to-pink-500/20 rounded-full blur opacity-50"></div>
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-2">Error Loading Documents</h3>
+            <p className="text-slate-300 mb-6 max-w-md">{error}</p>
             <button 
               onClick={loadDocuments}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              className="group relative px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg hover:from-blue-600 hover:to-cyan-700 transition-all duration-300 hover:scale-105 transform hover:-translate-y-0.5 shadow-lg hover:shadow-purple-500/25"
             >
-              Try Again
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/20 to-cyan-400/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative">Try Again</span>
             </button>
           </div>
         </div>
@@ -212,133 +243,159 @@ const AdminDocuments = () => {
   }
 
   return (
-    <div className="admin-documents">
+    <div className="px-6 py-6 lg:pl-80 lg:pr-6">
       {/* Header */}
-      <div className="admin-documents-header">
-        <div className="admin-documents-title">
-          <h2>Documents</h2>
-          <p>Manage trade documents and verification status</p>
-        </div>
-        <div className="admin-documents-stats">
-          <span className="text-sm text-gray-600">
-            {documents.length} total documents
-          </span>
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-lg flex items-center justify-center">
+              <FileText size={20} className="text-blue-400" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Document Management</h1>
+              <p className="text-slate-400">Manage trade documents and verification status</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2 px-4 py-2 bg-slate-800/50 border border-slate-700/50 rounded-lg">
+            <Hash size={16} className="text-blue-400" />
+            <span className="text-sm font-medium text-white">{documents.length}</span>
+            <span className="text-xs text-slate-400">total documents</span>
+          </div>
         </div>
       </div>
 
       {/* Filters and Search */}
-      <div className="admin-documents-filters">
-        <div className="admin-documents-search">
-          <Search className="admin-documents-search-icon" />
-          <input
-            type="text"
-            placeholder="Search documents by ID, ACID, or description..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="admin-documents-search-input"
-          />
-        </div>
-        <div className="admin-documents-filter-controls">
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="admin-documents-status-filter"
-          >
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="verified">Verified</option>
-            <option value="nft-minted">NFT Minted</option>
-            <option value="rejected">Rejected</option>
-          </select>
+      <div className="mb-8">
+        <div className="flex flex-col lg:flex-row gap-4">
+          {/* Search */}
+          <div className="flex-1">
+            <div className="relative group">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 group-hover:text-blue-400 transition-colors duration-300" size={18} />
+              <input
+                type="text"
+                placeholder="Search documents by ID, ACID, or description..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-300"
+              />
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/10 to-cyan-400/10 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+          </div>
+          
+          {/* Status Filter */}
+          <div className="lg:w-48">
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="w-full px-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg text-white focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-300"
+            >
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="verified">Verified</option>
+              <option value="nft-minted">NFT Minted</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
         </div>
       </div>
 
       {/* Documents Table */}
-      <div className="admin-documents-table-container">
+      <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl overflow-hidden shadow-2xl">
         {filteredDocuments.length === 0 ? (
-          <div className="text-center py-12">
-            <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No documents found</h3>
-            <p className="text-gray-600">
+          <div className="flex flex-col items-center justify-center py-20">
+            <div className="relative mb-6">
+              <FileText className="w-16 h-16 text-slate-400" />
+              <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/10 to-cyan-400/10 rounded-full blur opacity-50"></div>
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-2">No documents found</h3>
+            <p className="text-slate-400 text-center max-w-md">
               {documents.length === 0 
                 ? "No documents have been submitted yet." 
                 : "No documents match your search criteria."}
             </p>
           </div>
         ) : (
-          <table className="admin-documents-table">
-            <thead>
-              <tr>
-                <th>Document ID</th>
-                <th>ACID Number</th>
-                <th>Type</th>
-                <th>Value</th>
-                <th>Status</th>
-                <th>Created</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredDocuments.map((doc) => (
-                <tr key={doc.id} className="admin-documents-table-row">
-                  <td>
-                    <div className="flex items-center gap-2">
-                      {getStatusIcon(doc.status)}
-                      <span className="font-medium">{doc.id}</span>
-                    </div>
-                  </td>
-                  <td className="font-mono text-sm">{doc.acidNumber}</td>
-                  <td>{doc.type}</td>
-                  <td>{doc.value}</td>
-                  <td>
-                    <span className={getStatusBadge(doc.status)}>
-                      {doc.status.replace('-', ' ')}
-                    </span>
-                  </td>
-                  <td>{doc.createdAt}</td>
-                  <td>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleViewDocument(doc.id)}
-                        className="admin-documents-action-btn"
-                        title="View Document"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
-                      {doc.status === 'pending' && (
-                        <>
-                          <button
-                            onClick={() => handleVerifyDocument(doc.id)}
-                            disabled={processingAction === doc.id}
-                            className="admin-documents-action-btn"
-                            title="Approve Document"
-                          >
-                            {processingAction === doc.id ? (
-                              <Loader2 className="w-4 h-4 animate-spin" />
-                            ) : (
-                              <CheckCircle className="w-4 h-4" />
-                            )}
-                          </button>
-                          <button
-                            onClick={() => handleRejectDocument(doc.id)}
-                            disabled={processingAction === doc.id}
-                            className="admin-documents-action-btn"
-                            title="Reject Document"
-                          >
-                            {processingAction === doc.id ? (
-                              <Loader2 className="w-4 h-4 animate-spin" />
-                            ) : (
-                              <XCircle className="w-4 h-4" />
-                            )}
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-slate-700/30 border-b border-slate-600/50">
+                <tr>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Document ID</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">ACID Number</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Type</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Value</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Created</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-700/50">
+                {filteredDocuments.map((doc) => (
+                  <tr key={doc.id} className="hover:bg-slate-700/30 transition-colors duration-200 group">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center space-x-3">
+                        <div className="group-hover:scale-110 transition-transform duration-300">
+                          {getStatusIcon(doc.status)}
+                        </div>
+                        <span className="text-sm font-medium text-white">{doc.id}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm font-mono text-slate-300 bg-slate-800/50 px-3 py-1 rounded-lg border border-slate-600/30">
+                        {doc.acidNumber}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{doc.type}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-400">{doc.value}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={getStatusBadge(doc.status)}>
+                        {doc.status.replace('-', ' ')}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{doc.createdAt}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() => handleViewDocument(doc.id)}
+                          className="group/btn p-2 text-slate-400 hover:text-white hover:bg-slate-600/50 rounded-lg transition-all duration-300 hover:scale-110"
+                          title="View Document"
+                        >
+                          <Eye size={16} className="group-hover/btn:scale-110 transition-transform duration-300" />
+                        </button>
+                        {doc.status === 'pending' && (
+                          <>
+                            <button
+                              onClick={() => handleVerifyDocument(doc.id)}
+                              disabled={processingAction === doc.id}
+                              className="group/btn p-2 text-green-400 hover:text-green-300 hover:bg-green-500/20 rounded-lg transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+                              title="Approve Document"
+                            >
+                              {processingAction === doc.id ? (
+                                <Loader2 size={16} className="animate-spin" />
+                              ) : (
+                                <CheckCircle size={16} className="group-hover/btn:scale-110 transition-transform duration-300" />
+                              )}
+                            </button>
+                            <button
+                              onClick={() => handleRejectDocument(doc.id)}
+                              disabled={processingAction === doc.id}
+                              className="group/btn p-2 text-red-400 hover:text-red-300 hover:bg-red-500/20 rounded-lg transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+                              title="Reject Document"
+                            >
+                              {processingAction === doc.id ? (
+                                <Loader2 size={16} className="animate-spin" />
+                              ) : (
+                                <XCircle size={16} className="group-hover/btn:scale-110 transition-transform duration-300" />
+                              )}
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>

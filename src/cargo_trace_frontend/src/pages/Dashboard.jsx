@@ -6,7 +6,7 @@ import DashboardDocuments from '../components/sections/DashboardDocuments';
 import DashboardLoans from '../components/sections/DashboardLoans';
 import DashboardRepayment from '../components/sections/DashboardRepayment';
 import CustomsIntegration from '../components/sections/CustomsIntegrationSafe';
-import '../styles/main.css';
+// CSS imports removed - using Tailwind classes instead
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -35,7 +35,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="dashboard-container">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex relative overflow-hidden">
       {/* Sidebar */}
       <DashboardSidebar 
         activeTab={activeTab} 
@@ -44,7 +44,7 @@ const Dashboard = () => {
       />
 
       {/* Main Content */}
-      <div className="dashboard-main-content">
+      <div className="flex-1 flex flex-col">
         {/* Header */}
         <DashboardHeader 
           activeTab={activeTab} 
@@ -53,7 +53,7 @@ const Dashboard = () => {
         />
 
         {/* Content */}
-        <main className="dashboard-content">
+        <main className="flex-1 pt-16">
           {renderContent()}
         </main>
       </div>

@@ -222,331 +222,368 @@ const DashboardLoans = () => {
 
   if (loading) {
     return (
-      <div className="dashboard-loans-container">
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-8 py-6 lg:pl-80 lg:pr-8">
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
-          <span className="ml-2 text-gray-600">Loading loans and documents...</span>
+          <div className="text-center">
+            <Loader2 className="w-12 h-12 animate-spin text-blue-500 mx-auto mb-4" />
+            <span className="text-slate-300 text-lg">Loading loans and documents...</span>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="dashboard-loans-container">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-8 py-6 lg:pl-80 lg:pr-8">
       {/* Loan Application Statistics */}
-      <div className="dashboard-section">
-        <div className="dashboard-section-header">
-          <h2 className="dashboard-section-title">
-            <BarChart3 className="dashboard-section-icon" />
-            Loan Application Overview
-          </h2>
+      <div className="mb-6">
+        <div className="flex items-center space-x-3 mb-4">
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center">
+            <BarChart3 size={20} className="text-white" />
+          </div>
+          <h2 className="text-2xl font-bold text-white">Loan Application Overview</h2>
         </div>
-        <div className="dashboard-stats-grid">
-          <div className="dashboard-stat-card">
-            <div className="dashboard-stat-icon documents">
-              <FileCheck size={24} color="white" />
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-blue-400/30 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300">
+            <div className="flex items-center justify-between mb-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center">
+                <FileCheck size={20} className="text-white" />
+              </div>
+              <div className="flex items-center space-x-1 text-green-400">
+                <TrendingUp size={14} />
+                <span className="text-xs font-medium">+12.5%</span>
+              </div>
             </div>
-            <div className="dashboard-stat-trend">
-              <TrendingUp size={16} />
-              <span className="dashboard-stat-percentage">+12.5%</span>
-            </div>
-            <div className="dashboard-stat-value">{loanStats.total}</div>
-            <div className="dashboard-stat-label">Total Applications</div>
-            <div className="dashboard-stat-description">All loan requests</div>
+            <div className="text-2xl font-bold text-white mb-1">{loanStats.total}</div>
+            <div className="text-sm font-semibold text-slate-300 mb-1">Total Applications</div>
+            <div className="text-xs text-slate-400">All loan requests</div>
           </div>
 
-          <div className="dashboard-stat-card">
-            <div className="dashboard-stat-icon loans">
-              <CheckCircle size={24} color="white" />
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-green-400/30 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-300">
+            <div className="flex items-center justify-between mb-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                <CheckCircle size={20} className="text-white" />
+              </div>
+              <div className="flex items-center space-x-1 text-green-400">
+                <TrendingUp size={14} />
+                <span className="text-xs font-medium">+8.3%</span>
+              </div>
             </div>
-            <div className="dashboard-stat-trend">
-              <TrendingUp size={16} />
-              <span className="dashboard-stat-percentage">+8.3%</span>
-            </div>
-            <div className="dashboard-stat-value">{loanStats.approved}</div>
-            <div className="dashboard-stat-label">Approved Loans</div>
-            <div className="dashboard-stat-description">Successfully processed</div>
+            <div className="text-2xl font-bold text-white mb-1">{loanStats.approved}</div>
+            <div className="text-sm font-semibold text-slate-300 mb-1">Approved Loans</div>
+            <div className="text-xs text-slate-400">Successfully processed</div>
           </div>
 
-          <div className="dashboard-stat-card">
-            <div className="dashboard-stat-icon nfts">
-              <Percent size={24} color="white" />
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-purple-400/30 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300">
+            <div className="flex items-center justify-between mb-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                <Percent size={20} className="text-white" />
+              </div>
+              <div className="flex items-center space-x-1 text-green-400">
+                <TrendingUp size={14} />
+                <span className="text-xs font-medium">+5.7%</span>
+              </div>
             </div>
-            <div className="dashboard-stat-trend">
-              <TrendingUp size={16} />
-              <span className="dashboard-stat-percentage">+5.7%</span>
-            </div>
-            <div className="dashboard-stat-value">{loanStats.approvalRate}%</div>
-            <div className="dashboard-stat-label">Approval Rate</div>
-            <div className="dashboard-stat-description">Success rate</div>
+            <div className="text-2xl font-bold text-white mb-1">{loanStats.approvalRate}%</div>
+            <div className="text-sm font-semibold text-slate-300 mb-1">Approval Rate</div>
+            <div className="text-xs text-slate-400">Success rate</div>
           </div>
 
-          <div className="dashboard-stat-card">
-            <div className="dashboard-stat-icon fusion">
-              <Timer size={24} color="white" />
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300">
+            <div className="flex items-center justify-between mb-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
+                <Timer size={20} className="text-white" />
+              </div>
+              <div className="flex items-center space-x-1 text-green-400">
+                <TrendingUp size={14} />
+                <span className="text-xs font-medium">-15.2%</span>
+              </div>
             </div>
-            <div className="dashboard-stat-trend">
-              <TrendingUp size={16} />
-              <span className="dashboard-stat-percentage">-15.2%</span>
-            </div>
-            <div className="dashboard-stat-value">{loanStats.avgProcessingTime}</div>
-            <div className="dashboard-stat-label">Avg Processing Time</div>
-            <div className="dashboard-stat-description">Faster approvals</div>
+            <div className="text-2xl font-bold text-white mb-1">{loanStats.avgProcessingTime}</div>
+            <div className="text-sm font-semibold text-slate-300 mb-1">Avg Processing Time</div>
+            <div className="text-xs text-slate-400">Faster approvals</div>
           </div>
         </div>
       </div>
 
       {/* New Loan Application Form */}
-      <div className="dashboard-section">
-        <div className="dashboard-section-header">
-          <h2 className="dashboard-section-title">
-            <Plus className="dashboard-section-icon" />
-            New Loan Application
-          </h2>
+      <div className="mb-6">
+        <div className="flex items-center space-x-3 mb-4">
+          <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+            <Plus size={20} className="text-white" />
+          </div>
+          <h2 className="text-2xl font-bold text-white">New Loan Application</h2>
         </div>
         
         {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
             <div className="flex items-center">
-              <AlertCircle className="w-5 h-5 text-red-500 mr-2" />
-              <span className="text-red-700">{error}</span>
+              <AlertCircle className="w-4 h-4 text-red-400 mr-2" />
+              <span className="text-red-300 text-sm">{error}</span>
             </div>
           </div>
         )}
 
         {successMessage && (
-          <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+          <div className="mb-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
             <div className="flex items-center">
-              <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
-              <span className="text-green-700">{successMessage}</span>
+              <CheckCircle className="w-4 h-4 text-green-400 mr-2" />
+              <span className="text-green-300 text-sm">{successMessage}</span>
             </div>
           </div>
         )}
 
-        <form onSubmit={handleNewLoanApplication} className="dashboard-form-grid">
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Loan Amount (USD) *</label>
-            <input
-              type="number"
-              value={loanAmount}
-              onChange={(e) => setLoanAmount(e.target.value)}
-              className="dashboard-form-input"
-              placeholder="50000"
-              min="1"
-              required
-            />
-          </div>
+        <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4">
+          <form onSubmit={handleNewLoanApplication} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-slate-300">Loan Amount (USD) *</label>
+              <input
+                type="number"
+                value={loanAmount}
+                onChange={(e) => setLoanAmount(e.target.value)}
+                className="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200"
+                placeholder="50000"
+                min="1"
+                required
+              />
+            </div>
 
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Collateral Document *</label>
-            <select 
-              value={collateralDocument} 
-              onChange={(e) => setCollateralDocument(e.target.value)}
-              className="dashboard-form-input"
-              required
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-slate-300">Collateral Document *</label>
+              <select 
+                value={collateralDocument} 
+                onChange={(e) => setCollateralDocument(e.target.value)}
+                className="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200"
+                required
+              >
+                <option value="">Select a document...</option>
+                {documents.map(doc => (
+                  <option key={doc.id} value={doc.id}>
+                    {doc.id} - {doc.description} (Value: {doc.value})
+                  </option>
+                ))}
+              </select>
+              {documents.length === 0 && (
+                <p className="text-sm text-orange-400 mt-1">
+                  No approved documents available. Please submit and get a document approved first.
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-slate-300">Repayment Date *</label>
+              <input
+                type="date"
+                value={repaymentDate}
+                onChange={(e) => setRepaymentDate(e.target.value)}
+                className="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200"
+                min={new Date().toISOString().split('T')[0]}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-slate-300">Loan Type</label>
+              <select className="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200" required>
+                <option value="">Select loan type</option>
+                <option value="icrc1">ICRC-1 Stable Token</option>
+                <option value="icp">ICP Native Token</option>
+                <option value="bridge">Cross-Chain Bridge</option>
+              </select>
+            </div>
+          </form>
+          
+          <div className="mt-4 flex justify-end">
+            <button 
+              type="submit" 
+              onClick={handleNewLoanApplication}
+              disabled={submitting || documents.length === 0}
+              className={`flex items-center space-x-2 px-4 py-2 font-semibold rounded-lg transition-all duration-200 ${
+                submitting || documents.length === 0
+                  ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-400 hover:to-emerald-500 hover:scale-105 shadow-lg shadow-green-500/25'
+              }`}
             >
-              <option value="">Select a document...</option>
-              {documents.map(doc => (
-                <option key={doc.id} value={doc.id}>
-                  {doc.id} - {doc.description} (Value: {doc.value})
-                </option>
-              ))}
-            </select>
-            {documents.length === 0 && (
-              <p className="text-sm text-gray-500 mt-1">
-                No approved documents available. Please submit and get a document approved first.
-              </p>
-            )}
+              {submitting ? (
+                <>
+                  <Loader2 size={14} className="animate-spin" />
+                  <span>Submitting...</span>
+                </>
+              ) : (
+                <>
+                  <DollarSign size={14} />
+                  <span>Submit Application</span>
+                </>
+              )}
+            </button>
           </div>
-
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Repayment Date *</label>
-            <input
-              type="date"
-              value={repaymentDate}
-              onChange={(e) => setRepaymentDate(e.target.value)}
-              className="dashboard-form-input"
-              min={new Date().toISOString().split('T')[0]}
-              required
-            />
-          </div>
-
-          <div className="dashboard-form-field">
-            <label className="dashboard-form-label">Loan Type</label>
-            <select className="dashboard-form-input" required>
-              <option value="">Select loan type</option>
-              <option value="icrc1">ICRC-1 Stable Token</option>
-              <option value="icp">ICP Native Token</option>
-              <option value="bridge">Cross-Chain Bridge</option>
-            </select>
-          </div>
-        </form>
-        <button 
-          type="submit" 
-          onClick={handleNewLoanApplication}
-          disabled={submitting || documents.length === 0}
-          className="dashboard-submit-button"
-        >
-          {submitting ? (
-            <>
-              <Loader2 size={16} className="animate-spin" />
-              Submitting...
-            </>
-          ) : (
-            <>
-              <DollarSign size={16} />
-              Submit Application
-            </>
-          )}
-        </button>
+        </div>
       </div>
 
       {/* Loan Applications Management */}
-      <div className="dashboard-section">
-        <div className="dashboard-section-header">
-          <h2 className="dashboard-section-title">
-            <FileCheck className="dashboard-section-icon" />
-            Loan Applications
-          </h2>
-          <div className="dashboard-section-actions">
-            <span className="dashboard-section-count">{filteredLoans.length} applications</span>
-            <div className="dashboard-search-filter">
-              <div className="dashboard-search-box">
-                <Search size={16} className="dashboard-search-icon" />
-                <input
-                  type="text"
-                  placeholder="Search applications..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="dashboard-search-input"
-                />
-              </div>
-              <select
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value)}
-                className="dashboard-filter-select"
-              >
-                <option value="all">All Statuses</option>
-                <option value="approved">Approved</option>
-                <option value="pending">Pending</option>
-                <option value="under_review">Under Review</option>
-                <option value="rejected">Rejected</option>
-              </select>
+      <div className="mb-6">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
+              <FileCheck size={20} className="text-white" />
             </div>
+            <h2 className="text-2xl font-bold text-white">Loan Applications</h2>
+          </div>
+          <div className="flex items-center space-x-3">
+            <span className="text-sm text-slate-400">{filteredLoans.length} applications</span>
           </div>
         </div>
-        <div className="dashboard-table-container">
+        
+        {/* Search and Filter */}
+        <div className="flex flex-col sm:flex-row gap-4 mb-4">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" size={16} />
+            <input
+              type="text"
+              placeholder="Search applications..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200"
+            />
+          </div>
+          <div className="sm:w-48">
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200"
+            >
+              <option value="all">All Statuses</option>
+              <option value="approved">Approved</option>
+              <option value="pending">Pending</option>
+              <option value="under_review">Under Review</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+        <div className="bg-slate-800/30 backdrop-blur-sm border border-slate-700/50 rounded-2xl overflow-hidden">
           {filteredLoans.length === 0 ? (
             <div className="text-center py-12">
-              <DollarSign className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No loans found</h3>
-              <p className="text-gray-600">
+              <DollarSign className="w-16 h-16 text-slate-400 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-2">No loans found</h3>
+              <p className="text-slate-400">
                 {loans.length === 0 
                   ? "No loans have been requested yet. Submit your first loan application above." 
                   : "No loans match your search criteria."}
               </p>
             </div>
           ) : (
-            <table className="dashboard-table">
-              <thead>
-                <tr>
-                  <th>Application ID</th>
-                  <th>Document ID</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Application Date</th>
-                  <th>Repayment Date</th>
-                  <th>Interest Rate</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredLoans.map((loan) => (
-                  <tr key={loan.id}>
-                    <td>{loan.id}</td>
-                    <td className="font-mono text-sm">{loan.documentId}</td>
-                    <td>{loan.amount}</td>
-                    <td>
-                      <span className={`dashboard-status ${getStatusColor(loan.status)}`}>
-                        {getStatusIcon(loan.status)}
-                        {loan.status.replace('_', ' ')}
-                      </span>
-                    </td>
-                    <td>{loan.applicationDate}</td>
-                    <td>{loan.repaymentDate}</td>
-                    <td>{loan.apr}</td>
-                    <td className="dashboard-table-actions">
-                      <button className="dashboard-action-button view">
-                        <Eye size={16} />
-                      </button>
-                      <button className="dashboard-action-button edit">
-                        <Edit size={16} />
-                      </button>
-                      <button className="dashboard-action-button download">
-                        <FileText size={16} />
-                      </button>
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-slate-700/50">
+                  <tr>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Application ID</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Document ID</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Amount</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Status</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Application Date</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Repayment Date</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Interest Rate</th>
+                    <th className="px-3 py-3 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-slate-700/50">
+                  {filteredLoans.map((loan) => (
+                    <tr key={loan.id} className="hover:bg-slate-700/30 transition-colors duration-200">
+                      <td className="px-3 py-3 text-sm font-semibold text-white">{loan.id}</td>
+                      <td className="px-3 py-3 font-mono text-sm text-slate-300">{loan.documentId}</td>
+                      <td className="px-3 py-3 text-sm font-semibold text-white">{loan.amount}</td>
+                      <td className="px-3 py-3">
+                        <div className="flex items-center space-x-2">
+                          {getStatusIcon(loan.status)}
+                          <span className={`text-sm font-medium ${
+                            getStatusColor(loan.status) === 'success' ? 'text-green-400' :
+                            getStatusColor(loan.status) === 'warning' ? 'text-orange-400' :
+                            getStatusColor(loan.status) === 'info' ? 'text-blue-400' :
+                            getStatusColor(loan.status) === 'danger' ? 'text-red-400' : 'text-slate-400'
+                          }`}>
+                            {loan.status.replace('_', ' ')}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-3 py-3 text-sm text-slate-300">{loan.applicationDate}</td>
+                      <td className="px-3 py-3 text-sm text-slate-300">{loan.repaymentDate}</td>
+                      <td className="px-3 py-3 text-sm font-semibold text-white">{loan.apr}</td>
+                      <td className="px-3 py-3">
+                        <div className="flex items-center space-x-2">
+                          <button className="p-2 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-all duration-200">
+                            <Eye size={14} />
+                          </button>
+                          <button className="p-2 text-slate-400 hover:text-orange-400 hover:bg-orange-500/10 rounded-lg transition-all duration-200">
+                            <Edit size={14} />
+                          </button>
+                          <button className="p-2 text-slate-400 hover:text-purple-400 hover:bg-purple-500/10 rounded-lg transition-all duration-200">
+                            <FileText size={14} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>
 
       {/* Loan Processing Pipeline */}
-      <div className="dashboard-section">
-        <div className="dashboard-section-header">
-          <h2 className="dashboard-section-title">
-            <Target className="dashboard-section-icon" />
-            Loan Processing Pipeline
-          </h2>
+      <div className="mb-8">
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+            <Target size={20} className="text-white" />
+          </div>
+          <h2 className="text-2xl font-bold text-white">Loan Processing Pipeline</h2>
         </div>
-        <div className="dashboard-pipeline">
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <FileCheck size={24} color="white" />
+        
+        <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <FileCheck size={24} className="text-white" />
+              </div>
+              <h4 className="text-lg font-semibold text-white mb-2">Document Verification</h4>
+              <p className="text-sm text-slate-400 mb-3">CargoX & ACID validation</p>
+              <div className="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-medium rounded-full inline-block">
+                {documents.length} Documents
+              </div>
             </div>
-            <div className="dashboard-pipeline-content">
-              <h4>Document Verification</h4>
-              <p>CargoX & ACID validation</p>
-              <div className="dashboard-pipeline-count">{documents.length} Documents</div>
+            
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Shield size={24} className="text-white" />
+              </div>
+              <h4 className="text-lg font-semibold text-white mb-2">NFT Minting</h4>
+              <p className="text-sm text-slate-400 mb-3">ICP blockchain collateral</p>
+              <div className="px-3 py-1 bg-green-500/20 text-green-400 text-xs font-medium rounded-full inline-block">
+                100% Secure
+              </div>
             </div>
-          </div>
-          <div className="dashboard-pipeline-arrow">→</div>
-          
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <Shield size={24} color="white" />
+            
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <CheckCircle size={24} className="text-white" />
+              </div>
+              <h4 className="text-lg font-semibold text-white mb-2">Smart Contract</h4>
+              <p className="text-sm text-slate-400 mb-3">Automated loan issuance</p>
+              <div className="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-medium rounded-full inline-block">
+                {loanStats.approved} Approved
+              </div>
             </div>
-            <div className="dashboard-pipeline-content">
-              <h4>NFT Minting</h4>
-              <p>ICP blockchain collateral</p>
-              <div className="dashboard-pipeline-count">100% Secure</div>
-            </div>
-          </div>
-          <div className="dashboard-pipeline-arrow">→</div>
-          
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <CheckCircle size={24} color="white" />
-            </div>
-            <div className="dashboard-pipeline-content">
-              <h4>Smart Contract</h4>
-              <p>Automated loan issuance</p>
-              <div className="dashboard-pipeline-count">{loanStats.approved} Approved</div>
-            </div>
-          </div>
-          <div className="dashboard-pipeline-arrow">→</div>
-          
-          <div className="dashboard-pipeline-step">
-            <div className="dashboard-pipeline-icon">
-              <Wallet size={24} color="white" />
-            </div>
-            <div className="dashboard-pipeline-content">
-              <h4>ICRC-1 Disbursement</h4>
-              <p>Instant stable token transfer</p>
-              <div className="dashboard-pipeline-count">24/7 Available</div>
+            
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Wallet size={24} className="text-white" />
+              </div>
+              <h4 className="text-lg font-semibold text-white mb-2">ICRC-1 Disbursement</h4>
+              <p className="text-sm text-slate-400 mb-3">Instant stable token transfer</p>
+              <div className="px-3 py-1 bg-orange-500/20 text-orange-400 text-xs font-medium rounded-full inline-block">
+                24/7 Available
+              </div>
             </div>
           </div>
         </div>
