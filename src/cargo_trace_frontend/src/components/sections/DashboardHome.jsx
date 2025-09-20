@@ -53,9 +53,9 @@ const DashboardHome = () => {
       value: '$2.4M',
       change: '+8.3%',
       icon: DollarSign,
-      color: 'from-green-500 to-emerald-600',
-      bgColor: 'from-green-500/10 to-emerald-600/10',
-      borderColor: 'border-green-400/30',
+      color: 'from-cyan-500 to-blue-400',
+      bgColor: 'from-cyan-500/10 to-blue-400/10',
+      borderColor: 'border-cyan-400/30',
       description: 'ICRC-1 stable tokens',
       trend: 'up'
     },
@@ -65,9 +65,9 @@ const DashboardHome = () => {
       value: '892',
       change: '+15.2%',
       icon: Shield,
-      color: 'from-purple-500 to-indigo-600',
-      bgColor: 'from-purple-500/10 to-indigo-600/10',
-      borderColor: 'border-purple-400/30',
+      color: 'from-indigo-500 to-blue-400',
+      bgColor: 'from-indigo-500/10 to-blue-400/10',
+      borderColor: 'border-indigo-400/30',
       description: 'ICP blockchain NFTs',
       trend: 'up'
     },
@@ -77,9 +77,9 @@ const DashboardHome = () => {
       value: '99.9%',
       change: '+0.1%',
       icon: Network,
-      color: 'from-orange-500 to-red-500',
-      bgColor: 'from-orange-500/10 to-red-500/10',
-      borderColor: 'border-orange-400/30',
+      color: 'from-slate-500 to-slate-400',
+      bgColor: 'from-slate-500/10 to-slate-400/10',
+      borderColor: 'border-slate-400/30',
       description: 'Chain Fusion bridge',
       trend: 'up'
     }
@@ -105,8 +105,8 @@ const DashboardHome = () => {
       time: '5 min ago',
       status: 'success',
       icon: DollarSign,
-      color: 'text-green-400',
-      bgColor: 'bg-green-500/20'
+      color: 'text-cyan-400',
+      bgColor: 'bg-cyan-500/20'
     },
     {
       id: 3,
@@ -116,8 +116,8 @@ const DashboardHome = () => {
       time: '10 min ago',
       status: 'success',
       icon: Shield,
-      color: 'text-purple-400',
-      bgColor: 'bg-purple-500/20'
+      color: 'text-indigo-400',
+      bgColor: 'bg-indigo-500/20'
     },
     {
       id: 4,
@@ -127,8 +127,8 @@ const DashboardHome = () => {
       time: '15 min ago',
       status: 'success',
       icon: CheckCircle,
-      color: 'text-orange-400',
-      bgColor: 'bg-orange-500/20'
+      color: 'text-slate-400',
+      bgColor: 'bg-slate-500/20'
     }
   ];
 
@@ -138,7 +138,7 @@ const DashboardHome = () => {
       status: 'online',
       uptime: '99.98%',
       icon: Globe,
-      color: 'text-green-400'
+      color: 'text-cyan-400'
     },
     {
       name: 'NAFEZA System',
@@ -152,14 +152,14 @@ const DashboardHome = () => {
       status: 'online',
       uptime: '99.99%',
       icon: Cpu,
-      color: 'text-purple-400'
+      color: 'text-indigo-400'
     },
     {
       name: 'Chain Fusion Bridge',
       status: 'online',
       uptime: '99.97%',
       icon: Wifi,
-      color: 'text-orange-400'
+      color: 'text-slate-400'
     }
   ];
 
@@ -175,21 +175,21 @@ const DashboardHome = () => {
       title: 'Request Loan',
       description: 'Apply for ICRC-1 stable token loan',
       icon: DollarSign,
-      color: 'from-green-500 to-emerald-600',
+      color: 'from-cyan-500 to-blue-400',
       href: '#loans'
     },
     {
       title: 'View NFTs',
       description: 'Browse minted document NFTs',
       icon: Shield,
-      color: 'from-purple-500 to-indigo-600',
+      color: 'from-indigo-500 to-blue-400',
       href: '#nfts'
     },
     {
       title: 'Monitor Bridge',
       description: 'Check Chain Fusion status',
       icon: Network,
-      color: 'from-orange-500 to-red-500',
+      color: 'from-slate-500 to-slate-400',
       href: '#bridge'
     }
   ];
@@ -501,34 +501,34 @@ const DashboardHome = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-gradient-to-br from-slate-800/60 to-slate-700/40 backdrop-blur-xl border border-slate-600/30 rounded-xl p-4 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300">
+          <div className="bg-gradient-to-br from-slate-800/60 to-slate-700/40 backdrop-blur-xl border border-slate-600/30 rounded-xl p-4 hover:shadow-xl hover:shadow-cyan-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-400 rounded-xl flex items-center justify-center">
                 <TrendingUp size={20} className="text-white" />
               </div>
-              <span className="text-xl font-bold text-green-400">+24.5%</span>
+              <span className="text-xl font-bold text-cyan-400">+24.5%</span>
             </div>
             <h3 className="text-sm font-semibold text-white mb-1">Growth Rate</h3>
             <p className="text-xs text-slate-400">Month-over-month platform growth</p>
           </div>
           
-          <div className="bg-gradient-to-br from-slate-800/60 to-slate-700/40 backdrop-blur-xl border border-slate-600/30 rounded-xl p-4 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300">
+          <div className="bg-gradient-to-br from-slate-800/60 to-slate-700/40 backdrop-blur-xl border border-slate-600/30 rounded-xl p-4 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-400 rounded-xl flex items-center justify-center">
                 <Zap size={20} className="text-white" />
               </div>
-              <span className="text-xl font-bold text-purple-400">1.2s</span>
+              <span className="text-xl font-bold text-indigo-400">1.2s</span>
             </div>
             <h3 className="text-sm font-semibold text-white mb-1">Response Time</h3>
             <p className="text-xs text-slate-400">Average API response time</p>
           </div>
           
-          <div className="bg-gradient-to-br from-slate-800/60 to-slate-700/40 backdrop-blur-xl border border-slate-600/30 rounded-xl p-4 hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300">
+          <div className="bg-gradient-to-br from-slate-800/60 to-slate-700/40 backdrop-blur-xl border border-slate-600/30 rounded-xl p-4 hover:shadow-xl hover:shadow-slate-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-slate-500 to-slate-400 rounded-xl flex items-center justify-center">
                 <Lock size={20} className="text-white" />
               </div>
-              <span className="text-xl font-bold text-orange-400">100%</span>
+              <span className="text-xl font-bold text-slate-400">100%</span>
             </div>
             <h3 className="text-sm font-semibold text-white mb-1">Security Score</h3>
             <p className="text-xs text-slate-400">Platform security rating</p>

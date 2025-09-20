@@ -317,7 +317,7 @@ const CustomsIntegration = () => {
 
       {/* Toast Notification */}
       {showToast && (
-        <div className="fixed top-4 right-4 z-50 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-4 rounded-xl shadow-2xl shadow-green-500/25 animate-bounce backdrop-blur-sm border border-green-400/30">
+        <div className="fixed top-4 right-4 z-50 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-4 rounded-xl shadow-2xl shadow-blue-500/25 animate-bounce backdrop-blur-sm border border-blue-400/30">
           <div className="flex items-center">
             <CheckCircle className="w-5 h-5 mr-3" />
             <span className="font-semibold">Success! CargoX linked to ACID</span>
@@ -369,69 +369,69 @@ const CustomsIntegration = () => {
             </div>
           </div>
 
-          <div className="group relative bg-slate-800/30 backdrop-blur-xl border border-slate-700/30 rounded-2xl p-8 hover:border-green-400/50 hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-700 hover:scale-105">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-green-500/20 via-emerald-400/20 to-green-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="group relative bg-slate-800/30 backdrop-blur-xl border border-slate-700/30 rounded-2xl p-8 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-700 hover:scale-105">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500/20 via-blue-400/20 to-cyan-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="relative">
               <div className="flex items-center justify-between mb-6">
                 <div className="relative group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-500/20 to-emerald-400/20 rounded-2xl flex items-center justify-center">
-                    <CheckCircle size={28} className="text-green-400" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-cyan-500/20 to-blue-400/20 rounded-2xl flex items-center justify-center">
+                    <CheckCircle size={28} className="text-cyan-400" />
                   </div>
-                  <div className="absolute -inset-2 bg-gradient-to-br from-green-500/20 to-emerald-400/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute -inset-2 bg-gradient-to-br from-cyan-500/20 to-blue-400/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
-                <div className="flex items-center space-x-2 px-3 py-1 bg-green-500/10 border border-green-500/30 rounded-full">
-                  <TrendingUp size={14} className="text-green-400" />
-                  <span className="text-sm font-medium text-green-400">+8.3%</span>
+                <div className="flex items-center space-x-2 px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 rounded-full">
+                  <TrendingUp size={14} className="text-cyan-400" />
+                  <span className="text-sm font-medium text-cyan-400">+8.3%</span>
                 </div>
               </div>
               <div className="space-y-2">
-                <div className="text-4xl font-black bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">{stats.verified}</div>
+                <div className="text-4xl font-black bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent">{stats.verified}</div>
                 <div className="text-lg font-bold text-white">Verified</div>
                 <div className="text-sm text-slate-400">Customs verified entries</div>
               </div>
             </div>
           </div>
 
-          <div className="group relative bg-slate-800/30 backdrop-blur-xl border border-slate-700/30 rounded-2xl p-8 hover:border-orange-400/50 hover:shadow-2xl hover:shadow-orange-500/20 transition-all duration-700 hover:scale-105">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-500/20 via-yellow-400/20 to-orange-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="group relative bg-slate-800/30 backdrop-blur-xl border border-slate-700/30 rounded-2xl p-8 hover:border-indigo-400/50 hover:shadow-2xl hover:shadow-indigo-500/20 transition-all duration-700 hover:scale-105">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500/20 via-blue-400/20 to-indigo-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="relative">
               <div className="flex items-center justify-between mb-6">
                 <div className="relative group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-500/20 to-yellow-400/20 rounded-2xl flex items-center justify-center">
-                    <Clock size={28} className="text-orange-400" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-indigo-500/20 to-blue-400/20 rounded-2xl flex items-center justify-center">
+                    <Clock size={28} className="text-indigo-400" />
                   </div>
-                  <div className="absolute -inset-2 bg-gradient-to-br from-orange-500/20 to-yellow-400/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute -inset-2 bg-gradient-to-br from-indigo-500/20 to-blue-400/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
-                <div className="flex items-center space-x-2 px-3 py-1 bg-orange-500/10 border border-orange-500/30 rounded-full">
-                  <TrendingUp size={14} className="text-orange-400" />
-                  <span className="text-sm font-medium text-orange-400">+5.7%</span>
+                <div className="flex items-center space-x-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/30 rounded-full">
+                  <TrendingUp size={14} className="text-indigo-400" />
+                  <span className="text-sm font-medium text-indigo-400">+5.7%</span>
                 </div>
               </div>
               <div className="space-y-2">
-                <div className="text-4xl font-black bg-gradient-to-r from-orange-400 to-yellow-300 bg-clip-text text-transparent">{stats.pending}</div>
+                <div className="text-4xl font-black bg-gradient-to-r from-indigo-400 to-blue-300 bg-clip-text text-transparent">{stats.pending}</div>
                 <div className="text-lg font-bold text-white">Pending</div>
                 <div className="text-sm text-slate-400">Awaiting verification</div>
               </div>
             </div>
           </div>
 
-          <div className="group relative bg-slate-800/30 backdrop-blur-xl border border-slate-700/30 rounded-2xl p-8 hover:border-red-400/50 hover:shadow-2xl hover:shadow-red-500/20 transition-all duration-700 hover:scale-105">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-red-500/20 via-pink-400/20 to-red-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="group relative bg-slate-800/30 backdrop-blur-xl border border-slate-700/30 rounded-2xl p-8 hover:border-slate-400/50 hover:shadow-2xl hover:shadow-slate-500/20 transition-all duration-700 hover:scale-105">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-slate-500/20 via-slate-400/20 to-slate-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="relative">
               <div className="flex items-center justify-between mb-6">
                 <div className="relative group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                  <div className="w-16 h-16 bg-gradient-to-br from-red-500/20 to-pink-400/20 rounded-2xl flex items-center justify-center">
-                    <Shield size={28} className="text-red-400" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-slate-500/20 to-slate-400/20 rounded-2xl flex items-center justify-center">
+                    <Shield size={28} className="text-slate-400" />
                   </div>
-                  <div className="absolute -inset-2 bg-gradient-to-br from-red-500/20 to-pink-400/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute -inset-2 bg-gradient-to-br from-slate-500/20 to-slate-400/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
-                <div className="flex items-center space-x-2 px-3 py-1 bg-red-500/10 border border-red-500/30 rounded-full">
-                  <AlertCircle size={14} className="text-red-400" />
-                  <span className="text-sm font-medium text-red-400">Issues</span>
+                <div className="flex items-center space-x-2 px-3 py-1 bg-slate-500/10 border border-slate-500/30 rounded-full">
+                  <AlertCircle size={14} className="text-slate-400" />
+                  <span className="text-sm font-medium text-slate-400">Issues</span>
                 </div>
               </div>
               <div className="space-y-2">
-                <div className="text-4xl font-black bg-gradient-to-r from-red-400 to-pink-300 bg-clip-text text-transparent">{stats.rejected}</div>
+                <div className="text-4xl font-black bg-gradient-to-r from-slate-400 to-slate-300 bg-clip-text text-transparent">{stats.rejected}</div>
                 <div className="text-lg font-bold text-white">Rejected</div>
                 <div className="text-sm text-slate-400">Failed verification</div>
               </div>
@@ -444,13 +444,13 @@ const CustomsIntegration = () => {
       <div className="mb-12 relative z-10">
         <div className="flex items-center space-x-4 mb-8">
           <div className="relative group">
-            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-2xl flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
               <Plus size={24} className="text-white" />
             </div>
-            <div className="absolute -inset-2 bg-gradient-to-br from-green-500/20 to-emerald-400/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="absolute -inset-2 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </div>
           <div>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-green-400 via-emerald-300 to-green-500 bg-clip-text text-transparent">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent">
               Link CargoX NFT to ACID
             </h2>
             <p className="text-slate-300 text-lg">Connect blockchain documents with customs records</p>
@@ -473,21 +473,21 @@ const CustomsIntegration = () => {
         )}
 
         {successMessage && (
-          <div className="mb-8 p-6 bg-green-500/10 border border-green-500/30 rounded-2xl backdrop-blur-sm animate-pulse">
+          <div className="mb-8 p-6 bg-blue-500/10 border border-blue-500/30 rounded-2xl backdrop-blur-sm animate-pulse">
             <div className="flex items-center space-x-3 mb-3">
-              <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
-                <CheckCircle className="w-5 h-5 text-green-400" />
+              <div className="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                <CheckCircle className="w-5 h-5 text-blue-400" />
               </div>
-              <span className="text-green-300 font-semibold text-lg">{successMessage}</span>
+              <span className="text-blue-300 font-semibold text-lg">{successMessage}</span>
             </div>
-            <div className="text-sm text-green-200 ml-13">
+            <div className="text-sm text-blue-200 ml-13">
               ✅ Your mapping has been created and is now visible in the table below!
             </div>
           </div>
         )}
 
-        <div className="group relative bg-slate-800/30 backdrop-blur-xl border border-slate-700/30 rounded-2xl p-8 hover:border-green-400/30 hover:shadow-2xl hover:shadow-green-500/10 transition-all duration-500">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-green-500/10 via-emerald-400/10 to-green-500/10 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div className="group relative bg-slate-800/30 backdrop-blur-xl border border-slate-700/30 rounded-2xl p-8 hover:border-blue-400/30 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500">
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/10 via-cyan-400/10 to-blue-500/10 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           <div className="relative">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
               <div className="space-y-3">
@@ -532,7 +532,7 @@ const CustomsIntegration = () => {
                 className={`group relative inline-flex items-center justify-center px-8 py-4 font-bold text-lg rounded-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none ${
                   submitting
                     ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-green-600 to-emerald-500 text-white hover:from-green-500 hover:to-emerald-400 hover:shadow-2xl hover:shadow-green-500/25'
+                    : 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:from-blue-500 hover:to-cyan-400 hover:shadow-2xl hover:shadow-blue-500/25'
                 }`}
               >
                 {submitting ? (
@@ -547,7 +547,7 @@ const CustomsIntegration = () => {
                     <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-400 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </button>
               
               {/* Debug Test Button */}
@@ -745,20 +745,20 @@ const CustomsIntegration = () => {
                       const isNewlyCreated = newlyCreatedMapping === mapping.id;
                       
                       return (
-                        <tr key={mapping.id} className={`group ${isNewlyCreated ? 'bg-green-500/10 border-l-4 border-green-500' : 'hover:bg-slate-700/20'} transition-all duration-300`}>
+                        <tr key={mapping.id} className={`group ${isNewlyCreated ? 'bg-blue-500/10 border-l-4 border-blue-500' : 'hover:bg-slate-700/20'} transition-all duration-300`}>
                           <td className="px-8 py-6">
                             <div className="flex items-center space-x-4">
                               <div className="relative group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                                <div className="w-12 h-12 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-xl flex items-center justify-center">
-                                  <Link size={20} className="text-orange-400" />
+                                <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-xl flex items-center justify-center">
+                                  <Link size={20} className="text-blue-400" />
                                 </div>
-                                <div className="absolute -inset-2 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <div className="absolute -inset-2 bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                               </div>
                               <div>
                                 <div className="text-lg font-bold text-white flex items-center gap-3">
                                   {mapping.id}
                                   {isNewlyCreated && (
-                                    <span className="px-3 py-1 bg-green-500/20 text-green-400 text-xs font-bold rounded-full animate-pulse border border-green-500/30">
+                                    <span className="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded-full animate-pulse border border-blue-500/30">
                                       NEW
                                     </span>
                                   )}
@@ -778,25 +778,25 @@ const CustomsIntegration = () => {
                           <td className="px-8 py-6">
                             <div className="flex items-center space-x-3">
                               <div className="relative">
-                                <StatusIcon size={20} className={
-                                  verificationStatus === 'verified' ? 'text-green-400' :
-                                  verificationStatus === 'pending' ? 'text-orange-400' :
-                                  verificationStatus === 'under-review' ? 'text-blue-400' :
-                                  verificationStatus === 'rejected' ? 'text-red-400' : 'text-slate-400'
-                                } />
-                                <div className={`absolute -inset-1 rounded-full ${
-                                  verificationStatus === 'verified' ? 'bg-green-500/20' :
-                                  verificationStatus === 'pending' ? 'bg-orange-500/20' :
-                                  verificationStatus === 'under-review' ? 'bg-blue-500/20' :
-                                  verificationStatus === 'rejected' ? 'bg-red-500/20' : 'bg-slate-500/20'
-                                } opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
-                              </div>
-                              <span className={`text-lg font-bold ${
-                                verificationStatus === 'verified' ? 'text-green-400' :
-                                verificationStatus === 'pending' ? 'text-orange-400' :
+                              <StatusIcon size={20} className={
+                                verificationStatus === 'verified' ? 'text-cyan-400' :
+                                verificationStatus === 'pending' ? 'text-indigo-400' :
                                 verificationStatus === 'under-review' ? 'text-blue-400' :
-                                verificationStatus === 'rejected' ? 'text-red-400' : 'text-slate-400'
-                              }`}>
+                                verificationStatus === 'rejected' ? 'text-slate-400' : 'text-slate-400'
+                              } />
+                              <div className={`absolute -inset-1 rounded-full ${
+                                verificationStatus === 'verified' ? 'bg-cyan-500/20' :
+                                verificationStatus === 'pending' ? 'bg-indigo-500/20' :
+                                verificationStatus === 'under-review' ? 'bg-blue-500/20' :
+                                verificationStatus === 'rejected' ? 'bg-slate-500/20' : 'bg-slate-500/20'
+                              } opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+                            </div>
+                            <span className={`text-lg font-bold ${
+                              verificationStatus === 'verified' ? 'text-cyan-400' :
+                              verificationStatus === 'pending' ? 'text-indigo-400' :
+                              verificationStatus === 'under-review' ? 'text-blue-400' :
+                              verificationStatus === 'rejected' ? 'text-slate-400' : 'text-slate-400'
+                            }`}>
                                 {verificationStatus.replace('-', ' ')}
                               </span>
                             </div>
@@ -809,7 +809,7 @@ const CustomsIntegration = () => {
                               <button 
                                 onClick={() => handleVerifyCustomsEntry(mapping.nft_hash)}
                                 disabled={verificationStatus === 'verified'}
-                                className="group/btn p-3 text-slate-400 hover:text-green-400 hover:bg-green-500/10 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-110 transform hover:-translate-y-1"
+                                className="group/btn p-3 text-slate-400 hover:text-cyan-400 hover:bg-cyan-500/10 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-110 transform hover:-translate-y-1"
                                 title="Verify Entry"
                               >
                                 <CheckSquare size={18} className="group-hover/btn:scale-110 transition-transform duration-300" />
@@ -817,7 +817,7 @@ const CustomsIntegration = () => {
                               <button 
                                 onClick={() => handleRejectCustomsEntry(mapping.nft_hash)}
                                 disabled={verificationStatus === 'rejected'}
-                                className="group/btn p-3 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-110 transform hover:-translate-y-1"
+                                className="group/btn p-3 text-slate-400 hover:text-slate-400 hover:bg-slate-500/10 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-110 transform hover:-translate-y-1"
                                 title="Reject Entry"
                               >
                                 <XCircle size={18} className="group-hover/btn:scale-110 transition-transform duration-300" />

@@ -169,7 +169,7 @@ const CustomsIntegrationSafe = () => {
       {/* Statistics Overview */}
       <div className="mb-8">
         <div className="flex items-center space-x-3 mb-6">
-          <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center">
             <Globe size={20} className="text-white" />
           </div>
           <h2 className="text-2xl font-bold text-white">Customs Integration</h2>
@@ -194,12 +194,12 @@ const CustomsIntegrationSafe = () => {
             <div className="text-xs text-slate-400">CargoX to ACID links</div>
           </div>
 
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 hover:border-green-400/30 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-300">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 hover:border-cyan-400/30 hover:shadow-xl hover:shadow-cyan-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-400 rounded-xl flex items-center justify-center">
                 <CheckCircle size={24} className="text-white" />
               </div>
-              <div className="flex items-center space-x-1 text-green-400">
+              <div className="flex items-center space-x-1 text-cyan-400">
                 <TrendingUp size={16} />
                 <span className="text-sm font-medium">+8.3%</span>
               </div>
@@ -209,12 +209,12 @@ const CustomsIntegrationSafe = () => {
             <div className="text-xs text-slate-400">Customs approved</div>
           </div>
 
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 hover:border-indigo-400/30 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-blue-400 rounded-xl flex items-center justify-center">
                 <Clock size={24} className="text-white" />
               </div>
-              <div className="flex items-center space-x-1 text-orange-400">
+              <div className="flex items-center space-x-1 text-indigo-400">
                 <Clock size={16} />
                 <span className="text-sm font-medium">In Queue</span>
               </div>
@@ -224,12 +224,12 @@ const CustomsIntegrationSafe = () => {
             <div className="text-xs text-slate-400">Awaiting review</div>
           </div>
 
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 hover:border-red-400/30 hover:shadow-xl hover:shadow-red-500/10 transition-all duration-300">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 hover:border-slate-400/30 hover:shadow-xl hover:shadow-slate-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-pink-500 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-slate-500 to-slate-400 rounded-xl flex items-center justify-center">
                 <XCircle size={24} className="text-white" />
               </div>
-              <div className="flex items-center space-x-1 text-red-400">
+              <div className="flex items-center space-x-1 text-slate-400">
                 <AlertCircle size={16} />
                 <span className="text-sm font-medium">Issues</span>
               </div>
@@ -244,7 +244,7 @@ const CustomsIntegrationSafe = () => {
       {/* Link CargoX to ACID Form */}
       <div className="mb-8">
         <div className="flex items-center space-x-3 mb-6">
-          <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center">
             <Link size={20} className="text-white" />
           </div>
           <h3 className="text-2xl font-bold text-white">Link CargoX to ACID</h3>
@@ -293,7 +293,7 @@ const CustomsIntegrationSafe = () => {
                 className={`flex items-center space-x-2 px-6 py-3 font-semibold rounded-lg transition-all duration-200 ${
                   submitting
                     ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-400 hover:to-red-400 hover:scale-105 shadow-lg shadow-orange-500/25'
+                    : 'bg-gradient-to-r from-blue-500 to-cyan-400 text-white hover:from-blue-400 hover:to-cyan-300 hover:scale-105 shadow-lg shadow-blue-500/25'
                 }`}
               >
                 {submitting ? (
@@ -437,7 +437,7 @@ const CustomsIntegrationSafe = () => {
                         <div className="flex items-center space-x-2">
                           {getStatusIcon(mapping.verified ? 'verified' : 'pending')}
                           <span className={`text-sm font-medium ${
-                            mapping.verified ? 'text-green-400' : 'text-orange-400'
+                            mapping.verified ? 'text-cyan-400' : 'text-indigo-400'
                           }`}>
                             {mapping.verified ? 'Verified' : 'Pending'}
                           </span>
@@ -451,11 +451,11 @@ const CustomsIntegrationSafe = () => {
                           <button className="p-2 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-all duration-200">
                             <Eye size={14} />
                           </button>
-                          {!mapping.verified && (
-                            <button className="p-2 text-slate-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg transition-all duration-200">
-                              <CheckSquare size={14} />
-                            </button>
-                          )}
+                            {!mapping.verified && (
+                              <button className="p-2 text-slate-400 hover:text-cyan-400 hover:bg-cyan-500/10 rounded-lg transition-all duration-200">
+                                <CheckSquare size={14} />
+                              </button>
+                            )}
                         </div>
                       </td>
                     </tr>

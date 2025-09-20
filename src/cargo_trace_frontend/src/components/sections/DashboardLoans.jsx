@@ -131,11 +131,11 @@ const DashboardLoans = () => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'approved': return 'success';
-      case 'pending': return 'warning';
-      case 'under_review': return 'info';
-      case 'rejected': return 'danger';
-      default: return 'pending';
+      case 'approved': return 'cyan';
+      case 'pending': return 'indigo';
+      case 'under_review': return 'blue';
+      case 'rejected': return 'slate';
+      default: return 'indigo';
     }
   };
 
@@ -260,12 +260,12 @@ const DashboardLoans = () => {
             <div className="text-xs text-slate-400">All loan requests</div>
           </div>
 
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-green-400/30 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-300">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-cyan-400/30 hover:shadow-xl hover:shadow-cyan-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-400 rounded-xl flex items-center justify-center">
                 <CheckCircle size={20} className="text-white" />
               </div>
-              <div className="flex items-center space-x-1 text-green-400">
+              <div className="flex items-center space-x-1 text-cyan-400">
                 <TrendingUp size={14} />
                 <span className="text-xs font-medium">+8.3%</span>
               </div>
@@ -275,12 +275,12 @@ const DashboardLoans = () => {
             <div className="text-xs text-slate-400">Successfully processed</div>
           </div>
 
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-purple-400/30 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-indigo-400/30 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-400 rounded-xl flex items-center justify-center">
                 <Percent size={20} className="text-white" />
               </div>
-              <div className="flex items-center space-x-1 text-green-400">
+              <div className="flex items-center space-x-1 text-cyan-400">
                 <TrendingUp size={14} />
                 <span className="text-xs font-medium">+5.7%</span>
               </div>
@@ -290,12 +290,12 @@ const DashboardLoans = () => {
             <div className="text-xs text-slate-400">Success rate</div>
           </div>
 
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-slate-400/30 hover:shadow-xl hover:shadow-slate-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-slate-500 to-slate-400 rounded-xl flex items-center justify-center">
                 <Timer size={20} className="text-white" />
               </div>
-              <div className="flex items-center space-x-1 text-green-400">
+              <div className="flex items-center space-x-1 text-cyan-400">
                 <TrendingUp size={14} />
                 <span className="text-xs font-medium">-15.2%</span>
               </div>
@@ -310,7 +310,7 @@ const DashboardLoans = () => {
       {/* New Loan Application Form */}
       <div className="mb-6">
         <div className="flex items-center space-x-3 mb-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center">
             <Plus size={20} className="text-white" />
           </div>
           <h2 className="text-2xl font-bold text-white">New Loan Application</h2>
@@ -399,11 +399,11 @@ const DashboardLoans = () => {
               type="submit" 
               onClick={handleNewLoanApplication}
               disabled={submitting || documents.length === 0}
-              className={`flex items-center space-x-2 px-4 py-2 font-semibold rounded-lg transition-all duration-200 ${
-                submitting || documents.length === 0
-                  ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-400 hover:to-emerald-500 hover:scale-105 shadow-lg shadow-green-500/25'
-              }`}
+                className={`flex items-center space-x-2 px-4 py-2 font-semibold rounded-lg transition-all duration-200 ${
+                  submitting || documents.length === 0
+                    ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-blue-500 to-cyan-400 text-white hover:from-blue-400 hover:to-cyan-300 hover:scale-105 shadow-lg shadow-blue-500/25'
+                }`}
             >
               {submitting ? (
                 <>
@@ -497,10 +497,10 @@ const DashboardLoans = () => {
                         <div className="flex items-center space-x-2">
                           {getStatusIcon(loan.status)}
                           <span className={`text-sm font-medium ${
-                            getStatusColor(loan.status) === 'success' ? 'text-green-400' :
-                            getStatusColor(loan.status) === 'warning' ? 'text-orange-400' :
-                            getStatusColor(loan.status) === 'info' ? 'text-blue-400' :
-                            getStatusColor(loan.status) === 'danger' ? 'text-red-400' : 'text-slate-400'
+                            getStatusColor(loan.status) === 'cyan' ? 'text-cyan-400' :
+                            getStatusColor(loan.status) === 'indigo' ? 'text-indigo-400' :
+                            getStatusColor(loan.status) === 'blue' ? 'text-blue-400' :
+                            getStatusColor(loan.status) === 'slate' ? 'text-slate-400' : 'text-slate-400'
                           }`}>
                             {loan.status.replace('_', ' ')}
                           </span>
@@ -514,10 +514,10 @@ const DashboardLoans = () => {
                           <button className="p-2 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-all duration-200">
                             <Eye size={14} />
                           </button>
-                          <button className="p-2 text-slate-400 hover:text-orange-400 hover:bg-orange-500/10 rounded-lg transition-all duration-200">
+                          <button className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-lg transition-all duration-200">
                             <Edit size={14} />
                           </button>
-                          <button className="p-2 text-slate-400 hover:text-purple-400 hover:bg-purple-500/10 rounded-lg transition-all duration-200">
+                          <button className="p-2 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-all duration-200">
                             <FileText size={14} />
                           </button>
                         </div>
@@ -554,34 +554,34 @@ const DashboardLoans = () => {
             </div>
             
             <div className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-400 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <Shield size={24} className="text-white" />
               </div>
               <h4 className="text-lg font-semibold text-white mb-2">NFT Minting</h4>
               <p className="text-sm text-slate-400 mb-3">ICP blockchain collateral</p>
-              <div className="px-3 py-1 bg-green-500/20 text-green-400 text-xs font-medium rounded-full inline-block">
+              <div className="px-3 py-1 bg-cyan-500/20 text-cyan-400 text-xs font-medium rounded-full inline-block">
                 100% Secure
               </div>
             </div>
             
             <div className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-blue-400 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <CheckCircle size={24} className="text-white" />
               </div>
               <h4 className="text-lg font-semibold text-white mb-2">Smart Contract</h4>
               <p className="text-sm text-slate-400 mb-3">Automated loan issuance</p>
-              <div className="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-medium rounded-full inline-block">
+              <div className="px-3 py-1 bg-indigo-500/20 text-indigo-400 text-xs font-medium rounded-full inline-block">
                 {loanStats.approved} Approved
               </div>
             </div>
             
             <div className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-slate-500 to-slate-400 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                 <Wallet size={24} className="text-white" />
               </div>
               <h4 className="text-lg font-semibold text-white mb-2">ICRC-1 Disbursement</h4>
               <p className="text-sm text-slate-400 mb-3">Instant stable token transfer</p>
-              <div className="px-3 py-1 bg-orange-500/20 text-orange-400 text-xs font-medium rounded-full inline-block">
+              <div className="px-3 py-1 bg-slate-500/20 text-slate-400 text-xs font-medium rounded-full inline-block">
                 24/7 Available
               </div>
             </div>

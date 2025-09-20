@@ -114,11 +114,11 @@ const DashboardDocuments = () => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'verified': return 'success';
-      case 'pending': return 'pending';
-      case 'nft-minted': return 'nft-minted';
-      case 'rejected': return 'rejected';
-      default: return 'pending';
+      case 'verified': return 'cyan';
+      case 'pending': return 'indigo';
+      case 'nft-minted': return 'blue';
+      case 'rejected': return 'slate';
+      default: return 'indigo';
     }
   };
 
@@ -593,16 +593,16 @@ const DashboardDocuments = () => {
                         <td className="px-4 py-4">
                           <div className="flex items-center space-x-2">
                             <StatusIcon size={14} className={
-                              getStatusColor(document.status) === 'success' ? 'text-green-400' :
-                              getStatusColor(document.status) === 'pending' ? 'text-orange-400' :
-                              getStatusColor(document.status) === 'nft-minted' ? 'text-purple-400' :
-                              getStatusColor(document.status) === 'rejected' ? 'text-red-400' : 'text-slate-400'
+                              getStatusColor(document.status) === 'cyan' ? 'text-cyan-400' :
+                              getStatusColor(document.status) === 'indigo' ? 'text-indigo-400' :
+                              getStatusColor(document.status) === 'blue' ? 'text-blue-400' :
+                              getStatusColor(document.status) === 'slate' ? 'text-slate-400' : 'text-slate-400'
                             } />
                             <span className={`text-xs font-bold ${
-                              getStatusColor(document.status) === 'success' ? 'text-green-400' :
-                              getStatusColor(document.status) === 'pending' ? 'text-orange-400' :
-                              getStatusColor(document.status) === 'nft-minted' ? 'text-purple-400' :
-                              getStatusColor(document.status) === 'rejected' ? 'text-red-400' : 'text-slate-400'
+                              getStatusColor(document.status) === 'cyan' ? 'text-cyan-400' :
+                              getStatusColor(document.status) === 'indigo' ? 'text-indigo-400' :
+                              getStatusColor(document.status) === 'blue' ? 'text-blue-400' :
+                              getStatusColor(document.status) === 'slate' ? 'text-slate-400' : 'text-slate-400'
                             }`}>
                               {document.status.replace('-', ' ')}
                             </span>

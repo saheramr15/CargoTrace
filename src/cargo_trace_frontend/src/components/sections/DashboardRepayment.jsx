@@ -116,11 +116,11 @@ const DashboardRepayment = () => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'active': return 'success';
-      case 'completed': return 'completed';
-      case 'overdue': return 'rejected';
-      case 'pending': return 'pending';
-      default: return 'pending';
+      case 'active': return 'blue';
+      case 'completed': return 'cyan';
+      case 'overdue': return 'slate';
+      case 'pending': return 'indigo';
+      default: return 'indigo';
     }
   };
 
@@ -459,15 +459,15 @@ const DashboardRepayment = () => {
                       <td className="px-3 py-3">
                         <div className="flex items-center space-x-2">
                           <StatusIcon size={16} className={
-                            getStatusColor(repayment.status) === 'success' ? 'text-green-400' :
-                            getStatusColor(repayment.status) === 'completed' ? 'text-blue-400' :
-                            getStatusColor(repayment.status) === 'rejected' ? 'text-red-400' : 'text-orange-400'
+                            getStatusColor(repayment.status) === 'blue' ? 'text-blue-400' :
+                            getStatusColor(repayment.status) === 'cyan' ? 'text-cyan-400' :
+                            getStatusColor(repayment.status) === 'slate' ? 'text-slate-400' : 'text-indigo-400'
                           } />
-                          <span className={`text-sm font-medium ${
-                            getStatusColor(repayment.status) === 'success' ? 'text-green-400' :
-                            getStatusColor(repayment.status) === 'completed' ? 'text-blue-400' :
-                            getStatusColor(repayment.status) === 'rejected' ? 'text-red-400' : 'text-orange-400'
-                          }`}>
+                            <span className={`text-sm font-medium ${
+                              getStatusColor(repayment.status) === 'blue' ? 'text-blue-400' :
+                              getStatusColor(repayment.status) === 'cyan' ? 'text-cyan-400' :
+                              getStatusColor(repayment.status) === 'slate' ? 'text-slate-400' : 'text-indigo-400'
+                            }`}>
                             {repayment.status}
                           </span>
                         </div>
@@ -478,14 +478,14 @@ const DashboardRepayment = () => {
                             <Eye size={14} />
                           </button>
                           {repayment.status === 'active' && (
-                            <button className="p-2 text-slate-400 hover:text-green-400 hover:bg-green-500/10 rounded-lg transition-all duration-200">
+                            <button className="p-2 text-slate-400 hover:text-cyan-400 hover:bg-cyan-500/10 rounded-lg transition-all duration-200">
                               <CreditCard size={14} />
                             </button>
                           )}
-                          <button className="p-2 text-slate-400 hover:text-purple-400 hover:bg-purple-500/10 rounded-lg transition-all duration-200">
+                          <button className="p-2 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition-all duration-200">
                             <Download size={14} />
                           </button>
-                          <button className="p-2 text-slate-400 hover:text-orange-400 hover:bg-orange-500/10 rounded-lg transition-all duration-200">
+                          <button className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-lg transition-all duration-200">
                             <Edit size={14} />
                           </button>
                         </div>
