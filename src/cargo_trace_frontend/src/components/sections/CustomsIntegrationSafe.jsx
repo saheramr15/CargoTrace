@@ -158,7 +158,7 @@ const CustomsIntegrationSafe = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-8 py-6 lg:pl-80 lg:pr-8">
       {/* Toast Notification */}
       {showToast && (
-        <div className="fixed top-4 right-4 z-50 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-4 rounded-xl shadow-2xl shadow-green-500/25 animate-bounce">
+        <div className="fixed top-4 right-4 z-50 bg-gradient-to-r from-cyan-500 to-blue-400 text-white px-6 py-4 rounded-xl shadow-2xl shadow-cyan-500/25 animate-bounce">
           <div className="flex items-center">
             <CheckCircle className="w-5 h-5 mr-3" />
             <span className="font-semibold">Success! CargoX linked to ACID</span>
@@ -264,7 +264,7 @@ const CustomsIntegrationSafe = () => {
                   type="text"
                   value={nftHash}
                   onChange={(e) => setNftHash(e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-orange-400/50 focus:ring-2 focus:ring-orange-400/20 focus:outline-none transition-all duration-200 font-mono"
+                  className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200 font-mono"
                   placeholder="0x1234567890abcdef..."
                   required
                 />
@@ -278,7 +278,7 @@ const CustomsIntegrationSafe = () => {
                   type="text"
                   value={acidNumber}
                   onChange={(e) => setAcidNumber(e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-orange-400/50 focus:ring-2 focus:ring-orange-400/20 focus:outline-none transition-all duration-200 font-mono"
+                  className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200 font-mono"
                   placeholder="123456789"
                   maxLength="9"
                   required
@@ -312,7 +312,7 @@ const CustomsIntegrationSafe = () => {
           </form>
 
           {error && (
-            <div className="mt-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
+            <div className="mt-6 p-4 bg-slate-500/10 border border-slate-500/30 rounded-xl">
               <div className="flex items-center">
                 <AlertCircle className="w-5 h-5 text-slate-400 mr-3" />
                 <div>
@@ -324,7 +324,7 @@ const CustomsIntegrationSafe = () => {
           )}
 
           {successMessage && (
-            <div className="mt-6 p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
+            <div className="mt-6 p-4 bg-cyan-500/10 border border-cyan-500/30 rounded-xl">
               <div className="flex items-center">
                 <CheckCircle className="w-5 h-5 text-cyan-400 mr-3" />
                 <div>
@@ -341,7 +341,7 @@ const CustomsIntegrationSafe = () => {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-400 rounded-xl flex items-center justify-center">
               <FileText size={20} className="text-white" />
             </div>
             <h3 className="text-2xl font-bold text-white">My CargoX Mappings</h3>
@@ -362,7 +362,7 @@ const CustomsIntegrationSafe = () => {
               placeholder="Search by NFT hash or ACID number..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-orange-400/50 focus:ring-2 focus:ring-orange-400/20 focus:outline-none transition-all duration-200"
+              className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-400 focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200"
             />
           </div>
           
@@ -370,7 +370,7 @@ const CustomsIntegrationSafe = () => {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white focus:border-orange-400/50 focus:ring-2 focus:ring-orange-400/20 focus:outline-none transition-all duration-200"
+              className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-lg text-white focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 focus:outline-none transition-all duration-200"
             >
               <option value="all">All Status</option>
               <option value="verified">Verified</option>
@@ -408,11 +408,11 @@ const CustomsIntegrationSafe = () => {
                   {filteredMappings.map((mapping) => (
                     <tr 
                       key={mapping.id}
-                      className={`${newlyCreatedMapping === mapping.id ? 'bg-green-500/10 border-l-4 border-green-500' : 'hover:bg-slate-700/30'} transition-colors duration-200`}
+                      className={`${newlyCreatedMapping === mapping.id ? 'bg-cyan-500/10 border-l-4 border-cyan-500' : 'hover:bg-slate-700/30'} transition-colors duration-200`}
                     >
                       <td className="px-6 py-4">
                         <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
+                          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-lg flex items-center justify-center">
                             <Hash size={16} className="text-white" />
                           </div>
                           <div>

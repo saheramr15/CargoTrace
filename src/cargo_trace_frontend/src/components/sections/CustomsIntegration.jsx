@@ -462,9 +462,9 @@ const CustomsIntegration = () => {
         </p>
         
         {error && (
-          <div className="mb-8 p-6 bg-red-500/10 border border-red-500/30 rounded-2xl backdrop-blur-sm">
+          <div className="mb-8 p-6 bg-slate-500/10 border border-slate-500/30 rounded-2xl backdrop-blur-sm">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-slate-500/20 rounded-xl flex items-center justify-center">
                 <AlertCircle className="w-5 h-5 text-slate-400" />
               </div>
               <span className="text-slate-300 font-medium">{error}</span>
@@ -652,13 +652,13 @@ const CustomsIntegration = () => {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-4">
             <div className="relative group">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+              <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-blue-400 rounded-2xl flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
                 <FileText size={24} className="text-white" />
               </div>
-              <div className="absolute -inset-2 bg-gradient-to-br from-purple-500/20 to-indigo-400/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute -inset-2 bg-gradient-to-br from-indigo-500/20 to-blue-400/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
             <div>
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 via-indigo-300 to-purple-500 bg-clip-text text-transparent">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 via-blue-300 to-indigo-500 bg-clip-text text-transparent">
                 CargoX Mappings
               </h2>
               <p className="text-slate-300 text-lg">Blockchain-verified cargo mappings</p>
@@ -695,7 +695,7 @@ const CustomsIntegration = () => {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="w-full px-6 py-4 bg-slate-700/50 border border-slate-600/50 rounded-xl text-white focus:border-purple-400/50 focus:ring-2 focus:ring-purple-400/20 focus:outline-none transition-all duration-300 hover:border-purple-400/30 text-lg font-medium"
+              className="w-full px-6 py-4 bg-slate-700/50 border border-slate-600/50 rounded-xl text-white focus:border-indigo-400/50 focus:ring-2 focus:ring-indigo-400/20 focus:outline-none transition-all duration-300 hover:border-indigo-400/30 text-lg font-medium"
             >
               <option value="all">All Status</option>
               <option value="verified">Verified</option>
@@ -705,18 +705,18 @@ const CustomsIntegration = () => {
         </div>
 
         {/* Mappings Table */}
-        <div className="group relative bg-slate-800/30 backdrop-blur-xl border border-slate-700/30 rounded-2xl overflow-hidden hover:border-purple-400/30 hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-500">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500/10 via-indigo-400/10 to-purple-500/10 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div className="group relative bg-slate-800/30 backdrop-blur-xl border border-slate-700/30 rounded-2xl overflow-hidden hover:border-indigo-400/30 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500">
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500/10 via-blue-400/10 to-indigo-500/10 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           <div className="relative">
             {filteredMappings.length === 0 ? (
               <div className="text-center py-16">
                 <div className="relative mb-8">
-                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500/20 to-indigo-400/20 rounded-2xl flex items-center justify-center mx-auto shadow-2xl border border-purple-400/30">
+                  <div className="w-20 h-20 bg-gradient-to-br from-indigo-500/20 to-blue-400/20 rounded-2xl flex items-center justify-center mx-auto shadow-2xl border border-indigo-400/30">
                     <Link size={32} className="text-blue-400" />
                   </div>
-                  <div className="absolute -inset-2 bg-gradient-to-br from-purple-500/10 to-indigo-400/10 rounded-2xl blur animate-pulse"></div>
+                  <div className="absolute -inset-2 bg-gradient-to-br from-indigo-500/10 to-blue-400/10 rounded-2xl blur animate-pulse"></div>
                 </div>
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-indigo-300 bg-clip-text text-transparent mb-4">No mappings found</h3>
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-blue-300 bg-clip-text text-transparent mb-4">No mappings found</h3>
                 <p className="text-slate-300 text-lg max-w-md mx-auto">
                   {mappings.length === 0 
                     ? "No CargoX mappings have been created yet. Create your first mapping above to get started." 

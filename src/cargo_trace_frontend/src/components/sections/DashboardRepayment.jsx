@@ -167,7 +167,7 @@ const DashboardRepayment = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
           <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-blue-400/30 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-400 rounded-xl flex items-center justify-center">
                 <DollarSign size={20} className="text-white" />
               </div>
               <div className="flex items-center space-x-1 text-cyan-400">
@@ -197,7 +197,7 @@ const DashboardRepayment = () => {
 
           <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-blue-400/30 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-400 rounded-xl flex items-center justify-center">
                 <Percent size={20} className="text-white" />
               </div>
               <div className="flex items-center space-x-1 text-cyan-400">
@@ -212,7 +212,7 @@ const DashboardRepayment = () => {
 
           <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-blue-400/30 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-slate-500 to-slate-400 rounded-xl flex items-center justify-center">
                 <CalendarDays size={20} className="text-white" />
               </div>
               <div className="flex items-center space-x-1 text-slate-400">
@@ -230,14 +230,14 @@ const DashboardRepayment = () => {
       {/* Upcoming Payments */}
       <div className="mb-6">
         <div className="flex items-center space-x-3 mb-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-br from-slate-500 to-slate-400 rounded-xl flex items-center justify-center">
             <Calendar size={20} className="text-white" />
           </div>
           <h2 className="text-xl font-bold text-white">Upcoming Payments</h2>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-slate-400/30 hover:shadow-xl hover:shadow-slate-500/10 transition-all duration-300">
             <div className="flex items-center justify-between">
               <div className="space-y-2">
                 <div className="flex items-center space-x-3">
@@ -249,7 +249,7 @@ const DashboardRepayment = () => {
                   <div className="text-sm text-slate-400">Jan 20, 2024</div>
                 </div>
               </div>
-              <button className="px-3 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold rounded-lg hover:from-orange-400 hover:to-red-400 transition-all duration-200">
+              <button className="px-3 py-2 bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-semibold rounded-lg hover:from-blue-400 hover:to-cyan-300 transition-all duration-200">
                 Pay Now
               </button>
             </div>
@@ -278,7 +278,7 @@ const DashboardRepayment = () => {
       {/* Quick Payment Form */}
       <div className="mb-6">
         <div className="flex items-center space-x-3 mb-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-400 rounded-xl flex items-center justify-center">
             <Plus size={20} className="text-white" />
           </div>
           <h2 className="text-xl font-bold text-white">Make Payment</h2>
@@ -339,7 +339,7 @@ const DashboardRepayment = () => {
           <div className="mt-4 flex justify-end">
             <button 
               type="submit" 
-              className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-lg hover:from-green-400 hover:to-emerald-500 hover:scale-105 transition-all duration-200 shadow-lg shadow-green-500/25"
+              className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-400 text-white font-semibold rounded-lg hover:from-cyan-400 hover:to-blue-300 hover:scale-105 transition-all duration-200 shadow-lg shadow-cyan-500/25"
             >
               <CreditCard size={16} />
               <span>Process Payment</span>
@@ -502,7 +502,7 @@ const DashboardRepayment = () => {
       {/* Upcoming Payments */}
       <div className="mb-6">
         <div className="flex items-center space-x-3 mb-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-br from-slate-500 to-slate-400 rounded-xl flex items-center justify-center">
             <Calendar size={20} className="text-white" />
           </div>
           <h2 className="text-xl font-bold text-white">Upcoming Payments</h2>
@@ -514,7 +514,7 @@ const DashboardRepayment = () => {
             .sort((a, b) => a.daysUntilDue - b.daysUntilDue)
             .slice(0, 5)
             .map((repayment) => (
-              <div key={repayment.id} className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300">
+              <div key={repayment.id} className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-slate-400/30 hover:shadow-xl hover:shadow-slate-500/10 transition-all duration-300">
                 <div className="flex items-center justify-between">
                   <div className="space-y-2">
                     <div className="flex items-center space-x-3">
@@ -531,7 +531,7 @@ const DashboardRepayment = () => {
                       <div className="text-sm text-slate-400">{repayment.nextDueDate}</div>
                     </div>
                   </div>
-                  <button className="flex items-center space-x-2 px-3 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold rounded-lg hover:from-orange-400 hover:to-red-400 transition-all duration-200">
+                  <button className="flex items-center space-x-2 px-3 py-2 bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-semibold rounded-lg hover:from-blue-400 hover:to-cyan-300 transition-all duration-200">
                     <CreditCard size={16} />
                     <span>Pay Now</span>
                   </button>
@@ -544,20 +544,20 @@ const DashboardRepayment = () => {
       {/* Repayment Performance Metrics */}
       <div className="mb-6">
         <div className="flex items-center space-x-3 mb-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-400 rounded-xl flex items-center justify-center">
             <Target size={20} className="text-white" />
           </div>
           <h2 className="text-xl font-bold text-white">Performance Metrics</h2>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-green-400/30 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-300">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-cyan-400/30 hover:shadow-xl hover:shadow-cyan-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-3">
               <h4 className="text-lg font-semibold text-white">On-Time Payment Rate</h4>
               <span className="text-xl font-bold text-cyan-400">96.8%</span>
             </div>
             <div className="w-full h-2 bg-slate-700 rounded-full overflow-hidden mb-2">
-              <div className="h-full bg-gradient-to-r from-green-500 to-emerald-400 transition-all duration-1000" style={{ width: '96.8%' }}></div>
+              <div className="h-full bg-gradient-to-r from-cyan-500 to-blue-400 transition-all duration-1000" style={{ width: '96.8%' }}></div>
             </div>
             <p className="text-xs text-slate-400">Payments made on or before due date</p>
           </div>
@@ -573,24 +573,24 @@ const DashboardRepayment = () => {
             <p className="text-xs text-slate-400">Time to process payments</p>
           </div>
           
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-purple-400/30 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-indigo-400/30 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-3">
               <h4 className="text-lg font-semibold text-white">Collection Rate</h4>
               <span className="text-xl font-bold text-indigo-400">98.5%</span>
             </div>
             <div className="w-full h-2 bg-slate-700 rounded-full overflow-hidden mb-2">
-              <div className="h-full bg-gradient-to-r from-purple-500 to-indigo-400 transition-all duration-1000" style={{ width: '98.5%' }}></div>
+              <div className="h-full bg-gradient-to-r from-indigo-500 to-blue-400 transition-all duration-1000" style={{ width: '98.5%' }}></div>
             </div>
             <p className="text-xs text-slate-400">Successful payment collection rate</p>
           </div>
           
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-orange-400/30 hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 hover:border-slate-400/30 hover:shadow-xl hover:shadow-slate-500/10 transition-all duration-300">
             <div className="flex items-center justify-between mb-3">
               <h4 className="text-lg font-semibold text-white">Customer Satisfaction</h4>
               <span className="text-xl font-bold text-slate-400">4.9/5</span>
             </div>
             <div className="w-full h-2 bg-slate-700 rounded-full overflow-hidden mb-2">
-              <div className="h-full bg-gradient-to-r from-orange-500 to-red-400 transition-all duration-1000" style={{ width: '98%' }}></div>
+              <div className="h-full bg-gradient-to-r from-slate-500 to-slate-400 transition-all duration-1000" style={{ width: '98%' }}></div>
             </div>
             <p className="text-xs text-slate-400">Repayment experience rating</p>
           </div>
