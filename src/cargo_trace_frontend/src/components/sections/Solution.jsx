@@ -119,91 +119,64 @@ const Solution = () => {
           </p>
         </div>
 
-        {/* Solution Flow Diagram */}
-        <div className={`mb-16 transition-all duration-1000 delay-300 ${
+        {/* Simple Process Overview */}
+        <div className={`mb-20 transition-all duration-1000 delay-300 ${
           isVisible ? 'animate-slide-up' : 'opacity-0 translate-y-10'
         }`}>
-          <div className="relative max-w-4xl mx-auto">
-            <div className="w-full h-64 bg-gradient-to-br from-slate-800/50 to-slate-700/50 rounded-2xl shadow-2xl flex items-center justify-center border border-blue-400/20">
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-2xl flex items-center justify-center mx-auto">
-                  <Scan className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-white">Solution Flow Diagram</h3>
-                <p className="text-slate-300">Interactive visualization coming soon</p>
-              </div>
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-blue-500/25">
+              <Scan className="w-12 h-12 text-white" />
             </div>
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-500/10 pointer-events-none" />
+            <h3 className="text-2xl font-bold text-white mb-4">Streamlined Process</h3>
+            <p className="text-lg text-slate-300 leading-relaxed">
+              Our three-step process transforms traditional trade finance into a seamless, 
+              blockchain-powered experience that delivers results in minutes, not weeks.
+            </p>
           </div>
         </div>
 
-        {/* 3-Step Process */}
-        <div className="space-y-12">
-          {solutionSteps.map((step, index) => {
-            const Icon = step.icon;
-            const isEven = index % 2 === 1;
-            
-            return (
-              <div key={index} className="relative">
-                <div className={`grid lg:grid-cols-2 gap-12 items-center ${isEven ? 'lg:grid-flow-col-dense' : ''}`}>
+        {/* 3-Step Process - Simplified */}
+        <div className="max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 relative">
+            {solutionSteps.map((step, index) => {
+              const Icon = step.icon;
+              
+              return (
+                <div key={index} className="text-center group">
+                  {/* Step Number */}
+                  <div className="relative mb-8">
+                    <div className="w-20 h-20 mx-auto bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <Icon className={`w-10 h-10 ${step.color}`} />
+                    </div>
+                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                      {step.step}
+                    </div>
+                  </div>
+                  
                   {/* Content */}
-                  <div className={`space-y-6 transition-all duration-1000 ${isVisible ? 'animate-slide-up' : 'opacity-0 translate-y-10'}`}
-                       style={{ animationDelay: `${(index + 1) * 200}ms` }}>
-                    <div className="flex items-center space-x-4">
-                      <div className={`p-4 rounded-2xl ${step.bgColor} group-hover:scale-110 transition-transform duration-300`}>
-                        <Icon className={`w-8 h-8 ${step.color}`} />
-                      </div>
-                      <div className="px-3 py-1 bg-slate-700/50 border border-blue-400/30 rounded-full text-sm font-mono text-blue-300">
-                        Step {step.step}
-                      </div>
-                    </div>
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors duration-300">
+                      {step.title}
+                    </h3>
+                    <p className="text-slate-300 leading-relaxed">
+                      {step.description}
+                    </p>
                     
-                    <div className="space-y-4">
-                      <h3 className="text-3xl font-bold text-white">{step.title}</h3>
-                      <p className="text-lg text-slate-300 leading-relaxed">
-                        {step.description}
-                      </p>
-                    </div>
-
-                    <div className="space-y-3">
-                      <h4 className="font-semibold text-white">Key Features:</h4>
-                      <div className="grid grid-cols-1 gap-2">
-                        {step.features.map((feature, featureIndex) => (
-                          <div key={featureIndex} className="flex items-center space-x-2">
-                            <CheckCircle className={`w-5 h-5 ${step.color}`} />
-                            <span className="text-slate-300">{feature}</span>
-                          </div>
-                        ))}
-                      </div>
+                    {/* Key Features - Simplified */}
+                    <div className="pt-4 space-y-2">
+                      {step.features.map((feature, featureIndex) => (
+                        <div key={featureIndex} className="flex items-center justify-center space-x-2">
+                          <CheckCircle className={`w-4 h-4 ${step.color}`} />
+                          <span className="text-sm text-slate-400">{feature}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
-
-                  {/* Visual */}
-                  <div className={`${isEven ? 'lg:col-start-1' : ''} transition-all duration-1000 delay-400 ${isVisible ? 'animate-slide-up' : 'opacity-0 translate-y-10'}`}
-                       style={{ animationDelay: `${(index + 1) * 300}ms` }}>
-                    <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-8 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 group">
-                      <div className="text-center space-y-6">
-                        <div className={`w-24 h-24 mx-auto rounded-full ${step.bgColor} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                          <Icon className={`w-12 h-12 ${step.color}`} />
-                        </div>
-                        <div className="space-y-2">
-                          <h4 className="text-xl font-bold text-white">{step.title}</h4>
-                          <p className="text-slate-300">{step.description}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  
                 </div>
-
-                {/* Arrow between steps */}
-                {index < solutionSteps.length - 1 && (
-                  <div className="flex justify-center my-8">
-                    <ArrowDown className="w-8 h-8 text-blue-500 animate-bounce" />
-                  </div>
-                )}
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
      
