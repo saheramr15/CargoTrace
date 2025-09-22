@@ -105,12 +105,10 @@ const Technology = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          }
+          setIsVisible(entry.isIntersecting);
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     );
 
     if (sectionRef.current) {
@@ -160,7 +158,7 @@ const Technology = () => {
       <div className="container-custom px-4 relative z-10">
         {/* Section Header */}
         <div className={`text-center max-w-4xl mx-auto mb-16 transition-all duration-1000 ${
-          isVisible ? 'animate-slide-up' : 'opacity-0 translate-y-10'
+          isVisible ? 'animate-slide-up' : 'opacity-100 translate-y-0'
         }`}>
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full text-blue-400 text-sm font-medium mb-6">
             <Trophy className="w-4 h-4" />
@@ -184,7 +182,7 @@ const Technology = () => {
               <div 
                 key={index}
                 className={`group relative bg-slate-800/30 backdrop-blur-xl border border-slate-700/30 rounded-2xl p-8 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-700 hover:scale-105 ${
-                  isVisible ? 'animate-slide-up' : 'opacity-0 translate-y-10'
+                  isVisible ? 'animate-slide-up' : 'opacity-100 translate-y-0'
                 }`}
                 style={{ animationDelay: `${index * 200}ms` }}
               >
@@ -231,7 +229,7 @@ const Technology = () => {
 
         {/* Milestones Section */}
         <div className={`text-center max-w-6xl mx-auto transition-all duration-1000 delay-600 ${
-          isVisible ? 'animate-slide-up' : 'opacity-0 translate-y-10'
+          isVisible ? 'animate-slide-up' : 'opacity-100 translate-y-0'
         }`}>
           <h3 className="text-3xl font-bold text-white mb-12 relative">
             Key Milestones
@@ -271,7 +269,7 @@ const Technology = () => {
 
         {/* Marketing Statistics */}
         <div className={`text-center mt-16 transition-all duration-1000 delay-800 ${
-          isVisible ? 'animate-slide-up' : 'opacity-0 translate-y-10'
+          isVisible ? 'animate-slide-up' : 'opacity-100 translate-y-0'
         }`}>
           <div className="max-w-6xl mx-auto">
             <h3 className="text-2xl md:text-3xl font-bold text-white mb-8">
