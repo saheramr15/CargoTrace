@@ -4,5 +4,8 @@
   },
   "cargo_trace_frontend": {
     "ic": "and6i-3iaaa-aaaab-qb5ca-cai"
+  },
+  "ledger": {
+    "ic": "ggki7-byaaa-aaaab-qb5va-cai"
   }
 }
