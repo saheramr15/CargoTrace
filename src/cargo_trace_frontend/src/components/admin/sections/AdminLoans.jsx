@@ -355,56 +355,56 @@ const AdminLoans = () => {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[900px]">
+            <table className="w-full" style={{ minWidth: '850px' }}>
               <thead className="bg-slate-700/30 border-b border-slate-600/50">
                 <tr>
-                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[110px]">Loan ID</th>
-                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[110px]">Document ID</th>
-                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[110px]">Company</th>
-                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[90px]">Amount</th>
-                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[80px]">Interest Rate</th>
-                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[70px]">Term</th>
-                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[90px]">Status</th>
-                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[90px]">Due Date</th>
-                  <th className="px-4 py-4 text-left text-xs font-medium text-slate-300 uppercase tracking-wider min-w-[140px]">Actions</th>
+                  <th style={{ minWidth: '100px' }} className="px-3 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Loan ID</th>
+                  <th style={{ minWidth: '100px' }} className="px-3 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Document ID</th>
+                  <th style={{ minWidth: '100px' }} className="px-3 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Company</th>
+                  <th style={{ minWidth: '80px' }} className="px-3 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Amount</th>
+                  <th style={{ minWidth: '70px' }} className="px-3 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Interest<br />Rate</th>
+                  <th style={{ minWidth: '60px' }} className="px-3 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Term</th>
+                  <th style={{ minWidth: '80px' }} className="px-3 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Status</th>
+                  <th style={{ minWidth: '80px' }} className="px-3 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Due Date</th>
+                  <th style={{ minWidth: '130px' }} className="px-3 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700/50">
                 {filteredLoans.map((loan) => (
                   <tr key={loan.id} className="hover:bg-slate-700/30 transition-colors duration-200 group">
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <div className="flex items-center space-x-3">
+                    <td className="px-3 py-3 whitespace-nowrap">
+                      <div className="flex items-center space-x-2">
                         <div className="group-hover:scale-110 transition-transform duration-300">
                           {getStatusIcon(loan.status)}
                         </div>
-                        <span className="text-sm font-medium text-white">{loan.id}</span>
+                        <span className="text-xs font-medium text-white">{loan.id}</span>
                       </div>
                     </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <div className="text-sm font-mono text-slate-300 bg-slate-800/50 px-3 py-1 rounded-lg border border-slate-600/30">
+                    <td className="px-3 py-3 whitespace-nowrap">
+                      <div className="text-xs font-mono text-slate-300 bg-slate-800/50 px-2 py-1 rounded-lg border border-slate-600/30">
                         {loan.documentId}
                       </div>
                     </td>
-                    <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-300">{loan.company}</td>
-                    <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-green-400">{loan.amount}</td>
-                    <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-300">{loan.interestRate}</td>
-                    <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-300">{loan.term}</td>
-                    <td className="px-4 py-4 whitespace-nowrap">
+                    <td className="px-3 py-3 whitespace-nowrap text-xs text-slate-300">{loan.company}</td>
+                    <td className="px-3 py-3 whitespace-nowrap text-xs font-medium text-green-400">{loan.amount}</td>
+                    <td className="px-3 py-3 whitespace-nowrap text-xs text-slate-300">{loan.interestRate}</td>
+                    <td className="px-3 py-3 whitespace-nowrap text-xs text-slate-300">{loan.term}</td>
+                    <td className="px-3 py-3 whitespace-nowrap">
                       <span className={getStatusBadge(loan.status)}>
                         {loan.status.replace('_', ' ')}
                       </span>
                     </td>
-                    <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-300">
+                    <td className="px-3 py-3 whitespace-nowrap text-xs text-slate-300">
                       {loan.dueDate ? new Date(loan.dueDate).toLocaleDateString() : 'N/A'}
                     </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
+                    <td className="px-3 py-3 whitespace-nowrap">
                       <div className="flex items-center space-x-2">
                         <button
                           onClick={() => handleViewLoan(loan.id)}
                           className="group/btn p-2 text-slate-400 hover:text-white hover:bg-slate-600/50 rounded-lg transition-all duration-300 hover:scale-110"
                           title="View Loan"
                         >
-                          <Eye size={16} className="group-hover/btn:scale-110 transition-transform duration-300" />
+                          <Eye size={14} className="group-hover/btn:scale-110 transition-transform duration-300" />
                         </button>
                         {loan.status === 'pending' && (
                           <>
@@ -415,9 +415,9 @@ const AdminLoans = () => {
                               title="Approve Loan"
                             >
                               {processingAction === loan.id ? (
-                                <Loader2 size={16} className="animate-spin" />
+                                <Loader2 size={14} className="animate-spin" />
                               ) : (
-                                <CheckCircle size={16} className="group-hover/btn:scale-110 transition-transform duration-300" />
+                                <CheckCircle size={14} className="group-hover/btn:scale-110 transition-transform duration-300" />
                               )}
                             </button>
                             <button
@@ -427,9 +427,9 @@ const AdminLoans = () => {
                               title="Reject Loan"
                             >
                               {processingAction === loan.id ? (
-                                <Loader2 size={16} className="animate-spin" />
+                                <Loader2 size={14} className="animate-spin" />
                               ) : (
-                                <XCircle size={16} className="group-hover/btn:scale-110 transition-transform duration-300" />
+                                <XCircle size={14} className="group-hover/btn:scale-110 transition-transform duration-300" />
                               )}
                             </button>
                           </>
@@ -462,6 +462,30 @@ const AdminLoans = () => {
           </div>
         </button>
       </div>
+      <style jsx>{`
+        .overflow-x-auto {
+          overflow-x: auto;
+          width: 100%;
+          -webkit-overflow-scrolling: touch;
+        }
+        table {
+          border-collapse: collapse;
+        }
+        th, td {
+          padding: 6px 8px;
+          line-height: 1.2;
+        }
+        th {
+          font-size: 0.75rem;
+        }
+        td {
+          font-size: 0.75rem;
+        }
+        .admin-status-badge {
+          padding: 2px 8px;
+          white-space: nowrap;
+        }
+      `}</style>
     </div>
   );
 };
