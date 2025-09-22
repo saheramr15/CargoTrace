@@ -184,15 +184,29 @@ const NewNavbar = () => {
               ))}
             </ul>
 
-            {/* CTA Button with Colored Background */}
+            {/* CTA Button with Colored Background - Desktop */}
             <div className="hidden lg:block">
               <Link 
                 to="/login" 
-                className="group relative inline-flex items-center px-3 py-1.5 font-medium text-xs rounded-md transition-all duration-500 hover:scale-105 transform hover:-translate-y-0.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:from-blue-500 hover:to-cyan-400 hover:shadow-2xl hover:shadow-blue-500/25"
+                className="group relative inline-flex items-center px-6 py-3 font-semibold text-sm rounded-lg transition-all duration-500 hover:scale-105 transform hover:-translate-y-0.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:from-blue-500 hover:to-cyan-400 hover:shadow-2xl hover:shadow-blue-500/25"
+              >
+                <span className="relative z-10">Get Started</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <svg className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
+
+            {/* CTA Button for Medium Screens (Tablet) */}
+            <div className="hidden md:block lg:hidden">
+              <Link 
+                to="/login" 
+                className="group relative inline-flex items-center px-4 py-2 font-medium text-sm rounded-md transition-all duration-500 hover:scale-105 transform hover:-translate-y-0.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:from-blue-500 hover:to-cyan-400 hover:shadow-xl hover:shadow-blue-500/20"
               >
                 <span className="relative z-10">Get Started</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <svg className="ml-1.5 h-3 w-3 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="ml-1.5 h-3.5 w-3.5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </Link>
@@ -222,41 +236,45 @@ const NewNavbar = () => {
         {/* Mobile Menu with Glass Effect */}
         <div className={`lg:hidden transition-all duration-500 overflow-hidden ${
           isMobileMenuOpen 
-            ? 'max-h-96 opacity-100' 
+            ? 'max-h-[500px] opacity-100' 
             : 'max-h-0 opacity-0'
         }`}>
           <div className="bg-slate-900/95 backdrop-blur-2xl border-t border-blue-400/30 shadow-2xl">
-            <ul className="px-4 py-6 space-y-4">
-              {[
-                { id: 'home', label: 'Home' },
-                { id: 'problem', label: 'Problem' },
-                { id: 'solution', label: 'Solution' },
-                { id: 'how-it-works', label: 'How It Works' },
-                { id: 'why-cargotrace', label: 'Why CargoTrace' }
-              ].map((item, index) => (
-                <li key={item.id}>
-                  <a
-                    href={`#${item.id}`}
-                    onClick={() => scrollToSection(item.id)}
-                    className="block px-4 py-3 text-slate-200 font-medium rounded-lg transition-all duration-300 hover:bg-blue-500/10 hover:text-blue-300 hover:translate-x-2"
-                    style={{ 
-                      animationDelay: `${index * 0.1}s`,
-                      animation: isMobileMenuOpen ? 'slideInLeft 0.3s ease-out forwards' : 'none'
-                    }}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-              <li className="pt-4">
+            <div className="px-4 py-6">
+              <ul className="space-y-4">
+                {[
+                  { id: 'home', label: 'Home' },
+                  { id: 'problem', label: 'Problem' },
+                  { id: 'solution', label: 'Solution' },
+                  { id: 'how-it-works', label: 'How It Works' },
+                  { id: 'why-cargotrace', label: 'Why CargoTrace' }
+                ].map((item, index) => (
+                  <li key={item.id}>
+                    <a
+                      href={`#${item.id}`}
+                      onClick={() => scrollToSection(item.id)}
+                      className="block px-4 py-3 text-slate-200 font-medium rounded-lg transition-all duration-300 hover:bg-blue-500/10 hover:text-blue-300 hover:translate-x-2"
+                      style={{ 
+                        animationDelay: `${index * 0.1}s`,
+                        animation: isMobileMenuOpen ? 'slideInLeft 0.3s ease-out forwards' : 'none'
+                      }}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              
+              {/* Get Started Button - Separate from ul for better spacing */}
+              <div className="pt-6 mt-4 border-t border-slate-700/30">
                 <Link 
                   to="/login" 
-                  className="block w-full text-center px-3 py-1.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-medium text-xs rounded-md transition-all duration-300 hover:from-blue-500 hover:to-cyan-400 hover:scale-105"
+                  className="block w-full text-center px-6 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold text-base rounded-lg transition-all duration-300 hover:from-blue-500 hover:to-cyan-400 hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-blue-500/25"
                 >
                   Get Started
                 </Link>
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
         </div>
       </nav>
