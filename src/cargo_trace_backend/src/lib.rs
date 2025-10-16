@@ -9,6 +9,9 @@ use std::collections::HashMap;
 use ic_cdk::api::management_canister::http_request::{TransformArgs, HttpResponse};
 use num_bigint::BigUint;
 
+mod files;
+pub use files::*;
+
 mod login;
 pub use login::*;
 mod cargox_watcher;
