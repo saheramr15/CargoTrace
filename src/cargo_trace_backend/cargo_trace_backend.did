@@ -144,11 +144,13 @@ service : () -> {
   get_wallet_balance_async : () -> (Result_2);
   get_wallet_balance_usd : () -> (Result_6);
   get_wallet_balance_usd_cents : () -> (Result_2);
+  getdocument : (nat64) -> (opt Document) query;
   has_id : (nat64) -> (bool) query;
   ingest_transfer : (TransferPayload) -> ();
   init_ledger_principal : (text) -> (Result);
   init_user_balance : (nat64) -> (Result);
   link_cargox_to_acid : (text, text) -> (Result_7);
+  list_documents : () -> (vec Document) query;
   mint : (nat64) -> ();
   refresh_wallet_balance : () -> (Result_6);
   reject_customs_entry : (text, text) -> (Result);
@@ -162,8 +164,10 @@ service : () -> {
   save_principal : (principal) -> ();
   submit_document : (text, text, nat64) -> (Result_7);
   transfer : (principal, nat64) -> (Result);
+  transfer_document : (nat64, text) -> (Result_7);
   transform_response : (TransformArgs) -> (HttpResponse) query;
   trigger_lending : (text) -> (Result);
+  upload_document : (text, text, text) -> (nat64);
   validate_acid : (text) -> (Result_8);
   verify_customs_entry : (text) -> (Result);
 }
